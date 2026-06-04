@@ -1,0 +1,74 @@
+.section {
+  position: relative;
+  background: radial-gradient(ellipse at top, #1a1f3a 0%, #0a0d1f 70%);
+  color: #fff;
+  padding: 100px 24px 120px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.sub {
+  max-width: 600px;
+  margin: 0 auto 56px;
+  text-align: center;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.7;
+}
+
+.aiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 28px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.aiCard {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.aiCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 48px rgba(0,229,255,0.15);
+}
+
+.aiImg {
+  background: linear-gradient(135deg, rgba(0,229,255,0.12) 0%, rgba(255,230,0,0.08) 100%);
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.35);
+}
+
+.aiBody {
+  padding: 28px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.aiCard h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.aiLead {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #00e5ff;
+  line-height: 1.5;
+}
+
+.aiBody p {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.65;
+}

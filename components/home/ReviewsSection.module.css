@@ -1,0 +1,133 @@
+.section {
+  position: relative;
+  background: linear-gradient(180deg, #eef4ff 0%, #fff8dc 100%);
+  color: #0f1226;
+  padding: 100px 24px 120px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.reviewsTitle {
+  text-align: center;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  margin-bottom: 56px;
+  line-height: 1.2;
+  color: #0f1226;
+}
+
+.accent {
+  color: #0099b8;
+}
+
+.reviewsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto 48px;
+}
+
+.reviewCard {
+  background: #fff;
+  border-radius: 18px;
+  padding: 28px 24px 20px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reviewHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.avatarGreen { background: #34a853; }
+.avatarBlue  { background: #4285f4; }
+.avatarRed   { background: #ea4335; }
+
+.reviewName {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #0f1226;
+}
+
+.reviewMeta {
+  font-size: 0.78rem;
+  color: #666;
+}
+
+.gLogo {
+  margin-left: auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1.5px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #4285f4;
+}
+
+.stars {
+  font-size: 1rem;
+  color: #f5a623;
+}
+
+.stars .date {
+  font-size: 0.78rem;
+  color: #888;
+  margin-left: 8px;
+}
+
+.reviewText {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: #333;
+  flex: 1;
+}
+
+.reviewText mark {
+  background: #fff3b0;
+  color: inherit;
+  border-radius: 3px;
+  padding: 0 2px;
+}
+
+.reviewActions {
+  display: flex;
+  gap: 16px;
+  font-size: 0.82rem;
+  color: #666;
+}
+
+.reviewActions span {
+  cursor: pointer;
+}
+
+.disclaimer {
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #888;
+  line-height: 1.6;
+}

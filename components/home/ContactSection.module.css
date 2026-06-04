@@ -1,0 +1,213 @@
+.section {
+  position: relative;
+  background: linear-gradient(180deg, #eef4ff 0%, #fff8dc 100%);
+  color: #0f1226;
+  padding: 100px 24px 120px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.sub {
+  max-width: 580px;
+  margin: 0 auto 56px;
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.7;
+}
+
+.contactWrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  max-width: 960px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+@media (max-width: 700px) {
+  .contactWrap {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contactLeft {
+  position: relative;
+  padding: 40px 36px;
+  background: rgba(0,153,184,0.06);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.contactLeft::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(0,229,255,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.contactShapes {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 8px;
+}
+
+.contactShapes span {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(0,153,184,0.15);
+  animation: floatShape 4s ease-in-out infinite;
+}
+
+.contactShapes span:nth-child(2) { animation-delay: 0.6s; border-radius: 50%; }
+.contactShapes span:nth-child(3) { animation-delay: 1.2s; border-radius: 3px; transform: rotate(45deg); }
+
+.contactRings {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.contactRings span {
+  display: block;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(0,153,184,0.25);
+  position: absolute;
+  animation: pulseRing 3s ease-in-out infinite;
+}
+
+.contactRings span:nth-child(2) {
+  width: 90px;
+  height: 90px;
+  top: -15px;
+  left: -15px;
+  animation-delay: 0.8s;
+}
+
+.contactLeft h3 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  line-height: 1.3;
+  color: #0f1226;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.accent {
+  color: #0099b8;
+}
+
+.contactLeft > p {
+  font-size: 0.92rem;
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.contactBullets {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+.contactBullets li {
+  font-size: 0.9rem;
+  color: #333;
+  padding-left: 22px;
+  position: relative;
+}
+
+.contactBullets li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #0099b8;
+  font-weight: 700;
+}
+
+.contactRight {
+  background: #fff;
+  border-radius: 20px;
+  padding: 36px 32px 36px;
+  box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+}
+
+.contactRight h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f1226;
+  margin-bottom: 24px;
+}
+
+.formGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.field input {
+  padding: 12px 14px;
+  border: 1.5px solid #e0e5f0;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #0f1226;
+  background: #f8faff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.field input:focus {
+  border-color: #0099b8;
+}
+
+.formSubmit {
+  width: 100%;
+  padding: 15px 20px;
+  background: linear-gradient(135deg, #0099b8 0%, #00e5ff 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+  margin-bottom: 12px;
+}
+
+.formSubmit:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.formFoot {
+  font-size: 0.75rem;
+  color: #999;
+  text-align: center;
+  line-height: 1.5;
+}

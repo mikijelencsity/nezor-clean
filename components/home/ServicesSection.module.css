@@ -1,0 +1,81 @@
+.section {
+  position: relative;
+  background: linear-gradient(180deg, #eef4ff 0%, #fff8dc 100%);
+  color: #0f1226;
+  padding: 100px 24px 120px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.sub {
+  max-width: 600px;
+  margin: 0 auto 56px;
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.7;
+}
+
+.servicesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.serviceCard {
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.07);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.serviceCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 48px rgba(0,0,0,0.12);
+}
+
+.serviceImg {
+  background: linear-gradient(135deg, #dce8ff 0%, #fffbe0 100%);
+  height: 180px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px;
+  position: relative;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.serviceBadge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: #0099b8;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.serviceBody {
+  padding: 24px 20px 28px;
+}
+
+.serviceCard h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f1226;
+  margin-bottom: 8px;
+}
+
+.serviceCard p {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.65;
+}

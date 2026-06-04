@@ -1,0 +1,82 @@
+.process {
+  position: relative;
+  background: linear-gradient(180deg, #fff8dc 0%, #eef4ff 100%);
+  color: #0f1226;
+  padding: 120px 24px 140px;
+  overflow: hidden;
+  isolation: isolate;
+  text-align: center;
+}
+
+.process::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(0,229,255,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.eyebrow {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #3a3f58;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 28px;
+  height: 2px;
+  background: #0099b8;
+}
+
+.mega {
+  font-size: clamp(3rem, 9vw, 7rem);
+  font-weight: 900;
+  line-height: 1.05;
+  color: #0f1226;
+}
+
+.mega .accent {
+  color: #0099b8;
+}
+
+.tagline {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: #555;
+  max-width: 420px;
+}
+
+.scrollArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(0,153,184,0.12);
+  color: #0099b8;
+  margin-top: 8px;
+  animation: bounceDown 1.6s ease-in-out infinite;
+  transition: background 0.2s;
+}
+
+.scrollArrow:hover {
+  background: rgba(0,153,184,0.25);
+}

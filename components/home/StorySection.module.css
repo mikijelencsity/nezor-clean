@@ -1,0 +1,140 @@
+.section {
+  position: relative;
+  background: linear-gradient(180deg, #fff8dc 0%, #eef4ff 100%);
+  color: #0f1226;
+  padding: 100px 24px 120px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.storyCard {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 48px;
+  max-width: 1000px;
+  margin: 0 auto 72px;
+  background: #fff;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+  align-items: stretch;
+}
+
+@media (max-width: 700px) {
+  .storyCard {
+    grid-template-columns: 1fr;
+  }
+}
+
+.storyImg {
+  background: linear-gradient(135deg, #dce8ff 0%, #fffbe0 100%);
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: #aaa;
+  position: relative;
+}
+
+.storyImg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent 80%, #fff 100%);
+}
+
+.storyBody {
+  padding: 44px 40px 44px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (max-width: 700px) {
+  .storyBody {
+    padding: 28px 24px 32px;
+  }
+}
+
+.storyEyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #3a3f58;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.storyEyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 2px;
+  background: #0099b8;
+}
+
+.storyCard h3 {
+  font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+  font-weight: 800;
+  line-height: 1.25;
+  color: #0f1226;
+}
+
+.accent {
+  color: #0099b8;
+}
+
+.storyBody p {
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.75;
+}
+
+.storySign {
+  margin-top: 8px;
+  border-top: 1px solid #eee;
+  padding-top: 16px;
+}
+
+.storySignNames {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f1226;
+}
+
+.storySignRole {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* Ref strip */
+.refStrip {
+  max-width: 1100px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.refTrack {
+  display: flex;
+  gap: 48px;
+  animation: marquee 24s linear infinite;
+  width: max-content;
+}
+
+.refTrack span {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #5a6080;
+  white-space: nowrap;
+}
+
+.refTrack span::after {
+  content: '·';
+  margin-left: 48px;
+  color: #ccc;
+}
