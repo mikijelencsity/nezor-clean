@@ -1,0 +1,159 @@
+.storyCard {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0, 150, 200, 0.18), 0 0 0 1px rgba(255, 230, 0, 0.15);
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  position: relative;
+  z-index: 1;
+}
+
+.storyLeft {
+  position: relative;
+  min-height: 480px;
+  background: linear-gradient(160deg, #0a1438 0%, #1b1240 60%, #2a1a52 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 13px;
+  font-weight: 500;
+  overflow: hidden;
+}
+.storyLeft::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(0, 229, 255, 0.35), transparent 55%),
+    radial-gradient(circle at 70% 80%, rgba(255, 230, 0, 0.25), transparent 55%);
+  filter: blur(20px);
+}
+
+.storyLeftGrid {
+  position: absolute;
+  inset: -2px;
+  background-image:
+    linear-gradient(rgba(0, 229, 255, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.15) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse at center, #000 50%, transparent 90%);
+  animation: gridMove 12s linear infinite;
+}
+
+.storyLeftContent {
+  position: relative;
+  z-index: 2;
+  padding: 48px;
+  text-align: center;
+}
+
+.pullStat {
+  font-size: 5rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, var(--blue), var(--yellow));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: block;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.pullStatLabel {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.pullQuoteText {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.58;
+  font-style: italic;
+  border-left: 3px solid var(--yellow);
+  padding-left: 20px;
+  text-align: left;
+  margin-top: 32px;
+}
+
+.storyBody {
+  padding: 52px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.storyEyebrow {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cyan2);
+  margin-bottom: 16px;
+}
+.storyEyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--cyan2), var(--gold));
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.storyBody h3 {
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #0f1226;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.storyBody p {
+  font-size: 20px;
+  line-height: 1.82;
+  color: #3a3f58;
+  margin-bottom: 14px;
+}
+.storyBody p:last-of-type {
+  margin-bottom: 0;
+}
+.storyBody p strong {
+  color: #0f1226;
+  font-weight: 700;
+}
+
+.pullQuoteBox {
+  margin: 20px 0;
+  padding: 18px 24px;
+  border-left: 3px solid var(--cyan2);
+  background: rgba(0, 153, 184, 0.05);
+  border-radius: 0 12px 12px 0;
+}
+.pullQuoteBox p {
+  font-size: 1.34rem;
+  font-weight: 700;
+  color: #0f1226;
+  font-style: italic;
+  line-height: 1.45;
+  margin: 0 !important;
+}
+
+@media (max-width: 900px) {
+  .storyCard {
+    grid-template-columns: 1fr;
+  }
+  .storyLeft {
+    min-height: 280px;
+    aspect-ratio: 16 / 10;
+  }
+}

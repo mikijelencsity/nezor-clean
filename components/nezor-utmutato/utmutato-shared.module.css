@@ -1,0 +1,182 @@
+/* Shared styles for nezor-utmutato sections */
+
+.lightSection {
+  position: relative;
+  background: linear-gradient(180deg, #eef4ff 0%, #fff8dc 100%);
+  color: #0f1226;
+  padding: 100px 24px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.darkSection {
+  position: relative;
+  background: radial-gradient(ellipse at top, #1a1f3a 0%, #0a0d1f 70%);
+  padding: 100px 24px;
+  overflow: hidden;
+  isolation: isolate;
+  border-top: 1px solid rgba(0, 229, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 230, 0, 0.15);
+}
+
+.btn {
+  padding: 20px 38px;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: 19px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.btnPrimary {
+  background: linear-gradient(135deg, var(--blue), var(--yellow));
+  color: #000;
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.4), 0 0 60px rgba(255, 230, 0, 0.2);
+}
+.btnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 40px rgba(0, 229, 255, 0.6), 0 0 80px rgba(255, 230, 0, 0.3);
+}
+
+.btnGhost {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.btnGhost:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.btnDark {
+  background: linear-gradient(135deg, var(--cyan2), var(--gold));
+  color: #000;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(0, 153, 184, 0.3);
+}
+.btnDark:hover {
+  transform: translateY(-2px);
+}
+
+.secLabel {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cyan2);
+  margin-bottom: 20px;
+  display: block;
+}
+.secLabel::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--yellow);
+  box-shadow: 0 0 12px var(--yellow);
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.secTitle {
+  font-size: clamp(3rem, 5.8vw, 5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+.secTitleDark {
+  color: #0f1226;
+}
+.secTitleWhite {
+  color: #fff;
+}
+
+.accentDark {
+  background: linear-gradient(135deg, var(--cyan2) 0%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.accent {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--yellow) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.secSub {
+  font-size: clamp(1.35rem, 2vw, 1.6rem);
+  line-height: 1.75;
+  max-width: 860px;
+}
+.secSubMutedDark {
+  color: #4a5070;
+}
+.secSubMutedLight {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+.textCenter {
+  text-align: center;
+}
+.mxAuto {
+  margin-left: auto;
+  margin-right: auto;
+}
+.mb60 {
+  margin-bottom: 60px;
+}
+
+.starsRow {
+  color: #fbbc04;
+  font-size: 14px;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.avCyan {
+  background: linear-gradient(135deg, var(--cyan2), #007090);
+}
+.avGold {
+  background: linear-gradient(135deg, var(--gold), #b8860b);
+}
+.avPurple {
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+}
+
+@media (max-width: 600px) {
+  .lightSection,
+  .darkSection {
+    padding: 72px 20px;
+  }
+  .btn {
+    width: 100%;
+    justify-content: center;
+    font-size: 18px;
+  }
+}

@@ -1,0 +1,56 @@
+.testiWrap {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.testiCard {
+  background: #fff;
+  border-radius: 22px;
+  padding: 40px 44px;
+  box-shadow: 0 20px 60px rgba(0, 229, 255, 0.15), 0 0 0 1px rgba(255, 230, 0, 0.1);
+  position: relative;
+}
+.testiCard::before {
+  content: '\201C';
+  font-size: 100px;
+  font-weight: 900;
+  color: rgba(0, 153, 184, 0.1);
+  position: absolute;
+  top: -10px;
+  left: 28px;
+  line-height: 1;
+  font-family: 'Inter', sans-serif;
+}
+
+.testiText {
+  font-size: 23px;
+  color: #202124;
+  line-height: 1.86;
+  font-style: italic;
+  margin-bottom: 24px;
+  padding-top: 32px;
+}
+.testiText mark {
+  background: #fff59d;
+  padding: 1px 3px;
+  border-radius: 2px;
+  font-style: normal;
+  color: #202124;
+}
+
+.reviewHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.reviewName {
+  font-weight: 700;
+  font-size: 15px;
+  color: #0f1226;
+}
+
+.reviewMeta {
+  font-size: 12px;
+  color: #5f6368;
+}

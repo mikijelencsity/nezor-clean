@@ -1,0 +1,70 @@
+.labelBlue {
+  color: var(--blue) !important;
+}
+
+.lossGrid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 52px;
+}
+
+.lossCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  border-radius: 22px;
+  padding: 36px 24px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  transition: all 0.35s;
+}
+.lossCard:hover {
+  border-color: rgba(255, 230, 0, 0.35);
+  box-shadow: 0 25px 60px rgba(0, 229, 255, 0.25);
+  transform: translateY(-6px);
+}
+
+.lossNum {
+  font-size: clamp(3.5rem, 5.6vw, 5.2rem);
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--blue), var(--yellow));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: block;
+  line-height: 1;
+  margin-bottom: 14px;
+  letter-spacing: -0.02em;
+}
+
+.lossCard span:not(.lossNum) {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.82;
+}
+
+.lossQuote {
+  max-width: 820px;
+  margin: 48px auto 0;
+  border-left: 3px solid var(--yellow);
+  padding-left: 24px;
+  text-align: left;
+}
+.lossQuote p {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  font-style: italic;
+  line-height: 1.58;
+}
+
+@media (max-width: 900px) {
+  .lossGrid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

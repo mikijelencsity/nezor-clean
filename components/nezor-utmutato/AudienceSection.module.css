@@ -1,0 +1,87 @@
+.audienceGrid {
+  max-width: none;
+  width: min(1500px, calc(100vw - 96px));
+  margin-left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+  margin-top: 52px;
+}
+
+.audienceCard {
+  background: #fff;
+  border-radius: 24px;
+  padding: 64px 58px;
+  min-height: 390px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 25px 60px rgba(0, 150, 200, 0.15), 0 0 0 1px rgba(255, 230, 0, 0.12);
+  transition: transform 0.3s;
+  border-top: 3px solid transparent;
+  border-image: linear-gradient(135deg, var(--blue), var(--yellow)) 1;
+  border-image-slice: 1;
+}
+.audienceCard:hover {
+  transform: translateY(-6px);
+}
+
+.audienceTag {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 100px;
+  background: rgba(0, 153, 184, 0.08);
+  border: 1px solid rgba(0, 153, 184, 0.25);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cyan2);
+  margin-bottom: 18px;
+}
+
+.audienceCard h3 {
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: #0f1226;
+  margin-bottom: 14px;
+  max-width: 760px;
+}
+
+.audienceCard p {
+  font-size: 22px;
+  line-height: 1.82;
+  color: #4a5070;
+  max-width: 760px;
+}
+
+@media (max-width: 900px) {
+  .audienceGrid {
+    grid-template-columns: 1fr;
+    width: 100%;
+    margin-left: auto;
+    transform: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .audienceGrid {
+    width: 100%;
+    margin-left: auto;
+    transform: none;
+  }
+  .audienceCard {
+    padding: 38px 24px;
+    min-height: auto;
+  }
+  .audienceCard h3 {
+    font-size: 1.7rem;
+  }
+  .audienceCard p {
+    font-size: 18px;
+  }
+}

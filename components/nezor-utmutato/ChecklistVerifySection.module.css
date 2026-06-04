@@ -1,0 +1,172 @@
+.clList {
+  max-width: 860px;
+  margin: 52px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.clItem {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  box-shadow: 0 10px 30px rgba(0, 150, 200, 0.08), 0 0 0 1px rgba(255, 230, 0, 0.08);
+  transition: all 0.3s;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid rgba(0, 153, 184, 0.08);
+  text-align: left;
+}
+.clItem:hover {
+  transform: translateX(6px);
+  box-shadow: 0 15px 40px rgba(0, 150, 200, 0.15), 0 0 0 1px rgba(0, 229, 255, 0.2);
+}
+.isSelected {
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.12), rgba(255, 230, 0, 0.1));
+  border-color: rgba(0, 153, 184, 0.35);
+  box-shadow: 0 16px 44px rgba(0, 150, 200, 0.16), 0 0 0 1px rgba(255, 230, 0, 0.16);
+}
+
+.clCheck {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--cyan2), var(--gold));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 900;
+  color: #000;
+  margin-top: 1px;
+  box-shadow: 0 4px 12px rgba(0, 153, 184, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.isSelected .clCheck {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 6px rgba(0, 229, 255, 0.12), 0 8px 22px rgba(0, 153, 184, 0.45);
+}
+
+.clBody strong {
+  display: block;
+  font-size: 21px;
+  font-weight: 800;
+  color: #0f1226;
+  margin-bottom: 6px;
+}
+
+.clTip {
+  font-size: 18px;
+  color: #5a6079;
+  line-height: 1.7;
+  background: #f7fbff;
+  border: 1px solid #e0edf7;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-top: 8px;
+}
+
+.clTipLabel {
+  font-weight: 800;
+  color: var(--cyan2);
+  margin-right: 4px;
+}
+
+.clResult {
+  max-width: 860px;
+  margin: 28px auto 0;
+  padding: 30px 36px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 18px 46px rgba(0, 150, 200, 0.12), 0 0 0 1px rgba(255, 230, 0, 0.14);
+  text-align: center;
+}
+
+.clResultScore {
+  display: block;
+  font-size: clamp(2.8rem, 5vw, 4.6rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, var(--cyan2), var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 10px;
+}
+
+.isBad .clResultScore {
+  background: linear-gradient(135deg, #dc2626, #f87171);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.isMid .clResultScore {
+  background: linear-gradient(135deg, #f97316, #facc15);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.isGood .clResultScore {
+  background: linear-gradient(135deg, #16a34a, #84cc16);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.isBad {
+  box-shadow: 0 18px 46px rgba(220, 38, 38, 0.14), 0 0 0 1px rgba(248, 113, 113, 0.2);
+}
+.isMid {
+  box-shadow: 0 18px 46px rgba(249, 115, 22, 0.14), 0 0 0 1px rgba(250, 204, 21, 0.22);
+}
+.isGood {
+  box-shadow: 0 18px 46px rgba(22, 163, 74, 0.14), 0 0 0 1px rgba(132, 204, 22, 0.22);
+}
+
+.clResultTitle {
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: #0f1226;
+  margin-bottom: 8px;
+}
+
+.clResultText {
+  font-size: 18px;
+  line-height: 1.65;
+  color: #4a5070;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.clCtaBox {
+  max-width: 680px;
+  margin: 40px auto 0;
+  background: linear-gradient(135deg, rgba(0, 153, 184, 0.06), rgba(212, 168, 0, 0.05));
+  border: 1px solid rgba(0, 153, 184, 0.2);
+  border-radius: 20px;
+  padding: 36px 40px;
+  text-align: center;
+}
+
+.clCtaBox h3 {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #0f1226;
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+}
+
+.clCtaBox p {
+  font-size: 20px;
+  color: #4a5070;
+  line-height: 1.82;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 600px) {
+  .clResult {
+    padding: 24px 20px;
+  }
+}
