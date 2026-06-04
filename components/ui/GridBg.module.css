@@ -1,0 +1,17 @@
+.gridBg {
+  position: absolute;
+  inset: -2px;
+  z-index: -2;
+  background-image:
+    linear-gradient(rgba(0,229,255,0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.18) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridMove 12s linear infinite;
+  mask-image: radial-gradient(ellipse at center, #000 40%, transparent 85%);
+}
+.light {
+  background-image:
+    linear-gradient(rgba(0,150,200,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,150,200,0.08) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 90%);
+}

@@ -1,0 +1,37 @@
+.btn {
+  position: fixed;
+  right: -180px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, var(--blue), var(--yellow));
+  color: #000;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 14px 20px;
+  border-radius: 14px 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  z-index: 999;
+  transition: right 0.3s ease;
+  box-shadow: 0 0 30px rgba(0,229,255,0.4);
+  text-decoration: none;
+}
+.btn:hover { right: 0; }
+.btn::before {
+  content: '✉';
+  font-size: 18px;
+  position: absolute;
+  left: -44px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--blue), var(--yellow));
+  border-radius: 14px 0 0 14px;
+  color: #000;
+}

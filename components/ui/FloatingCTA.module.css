@@ -1,0 +1,20 @@
+.cta {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 998;
+  padding: 16px 36px;
+  border-radius: 100px;
+  background: linear-gradient(135deg, var(--blue), var(--yellow));
+  color: #000;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  box-shadow: 0 0 30px rgba(0,229,255,0.5), 0 0 60px rgba(255,230,0,0.3);
+  animation: pulse 2s ease-in-out infinite, floatY 3s ease-in-out infinite;
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .cta { padding: 14px 24px; font-size: 13px; bottom: 20px; }
+}

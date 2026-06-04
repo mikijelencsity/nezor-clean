@@ -1,0 +1,21 @@
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: -1;
+  opacity: 0.55;
+  pointer-events: none;
+}
+.blue {
+  width: 520px;
+  height: 520px;
+  background: var(--blue);
+  animation: float 9s ease-in-out infinite;
+}
+.yellow {
+  width: 480px;
+  height: 480px;
+  background: var(--yellow);
+  animation: float 11s ease-in-out infinite reverse;
+  opacity: 0.4;
+}

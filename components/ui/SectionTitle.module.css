@@ -1,0 +1,22 @@
+.title {
+  text-align: center;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+  color: #0f1226;
+}
+.white { color: #fff; }
+.accent {
+  background: linear-gradient(135deg, var(--cyan2) 0%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.accentBright {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--yellow) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

@@ -1,0 +1,22 @@
+.label {
+  display: block;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cyan2);
+  margin-bottom: 24px;
+}
+.label::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--yellow);
+  box-shadow: 0 0 12px var(--yellow);
+  margin-right: 10px;
+  vertical-align: middle;
+}
+.white { color: var(--blue); }
