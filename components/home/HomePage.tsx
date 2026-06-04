@@ -869,7 +869,8 @@ export function HomePage() {
 
       <div className="lightbox" id="lightbox" aria-hidden="true">
         <button className="lightbox-close" id="lightboxClose" aria-label="Bezárás">&times;</button>
-        <img className="lightbox-img" id="lightboxImg" src="" alt="" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img className="lightbox-img" id="lightboxImg" src={undefined} alt="" />
         <div className="lightbox-caption">
           <small>Ügyfél</small>
           <b id="lightboxCompany"></b>
