@@ -49,3 +49,15 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+@media (max-width: 480px) {
+  .bigstatCard {
+    padding: 24px 16px;
+  }
+  .bigstatNum {
+    font-size: 2.4rem;
+  }
+  .bigstatDesc {
+    font-size: 14px;
+  }
+}

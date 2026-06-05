@@ -139,3 +139,24 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 480px) {
+  .partDivider {
+    padding: 60px 16px 56px;
+  }
+  .partMega {
+    font-size: 2.8rem;
+  }
+  .partTagline {
+    font-size: 1rem;
+  }
+  .painNum {
+    font-size: 2.2rem;
+  }
+  .painCard h3 {
+    font-size: 1rem;
+  }
+  .painCard p {
+    font-size: 14px;
+  }
+}

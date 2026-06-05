@@ -91,3 +91,15 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 480px) {
+  .refImg {
+    font-size: 2rem;
+  }
+  .refBody h3 {
+    font-size: 1.2rem;
+  }
+  .refBody p {
+    font-size: 15px;
+  }
+}

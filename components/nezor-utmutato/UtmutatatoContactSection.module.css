@@ -258,3 +258,29 @@
     padding: 36px 24px;
   }
 }
+
+@media (max-width: 480px) {
+  .contactLeft {
+    padding: 32px 20px;
+  }
+  .contactRight {
+    padding: 32px 20px;
+  }
+  .contactLeft h3 {
+    font-size: 1.7rem;
+  }
+  .contactLeft > p {
+    font-size: 15px;
+  }
+  .contactBullets li,
+  .contactStepsList li {
+    font-size: 15px;
+  }
+  .field input {
+    font-size: 16px;
+    padding: 14px 16px;
+  }
+  .formSubmit {
+    font-size: 16px;
+  }
+}

@@ -83,13 +83,30 @@
 }
 
 @media (max-width: 600px) {
+  .compareWrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   .compareHead,
   .compareRow {
-    grid-template-columns: 1.35fr 0.9fr 0.9fr;
-    padding-left: 18px;
-    padding-right: 18px;
+    grid-template-columns: 2fr 1fr 1fr;
+    padding-left: 14px;
+    padding-right: 14px;
+    min-width: 320px;
   }
   .compareHead span {
-    font-size: 11px;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+  }
+  .crLabel {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .crVal {
+    font-size: 18px;
+  }
+  .compareNote {
+    font-size: 13px;
+    padding: 14px 16px;
   }
 }

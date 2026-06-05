@@ -141,3 +141,24 @@
     padding: 38px 24px;
   }
 }
+
+@media (max-width: 480px) {
+  .serviceNum {
+    font-size: 2rem;
+  }
+  .serviceCard h3 {
+    font-size: 1.3rem;
+  }
+  .serviceBody p {
+    font-size: 15px;
+  }
+  .priceBox {
+    padding: 36px 24px;
+  }
+  .priceBoxText strong {
+    font-size: 1.5rem;
+  }
+  .priceBoxText p {
+    font-size: 15px;
+  }
+}

@@ -154,3 +154,32 @@
     font-size: 18px;
   }
 }
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 72px 16px 56px;
+  }
+  .heroInner h1 {
+    font-size: 2.1rem;
+  }
+  .heroPunch {
+    font-size: 1.9rem;
+  }
+  .heroSub {
+    font-size: 1rem;
+  }
+  .btn {
+    font-size: 15px;
+    padding: 14px 24px;
+  }
+  .heroStats {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+  .statNum {
+    font-size: 1.6rem;
+  }
+  .statLabel {
+    font-size: 11px;
+  }
+}

@@ -54,3 +54,21 @@
   font-size: 12px;
   color: #5f6368;
 }
+
+@media (max-width: 900px) {
+  .testiCard {
+    padding: 36px 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .testiCard {
+    padding: 24px 18px;
+  }
+  .testiCard::before {
+    font-size: 56px;
+  }
+  .testiText {
+    font-size: 16px;
+  }
+}
