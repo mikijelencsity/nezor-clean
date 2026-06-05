@@ -10,10 +10,9 @@ export async function POST(request: Request) {
     }
 
     const audienceId = process.env.RESEND_AUDIENCE_ID;
-    const guideToken = process.env.GUIDE_TOKEN;
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://nezor.hu';
 
-    if (!audienceId || !guideToken) {
+    if (!audienceId) {
       return NextResponse.json({ error: 'Szerver konfiguráció hiányzik' }, { status: 500 });
     }
 
@@ -24,7 +23,7 @@ export async function POST(request: Request) {
       unsubscribed: false,
     });
 
-    const guideUrl = `${siteUrl}/epitoiparosoknak/utmutato?token=${guideToken}`;
+    const guideUrl = `${siteUrl}/nezor-utmutato`;
 
     // 2. Welcome email az usernek
     await resend.emails.send({
