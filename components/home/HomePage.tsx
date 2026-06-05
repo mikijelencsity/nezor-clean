@@ -309,8 +309,10 @@ export function HomePage() {
         e.preventDefault();
         const nevInput = contactRight.querySelector('input[type="text"]') as HTMLInputElement | null;
         const emailInput = contactRight.querySelector('input[type="email"]') as HTMLInputElement | null;
+        const telInput = contactRight.querySelector('input[type="tel"]') as HTMLInputElement | null;
         const nev = nevInput?.value?.trim() ?? '';
         const email = emailInput?.value?.trim() ?? '';
+        const telefon = telInput?.value?.trim() ?? '';
 
         if (!nev || !email) {
           alert('Kérjük töltsd ki a név és email mezőket!');
@@ -324,13 +326,14 @@ export function HomePage() {
           const res = await fetch('/api/contact', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nev, email }),
+            body: JSON.stringify({ nev, email, ...(telefon && { telefon }) }),
           });
           const data = await res.json();
           if (data.ok) {
             submitBtn.textContent = '✓ Üzenet elküldve!';
             if (nevInput) nevInput.value = '';
             if (emailInput) emailInput.value = '';
+            if (telInput) telInput.value = '';
           } else {
             submitBtn.textContent = 'Hiba — próbáld újra';
             submitBtn.disabled = false;

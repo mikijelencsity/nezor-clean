@@ -12,10 +12,31 @@ export const metadata: Metadata = {
   description:
     'Weboldalakat és webshopokat építünk, majd Meta hirdetésekkel hozzuk rájuk a vevőket. Egy kézből, átlátható áron.',
   icons: {
-    icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
+    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+  },
+  openGraph: {
+    title: 'NEZOR — Weboldal + Meta hirdetés',
+    description: 'Weboldalakat és webshopokat építünk, majd Meta hirdetésekkel hozzuk rájuk a vevőket. Egy kézből, átlátható áron.',
+    url: 'https://nezor.hu',
+    siteName: 'NEZOR Webfejlesztés',
+    locale: 'hu_HU',
+    type: 'website',
+    images: [
+      {
+        url: 'https://nezor.hu/nezor-logo-transparent.webp',
+        width: 400,
+        height: 400,
+        alt: 'NEZOR Webfejlesztés',
+      },
     ],
   },
+  twitter: {
+    card: 'summary',
+    title: 'NEZOR — Weboldal + Meta hirdetés',
+    description: 'Weboldalakat és webshopokat építünk, majd Meta hirdetésekkel hozzuk rájuk a vevőket.',
+    images: ['https://nezor.hu/nezor-logo-transparent.webp'],
+  },
+  metadataBase: new URL('https://nezor.hu'),
 };
 
 const localBusinessSchema = {

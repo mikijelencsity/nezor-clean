@@ -10,6 +10,7 @@ export async function POST(request: Request) {
     }
 
     const audienceId = process.env.RESEND_AUDIENCE_ID;
+    const guideToken = process.env.GUIDE_TOKEN ?? 'guide';
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://nezor.hu';
 
     if (!audienceId) {
@@ -23,7 +24,9 @@ export async function POST(request: Request) {
       unsubscribed: false,
     });
 
-    const guideUrl = `${siteUrl}/nezor-utmutato`;
+    // Token az emailben: cross-device eléréshez (cookie nincs más eszközön)
+    const accessToken = Buffer.from(`${email}:${guideToken ?? 'guide'}`).toString('base64url');
+    const guideUrl = `${siteUrl}/nezor-utmutato?t=${accessToken}`;
 
     // 2. Welcome email az usernek
     await resend.emails.send({

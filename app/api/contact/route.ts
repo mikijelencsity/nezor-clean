@@ -3,7 +3,7 @@ import { resend, FROM_EMAIL, NOTIFY_EMAIL } from '@/lib/resend';
 
 export async function POST(request: Request) {
   try {
-    const { nev, email } = await request.json() as { nev: string; email: string };
+    const { nev, email, telefon } = await request.json() as { nev: string; email: string; telefon?: string };
 
     if (!nev || !email) {
       return NextResponse.json({ error: 'Hiányzó mezők' }, { status: 400 });
@@ -17,6 +17,7 @@ export async function POST(request: Request) {
         <h2>Új üzenet a főoldali kapcsolat formból</h2>
         <p><strong>Név:</strong> ${nev}</p>
         <p><strong>Email:</strong> ${email}</p>
+        ${telefon ? `<p><strong>Telefon:</strong> ${telefon}</p>` : ''}
       `,
     });
 
