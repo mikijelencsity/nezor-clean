@@ -967,8 +967,8 @@ export function HomePage() {
       <div className="cookie-bar" id="cookieBar">
         <p className="cookie-text">Ez a weboldal sütiket használ a működéshez és a felhasználói élmény javításához. Részletek a <a data-legal="cookie">Cookie szabályzatban</a>.</p>
         <div className="cookie-actions">
-          <button className="cookie-btn cookie-reject" id="cookieReject">Elutasítom</button>
-          <button className="cookie-btn cookie-accept" id="cookieAccept">Elfogadom</button>
+          <button className="cookie-btn cookie-reject" id="cookieReject">Csak szükséges</button>
+          <button className="cookie-btn cookie-accept" id="cookieAccept">Elfogadom az összeset</button>
         </div>
       </div>
     </>
