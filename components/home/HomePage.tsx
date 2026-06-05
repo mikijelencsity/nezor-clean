@@ -126,11 +126,9 @@ export function HomePage() {
           preLogo.style.transform = `translate(${dx}px,${dy}px) scale(${scale})`;
           setTimeout(() => {
             pre.classList.add('hide');
-            setTimeout(() => pre.remove(), 650);
           }, 820);
         } else {
           pre.classList.add('hide');
-          setTimeout(() => pre.remove(), 650);
         }
       }, hold);
     };
