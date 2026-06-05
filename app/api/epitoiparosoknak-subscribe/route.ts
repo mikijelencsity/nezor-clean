@@ -48,7 +48,16 @@ export async function POST(request: Request) {
       html: `<p>Új feliratkozó: <strong>${email}</strong></p>`,
     });
 
-    return NextResponse.json({ ok: true, guideUrl });
+    const response = NextResponse.json({ ok: true, guideUrl });
+    // Süti beállítása: 30 napig érvényes, httpOnly a biztonságért
+    response.cookies.set('guide_access', '1', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 30, // 30 nap
+      path: '/',
+    });
+    return response;
   } catch (err) {
     console.error('[subscribe]', err);
     return NextResponse.json({ error: 'Szerver hiba' }, { status: 500 });
