@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { FacebookMessenger } from '@/components/analytics/FacebookMessenger';
+import { FacebookPixel } from '@/components/analytics/FacebookPixel';
+import { Suspense } from 'react';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '600', '800', '900'] });
@@ -115,6 +117,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <GoogleAnalytics />
         <FacebookMessenger />
+        <Suspense fallback={null}>
+          <FacebookPixel />
+        </Suspense>
         <SpeedInsights />
       </body>
     </html>

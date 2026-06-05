@@ -14,6 +14,7 @@ import { RefsSection } from '@/components/nezor-utmutato/RefsSection';
 import { BridgeSection } from '@/components/nezor-utmutato/BridgeSection';
 import { ReviewsDarkSection } from '@/components/nezor-utmutato/ReviewsDarkSection';
 import { UtmutatatoContactSection } from '@/components/nezor-utmutato/UtmutatatoContactSection';
+import { LeadTracker } from '@/components/nezor-utmutato/LeadTracker';
 
 export const metadata: Metadata = {
   title: 'Online jelenlét építőiparosoknak — NEZOR Útmutató',
@@ -22,6 +23,7 @@ export const metadata: Metadata = {
 export default function UtmutatatoPage() {
   return (
     <>
+      <LeadTracker />
       <UtmutatatoHero />
       <AudienceSection />
       <SituationSection />

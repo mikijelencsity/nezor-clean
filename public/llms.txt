@@ -1,0 +1,36 @@
+# NEZOR Webfejlesztés
+
+> Weboldal, webshop és Meta hirdetés ügynökség — egy kézből, átlátható áron.
+
+## Ki vagyunk
+
+NEZOR Webfejlesztés — Müller Dániel és Jelencsity Miklós alapította, 16 éves korukban, a saját családi vállalkozás online értékesítésének megmentéséből indulva. Azóta több mint 20 magyar vállalkozásnál alkalmazták sikeresen a rendszerüket.
+
+## Mit csinálunk
+
+- Bemutatkozó weboldalak, landing oldalak és webáruházak fejlesztése
+- Facebook és Instagram Meta hirdetések kezelése, optimalizálása
+- Email marketing automatizáció (kosárelhagyó, törzsvásárló visszahívó folyamatok)
+- AI-alapú ügyfélszerzés: ChatGPT/Gemini láthatóság optimalizálás, 24/7 chatbot
+- Google Cégem profil felépítés és kezelés
+
+## Kinek segítünk
+
+Magyar kkv-knak, vállalkozóknak akik:
+- Online szeretnék szerezni ügyfeleket
+- Nincs idejük vagy tudásuk a digitális marketinghez
+- Látható, gyors, mérhető eredményeket várnak
+
+## Elérhetőség
+
+- Web: https://nezor.hu
+- Email: info@nezor.hu
+- Helyszín: Baja, Bács-Kiskun megye, Magyarország
+
+## Referenciák
+
+Cruiser Shop, Hazai Kávé Kft., Estur Épker Kft., Neked Sütöm, ZT Épületgépészet, Korona Gombaipari Egyesülés, Vialog Trans Kft., Dover Check és további 12+ magyar vállalkozás.
+
+## Ingyenes útmutató
+
+Elérhető egy ingyenes "5 lépéses ügyfélszerzési útmutató" építőiparosoknak és vállalkozóknak: https://nezor.hu/landing
