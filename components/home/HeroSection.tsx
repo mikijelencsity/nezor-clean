@@ -23,7 +23,7 @@ export function HeroSection() {
 
         <div className={styles.ctaRow}>
           <a href="#kapcsolat" className={`${styles.btn} ${styles.btnPrimary}`}>Konzultációt kérek →</a>
-          <a href="#" className={`${styles.btn} ${styles.btnGhost}`}>Esettanulmányok</a>
+          <a href="#referenciak" className={`${styles.btn} ${styles.btnGhost}`}>Esettanulmányok</a>
         </div>
 
         <div className={styles.media}>

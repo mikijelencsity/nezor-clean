@@ -200,8 +200,20 @@ export function HomePage() {
       pop.addEventListener('click', e => { if (e.target === pop) closeWin(); });
       document.addEventListener('keydown', e => { if (e.key === 'Escape' && pop!.classList.contains('show')) closeWin(); });
       const winForm = document.getElementById('winForm');
-      if (winForm) winForm.addEventListener('submit', e => {
+      if (winForm) winForm.addEventListener('submit', async e => {
         e.preventDefault();
+        const emailInput = document.getElementById('winEmail') as HTMLInputElement | null;
+        const emailVal = emailInput?.value?.trim() ?? '';
+        // API hívás — nyeremény email mentése
+        if (emailVal) {
+          try {
+            await fetch('/api/nyeremeny', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: emailVal }),
+            });
+          } catch { /* silent - UI still shows success */ }
+        }
         const card = pop!.querySelector('.winpop-card');
         if (card) {
           card.innerHTML = '<button class="winpop-close" id="winClose2" aria-label="Bezárás">×</button>' +

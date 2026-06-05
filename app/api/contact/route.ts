@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { resend, FROM_EMAIL, NOTIFY_EMAIL } from '@/lib/resend';
+import { resend, FROM_EMAIL, NOTIFY_EMAIL, esc } from '@/lib/resend';
 
 export async function POST(request: Request) {
   try {
@@ -12,12 +12,12 @@ export async function POST(request: Request) {
     await resend.emails.send({
       from: FROM_EMAIL,
       to: NOTIFY_EMAIL,
-      subject: `[NEZOR] Új kapcsolatfelvétel — ${nev}`,
+      subject: `[NEZOR] Új kapcsolatfelvétel — ${esc(nev)}`,
       html: `
         <h2>Új üzenet a főoldali kapcsolat formból</h2>
-        <p><strong>Név:</strong> ${nev}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        ${telefon ? `<p><strong>Telefon:</strong> ${telefon}</p>` : ''}
+        <p><strong>Név:</strong> ${esc(nev)}</p>
+        <p><strong>Email:</strong> ${esc(email)}</p>
+        ${telefon ? `<p><strong>Telefon:</strong> ${esc(telefon)}</p>` : ''}
       `,
     });
 

@@ -1,8 +1,43 @@
+'use client';
+import { useState } from 'react';
 import { GridBg } from '@/components/ui/GridBg';
 import shared from './utmutato-shared.module.css';
 import styles from './UtmutatatoContactSection.module.css';
 
 export function UtmutatatoContactSection() {
+  const [nev, setNev] = useState('');
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!nev || !email) {
+      setError('Kérjük töltsd ki a kötelező mezőket!');
+      return;
+    }
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch('/api/epitoiparosoknak-contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nev, email }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setSent(true);
+      } else {
+        setError('Hiba történt. Próbáld újra!');
+      }
+    } catch {
+      setError('Hiba történt. Próbáld újra!');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section className={shared.lightSection} id="kapcsolat">
       <GridBg light />
@@ -49,28 +84,57 @@ export function UtmutatatoContactSection() {
             </ul>
           </div>
           <div className={styles.contactRight}>
-            <h4>Foglalok egy ingyenes egyeztetést</h4>
-            <div className={styles.formGrid}>
-              <div className={styles.field}>
-                <label>Keresztneved *</label>
-                <input type="text" placeholder="Pl. László" />
+            {sent ? (
+              <div style={{ textAlign: 'center', padding: '48px 0' }}>
+                <div style={{ fontSize: '3rem', marginBottom: '16px' }}>✓</div>
+                <h4 style={{ color: '#0f1226', marginBottom: '12px' }}>Megkaptuk!</h4>
+                <p style={{ color: '#5a6079', fontSize: '15px', lineHeight: 1.6 }}>
+                  24 órán belül visszaírunk a megadott email-re.
+                </p>
               </div>
-              <div className={styles.field}>
-                <label>E-mail-cím *</label>
-                <input type="email" placeholder="te@cegednev.hu" />
-              </div>
-            </div>
-            <button className={styles.formSubmit}>
-              Foglalok egy ingyenes egyeztetést →
-            </button>
-            <p className={styles.formFoot}>
-              Az adataidat csak veled fogjuk használni — sehova nem továbbítjuk. 24 órán belül
-              visszaírunk.
-            </p>
-            <p className={styles.formAlt}>
-              vagy ha gyorsabb így:{' '}
-              <a href="mailto:info@nezor.hu">info@nezor.hu</a>
-            </p>
+            ) : (
+              <>
+                <h4>Foglalok egy ingyenes egyeztetést</h4>
+                <div className={styles.formGrid}>
+                  <div className={styles.field}>
+                    <label>Keresztneved *</label>
+                    <input
+                      type="text"
+                      placeholder="Pl. László"
+                      value={nev}
+                      onChange={(e) => setNev(e.target.value)}
+                    />
+                  </div>
+                  <div className={styles.field}>
+                    <label>E-mail-cím *</label>
+                    <input
+                      type="email"
+                      placeholder="te@cegednev.hu"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+                </div>
+                {error && (
+                  <p style={{ color: '#ef4444', fontSize: '13px', marginBottom: '12px' }}>{error}</p>
+                )}
+                <button
+                  className={styles.formSubmit}
+                  onClick={handleSubmit}
+                  disabled={loading}
+                >
+                  {loading ? 'Küldés...' : 'Foglalok egy ingyenes egyeztetést →'}
+                </button>
+                <p className={styles.formFoot}>
+                  Az adataidat csak veled fogjuk használni — sehova nem továbbítjuk. 24 órán belül
+                  visszaírunk.
+                </p>
+                <p className={styles.formAlt}>
+                  vagy ha gyorsabb így:{' '}
+                  <a href="mailto:info@nezor.hu">info@nezor.hu</a>
+                </p>
+              </>
+            )}
           </div>
         </div>
       </div>
