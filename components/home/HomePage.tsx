@@ -275,7 +275,13 @@ export function HomePage() {
       const bar = document.getElementById('cookieBar');
       if (bar) {
         if (!localStorage.getItem('nezorCookieConsent')) setTimeout(() => bar.classList.add('show'), 1200);
-        const decide = (v: string) => { try { localStorage.setItem('nezorCookieConsent', v); } catch (e) { } bar.classList.remove('show'); };
+        const decide = (v: string) => {
+          try { localStorage.setItem('nezorCookieConsent', v); } catch (e) { }
+          bar.classList.remove('show');
+          if (v === 'accepted') {
+            window.dispatchEvent(new Event('nezor_cookie_accepted'));
+          }
+        };
         const acceptBtn = document.getElementById('cookieAccept');
         const rejectBtn = document.getElementById('cookieReject');
         if (acceptBtn) acceptBtn.addEventListener('click', () => decide('accepted'));
@@ -294,6 +300,48 @@ export function HomePage() {
         fcta!.style.pointerEvents = e.isIntersecting ? 'none' : 'auto';
       }), { threshold: 0 }).observe(foot);
     })();
+
+    // Contact form submit handler
+    const contactRight = document.querySelector('.contact-right') as HTMLElement | null;
+    const submitBtn = document.querySelector('.form-submit') as HTMLButtonElement | null;
+    if (submitBtn && contactRight) {
+      const handleContactSubmit = async (e: Event) => {
+        e.preventDefault();
+        const nevInput = contactRight.querySelector('input[type="text"]') as HTMLInputElement | null;
+        const emailInput = contactRight.querySelector('input[type="email"]') as HTMLInputElement | null;
+        const nev = nevInput?.value?.trim() ?? '';
+        const email = emailInput?.value?.trim() ?? '';
+
+        if (!nev || !email) {
+          alert('Kérjük töltsd ki a név és email mezőket!');
+          return;
+        }
+
+        submitBtn.textContent = 'Küldés...';
+        submitBtn.disabled = true;
+
+        try {
+          const res = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nev, email }),
+          });
+          const data = await res.json();
+          if (data.ok) {
+            submitBtn.textContent = '✓ Üzenet elküldve!';
+            if (nevInput) nevInput.value = '';
+            if (emailInput) emailInput.value = '';
+          } else {
+            submitBtn.textContent = 'Hiba — próbáld újra';
+            submitBtn.disabled = false;
+          }
+        } catch {
+          submitBtn.textContent = 'Hiba — próbáld újra';
+          submitBtn.disabled = false;
+        }
+      };
+      submitBtn.addEventListener('click', handleContactSubmit);
+    }
 
     return () => {
       window.removeEventListener('load', onLoad);

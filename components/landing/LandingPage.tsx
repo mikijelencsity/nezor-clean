@@ -1,7 +1,40 @@
+'use client';
+import { useState } from 'react';
 import Image from 'next/image';
 import styles from './LandingPage.module.css';
 
 export function LandingPage() {
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubscribe = async (e: React.FormEvent | React.MouseEvent) => {
+    e.preventDefault();
+    if (!email || !email.includes('@')) {
+      setError('Adj meg egy érvényes email címet.');
+      return;
+    }
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch('/api/epitoiparosoknak-subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (data.ok && data.guideUrl) {
+        window.location.href = data.guideUrl;
+      } else {
+        setError('Hiba történt. Próbáld újra!');
+      }
+    } catch {
+      setError('Hiba történt. Próbáld újra!');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div style={{ background: '#0f1226' }}>
       {/* ══ DESKTOP ══ */}
@@ -103,8 +136,22 @@ export function LandingPage() {
           <div className={styles['form-box']}>
             <p className={styles['form-title']}>Küldöm az ingyenes útmutatót</p>
             <p className={styles['form-sub']}>Add meg az email címed — azonnal megkapod az „5 lépéses ügyfélszerzési útmutatót" + a 10% kuponkódot.</p>
-            <input className={styles['form-input']} type="email" placeholder="Email címed (pl. janos@gmail.com)" />
-            <button className={styles['form-btn']}>Kérem az ingyenes útmutatót →</button>
+            <input
+              className={styles['form-input']}
+              type="email"
+              placeholder="Email címed (pl. janos@gmail.com)"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSubscribe(e as React.KeyboardEvent)}
+            />
+            {error && <p style={{ color: '#ef4444', fontSize: '13px', marginTop: '8px' }}>{error}</p>}
+            <button
+              className={styles['form-btn']}
+              onClick={handleSubscribe}
+              disabled={loading}
+            >
+              {loading ? 'Küldés...' : 'Kérem az ingyenes útmutatót →'}
+            </button>
             <p className={styles['form-note']}>
               🔒 Feliratkozással elfogadod az{' '}
               <a href="/adatkezeles" target="_blank" style={{ color: '#0284C7', textDecoration: 'underline' }}>adatkezelési tájékoztatót</a>. Spam: soha.
@@ -211,8 +258,22 @@ export function LandingPage() {
           <div className={styles['mob-form']}>
             <p className={styles['mob-form-title']}>Küldöm az ingyenes útmutatót</p>
             <p className={styles['mob-form-sub']}>Add meg az email címed — megkapod az „5 lépéses ügyfélszerzési útmutatót" + 10% kuponkódot.</p>
-            <input className={styles['mob-input']} type="email" placeholder="Email címed" />
-            <button className={styles['mob-btn']}>Kérem az ingyenes útmutatót →</button>
+            <input
+              className={styles['mob-input']}
+              type="email"
+              placeholder="Email címed"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSubscribe(e as React.KeyboardEvent)}
+            />
+            {error && <p style={{ color: '#ef4444', fontSize: '12px', marginTop: '6px' }}>{error}</p>}
+            <button
+              className={styles['mob-btn']}
+              onClick={handleSubscribe}
+              disabled={loading}
+            >
+              {loading ? 'Küldés...' : 'Kérem az ingyenes útmutatót →'}
+            </button>
             <p className={styles['mob-note']}>
               🔒 Feliratkozással elfogadod az{' '}
               <a href="/adatkezeles" target="_blank" style={{ color: '#0284C7' }}>adatkezelési tájékoztatót</a>. Spam: soha.
