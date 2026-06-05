@@ -73,15 +73,35 @@
     width: 100%;
     margin-left: auto;
     transform: none;
+    gap: 16px;
   }
   .audienceCard {
-    padding: 38px 24px;
+    padding: 28px 20px;
     min-height: auto;
+    border-radius: 16px;
   }
   .audienceCard h3 {
-    font-size: 1.7rem;
+    font-size: 1.4rem;
   }
   .audienceCard p {
-    font-size: 18px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 480px) {
+  .audienceGrid {
+    width: calc(100% + 0px);
+    gap: 12px;
+  }
+  .audienceCard {
+    padding: 24px 18px;
+    border-radius: 14px;
+  }
+  .audienceCard h3 {
+    font-size: 1.25rem;
+  }
+  .audienceCard p {
+    font-size: 14px;
   }
 }

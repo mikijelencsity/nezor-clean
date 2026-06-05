@@ -242,6 +242,7 @@
 @media (max-width: 900px) {
   .contactWrap {
     grid-template-columns: 1fr;
+    border-radius: 20px;
   }
   .contactLeft,
   .contactRight {
@@ -253,21 +254,16 @@
 }
 
 @media (max-width: 600px) {
+  .contactWrap {
+    border-radius: 16px;
+    margin: 0 -4px;
+  }
   .contactLeft,
-  .contactRight {
-    padding: 36px 24px;
-  }
-}
-
-@media (max-width: 480px) {
-  .contactLeft {
-    padding: 32px 20px;
-  }
   .contactRight {
     padding: 32px 20px;
   }
   .contactLeft h3 {
-    font-size: 1.7rem;
+    font-size: 1.8rem;
   }
   .contactLeft > p {
     font-size: 15px;
@@ -282,5 +278,23 @@
   }
   .formSubmit {
     font-size: 16px;
+    padding: 18px;
+  }
+  .contactRight h4 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .contactWrap {
+    border-radius: 12px;
+    margin: 0 -8px;
+  }
+  .contactLeft,
+  .contactRight {
+    padding: 28px 18px;
+  }
+  .contactLeft h3 {
+    font-size: 1.5rem;
   }
 }
