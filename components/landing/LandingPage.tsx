@@ -17,10 +17,18 @@ export function LandingPage() {
     setLoading(true);
     setError('');
     try {
+      // Egyedi eventId a browser pixel + CAPI deduplikációhoz
+      const eventId = `lead_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+
+      // Browser pixel Lead event
+      if (typeof window !== 'undefined' && (window as Window & { fbq?: (...a: unknown[]) => void }).fbq) {
+        (window as Window & { fbq?: (...a: unknown[]) => void }).fbq?.('track', 'Lead', {}, { eventID: eventId });
+      }
+
       const res = await fetch('/api/epitoiparosoknak-subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, eventId }),
       });
       const data = await res.json();
       if (data.ok && data.guideUrl) {

@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
 import { resend, FROM_EMAIL, NOTIFY_EMAIL, isValidEmail } from '@/lib/resend';
+import { sendCapiEvent } from '@/lib/meta-capi';
+import crypto from 'crypto';
 
 export async function POST(request: Request) {
   try {
-    const { email } = await request.json() as { email: string };
+    const { email, eventId: clientEventId } = await request.json() as { email: string; eventId?: string };
 
     if (!email || !isValidEmail(email)) {
       return NextResponse.json({ error: 'Érvénytelen email cím' }, { status: 400 });
@@ -43,7 +45,21 @@ export async function POST(request: Request) {
       `,
     });
 
-    // 3. Értesítő nekünk
+    // 3. Meta CAPI — szerver oldali Lead event (deduplikálva a browser pixellel)
+    const siteUrl2 = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://nezor.hu';
+    const eventId = clientEventId ?? crypto.randomUUID();
+    const clientIp = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? undefined;
+    const clientUserAgent = request.headers.get('user-agent') ?? undefined;
+    void sendCapiEvent({
+      email,
+      eventName: 'Lead',
+      eventId,
+      sourceUrl: `${siteUrl2}/landing`,
+      clientIp,
+      clientUserAgent,
+    });
+
+    // 4. Értesítő nekünk
     await resend.emails.send({
       from: FROM_EMAIL,
       to: NOTIFY_EMAIL,
