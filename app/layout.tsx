@@ -11,6 +11,11 @@ export const metadata: Metadata = {
   title: 'NEZOR — Weboldal + Meta hirdetés',
   description:
     'Weboldalakat és webshopokat építünk, majd Meta hirdetésekkel hozzuk rájuk a vevőket. Egy kézből, átlátható áron.',
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+  },
 };
 
 const localBusinessSchema = {
