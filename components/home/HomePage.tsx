@@ -1,6 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import './home-page.css';
+import { VideoPlayer } from './VideoPlayer';
 
 export function HomePage() {
   useEffect(() => {
@@ -336,18 +337,7 @@ export function HomePage() {
             <a href="#process" className="btn btn-ghost">Nézzük tovább!</a>
           </div>
 
-          <div className="media">
-            <video
-              className="media-img"
-              autoPlay
-              muted
-              loop
-              playsInline
-              style={{ transform: 'scale(1.14)' }}
-            >
-              <source src="/cursorful-video-1780505482371.mp4" type="video/mp4" />
-            </video>
-          </div>
+          <VideoPlayer />
         </div>
       </section>
 
