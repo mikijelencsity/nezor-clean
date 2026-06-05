@@ -23,8 +23,8 @@ export function AdatkezelesPage() {
             Adatkezelési<br /><span>Tájékoztató</span>
           </h1>
           <p className={styles.docMeta}>
-            <strong>Hatályos:</strong> 2026. január 1-től ·{' '}
-            <strong>Utoljára frissítve:</strong> 2026. június 1.
+            <strong>Hatályos:</strong> 2026. június 5-től ·{' '}
+            <strong>Utoljára frissítve:</strong> 2026. június 5.
           </p>
         </div>
 
@@ -33,9 +33,9 @@ export function AdatkezelesPage() {
           <div className={styles.docSectionNum}>1</div>
           <h2>Az adatkezelő adatai</h2>
           <div className={styles.docHighlight}>
-            <strong>NEZOR Webfejlesztés</strong><br />
-            Képviselők: Müller Dániel és Jelencsity Miklós<br />
-            Székhely: Baja, Magyarország<br />
+            <strong>Müller Dániel E.V.</strong><br />
+            Adószám: 91037491-1-23<br />
+            Székhely: 6500 Baja, Budai Nagy Antal u. 36.<br />
             E-mail: <a href="mailto:info@nezor.hu">info@nezor.hu</a><br />
             Weboldal: <a href="https://nezor.hu">nezor.hu</a>
           </div>
@@ -83,8 +83,8 @@ export function AdatkezelesPage() {
           <p>Az Ön e-mail címét harmadik fél részére nem adjuk el és nem adjuk át, kivéve az alábbi eseteket:</p>
           <ul>
             <li>
-              <strong>Email küldő szolgáltatás</strong> (pl. Mailchimp, Brevo vagy hasonló) — kizárólag az üzenetek
-              technikai kézbesítéséhez szükséges mértékben
+              <strong>Resend (resend.com)</strong> — e-mail kézbesítési szolgáltatás, kizárólag az üzenetek
+              technikai kézbesítéséhez szükséges mértékben. Adatfeldolgozói szerződés alapján.
             </li>
             <li>
               <strong>Jogszabályi kötelezettség</strong> esetén — ha hatóság jogszerű megkeresés alapján kéri
@@ -183,7 +183,7 @@ export function AdatkezelesPage() {
         </div>
 
         <div className={styles.docFooter}>
-          <p>© 2026 NEZOR Webfejlesztés · Müller Dániel &amp; Jelencsity Miklós</p>
+          <p>© 2026 Müller Dániel E.V. · NEZOR Webfejlesztés</p>
           <p style={{ marginTop: '6px' }}>
             <a href="/landing">← Vissza a főoldalra</a>
           </p>

@@ -161,8 +161,8 @@ export function LandingPage() {
               {loading ? 'Küldés...' : 'Kérem az ingyenes útmutatót →'}
             </button>
             <p className={styles['form-note']}>
-              🔒 Feliratkozással elfogadod az{' '}
-              <a href="/adatkezeles" target="_blank" style={{ color: '#0284C7', textDecoration: 'underline' }}>adatkezelési tájékoztatót</a>. Spam: soha.
+              🔒 Az email megadásával hozzájárulsz, hogy az útmutatót és kapcsolódó tájékoztató leveleket küldjünk neked. Adataidat harmadik félnek nem adjuk át. Bármikor leiratkozhatsz.{' '}
+              <a href="/adatkezeles" target="_blank" style={{ color: '#0284C7', textDecoration: 'underline' }}>Adatkezelési tájékoztató</a>
             </p>
             <p className={styles['form-redirect']}>Feliratkozás után azonnal átirányítunk az útmutatóhoz — nem kell várni, minden azonnal elérhető.</p>
           </div>
@@ -283,8 +283,8 @@ export function LandingPage() {
               {loading ? 'Küldés...' : 'Kérem az ingyenes útmutatót →'}
             </button>
             <p className={styles['mob-note']}>
-              🔒 Feliratkozással elfogadod az{' '}
-              <a href="/adatkezeles" target="_blank" style={{ color: '#0284C7' }}>adatkezelési tájékoztatót</a>. Spam: soha.
+              🔒 Az email megadásával hozzájárulsz tájékoztató levelek fogadásához. Bármikor leiratkozhatsz.{' '}
+              <a href="/adatkezeles" target="_blank" style={{ color: '#0284C7' }}>Adatkezelési tájékoztató</a>.
             </p>
             <p className={styles['mob-redirect']}>Feliratkozás után azonnal átirányítunk az útmutatóhoz — minden azonnal elérhető.</p>
           </div>
