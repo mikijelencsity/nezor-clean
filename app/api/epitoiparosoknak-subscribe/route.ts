@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
-import { resend, FROM_EMAIL, NOTIFY_EMAIL } from '@/lib/resend';
+import { resend, FROM_EMAIL, NOTIFY_EMAIL, isValidEmail } from '@/lib/resend';
 
 export async function POST(request: Request) {
   try {
     const { email } = await request.json() as { email: string };
 
-    if (!email) {
-      return NextResponse.json({ error: 'Email cím szükséges' }, { status: 400 });
+    if (!email || !isValidEmail(email)) {
+      return NextResponse.json({ error: 'Érvénytelen email cím' }, { status: 400 });
     }
 
     const audienceId = process.env.RESEND_AUDIENCE_ID;

@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 
-const GA_ID = 'G-X79GL5MKMH';
+const GA_ID = process.env.NEXT_PUBLIC_GA4_ID ?? 'G-X79GL5MKMH';
 
 function loadGA() {
   if (typeof window === 'undefined') return;

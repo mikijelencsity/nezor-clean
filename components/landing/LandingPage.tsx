@@ -10,7 +10,7 @@ export function LandingPage() {
 
   const handleSubscribe = async (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault();
-    if (!email || !email.includes('@')) {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError('Adj meg egy érvényes email címet.');
       return;
     }

@@ -6,6 +6,11 @@ export const resend = new Resend(apiKey);
 export const FROM_EMAIL = 'NEZOR <info@nezor.hu>';
 export const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL ?? 'miklosjelencsity@gmail.com';
 
+/** Basic email format validation */
+export function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 /** HTML-escape user input to prevent injection in email templates */
 export function esc(str: string): string {
   return str

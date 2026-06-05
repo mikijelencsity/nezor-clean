@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { resend, FROM_EMAIL, NOTIFY_EMAIL, esc } from '@/lib/resend';
+import { resend, FROM_EMAIL, NOTIFY_EMAIL, esc, isValidEmail } from '@/lib/resend';
 
 export async function POST(request: Request) {
   try {
@@ -9,8 +9,8 @@ export async function POST(request: Request) {
       telefon?: string;
     };
 
-    if (!nev || !email) {
-      return NextResponse.json({ error: 'Hiányzó mezők' }, { status: 400 });
+    if (!nev || !email || !isValidEmail(email)) {
+      return NextResponse.json({ error: 'Hiányzó vagy érvénytelen mezők' }, { status: 400 });
     }
 
     await resend.emails.send({
