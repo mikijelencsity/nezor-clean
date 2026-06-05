@@ -229,37 +229,45 @@ export function HomePage() {
 
     // Jogi dokumentumok
     (function () {
-      const note = '<div class="legal-note">Ez egy minta-sablon. Közzététel előtt töltsd ki a [szögletes zárójeles] részeket a saját cégadataiddal, és ellenőriztesd jogi szakemberrel.</div>';
       const docs: Record<string, { title: string; html: string }> = {
         aszf: {
-          title: 'Általános Szerződési Feltételek', html: note +
-            '<h3>1. Szolgáltató adatai</h3><p>Cégnév: [Cégnév]<br>Székhely: [Cím]<br>Adószám: [Adószám]<br>E-mail: [E-mail]<br>Telefon: [Telefon]</p>' +
-            '<h3>2. A szolgáltatás tárgya</h3><p>A Szolgáltató weboldal- és webáruház-fejlesztési, online marketing és kapcsolódó szolgáltatásokat nyújt a Megrendelő részére egyedi megállapodás alapján.</p>' +
-            '<h3>3. Megrendelés és szerződéskötés</h3><p>A megrendelés a kapcsolatfelvételt és az egyedi ajánlat kölcsönös, írásbeli (e-mailes) elfogadását követően jön létre.</p>' +
-            '<h3>4. Díjazás és fizetés</h3><p>A szolgáltatás díja az egyedi ajánlatban szerepel. A fizetés a kiállított számla alapján, az azon megjelölt határidőig esedékes.</p>' +
-            '<h3>5. Teljesítés</h3><p>A Szolgáltató a megállapodás szerinti tartalommal és határidőre teljesít. A Megrendelő köteles a szükséges anyagokat és visszajelzéseket időben biztosítani.</p>' +
-            '<h3>6. Elállás, lemondás</h3><p>Egyedi igény szerint megkezdett munkák esetén a Megrendelőt a teljesítés arányában fizetési kötelezettség terheli; a részleteket az egyedi szerződés tartalmazza.</p>' +
-            '<h3>7. Felelősség</h3><p>A Szolgáltató nem felel a Megrendelő által átadott tartalmak jogszerűségéért, valamint a rajta kívül álló okból (pl. harmadik fél szolgáltatása) bekövetkező hibákért.</p>' +
-            '<h3>8. Panaszkezelés</h3><p>Panasz a [E-mail] címen tehető, amelyet a Szolgáltató [pl. 30] napon belül kivizsgál és megválaszol.</p>' +
-            '<h3>9. Záró rendelkezések</h3><p>A nem szabályozott kérdésekben a magyar jog, különösen a Ptk. az irányadó. Hatályos: [dátum].</p>'
+          title: 'Általános Szerződési Feltételek',
+          html:
+            '<h3>1. Szolgáltató adatai</h3><p>Cégnév: Müller Dániel E.V.<br>Székhely: 6500 Baja, Budai Nagy Antal u. 36.<br>Adószám: 91037491-1-23<br>E-mail: info@nezor.hu<br>Telefon: +36 70 455 4703<br>Weboldal: nezor.hu</p>' +
+            '<h3>2. A szolgáltatás tárgya</h3><p>A Szolgáltató weboldal- és webáruház-fejlesztési, online marketing (Meta hirdetések) és kapcsolódó digitális szolgáltatásokat nyújt a Megrendelő részére egyedi megállapodás alapján.</p>' +
+            '<h3>3. Megrendelés és szerződéskötés</h3><p>A megrendelés a kapcsolatfelvételt és az egyedi ajánlat kölcsönös, írásbeli (e-mailes) elfogadását követően jön létre. Az ajánlat elfogadása szerződéses kötelezettséget keletkeztet.</p>' +
+            '<h3>4. Díjazás és fizetés</h3><p>A szolgáltatás díja az egyedi ajánlatban szerepel. A fizetés a kiállított számla alapján, az azon megjelölt határidőig esedékes. Késedelmes fizetés esetén a Ptk. szerinti késedelmi kamat kerül felszámításra.</p>' +
+            '<h3>5. Teljesítés</h3><p>A Szolgáltató a megállapodás szerinti tartalommal és határidőre teljesít. A Megrendelő köteles a szükséges anyagokat, hozzáféréseket és visszajelzéseket időben biztosítani. A teljesítési határidő a Megrendelő késedelme esetén arányosan meghosszabbodik.</p>' +
+            '<h3>6. Elállás, lemondás</h3><p>Megkezdett munkák esetén a Megrendelőt a teljesítés arányában fizetési kötelezettség terheli. Az elállást írásban (e-mailben) kell közölni. A részleteket az egyedi szerződés tartalmazza.</p>' +
+            '<h3>7. Felelősség</h3><p>A Szolgáltató nem felel a Megrendelő által átadott tartalmak jogszerűségéért, a hirdetési eredmények garanciájáért, valamint a rajta kívül álló okból (pl. platform változás, technikai meghibásodás) bekövetkező károkért.</p>' +
+            '<h3>8. Szellemi tulajdon</h3><p>Az elkészített weboldalak, hirdetési anyagok szerzői joga az átadást és a teljes díj kifizetését követően száll át a Megrendelőre.</p>' +
+            '<h3>9. Panaszkezelés</h3><p>Panasz az info@nezor.hu e-mail címen tehető, amelyet a Szolgáltató 30 napon belül kivizsgál és megválaszol.</p>' +
+            '<h3>10. Záró rendelkezések</h3><p>A nem szabályozott kérdésekben a magyar jog, különösen a Ptk. az irányadó. Hatályos: 2026. június 5.</p>'
         },
         adatkezeles: {
-          title: 'Adatkezelési tájékoztató', html: note +
-            '<h3>1. Az adatkezelő</h3><p>[Cégnév], [Székhely], adószám: [Adószám], e-mail: [E-mail].</p>' +
-            '<h3>2. Kezelt adatok és cél</h3><p>Kapcsolatfelvételkor: név, e-mail-cím, telefonszám, üzenet — az érdeklődés megválaszolása, ajánlatadás, kapcsolattartás céljából. Nyereményjáték esetén: e-mail-cím — a részvétel és az eredményről való értesítés céljából.</p>' +
+          title: 'Adatkezelési tájékoztató',
+          html:
+            '<h3>1. Az adatkezelő</h3><p>Müller Dániel E.V., 6500 Baja, Budai Nagy Antal u. 36., adószám: 91037491-1-23, e-mail: info@nezor.hu, telefon: +36 70 455 4703.</p>' +
+            '<h3>2. Kezelt adatok és cél</h3><p>Kapcsolatfelvételkor: név, e-mail-cím, telefonszám — az érdeklődés megválaszolása, ajánlatadás, kapcsolattartás céljából. Nyereményjáték esetén: e-mail-cím — a részvétel és az eredményről való értesítés céljából.</p>' +
             '<h3>3. Az adatkezelés jogalapja</h3><p>Az érintett önkéntes hozzájárulása (GDPR 6. cikk (1) a)), illetve szerződés teljesítése (6. cikk (1) b)).</p>' +
             '<h3>4. Tárolás ideje</h3><p>A cél megvalósulásáig vagy a hozzájárulás visszavonásáig; jogszabályi kötelezettség esetén az abban előírt ideig.</p>' +
-            '<h3>5. Adatfeldolgozók</h3><p>Tárhelyszolgáltató: [Tárhely]. E-mail/marketing eszköz: [Szolgáltató]. Ők saját adatvédelmi szabályzatuk szerint járnak el.</p>' +
-            '<h3>6. Az érintett jogai</h3><ul><li>Tájékoztatás, hozzáférés</li><li>Helyesbítés, törlés</li><li>Korlátozás</li><li>Adathordozhatóság</li><li>Tiltakozás, hozzájárulás visszavonása</li></ul><p>A jogok a [E-mail] címen gyakorolhatók.</p>' +
-            '<h3>7. Jogorvoslat</h3><p>Panasz esetén a NAIH-hoz (www.naih.hu) lehet fordulni, illetve bírósági jogorvoslat vehető igénybe. Hatályos: [dátum].</p>'
+            '<h3>5. Adatfeldolgozók</h3><p>Tárhelyszolgáltató: Vercel Inc. (vercel.com). E-mail küldő: Resend (resend.com). Ők saját adatvédelmi szabályzatuk szerint járnak el, az adatokat kizárólag a megjelölt célra használhatják.</p>' +
+            '<h3>6. Az érintett jogai</h3><ul><li>Tájékoztatás, hozzáférés</li><li>Helyesbítés, törlés</li><li>Adatkezelés korlátozása</li><li>Adathordozhatóság</li><li>Tiltakozás, hozzájárulás visszavonása</li></ul><p>A jogok az info@nezor.hu címen gyakorolhatók, 30 napon belül válaszolunk.</p>' +
+            '<h3>7. Jogorvoslat</h3><p>Panasz esetén a NAIH-hoz (naih.hu, 1055 Budapest, Falk Miksa u. 9-11.) lehet fordulni. Hatályos: 2026. június 5.</p>'
         },
         cookie: {
-          title: 'Cookie szabályzat', html: note +
-            '<h3>1. Mik a sütik?</h3><p>A sütik kis adatfájlok, amelyeket a böngésződ tárol a weboldal megfelelő működése és a felhasználói élmény javítása érdekében.</p>' +
-            '<h3>2. Milyen sütiket használunk?</h3><ul><li><b>Működéshez szükséges:</b> pl. a cookie-hozzájárulásod megjegyzése. Ezek nélkül az oldal nem működik megfelelően.</li><li><b>Statisztikai:</b> névtelen módon segítenek megérteni az oldal használatát (pl. [Google Analytics], ha használsz ilyet).</li></ul>' +
-            '<h3>3. Hozzájárulás kezelése</h3><p>Az első látogatáskor dönthetsz a sütik elfogadásáról vagy elutasításáról. A döntésed a böngésződ tárolt adatainak törlésével módosíthatod.</p>' +
-            '<h3>4. Sütik letiltása</h3><p>A böngésződ beállításaiban bármikor letilthatod vagy törölheted a sütiket; ez egyes funkciók működését korlátozhatja.</p>' +
-            '<p>Kapcsolat: [E-mail]. Hatályos: [dátum].</p>'
+          title: 'Cookie szabályzat',
+          html:
+            '<h3>1. Mik a sütik?</h3><p>A sütik kis adatfájlok, amelyeket a böngésző tárol a weboldal megfelelő működése és a felhasználói élmény javítása érdekében.</p>' +
+            '<h3>2. Milyen sütiket használunk?</h3><ul>' +
+            '<li><b>Szükséges sütik:</b> a cookie-hozzájárulás és a bejelentkezési állapot tárolása. Ezek nélkül az oldal nem működik megfelelően. Nem igényelnek hozzájárulást.</li>' +
+            '<li><b>Analitikai sütik (Google Analytics 4):</b> névtelen látogatottsági adatok gyűjtése a weboldal fejlesztéséhez. Csak hozzájárulás után töltődnek be.</li>' +
+            '<li><b>Marketing sütik (Meta Pixel):</b> hirdetési teljesítmény mérése. Csak hozzájárulás után töltődnek be.</li>' +
+            '</ul>' +
+            '<h3>3. Hozzájárulás kezelése</h3><p>Az első látogatáskor megjelenik a cookie-sáv. Az "Elfogadom az összeset" gombra kattintva az analitikai és marketing sütik is bekapcsolnak. A "Csak szükséges" opció esetén csak a működéshez elengedhetetlen sütik kerülnek elhelyezésre.</p>' +
+            '<h3>4. Hozzájárulás visszavonása</h3><p>A böngésző sütiket törölve (Beállítások → Adatvédelem → Sütik törlése) a hozzájárulás visszavonható. A következő látogatáskor újra megjelenik a cookie-sáv.</p>' +
+            '<h3>5. Harmadik felek</h3><p>Google Analytics: policies.google.com/privacy · Meta Pixel: facebook.com/privacy/policy</p>' +
+            '<p style="margin-top:14px">Kapcsolat: info@nezor.hu · Hatályos: 2026. június 5.</p>'
         }
       };
       const modal = document.getElementById('legalModal');
