@@ -1,5 +1,6 @@
 'use client';
 import { useEffect } from 'react';
+import Image from 'next/image';
 import './home-page.css';
 import { VideoPlayer } from './VideoPlayer';
 
@@ -374,7 +375,7 @@ export function HomePage() {
   return (
     <>
       <div className="preloader" id="preloader">
-        <img className="preloader-logo" src="/nezor-logo-transparent.webp" alt="NEZOR" id="preLogo" />
+        <Image className="preloader-logo" src="/nezor-logo-transparent.webp" alt="NEZOR" id="preLogo" width={230} height={230} priority />
         <div className="preloader-headline" id="preHeadline">
           <span className="pre-word pre-left">Sikerre</span>
           <span className="pre-word pre-right">készen?</span>
@@ -390,7 +391,7 @@ export function HomePage() {
 
         <div className="container">
           <div className="hero-logo">
-            <img src="/nezor-logo-transparent.webp" alt="NEZOR" />
+            <Image src="/nezor-logo-transparent.webp" alt="NEZOR" width={180} height={180} priority />
           </div>
 
           <h1>
@@ -533,7 +534,7 @@ export function HomePage() {
         <div className="services-grid">
           <div className="service-card">
             <div className="service-img">
-              <img src="/modernweboldal.webp" alt="Bemutatkozó oldal" />
+              <Image src="/modernweboldal.webp" alt="Bemutatkozó oldal" fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 100vw, 33vw" />
               <span className="service-badge">Bemutatkozó</span>
             </div>
             <div className="service-body">
@@ -544,7 +545,7 @@ export function HomePage() {
 
           <div className="service-card">
             <div className="service-img">
-              <img src="/profilanding.webp" alt="Landing oldal" />
+              <Image src="/profilanding.webp" alt="Landing oldal" fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 100vw, 33vw" />
               <span className="service-badge">Landing</span>
             </div>
             <div className="service-body">
@@ -555,7 +556,7 @@ export function HomePage() {
 
           <div className="service-card">
             <div className="service-img">
-              <img src="/premiumwebshop.webp" alt="Webáruház" />
+              <Image src="/premiumwebshop.webp" alt="Webáruház" fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 100vw, 33vw" />
               <span className="service-badge">Webshop</span>
             </div>
             <div className="service-body">
@@ -595,16 +596,16 @@ export function HomePage() {
         <div className="creatives-marquee">
           <div className="creatives-track">
             {/* 1. kör (4 kártya) */}
-            <div className="creative-card"><div className="creative-img clickable"><img src="/HIRDETES3.webp" alt="6x megtérülés hirdetés" data-company="Forint - Soft Kft." /></div><div className="creative-foot"><span className="creative-metric">6×</span><span className="creative-type">Megtérülés</span></div></div>
-            <div className="creative-card"><div className="creative-img clickable"><img src="/HIRDETES4.webp" alt="90.000 elérés hirdetés" data-company="ZT Épületgépészet" /></div><div className="creative-foot"><span className="creative-metric">90.000</span><span className="creative-type">Elérés<br />10.000 Ft-ból</span></div></div>
-            <div className="creative-card"><div className="creative-img clickable"><img src="/HIRDETES2.webp" alt="100.000 Ft bevétel hirdetés" data-company="Hazai Kávé Kft." /></div><div className="creative-foot"><span className="creative-metric">100.000 Ft</span><span className="creative-type">Bevétel<br />12.000 Ft-ból</span></div></div>
-            <div className="creative-card"><div className="creative-img clickable"><img src="/HIRDETES1.webp" alt="4x megtérülés hirdetés" data-company="Dover Check" /></div><div className="creative-foot"><span className="creative-metric">4×</span><span className="creative-type">Megtérülés</span></div></div>
+            <div className="creative-card"><div className="creative-img clickable"><Image src="/HIRDETES3.webp" alt="6x megtérülés hirdetés" data-company="Forint - Soft Kft." fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 78vw, 25vw" /></div><div className="creative-foot"><span className="creative-metric">6×</span><span className="creative-type">Megtérülés</span></div></div>
+            <div className="creative-card"><div className="creative-img clickable"><Image src="/HIRDETES4.webp" alt="90.000 elérés hirdetés" data-company="ZT Épületgépészet" fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 78vw, 25vw" /></div><div className="creative-foot"><span className="creative-metric">90.000</span><span className="creative-type">Elérés<br />10.000 Ft-ból</span></div></div>
+            <div className="creative-card"><div className="creative-img clickable"><Image src="/HIRDETES2.webp" alt="100.000 Ft bevétel hirdetés" data-company="Hazai Kávé Kft." fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 78vw, 25vw" /></div><div className="creative-foot"><span className="creative-metric">100.000 Ft</span><span className="creative-type">Bevétel<br />12.000 Ft-ból</span></div></div>
+            <div className="creative-card"><div className="creative-img clickable"><Image src="/HIRDETES1.webp" alt="4x megtérülés hirdetés" data-company="Dover Check" fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 78vw, 25vw" /></div><div className="creative-foot"><span className="creative-metric">4×</span><span className="creative-type">Megtérülés</span></div></div>
 
             {/* 2. kör: pontos másolat a hézagmentes loophoz (-50%) */}
-            <div className="creative-card"><div className="creative-img clickable"><img src="/HIRDETES3.webp" alt="6x megtérülés hirdetés" data-company="Forint - Soft Kft." /></div><div className="creative-foot"><span className="creative-metric">6×</span><span className="creative-type">Megtérülés</span></div></div>
-            <div className="creative-card"><div className="creative-img clickable"><img src="/HIRDETES4.webp" alt="90.000 elérés hirdetés" data-company="ZT Épületgépészet" /></div><div className="creative-foot"><span className="creative-metric">90.000</span><span className="creative-type">Elérés<br />10.000 Ft-ból</span></div></div>
-            <div className="creative-card"><div className="creative-img clickable"><img src="/HIRDETES2.webp" alt="100.000 Ft bevétel hirdetés" data-company="Hazai Kávé Kft." /></div><div className="creative-foot"><span className="creative-metric">100.000 Ft</span><span className="creative-type">Bevétel<br />12.000 Ft-ból</span></div></div>
-            <div className="creative-card"><div className="creative-img clickable"><img src="/HIRDETES1.webp" alt="4x megtérülés hirdetés" data-company="Dover Check" /></div><div className="creative-foot"><span className="creative-metric">4×</span><span className="creative-type">Megtérülés</span></div></div>
+            <div className="creative-card"><div className="creative-img clickable"><Image src="/HIRDETES3.webp" alt="6x megtérülés hirdetés" data-company="Forint - Soft Kft." fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 78vw, 25vw" /></div><div className="creative-foot"><span className="creative-metric">6×</span><span className="creative-type">Megtérülés</span></div></div>
+            <div className="creative-card"><div className="creative-img clickable"><Image src="/HIRDETES4.webp" alt="90.000 elérés hirdetés" data-company="ZT Épületgépészet" fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 78vw, 25vw" /></div><div className="creative-foot"><span className="creative-metric">90.000</span><span className="creative-type">Elérés<br />10.000 Ft-ból</span></div></div>
+            <div className="creative-card"><div className="creative-img clickable"><Image src="/HIRDETES2.webp" alt="100.000 Ft bevétel hirdetés" data-company="Hazai Kávé Kft." fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 78vw, 25vw" /></div><div className="creative-foot"><span className="creative-metric">100.000 Ft</span><span className="creative-type">Bevétel<br />12.000 Ft-ból</span></div></div>
+            <div className="creative-card"><div className="creative-img clickable"><Image src="/HIRDETES1.webp" alt="4x megtérülés hirdetés" data-company="Dover Check" fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 78vw, 25vw" /></div><div className="creative-foot"><span className="creative-metric">4×</span><span className="creative-type">Megtérülés</span></div></div>
           </div>
         </div>
       </section>
@@ -628,7 +629,7 @@ export function HomePage() {
 
         <div className="feature-grid">
           <div className="feature-card">
-            <div className="feature-img"><img src="/visszaterovevo.webp" alt="Egyszeri vásárló" /></div>
+            <div className="feature-img"><Image src="/visszaterovevo.webp" alt="Egyszeri vásárló" fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 100vw, 50vw" /></div>
             <div className="feature-body">
               <h3>Érdeklődőből vásárló</h3>
               <p className="feature-lead">Ne veszíts el olyan vásárlókat, akik már majdnem hívtak / fizettek.</p>
@@ -644,7 +645,7 @@ export function HomePage() {
           </div>
 
           <div className="feature-card">
-            <div className="feature-img"><img src={'/a visszatérő vásárlo.webp'} alt="Visszatérő törzsvásárló" /></div>
+            <div className="feature-img"><Image src="/a visszatérő vásárlo.webp" alt="Visszatérő törzsvásárló" fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 100vw, 50vw" /></div>
             <div className="feature-body">
               <h3>Vásárlóból törzsvásárló</h3>
               <p className="feature-lead">Egyszeri vásárlókból visszatérő ügyfelek. Automatikusan.</p>
@@ -677,7 +678,7 @@ export function HomePage() {
 
         <div className="ai-grid">
           <div className="ai-card">
-            <div className="ai-img"><img src={'/chatgpttégegajánl.webp'} alt="ChatGPT téged ajánl" /></div>
+            <div className="ai-img"><Image src="/chatgpttégegajánl.webp" alt="ChatGPT téged ajánl" fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 100vw, 33vw" /></div>
             <div className="ai-body">
               <h3>ChatGPT téged ajánl</h3>
               <p className="ai-lead">Amikor valaki rákeres, te jössz fel elsőként.</p>
@@ -686,7 +687,7 @@ export function HomePage() {
           </div>
 
           <div className="ai-card">
-            <div className="ai-img"><img src="/chatbot.webp" alt="Chatbot, a 0–24-es munkatárs" /></div>
+            <div className="ai-img"><Image src="/chatbot.webp" alt="Chatbot, a 0–24-es munkatárs" fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 100vw, 33vw" /></div>
             <div className="ai-body">
               <h3>Chatbot, a 0–24-es munkatárs</h3>
               <p className="ai-lead">Sosem alszik, sosem fárad, mindig válaszol.</p>
@@ -714,7 +715,7 @@ export function HomePage() {
         </p>
 
         <div className="gbp-card">
-          <div className="gbp-img"><img src="/google.webp" alt="Google Cégem profil" /></div>
+          <div className="gbp-img"><Image src="/google.webp" alt="Google Cégem profil" fill style={{ objectFit: 'cover', objectPosition: '11% center' }} sizes="(max-width: 768px) 100vw, 50vw" /></div>
           <div className="gbp-body">
             <span className="gbp-badge">Google Cégem profil</span>
             <h3>Az első benyomás <span className="accent">a Google-ön kezdődik.</span></h3>
@@ -733,7 +734,7 @@ export function HomePage() {
         <canvas className="gift-confetti" id="giftConfetti"></canvas>
         <div className="gift-inner">
           <div className="gift-circle">
-            <div className="gift-circle-img"><img src="/ajandek.webp" alt="Domain matrica céges autón" style={{ objectPosition: '62% center' }} /></div>
+            <div className="gift-circle-img"><Image src="/ajandek.webp" alt="Domain matrica céges autón" fill style={{ objectFit: 'cover', objectPosition: '62% center' }} sizes="280px" /></div>
             <span className="gift-circle-domain">Céged neve online – bármerre jársz, látnak.</span>
           </div>
           <div className="gift-text">
@@ -751,7 +752,7 @@ export function HomePage() {
         <div className="glow glow-yellow" style={{ bottom: 0, left: '-100px' }}></div>
 
         <div className="story-card">
-          <div className="story-img"><img src={'/miértmi.webp'} alt="NEZOR alapítók" /></div>
+          <div className="story-img"><Image src="/miértmi.webp" alt="NEZOR alapítók" fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 100vw, 50vw" /></div>
           <div className="story-body">
             <div className="story-eyebrow">Miért mi</div>
             <h3>16 évesen indultunk. <span className="accent">Bukni nem lehetett.</span></h3>
