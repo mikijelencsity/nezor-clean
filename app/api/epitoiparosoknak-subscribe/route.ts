@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { resend, FROM_EMAIL, NOTIFY_EMAIL, isValidEmail } from '@/lib/resend';
+import { guideWelcomeEmail } from '@/lib/email-templates';
 import { sendCapiEvent } from '@/lib/meta-capi';
 import crypto from 'crypto';
 
@@ -34,15 +35,12 @@ export async function POST(request: Request) {
     await resend.emails.send({
       from: FROM_EMAIL,
       to: email,
-      subject: 'Az ingyenes útmutatód megérkezett',
-      html: `
-        <h2>Szia!</h2>
-        <p>Köszönjük a feliratkozást. Az 5 lépéses ügyfélszerzési útmutatódat itt éred el:</p>
-        <p><a href="${guideUrl}" style="display:inline-block;padding:14px 28px;background:linear-gradient(135deg,#00e5ff,#ffe600);color:#000;font-weight:700;text-decoration:none;border-radius:8px;">Megnyitom az útmutatót →</a></p>
-        <p style="font-size:13px;color:#666;">Ha nem iratkoztál fel, figyelmen kívül hagyhatod ezt az emailt.<br>
-        Leiratkozás: <a href="${siteUrl}/api/leiratkozas?email=${encodeURIComponent(email)}">kattints ide</a></p>
-        <p>— NEZOR csapata</p>
-      `,
+      subject: 'Az ingyenes útmutatód megérkezett 🎉',
+      html: guideWelcomeEmail({
+        guideUrl,
+        unsubscribeUrl: `${siteUrl}/api/leiratkozas?email=${encodeURIComponent(email)}`,
+        siteUrl,
+      }),
     });
 
     // 3. Meta CAPI — szerver oldali Lead event (deduplikálva a browser pixellel)
