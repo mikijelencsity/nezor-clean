@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/nezor-utmutato'],
+        disallow: ['/api/', '/nezor-utmutato', '/landing'],
       },
     ],
     sitemap: 'https://nezor.hu/sitemap.xml',

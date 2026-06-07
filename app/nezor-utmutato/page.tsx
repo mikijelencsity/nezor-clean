@@ -18,6 +18,10 @@ import { LeadTracker } from '@/components/nezor-utmutato/LeadTracker';
 
 export const metadata: Metadata = {
   title: 'Online jelenlét építőiparosoknak — NEZOR Útmutató',
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function UtmutatatoPage() {
