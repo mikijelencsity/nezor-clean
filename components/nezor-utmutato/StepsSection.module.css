@@ -13,6 +13,7 @@
 
 .storyLeft {
   position: relative;
+  min-width: 0;
   min-height: 480px;
   background: linear-gradient(160deg, #0a1438 0%, #1b1240 60%, #2a1a52 100%);
   display: flex;
@@ -48,6 +49,8 @@
   position: relative;
   z-index: 2;
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   box-sizing: border-box;
   padding: 48px;
   text-align: center;
@@ -159,8 +162,8 @@
     border-radius: 20px;
   }
   .storyLeft {
+    width: 100%;
     min-height: 280px;
-    aspect-ratio: 16 / 10;
   }
 }
 
