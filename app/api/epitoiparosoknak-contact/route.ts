@@ -25,6 +25,22 @@ export async function POST(request: Request) {
       `,
     });
 
+    // Ugyanabba a konzultációs audience-be kerül, mint a főoldali kapcsolat-form
+    // jelentkezői — mindkettő "vegyétek fel velem a kapcsolatot" típusú érdeklődés
+    const consultationAudienceId = process.env.RESEND_CONSULTATION_AUDIENCE_ID;
+    if (consultationAudienceId) {
+      try {
+        await resend.contacts.create({
+          email,
+          firstName: nev,
+          audienceId: consultationAudienceId,
+          unsubscribed: false,
+        });
+      } catch (audienceErr) {
+        console.error('[epitoiparosoknak-contact] audience hozzáadás sikertelen', audienceErr);
+      }
+    }
+
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error('[epitoiparosoknak-contact]', err);
