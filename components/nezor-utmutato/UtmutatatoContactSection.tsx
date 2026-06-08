@@ -74,7 +74,7 @@ export function UtmutatatoContactSection() {
                 <span className={styles.stepNum}>2</span>24 órán belül időpontot küldünk
               </li>
               <li>
-                <span className={styles.stepNum}>3</span>30 perces hívás — utána írásos javaslat
+                <span className={styles.stepNum}>3</span>20 perces hívás — utána írásos javaslat
               </li>
             </ul>
             <ul className={styles.contactBullets}>
