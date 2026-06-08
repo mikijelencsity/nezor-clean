@@ -405,7 +405,7 @@ export function HomePage() {
           </p>
 
           <div className="cta-row">
-            <a href="#kapcsolat" className="btn btn-primary">Konzultációt kérek →</a>
+            <a href="#kapcsolat" className="btn btn-primary">Több ügyfelet szeretnék →</a>
             <a href="#process" className="btn btn-ghost">Nézzük tovább!</a>
           </div>
 
@@ -895,7 +895,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <a href="#kapcsolat" className="floating-cta">Konzultációt kérek →</a>
+      <a href="#kapcsolat" className="floating-cta">Több ügyfelet szeretnék →</a>
 
       <footer className="footer">
         <div className="footer-inner">
