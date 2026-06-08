@@ -301,6 +301,8 @@ export function HomePage() {
           bar.classList.remove('show');
           if (v === 'accepted') {
             window.dispatchEvent(new Event('nezor_cookie_accepted'));
+          } else {
+            window.dispatchEvent(new Event('nezor_cookie_rejected'));
           }
         };
         const acceptBtn = document.getElementById('cookieAccept');
