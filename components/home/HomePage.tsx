@@ -730,22 +730,6 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="gift-section" id="gift">
-        <canvas className="gift-confetti" id="giftConfetti"></canvas>
-        <div className="gift-inner">
-          <div className="gift-circle">
-            <div className="gift-circle-img"><Image src="/ajandek.webp" alt="Domain matrica céges autón" fill style={{ objectFit: 'cover', objectPosition: '62% center' }} sizes="280px" /></div>
-            <span className="gift-circle-domain">Céged neve online – bármerre jársz, látnak.</span>
-          </div>
-          <div className="gift-text">
-            <div className="gift-eyebrow">Együttműködést megkezdő ajándék</div>
-            <h2 className="gift-title">A domained matricán, <span className="accent">ajándékba!</span></h2>
-            <p className="gift-sub">Amikor elindulunk, ajándékba kapod a saját domain neveddel ellátott matricát – céges autóra, kirakatra, falra, bárhová ragaszthatod. Hadd lássák, hol találnak meg online.</p>
-            <a href="#kapcsolat" className="gift-highlight">Vágjunk bele! →</a>
-          </div>
-        </div>
-      </section>
-
       <section className="light-section">
         <div className="grid-bg"></div>
         <div className="glow glow-blue" style={{ top: '10%', right: '-150px' }}></div>
