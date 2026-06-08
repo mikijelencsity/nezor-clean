@@ -151,6 +151,7 @@
 @media (max-width: 900px) {
   .storyCard {
     grid-template-columns: 1fr;
+    border-radius: 20px;
   }
   .storyLeft {
     min-height: 280px;
@@ -158,23 +159,49 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .storyLeftContent {
-    padding: 28px 20px;
+    padding: 24px 18px;
   }
   .storyBody {
-    padding: 28px 20px;
-  }
-  .pullStat {
-    font-size: 2.8rem;
-  }
-  .pullStatLabel {
-    font-size: 15px;
-  }
-  .storyBody p {
-    font-size: 15px;
+    padding: 26px 18px;
   }
   .pullQuoteText {
+    margin-top: 20px;
+    padding-left: 14px;
+  }
+  .pullQuoteBox {
+    padding: 14px 16px;
+    margin: 16px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .storyCard {
+    border-radius: 16px;
+  }
+  .storyLeftContent {
+    padding: 22px 16px;
+  }
+  .storyBody {
+    padding: 22px 16px;
+  }
+  .pullStat {
+    font-size: 2.6rem;
+  }
+  .pullStatLabel {
+    font-size: 14px;
+  }
+  .storyBody h3 {
+    font-size: 1.4rem;
+  }
+  .storyBody p {
+    font-size: 14px;
+  }
+  .pullQuoteText {
+    font-size: 0.95rem;
+  }
+  .pullQuoteBox p {
     font-size: 1rem;
   }
 }

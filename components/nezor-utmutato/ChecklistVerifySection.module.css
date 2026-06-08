@@ -166,8 +166,38 @@
 }
 
 @media (max-width: 600px) {
+  .clItem {
+    padding: 16px 18px;
+    gap: 12px;
+    border-radius: 14px;
+  }
+  .clCheck {
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
+  }
+  .clBody strong {
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+  .clTip {
+    font-size: 13px;
+    line-height: 1.55;
+    padding: 7px 10px;
+  }
   .clResult {
     padding: 24px 20px;
+  }
+  .clCtaBox {
+    padding: 28px 24px;
+    border-radius: 16px;
+  }
+  .clCtaBox h3 {
+    font-size: 1.5rem;
+  }
+  .clCtaBox p {
+    font-size: 16px;
+    margin-bottom: 18px;
   }
 }
 
@@ -175,8 +205,14 @@
   .clResultScore {
     font-size: 2.2rem;
   }
+  .clItem {
+    padding: 14px 14px;
+  }
   .clBody strong {
-    font-size: 16px;
+    font-size: 15px;
+  }
+  .clTip {
+    font-size: 12.5px;
   }
   .clResult {
     padding: 22px 18px;
@@ -186,5 +222,15 @@
   }
   .clResultText {
     font-size: 15px;
+  }
+  .clCtaBox {
+    padding: 22px 18px;
+    margin-top: 28px;
+  }
+  .clCtaBox h3 {
+    font-size: 1.3rem;
+  }
+  .clCtaBox p {
+    font-size: 14px;
   }
 }

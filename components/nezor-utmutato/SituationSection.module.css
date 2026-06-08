@@ -140,6 +140,16 @@
   }
 }
 
+@media (max-width: 600px) {
+  .painGrid {
+    gap: 14px;
+  }
+  .painCard {
+    padding: 26px 22px;
+    border-radius: 16px;
+  }
+}
+
 @media (max-width: 480px) {
   .partDivider {
     padding: 60px 16px 56px;
@@ -150,11 +160,16 @@
   .partTagline {
     font-size: 1rem;
   }
+  .painCard {
+    padding: 22px 18px;
+    border-radius: 14px;
+  }
   .painNum {
     font-size: 2.2rem;
+    margin-bottom: 6px;
   }
   .painCard h3 {
-    font-size: 1rem;
+    font-size: 1.05rem;
   }
   .painCard p {
     font-size: 14px;

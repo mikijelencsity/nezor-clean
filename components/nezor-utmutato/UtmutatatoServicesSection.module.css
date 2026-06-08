@@ -134,11 +134,26 @@
 }
 
 @media (max-width: 600px) {
+  .servicesGrid {
+    gap: 16px;
+  }
+  .serviceCard {
+    border-radius: 18px;
+  }
+  .serviceIconWrap {
+    padding: 24px 22px 18px;
+    gap: 14px;
+  }
+  .serviceBody {
+    padding: 18px 22px 24px;
+  }
   .priceBox {
     width: 100%;
     margin-left: auto;
     transform: none;
-    padding: 38px 24px;
+    padding: 32px 22px;
+    border-radius: 18px;
+    gap: 20px;
   }
 }
 
@@ -149,16 +164,19 @@
   .serviceCard h3 {
     font-size: 1.3rem;
   }
+  .serviceLead {
+    font-size: 1.05rem;
+  }
   .serviceBody p {
-    font-size: 15px;
+    font-size: 14px;
   }
   .priceBox {
-    padding: 36px 24px;
+    padding: 28px 18px;
   }
   .priceBoxText strong {
     font-size: 1.5rem;
   }
   .priceBoxText p {
-    font-size: 15px;
+    font-size: 14px;
   }
 }

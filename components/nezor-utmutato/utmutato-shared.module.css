@@ -172,11 +172,24 @@
 @media (max-width: 600px) {
   .lightSection,
   .darkSection {
-    padding: 72px 20px;
+    padding: 64px 14px;
+  }
+  .container {
+    padding: 0 14px;
   }
   .btn {
     width: 100%;
     justify-content: center;
     font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .lightSection,
+  .darkSection {
+    padding: 52px 10px;
+  }
+  .container {
+    padding: 0 10px;
   }
 }

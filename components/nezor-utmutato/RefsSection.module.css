@@ -89,17 +89,32 @@
 @media (max-width: 600px) {
   .refsGrid {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .refCard {
+    border-radius: 18px;
+  }
+  .refBody {
+    padding: 20px 22px;
   }
 }
 
 @media (max-width: 480px) {
   .refImg {
     font-size: 2rem;
+    aspect-ratio: 16 / 9;
+  }
+  .refBody {
+    padding: 18px 18px;
   }
   .refBody h3 {
     font-size: 1.2rem;
   }
   .refBody p {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .refUrl {
     font-size: 15px;
   }
 }
