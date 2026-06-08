@@ -57,10 +57,10 @@ export async function POST(request: Request) {
       clientUserAgent,
     });
 
-    // 4. Értesítő nekünk
+    // 4. Értesítő nekünk (két címzettnek)
     await resend.emails.send({
       from: FROM_EMAIL,
-      to: NOTIFY_EMAIL,
+      to: [NOTIFY_EMAIL, 'mullerdanielev@gmail.com'],
       subject: `[NEZOR] Új feliratkozó — ${email}`,
       html: `<p>Új feliratkozó: <strong>${email}</strong></p>`,
     });
