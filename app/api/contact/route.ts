@@ -23,16 +23,18 @@ export async function POST(request: Request) {
 
     // Konzultációra jelentkezők külön Resend audience-be kerülnek
     // (elkülönítve az ingyenes útmutatóra feliratkozóktól)
-    const consultationAudienceId = process.env.RESEND_CONSULTATION_AUDIENCE_ID ?? 'b917e4be-6c72-407e-bc4d-7bd923578252';
-    try {
-      await resend.contacts.create({
-        email,
-        firstName: nev,
-        audienceId: consultationAudienceId,
-        unsubscribed: false,
-      });
-    } catch (audienceErr) {
-      console.error('[contact] audience hozzáadás sikertelen', audienceErr);
+    const consultationAudienceId = process.env.RESEND_CONSULTATION_AUDIENCE_ID;
+    if (consultationAudienceId) {
+      try {
+        await resend.contacts.create({
+          email,
+          firstName: nev,
+          audienceId: consultationAudienceId,
+          unsubscribed: false,
+        });
+      } catch (audienceErr) {
+        console.error('[contact] audience hozzáadás sikertelen', audienceErr);
+      }
     }
 
     return NextResponse.json({ ok: true });
