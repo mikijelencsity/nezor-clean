@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Image from 'next/image';
 import './home-page.css';
 import { VideoPlayer } from './VideoPlayer';
+import { NavDrawer } from '@/components/ui/NavDrawer';
 
 export function HomePage() {
   useEffect(() => {
@@ -383,6 +384,8 @@ export function HomePage() {
           <span className="pre-word pre-right">készen?</span>
         </div>
       </div>
+
+      {false && <NavDrawer />}
 
       <div className="scroll-progress" id="scrollProgress"></div>
 
