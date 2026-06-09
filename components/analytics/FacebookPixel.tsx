@@ -55,12 +55,6 @@ export function FacebookPixel() {
   return null;
 }
 
-/** Hívd meg feliratkozáskor — Lead konverzió */
-export function trackLead(email?: string) {
-  if (!PIXEL_ID || typeof window === 'undefined' || !window.fbq) return;
-  window.fbq('track', 'Lead', email ? { em: email } : {});
-}
-
 /** Általános esemény küldés */
 export function trackEvent(event: string, params?: Record<string, unknown>) {
   if (!PIXEL_ID || typeof window === 'undefined' || !window.fbq) return;

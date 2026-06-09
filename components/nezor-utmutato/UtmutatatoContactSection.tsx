@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { GridBg } from '@/components/ui/GridBg';
+import { CalBooker } from './CalBooker';
 import shared from './utmutato-shared.module.css';
 import styles from './UtmutatatoContactSection.module.css';
 
@@ -8,34 +9,34 @@ export function UtmutatatoContactSection() {
   const [nev, setNev] = useState('');
   const [email, setEmail] = useState('');
   const [telefon, setTelefon] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [sent, setSent] = useState(false);
   const [error, setError] = useState('');
+  const [showCal, setShowCal] = useState(false);
+  const [booked, setBooked] = useState(false);
 
-  const handleSubmit = async (e: React.MouseEvent) => {
+  const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (!nev || !email) {
+    if (!nev || !email || !telefon) {
       setError('Kérjük töltsd ki a kötelező mezőket!');
       return;
     }
-    setLoading(true);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError('Érvénytelen e-mail cím.');
+      return;
+    }
     setError('');
+    setShowCal(true);
+  };
+
+  const handleBookingSuccess = async () => {
+    setBooked(true);
     try {
-      const res = await fetch('/api/epitoiparosoknak-contact', {
+      await fetch('/api/epitoiparosoknak-contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nev, email, telefon: telefon || undefined }),
       });
-      const data = await res.json();
-      if (data.ok) {
-        setSent(true);
-      } else {
-        setError('Hiba történt. Próbáld újra!');
-      }
     } catch {
-      setError('Hiba történt. Próbáld újra!');
-    } finally {
-      setLoading(false);
+      // szilensen kezeljük, a foglalás már sikerült
     }
   };
 
@@ -53,6 +54,15 @@ export function UtmutatatoContactSection() {
           Mondd el, hol tartasz most —{' '}
           <span className={shared.accentDark}>megmutatjuk a következő lépést.</span>
         </h2>
+        {booked ? (
+          <div className={styles.successWrap}>
+            <div style={{ fontSize: '4rem', marginBottom: '20px' }}>✓</div>
+            <h3 style={{ color: '#0f1226', marginBottom: '12px' }}>Foglalás kész!</h3>
+            <p style={{ color: '#5a6079', fontSize: '17px', lineHeight: 1.6 }}>
+              Visszaigazolót küldtünk az e-mail-edre. Hamarosan találkozunk!
+            </p>
+          </div>
+        ) : (
         <div className={styles.contactWrap}>
           <div className={styles.contactLeft}>
             <div className={styles.contactShapes}>
@@ -69,33 +79,27 @@ export function UtmutatatoContactSection() {
             </p>
             <ul className={styles.contactStepsList}>
               <li>
-                <span className={styles.stepNum}>1</span>Kitöltöd a formot — 30 másodperc
+                <span className={styles.stepNum}>1</span>Add meg a neved és az e-mail-ed
               </li>
               <li>
-                <span className={styles.stepNum}>2</span>24 órán belül időpontot küldünk
+                <span className={styles.stepNum}>2</span>Válassz egy szabad időpontot
               </li>
               <li>
                 <span className={styles.stepNum}>3</span>20 perces hívás — utána írásos javaslat
               </li>
             </ul>
             <ul className={styles.contactBullets}>
-              <li>24 órán belüli válasz</li>
+              <li>Azonnali visszaigazolás</li>
               <li>Nincs kötelezettség</li>
               <li>Csak őszinte beszélgetés</li>
             </ul>
           </div>
           <div className={styles.contactRight}>
-            {sent ? (
-              <div style={{ textAlign: 'center', padding: '48px 0' }}>
-                <div style={{ fontSize: '3rem', marginBottom: '16px' }}>✓</div>
-                <h4 style={{ color: '#0f1226', marginBottom: '12px' }}>Megkaptuk!</h4>
-                <p style={{ color: '#5a6079', fontSize: '15px', lineHeight: 1.6 }}>
-                  24 órán belül visszaírunk a megadott email-re.
-                </p>
-              </div>
+            {showCal && !booked ? (
+              <CalBooker nev={nev} email={email} onSuccess={handleBookingSuccess} />
             ) : (
               <>
-                <h4>Foglalok egy ingyenes egyeztetést</h4>
+                <h4>Foglalj ingyenes egyeztetést</h4>
                 <div className={styles.formGrid}>
                   <div className={styles.field}>
                     <label>Keresztneved *</label>
@@ -110,13 +114,13 @@ export function UtmutatatoContactSection() {
                     <label>E-mail-cím *</label>
                     <input
                       type="email"
-                      placeholder="te@cegednev.hu"
+                      placeholder="te@example.hu"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                   <div className={styles.field}>
-                    <label>Telefonszám <span style={{ fontWeight: 400, opacity: 0.6 }}>(opcionális)</span></label>
+                    <label>Telefonszám *</label>
                     <input
                       type="tel"
                       placeholder="+36 30 123 4567"
@@ -131,13 +135,11 @@ export function UtmutatatoContactSection() {
                 <button
                   className={styles.formSubmit}
                   onClick={handleSubmit}
-                  disabled={loading}
                 >
-                  {loading ? 'Küldés...' : 'Foglalok egy ingyenes egyeztetést →'}
+                  Időpontot foglalok →
                 </button>
                 <p className={styles.formFoot}>
-                  Az adataidat csak veled fogjuk használni — sehova nem továbbítjuk. 24 órán belül
-                  visszaírunk.
+                  Az adataidat csak veled fogjuk használni — sehova nem továbbítjuk.
                 </p>
                 <p className={styles.formAlt}>
                   vagy ha gyorsabb így:{' '}
@@ -147,6 +149,7 @@ export function UtmutatatoContactSection() {
             )}
           </div>
         </div>
+        )}
       </div>
     </section>
   );

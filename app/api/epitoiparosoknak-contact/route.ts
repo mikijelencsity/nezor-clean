@@ -6,7 +6,7 @@ export async function POST(request: Request) {
     const { nev, email, telefon, uzenet } = await request.json() as {
       nev: string;
       email: string;
-      telefon?: string;
+      telefon: string;
       uzenet?: string;
     };
 
