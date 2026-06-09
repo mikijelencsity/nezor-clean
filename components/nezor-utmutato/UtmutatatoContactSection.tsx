@@ -7,6 +7,7 @@ import styles from './UtmutatatoContactSection.module.css';
 export function UtmutatatoContactSection() {
   const [nev, setNev] = useState('');
   const [email, setEmail] = useState('');
+  const [telefon, setTelefon] = useState('');
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState('');
@@ -23,7 +24,7 @@ export function UtmutatatoContactSection() {
       const res = await fetch('/api/epitoiparosoknak-contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nev, email }),
+        body: JSON.stringify({ nev, email, telefon: telefon || undefined }),
       });
       const data = await res.json();
       if (data.ok) {
@@ -112,6 +113,15 @@ export function UtmutatatoContactSection() {
                       placeholder="te@cegednev.hu"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+                  <div className={styles.field}>
+                    <label>Telefonszám <span style={{ fontWeight: 400, opacity: 0.6 }}>(opcionális)</span></label>
+                    <input
+                      type="tel"
+                      placeholder="+36 30 123 4567"
+                      value={telefon}
+                      onChange={(e) => setTelefon(e.target.value)}
                     />
                   </div>
                 </div>

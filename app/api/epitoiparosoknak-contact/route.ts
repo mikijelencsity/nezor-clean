@@ -3,9 +3,10 @@ import { resend, FROM_EMAIL, NOTIFY_EMAIL, esc, isValidEmail } from '@/lib/resen
 
 export async function POST(request: Request) {
   try {
-    const { nev, email, uzenet } = await request.json() as {
+    const { nev, email, telefon, uzenet } = await request.json() as {
       nev: string;
       email: string;
+      telefon?: string;
       uzenet?: string;
     };
 
@@ -21,6 +22,7 @@ export async function POST(request: Request) {
         <h2>Érdeklődő az útmutató oldalról</h2>
         <p><strong>Név:</strong> ${esc(nev)}</p>
         <p><strong>Email:</strong> ${esc(email)}</p>
+        ${telefon ? `<p><strong>Telefon:</strong> ${esc(telefon)}</p>` : ''}
         ${uzenet ? `<p><strong>Üzenet:</strong> ${esc(uzenet)}</p>` : ''}
       `,
     });
