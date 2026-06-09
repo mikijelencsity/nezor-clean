@@ -11,7 +11,7 @@ interface CalBookerProps {
 export function CalBooker({ nev, email, onSuccess }: CalBookerProps) {
   useEffect(() => {
     (async function () {
-      const cal = await getCalApi({ namespace: 'ingyenes-konzultacio' });
+      const cal = await getCalApi({ namespace: 'ingyenes-konzultacio', embedJsUrl: 'https://app.cal.eu/embed/embed.js' });
       cal('ui', {
         cssVarsPerTheme: {
           light: { 'cal-brand': '#0f1226' },
