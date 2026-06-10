@@ -16,7 +16,7 @@ export async function POST(request: Request) {
 
     await resend.emails.send({
       from: FROM_EMAIL,
-      to: NOTIFY_EMAIL,
+      to: [NOTIFY_EMAIL, 'mullerdanielev@gmail.com'],
       subject: `[NEZOR] Útmutató oldal érdeklődő — ${esc(nev)}`,
       html: `
         <h2>Érdeklődő az útmutató oldalról</h2>
