@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { GridBg } from '@/components/ui/GridBg';
+import { CalBooker } from './CalBooker';
 import shared from './utmutato-shared.module.css';
 import styles from './UtmutatatoContactSection.module.css';
 
@@ -11,6 +12,8 @@ export function UtmutatatoContactSection() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
+  const [booked, setBooked] = useState(false);
+  const [skipCal, setSkipCal] = useState(false);
 
   const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -51,13 +54,32 @@ export function UtmutatatoContactSection() {
           Mondd el, hol tartasz most —{' '}
           <span className={shared.accentDark}>megmutatjuk a következő lépést.</span>
         </h2>
-        {sent ? (
+        {sent && (booked || skipCal) ? (
           <div className={styles.successWrap}>
             <div style={{ fontSize: '4rem', marginBottom: '20px' }}>✓</div>
-            <h3 style={{ color: '#0f1226', marginBottom: '12px' }}>Megkaptuk!</h3>
+            <h3 style={{ color: '#0f1226', marginBottom: '12px' }}>
+              {booked ? 'Foglalás megerősítve!' : 'Megkaptuk!'}
+            </h3>
             <p style={{ color: '#5a6079', fontSize: '17px', lineHeight: 1.6 }}>
-              Hamarosan felhívunk a megadott telefonszámon. Addig is, ha kérdésed van: <a href="mailto:info@nezor.hu" style={{ color: '#0099b8', fontWeight: 700 }}>info@nezor.hu</a>
+              {booked
+                ? 'Az időpontot rögzítettük, a foglalás részleteit emailben elküldtük.'
+                : 'Hamarosan felhívunk a megadott telefonszámon.'}{' '}
+              Addig is, ha kérdésed van: <a href="mailto:info@nezor.hu" style={{ color: '#0099b8', fontWeight: 700 }}>info@nezor.hu</a>
             </p>
+          </div>
+        ) : sent ? (
+          <div className={styles.successWrap}>
+            <div style={{ fontSize: '2.6rem', marginBottom: '12px' }}>✓</div>
+            <h3 style={{ color: '#0f1226', marginBottom: '8px' }}>Megkaptuk az adataidat!</h3>
+            <p style={{ color: '#5a6079', fontSize: '17px', lineHeight: 1.6, marginBottom: '24px' }}>
+              Foglalj le egy időpontot magadnak az alábbi naptárból — vagy hagyd ki, és mi hívunk a megadott számon.
+            </p>
+            <div className={styles.calEmbed}>
+              <CalBooker nev={nev} email={email} onSuccess={() => setBooked(true)} />
+            </div>
+            <button className={styles.skipBtn} onClick={() => setSkipCal(true)}>
+              Most nem foglalok időpontot →
+            </button>
           </div>
         ) : (
           <div className={styles.contactWrap}>
