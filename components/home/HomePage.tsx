@@ -2,7 +2,6 @@
 import { useEffect } from 'react';
 import Image from 'next/image';
 import './home-page.css';
-import { VideoPlayer } from './VideoPlayer';
 import { NavDrawer } from '@/components/ui/NavDrawer';
 
 export function HomePage() {
@@ -413,8 +412,6 @@ export function HomePage() {
             <a href="#kapcsolat" className="btn btn-primary">Több ügyfelet szeretnék →</a>
             <a href="#process" className="btn btn-ghost">Nézzük tovább!</a>
           </div>
-
-          <VideoPlayer />
         </div>
       </section>
 

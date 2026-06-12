@@ -8,34 +8,39 @@
   box-shadow: 0 40px 100px rgba(0, 150, 200, 0.25), 0 0 0 1px rgba(255, 230, 0, 0.2);
 }
 
-.calEmbed {
-  width: 100%;
-  height: 600px;
-  border-radius: 16px;
-  overflow: hidden;
-  margin-bottom: 24px;
+.calStep {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 40px;
+  background: #fff;
+  border-radius: 28px;
+  box-shadow: 0 40px 100px rgba(0, 150, 200, 0.25), 0 0 0 1px rgba(255, 230, 0, 0.2);
 }
 
-.skipBtn {
-  background: none;
-  border: none;
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 700;
-  color: #9aa3b8;
-  cursor: pointer;
-  transition: color 0.2s;
+.calEmbed {
+  width: 100%;
+  height: 750px;
+  border-radius: 16px;
+  overflow: hidden;
 }
-.skipBtn:hover {
-  color: #0099b8;
+
+.calEmbed :global(iframe) {
+  width: 100% !important;
+  height: 100% !important;
+  border: none;
 }
 
 @media (max-width: 600px) {
-  .calEmbed {
-    height: 520px;
-  }
   .successWrap {
     padding: 40px 20px;
+  }
+  .calStep {
+    padding: 16px 8px;
+    border-radius: 20px;
+  }
+  .calEmbed {
+    height: 80vh;
   }
 }
 
@@ -231,7 +236,7 @@
 
 .formGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 18px;
   margin-bottom: 22px;
 }
@@ -314,9 +319,6 @@
   .contactLeft,
   .contactRight {
     padding: 44px 32px;
-  }
-  .formGrid {
-    grid-template-columns: 1fr;
   }
 }
 

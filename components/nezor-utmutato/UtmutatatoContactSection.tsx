@@ -9,15 +9,16 @@ export function UtmutatatoContactSection() {
   const [nev, setNev] = useState('');
   const [email, setEmail] = useState('');
   const [telefon, setTelefon] = useState('');
+  const [tevekenyseg, setTevekenyseg] = useState('');
+  const [cegnev, setCegnev] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [booked, setBooked] = useState(false);
-  const [skipCal, setSkipCal] = useState(false);
 
   const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
-    if (!nev || !email || !telefon) {
+    if (!nev || !email || !telefon || !tevekenyseg || !cegnev) {
       setError('Kérjük töltsd ki a kötelező mezőket!');
       return;
     }
@@ -31,7 +32,7 @@ export function UtmutatatoContactSection() {
       await fetch('/api/epitoiparosoknak-contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nev, email, telefon }),
+        body: JSON.stringify({ nev, email, telefon, tevekenyseg, cegnev }),
       });
     } catch {
       // szilensen kezeljük
@@ -54,32 +55,25 @@ export function UtmutatatoContactSection() {
           Mondd el, hol tartasz most —{' '}
           <span className={shared.accentDark}>megmutatjuk a következő lépést.</span>
         </h2>
-        {sent && (booked || skipCal) ? (
+        {sent && booked ? (
           <div className={styles.successWrap}>
             <div style={{ fontSize: '4rem', marginBottom: '20px' }}>✓</div>
-            <h3 style={{ color: '#0f1226', marginBottom: '12px' }}>
-              {booked ? 'Foglalás megerősítve!' : 'Megkaptuk!'}
-            </h3>
+            <h3 style={{ color: '#0f1226', marginBottom: '12px' }}>Foglalás megerősítve!</h3>
             <p style={{ color: '#5a6079', fontSize: '17px', lineHeight: 1.6 }}>
-              {booked
-                ? 'Az időpontot rögzítettük, a foglalás részleteit emailben elküldtük.'
-                : 'Hamarosan felhívunk a megadott telefonszámon.'}{' '}
-              Addig is, ha kérdésed van: <a href="mailto:info@nezor.hu" style={{ color: '#0099b8', fontWeight: 700 }}>info@nezor.hu</a>
+              Az időpontot rögzítettük, a foglalás részleteit emailben elküldtük. Addig is, ha
+              kérdésed van: <a href="mailto:info@nezor.hu" style={{ color: '#0099b8', fontWeight: 700 }}>info@nezor.hu</a>
             </p>
           </div>
         ) : sent ? (
-          <div className={styles.successWrap}>
+          <div className={styles.calStep}>
             <div style={{ fontSize: '2.6rem', marginBottom: '12px' }}>✓</div>
             <h3 style={{ color: '#0f1226', marginBottom: '8px' }}>Megkaptuk az adataidat!</h3>
             <p style={{ color: '#5a6079', fontSize: '17px', lineHeight: 1.6, marginBottom: '24px' }}>
-              Foglalj le egy időpontot magadnak az alábbi naptárból — vagy hagyd ki, és mi hívunk a megadott számon.
+              Utolsó lépés: válassz egy neked megfelelő időpontot az alábbi naptárból.
             </p>
             <div className={styles.calEmbed}>
               <CalBooker nev={nev} email={email} onSuccess={() => setBooked(true)} />
             </div>
-            <button className={styles.skipBtn} onClick={() => setSkipCal(true)}>
-              Most nem foglalok időpontot →
-            </button>
           </div>
         ) : (
           <div className={styles.contactWrap}>
@@ -117,10 +111,10 @@ export function UtmutatatoContactSection() {
               <h4>Kérj ingyenes egyeztetést</h4>
               <div className={styles.formGrid}>
                 <div className={styles.field}>
-                  <label>Keresztneved *</label>
+                  <label>Teljes név *</label>
                   <input
                     type="text"
-                    placeholder="Pl. László"
+                    placeholder="Pl. Kovács László"
                     value={nev}
                     onChange={(e) => setNev(e.target.value)}
                   />
@@ -143,6 +137,24 @@ export function UtmutatatoContactSection() {
                     onChange={(e) => setTelefon(e.target.value)}
                   />
                 </div>
+                <div className={styles.field}>
+                  <label>Mivel foglalkozik? *</label>
+                  <input
+                    type="text"
+                    placeholder="Pl. festő, kőműves, villanyszerelő"
+                    value={tevekenyseg}
+                    onChange={(e) => setTevekenyseg(e.target.value)}
+                  />
+                </div>
+                <div className={styles.field}>
+                  <label>Egyéni vállalkozás vagy cégnév *</label>
+                  <input
+                    type="text"
+                    placeholder="Pl. Kovács László EV vagy Kovács Kft."
+                    value={cegnev}
+                    onChange={(e) => setCegnev(e.target.value)}
+                  />
+                </div>
               </div>
               {error && (
                 <p style={{ color: '#ef4444', fontSize: '13px', marginBottom: '12px' }}>{error}</p>
@@ -152,7 +164,7 @@ export function UtmutatatoContactSection() {
                 onClick={handleSubmit}
                 disabled={loading}
               >
-                {loading ? 'Küldés...' : 'Visszahívást kérek →'}
+                {loading ? 'Küldés...' : 'Tovább az időpontfoglaláshoz →'}
               </button>
               <p className={styles.formFoot}>
                 Az adataidat csak veled fogjuk használni — sehova nem továbbítjuk.
