@@ -319,7 +319,7 @@ export function EpitoipariWeboldalPage() {
 
           <div className={styles.heroPreview}>
             <div className={styles.heroImageWrap}>
-              <Image src="/epitoipari-hero-v2.png" alt="Építőipari weboldal előnézet laptopon és telefonon" fill style={{ objectFit: 'contain' }} sizes="(max-width: 900px) 90vw, 560px" priority />
+              <Image src="/epitoipari-hero-v2.webp" alt="Építőipari weboldal előnézet laptopon és telefonon" fill style={{ objectFit: 'contain' }} sizes="(max-width: 900px) 90vw, 560px" priority />
             </div>
           </div>
         </div>
