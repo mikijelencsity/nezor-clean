@@ -13,7 +13,7 @@ const utvonal = [
 ];
 
 const STEP_H = 640;
-const STEP_H_MOBILE = 480;
+const STEP_H_MOBILE = 620;
 const GUTTER_W = 100;
 
 function blobPoint(i: number, mobile: boolean) {
@@ -127,16 +127,25 @@ const mintak = [
   {
     id: 'egyszeru', nev: 'Alap weboldal', tier: 'alap' as const, headline: 'Tetőfedés, bádogozás, javítás', cta: 'Ajánlatot kérek',
     leiras: 'Ha gyorsan kell egy normális oldal, amit el tudsz küldeni az érdeklődőknek.',
+    elonezetUrl: 'https://mikijelencsity.github.io/epitoipari-oldal/',
   },
   {
-    id: 'referencias', nev: 'Referenciás weboldal', tier: 'premium' as const, headline: 'Munkáink', cta: 'Munkáim megnézése',
+    id: 'referencias', nev: 'Többoldalas weboldal', tier: 'premium' as const, headline: 'Munkáink', cta: 'Munkáim megnézése',
     leiras: 'Ha a munkáidnak kell meggyőzniük az érdeklődőt. Képek, szolgáltatások, ajánlatkérés egy helyen.',
+    elonezetUrl: 'https://mikijelencsity.github.io/Altalanos/index.html',
   },
   {
-    id: 'premium', nev: 'Komolyabb céges oldal', tier: 'premium' as const, headline: 'Építőipari kivitelezés', cta: 'Ajánlatot kérek',
+    id: 'premium', nev: 'Többoldalas weboldal', tier: 'premium' as const, headline: 'Építőipari kivitelezés', cta: 'Ajánlatot kérek',
     leiras: 'Ha erősebb vállalkozói megjelenést szeretnél, több tartalommal és profibb hatással.',
+    elonezetUrl: 'https://mullerdanielev-nezor.github.io/k-m-ves-weboldal/',
   },
 ];
+
+const mintaMockupKepek: Record<string, string> = {
+  egyszeru: '/epitoipari-mockup-alap.webp',
+  referencias: '/epitoipari-mockup-referencias.webp',
+  premium: '/epitoipari-mockup-premium.webp',
+};
 
 // TODO: cseréld ki valódi referencia-oldal screenshotokra
 const referenciaKepek = [
@@ -145,8 +154,7 @@ const referenciaKepek = [
   { id: 'ref-3', nev: 'Estur stílus', kep: '/referencia-3.webp' },
 ];
 
-// TODO: cseréld ki valódi sablon-screenshotokra, ha megvannak a 3 kép
-const sablonElokepek = ['/referencia-1.webp', '/referencia-2.webp', '/referencia-3.webp'];
+const sablonElokepek = ['/epitoipari-mockup-alap.webp', '/epitoipari-mockup-referencias.webp', '/epitoipari-mockup-premium.webp'];
 
 const csomagok = [
   {
@@ -279,10 +287,6 @@ export function EpitoipariWeboldalPage() {
     setSent(true);
   };
 
-  const mintaLabel = minta === SAJAT_ELKEPZELES ? 'Saját elképzelés' : valasztottMinta?.nev;
-  const osszegzes = minta || csomag
-    ? [mintaLabel, valasztottCsomag?.nev].filter(Boolean).join(' · ')
-    : '';
 
   return (
     <section className={styles.page}>
@@ -291,19 +295,47 @@ export function EpitoipariWeboldalPage() {
 
         {/* HERO */}
         <div className={styles.hero}>
+          <div className={styles.heroBlobTl} aria-hidden="true" />
+          <div className={styles.heroBlobBr} aria-hidden="true" />
+          <div className={styles.heroDots} aria-hidden="true" />
+
           <div className={styles.heroText}>
             <span className={styles.label}>ÉPÍTŐIPARI VÁLLALKOZÓKNAK</span>
             <h1 className={styles.h1}>
-              Ha a szolgáltatásodra<br />
-              keresnek, megtalálnak?
+              Aki rád keres,<br />
+              az téged válasszon.
             </h1>
-            <p className={styles.heroKiemelt}>Ha nem, ez neked szól!</p>
+            <p className={styles.heroSub}>
+              Modern weboldal, Google megjelenés és online ügyfélszerzés szakembereknek, akik
+              komolyabb képet akarnak mutatni a megrendelők felé.
+            </p>
+            <div className={styles.heroCtas}>
+              <button type="button" className={styles.ctaPrimary} onClick={() => scrollTo(formRef)}>
+                Kérek egy gyors weboldal tervet →
+              </button>
+            </div>
+            <p className={styles.heroTrust}>Ingyenes egyeztetés · 24 órán belüli válasz · Építőiparra szabva</p>
           </div>
 
           <div className={styles.heroPreview}>
             <div className={styles.heroImageWrap}>
-              <Image src="/epitoipari-hero.webp" alt="Építőipari weboldal előnézet" fill style={{ objectFit: 'contain' }} sizes="(max-width: 900px) 90vw, 560px" priority />
+              <Image src="/epitoipari-hero-v2.png" alt="Építőipari weboldal előnézet laptopon és telefonon" fill style={{ objectFit: 'contain' }} sizes="(max-width: 900px) 90vw, 560px" priority />
             </div>
+          </div>
+        </div>
+
+        <div className={styles.heroBenefits}>
+          <div className={styles.heroBenefitCard}>
+            <h3>Weboldal</h3>
+            <p>Ahol a megrendelő látja, hogy komoly vagy.</p>
+          </div>
+          <div className={styles.heroBenefitCard}>
+            <h3>Google Cégprofil</h3>
+            <p>Hogy akkor is megtaláljanak, ha nem ismernek.</p>
+          </div>
+          <div className={styles.heroBenefitCard}>
+            <h3>Több érdeklődő</h3>
+            <p>Nem csak szép oldal, hanem munka is jöjjön belőle.</p>
           </div>
         </div>
 
@@ -388,23 +420,36 @@ export function EpitoipariWeboldalPage() {
                 >
                   {m.tier === 'premium' && <span className={styles.mintaTierBadge}>★ Prémium</span>}
                   <div className={`${styles.mintaPreview} ${styles[`mintaPreview_${m.id}`]}`}>
-                    <div className={styles.mockupBar}>
-                      <span /><span /><span />
-                    </div>
-                    <div className={styles.mintaPreviewBody}>
-                      <h4>{m.headline}</h4>
-                      <div className={styles.mintaPreviewGrid}>
-                        <span /><span /><span />
-                        {m.id === 'referencias' && (<><span /><span /><span /></>)}
+                    {mintaMockupKepek[m.id] ? (
+                      <div className={styles.mintaPreviewImgWrap}>
+                        <Image
+                          src={mintaMockupKepek[m.id]}
+                          alt={m.nev}
+                          fill
+                          style={{ objectFit: 'contain' }}
+                          className={styles.mintaPreviewImg}
+                        />
                       </div>
-                      <div className={styles.mintaPreviewCta}>{m.cta}</div>
-                    </div>
+                    ) : (
+                      <>
+                        <div className={styles.mockupBar}>
+                          <span /><span /><span />
+                        </div>
+                        <div className={styles.mintaPreviewBody}>
+                          <h4>{m.headline}</h4>
+                          <div className={styles.mintaPreviewGrid}>
+                            <span /><span /><span />
+                          </div>
+                          <div className={styles.mintaPreviewCta}>{m.cta}</div>
+                        </div>
+                      </>
+                    )}
                   </div>
                   <h3>{m.nev}</h3>
                   <p>{m.leiras}</p>
-                  <button type="button" className={styles.mintaBtn} onClick={() => { setUt('gyors'); handleMintaValasztas(m.id); }}>
-                    {minta === m.id ? '✓ Kiválasztva' : 'Ezzel indulok →'}
-                  </button>
+                  <a href={m.elonezetUrl} target="_blank" rel="noopener noreferrer" className={styles.mintaBtn}>
+                    Megtekintem →
+                  </a>
                 </div>
               ))}
             </div>
@@ -486,10 +531,6 @@ export function EpitoipariWeboldalPage() {
                 ))}
               </div>
               <p className={styles.formStepLabel}>{formStep}. / {FORM_LEPESEK} lépés</p>
-
-              <div className={styles.summary}>
-                {osszegzes ? <>Ezt választottad: <strong>{osszegzes}</strong></> : 'Válaszd ki a csomagot és a stílust a formban.'}
-              </div>
 
               <input
                 type="text"
@@ -639,12 +680,6 @@ export function EpitoipariWeboldalPage() {
                 )}
               </div>
               <p className={styles.formFoot}>Az adataidat csak kapcsolatfelvételhez használjuk.</p>
-
-              <div className={styles.miniTrust}>
-                <span>Nem kell kész szöveggel érkezned</span>
-                <span>Saját képekkel erősebb, de azok nélkül is el tudunk indulni</span>
-                <span>Segítünk összerakni, mit érdemes kirakni</span>
-              </div>
             </>
           )}
         </div>

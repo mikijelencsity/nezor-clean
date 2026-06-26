@@ -45,6 +45,20 @@ export async function POST(request: Request) {
       `,
     });
 
+    try {
+      await resend.emails.send({
+        from: FROM_EMAIL,
+        to: [email],
+        subject: 'Köszönjük a megrendelést! — NEZOR',
+        html: `
+          <h2>Köszönjük, hogy elküldte az adatait!</h2>
+          <p>Nemsokára küldjük a weboldala első verzióját. Addig is, ha kérdése van, írjon nekünk: <a href="mailto:info@nezor.hu">info@nezor.hu</a></p>
+        `,
+      });
+    } catch (confirmErr) {
+      console.error('[epitoipari-weboldal] visszaigazoló email sikertelen', confirmErr);
+    }
+
     const consultationAudienceId = process.env.RESEND_CONSULTATION_AUDIENCE_ID;
     if (consultationAudienceId) {
       try {

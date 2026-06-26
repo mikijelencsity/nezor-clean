@@ -188,11 +188,53 @@
 
 /* HERO */
 .hero {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 56px;
   align-items: center;
-  margin-bottom: 100px;
+  margin-bottom: 48px;
+  isolation: isolate;
+}
+.heroBlobTl {
+  position: absolute;
+  top: -120px;
+  left: -160px;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 153, 184, 0.16), transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+}
+.heroBlobBr {
+  position: absolute;
+  bottom: -140px;
+  right: -180px;
+  width: 460px;
+  height: 460px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 230, 0, 0.14), transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+}
+.heroDots {
+  position: absolute;
+  top: 10%;
+  right: 6%;
+  width: 140px;
+  height: 140px;
+  background-image: radial-gradient(circle, #c8d4e8 1.6px, transparent 1.6px);
+  background-size: 18px 18px;
+  opacity: 0.6;
+  z-index: -1;
+  pointer-events: none;
+}
+.heroTrust {
+  font-size: 14px;
+  font-weight: 700;
+  color: #5a6079;
+  margin: 14px 0 0;
 }
 .heroText {
   text-align: left;
@@ -259,6 +301,33 @@
   background: #f2f5fa;
   transform: translateY(-3px);
 }
+.heroBenefits {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 900px;
+  margin: 0 auto 64px;
+}
+.heroBenefitCard {
+  background: #fff;
+  border: 1px solid #e5eaf2;
+  border-radius: 16px;
+  padding: 22px 22px;
+  text-align: left;
+}
+.heroBenefitCard h3 {
+  font-size: 17px;
+  font-weight: 900;
+  color: #0a0e1f;
+  margin: 0 0 6px;
+}
+.heroBenefitCard p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #5a6079;
+  margin: 0;
+}
+
 .heroPreview {
   display: flex;
   justify-content: center;
@@ -675,11 +744,31 @@
   padding: 80px 32px 90px;
   overflow: hidden;
 }
+.bigNumberBlock::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--blue), var(--cyan2), var(--yellow));
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+}
 .bigNumberBlock:first-of-type {
   margin-top: 40px;
 }
 .bigNumberBlock:last-of-type {
   margin-bottom: 40px;
+}
+.bigNumberBlock:last-of-type::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--blue), var(--cyan2), var(--yellow));
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
 }
 .valasztasDontes {
   max-width: 100%;
@@ -919,13 +1008,10 @@
   left: max(24px, calc(50vw - 596px));
 }
 .bigNumberBlockCyan {
-  background: rgba(0, 153, 184, 0.12);
+  background: #faf8f3;
 }
 .bigNumberBlockYellow {
-  background: rgba(255, 230, 0, 0.28);
-}
-.bigNumberBlockYellow .bigNumberBg {
-  color: #c9a900;
+  background: #faf8f3;
 }
 .bigNumberBg {
   position: absolute;
@@ -933,8 +1019,11 @@
   left: 0;
   font-size: 140px;
   font-weight: 900;
-  color: var(--cyan2);
-  opacity: 0.18;
+  background: linear-gradient(135deg, var(--blue), var(--yellow));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0.5;
   line-height: 1;
   z-index: 0;
   user-select: none;
@@ -950,6 +1039,10 @@
 .bigNumberBlock > .referenciaKepWrap {
   position: relative;
   z-index: 1;
+}
+
+.bigNumberBlock > .mintaGrid {
+  max-width: 100%;
 }
 
 /* MINTÁK */
@@ -1008,6 +1101,17 @@
   overflow: hidden;
   margin-bottom: 20px;
   background: #0a0e1f;
+}
+.mintaPreviewImgWrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 0;
+  padding-top: 98%;
+  background: #fff;
+}
+.mintaPreviewImg {
+  display: block;
 }
 .mintaPreviewBody {
   padding: 22px 20px 26px;
@@ -1102,6 +1206,9 @@
   margin: -14px 0 18px !important;
 }
 .mintaBtn {
+  display: block;
+  text-align: center;
+  text-decoration: none;
   padding: 16px;
   border-radius: 12px;
   border: 2px solid #0a0e1f;
@@ -1168,8 +1275,8 @@
 /* REFERENCIA KÉPEK */
 .referenciaKepLabel {
   text-align: center;
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 800;
   color: #0a0e1f;
   margin: 0 0 8px;
 }
@@ -1792,6 +1899,14 @@
   }
   .benefitGrid {
     grid-template-columns: 1fr;
+  }
+  .heroBenefits {
+    grid-template-columns: 1fr;
+  }
+  .heroBlobTl,
+  .heroBlobBr,
+  .heroDots {
+    display: none;
   }
   .engraved {
     font-size: 52px;
