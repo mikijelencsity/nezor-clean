@@ -269,7 +269,7 @@ export function EpitoipariWeboldalPage() {
     setError('');
     setLoading(true);
     try {
-      await fetch('/api/epitoipari-weboldal', {
+      const res = await fetch('/api/epitoipari-weboldal', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -280,11 +280,16 @@ export function EpitoipariWeboldalPage() {
           csomag: `${valasztottCsomag?.nev} (${valasztottCsomag?.ar})`,
         }),
       });
+      if (!res.ok) {
+        setError('Hiba történt a küldés során. Próbáld újra, vagy írj nekünk: info@nezor.hu');
+        setLoading(false);
+        return;
+      }
+      setSent(true);
     } catch {
-      // szilensen kezeljük
+      setError('Hiba történt a küldés során. Próbáld újra, vagy írj nekünk: info@nezor.hu');
     }
     setLoading(false);
-    setSent(true);
   };
 
 
