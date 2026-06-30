@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { GridBg } from '@/components/ui/GridBg';
+import { trackEvent } from '@/components/analytics/FacebookPixel';
 import styles from './EpitoipariWeboldalPage.module.css';
 
 const utvonal = [
@@ -285,6 +286,7 @@ export function EpitoipariWeboldalPage() {
         setLoading(false);
         return;
       }
+      trackEvent('Lead');
       setSent(true);
     } catch {
       setError('Hiba történt a küldés során. Próbáld újra, vagy írj nekünk: info@nezor.hu');
