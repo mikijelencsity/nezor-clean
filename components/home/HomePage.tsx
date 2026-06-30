@@ -291,25 +291,6 @@ export function HomePage() {
         modal.addEventListener('click', e => { if (e.target === modal) closeLegal(); });
         document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('show')) closeLegal(); });
       }
-
-      // Cookie sáv
-      const bar = document.getElementById('cookieBar');
-      if (bar) {
-        if (!localStorage.getItem('nezorCookieConsent')) setTimeout(() => bar.classList.add('show'), 1200);
-        const decide = (v: string) => {
-          try { localStorage.setItem('nezorCookieConsent', v); } catch (e) { }
-          bar.classList.remove('show');
-          if (v === 'accepted') {
-            window.dispatchEvent(new Event('nezor_cookie_accepted'));
-          } else {
-            window.dispatchEvent(new Event('nezor_cookie_rejected'));
-          }
-        };
-        const acceptBtn = document.getElementById('cookieAccept');
-        const rejectBtn = document.getElementById('cookieReject');
-        if (acceptBtn) acceptBtn.addEventListener('click', () => decide('accepted'));
-        if (rejectBtn) rejectBtn.addEventListener('click', () => decide('rejected'));
-      }
     })();
 
     // A lebegő CTA ne takarja a láblécet
@@ -384,7 +365,7 @@ export function HomePage() {
         </div>
       </div>
 
-      {false && <NavDrawer />}
+      <NavDrawer />
 
       <div className="scroll-progress" id="scrollProgress"></div>
 
@@ -956,14 +937,6 @@ export function HomePage() {
           <button className="legal-close" id="legalClose" aria-label="Bezárás">×</button>
           <h2 className="legal-title" id="legalTitle"></h2>
           <div className="legal-body" id="legalBody"></div>
-        </div>
-      </div>
-
-      <div className="cookie-bar" id="cookieBar">
-        <p className="cookie-text">Ez a weboldal sütiket használ a működéshez és a felhasználói élmény javításához. Részletek a <a data-legal="cookie">Cookie szabályzatban</a>.</p>
-        <div className="cookie-actions">
-          <button className="cookie-btn cookie-reject" id="cookieReject">Csak szükséges</button>
-          <button className="cookie-btn cookie-accept" id="cookieAccept">Elfogadom az összeset</button>
         </div>
       </div>
     </>

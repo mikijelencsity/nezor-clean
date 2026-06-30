@@ -4,6 +4,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { FacebookMessenger } from '@/components/analytics/FacebookMessenger';
 import { FacebookPixel } from '@/components/analytics/FacebookPixel';
+import { CookieConsent } from '@/components/analytics/CookieConsent';
 import { Suspense } from 'react';
 import './globals.css';
 
@@ -192,6 +193,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Suspense fallback={null}>
           <FacebookPixel />
         </Suspense>
+        <CookieConsent />
         <SpeedInsights />
       </body>
     </html>

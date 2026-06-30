@@ -1,0 +1,70 @@
+.bar {
+  position: fixed;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  z-index: 9500;
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background: #0f1226;
+  color: #fff;
+  padding: 18px 22px;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 229, 255, 0.25);
+  transform: translateY(180%);
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.barShow {
+  transform: translateY(0);
+}
+.text {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.82);
+  flex: 1;
+  min-width: 240px;
+}
+.text a {
+  color: var(--blue);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.actions {
+  display: flex;
+  gap: 10px;
+}
+.btn {
+  padding: 11px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 13.5px;
+  font-family: inherit;
+}
+.accept {
+  background: linear-gradient(135deg, var(--blue), var(--yellow));
+  color: #0a0d1f;
+}
+.reject {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+@media (max-width: 560px) {
+  .bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .actions {
+    justify-content: stretch;
+  }
+  .btn {
+    flex: 1;
+  }
+}
