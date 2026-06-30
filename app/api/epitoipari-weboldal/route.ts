@@ -19,6 +19,7 @@ export async function POST(request: Request) {
     };
 
     if (website) {
+      console.warn('[epitoipari-weboldal] honeypot trip — kihagyott email', { nev, email });
       return NextResponse.json({ ok: true });
     }
 
