@@ -3,10 +3,9 @@ import { useState, useEffect } from 'react';
 import styles from './NavDrawer.module.css';
 
 const links = [
-  { label: 'Referenciák', href: '/referenciak', num: '01', external: true },
-  { label: 'Folyamat', href: '#process', num: '02', external: false },
-  { label: 'Szolgáltatás', href: '#szolgaltatas', num: '03', external: false },
-  { label: 'Kapcsolat', href: '#kapcsolat', num: '04', external: false },
+  { label: 'Főoldal', href: '/', num: '01', external: true },
+  { label: 'Referenciák', href: '/referenciak', num: '02', external: true },
+  { label: 'Kapcsolat', href: '/#kapcsolat', num: '03', external: true },
 ];
 
 export function NavDrawer() {
