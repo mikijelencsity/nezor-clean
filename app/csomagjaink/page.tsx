@@ -1,6 +1,4 @@
-export const metadata = {
-  title: 'NEZOR – Csomagjaink',
-};
+'use client';
 
 export default function Page() {
   return (
