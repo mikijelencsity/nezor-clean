@@ -41,6 +41,11 @@
   z-index: 1;
 }
 
+/* Align `.wrap` spacing with other sections for visual consistency */
+.wrap {
+  padding: 64px 28px; /* desktop spacing similar to other feature sections */
+}
+
 .header {
   position: sticky;
   top: 0;
@@ -219,6 +224,21 @@
   padding-bottom: 70px;
 }
 
+/* Make cards visually almost full-width while keeping wrap centered */
+@media (min-width: 900px) {
+  .cases {
+    width: 100%;
+    max-width: none;
+  }
+
+  .case {
+    width: calc(100% + 56px); /* extend past the wrap padding */
+    margin-left: -28px;
+    margin-right: -28px;
+    border-radius: 28px;
+  }
+}
+
 .case {
   opacity: 0;
   transform: translateY(28px);
@@ -233,7 +253,7 @@
   grid-template-columns: 1fr 1.08fr;
   gap: 28px;
   padding: 28px;
-  min-height: 540px;
+  min-height: 480px;
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.18);
   will-change: transform, opacity;
 }
@@ -492,6 +512,64 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+/* Mobile / small-screen adjustments to avoid header overlap and overflow */
+@media (max-width: 720px) {
+  .wrap {
+    padding-top: 84px; /* keep content clear of fixed header / hamburger */
+  }
+
+  .cases {
+    gap: 18px;
+    padding-bottom: 56px;
+  }
+
+  .case {
+    grid-template-columns: 1fr; /* single column layout on mobile */
+    padding: 18px;
+    min-height: auto;
+    border-radius: 22px;
+  }
+
+  .case:nth-child(even) {
+    grid-template-columns: 1fr;
+  }
+
+  .caseText {
+    order: 1;
+    padding-bottom: 12px;
+  }
+
+  .caseVisual {
+    order: 2;
+    min-height: 260px;
+    display: block;
+    align-items: stretch;
+    justify-content: center;
+  }
+
+  .imageWrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 18px;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.3);
+  }
+
+  .floatingNote {
+    /* keep fixed visual size on mobile but center it under the image */
+    position: relative;
+    width: 260px;
+    margin: 10px auto 0;
+    left: auto !important;
+    right: auto !important;
+  }
+
+  /* Ensure images don't overflow rounded containers */
+  .imageWrapper, .imageWrapper img, .imageWrapper > span, .imageWrapper picture {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+}
+
 .shotHero {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -604,7 +682,7 @@
   border: 1px solid rgba(255, 255, 255, 0.16);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
   backdrop-filter: blur(18px);
-  max-width: 240px;
+  width: 260px; /* fixed width so the note looks identical across breakpoints */
   color: #ffffff;
   z-index: 2;
 }
