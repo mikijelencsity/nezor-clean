@@ -486,7 +486,7 @@ export function HomePage() {
           ].map((r, i) => (
             <div key={r.src} className="ref-portfolio-card" style={{ animationDelay: `${i * 0.6}s` }}>
               <div className="ref-portfolio-shadow" aria-hidden="true" />
-              <Image src={r.src} alt={r.alt} width={560} height={400} className="ref-portfolio-img" />
+              <Image src={r.src} alt={r.alt} width={900} height={640} className="ref-portfolio-img" sizes="(max-width: 768px) 100vw, 33vw" />
             </div>
           ))}
         </div>

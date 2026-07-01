@@ -57,14 +57,6 @@ export function NavDrawer() {
       )}
 
       <nav className={`${styles.drawer} ${open ? styles.drawerOpen : ''}`} aria-label="Navigáció">
-        <button
-          className={styles.closeBtn}
-          onClick={() => setOpen(false)}
-          aria-label="Bezárás"
-        >
-          ×
-        </button>
-
         <ul className={styles.navList}>
           {links.map((link, i) => (
             <li

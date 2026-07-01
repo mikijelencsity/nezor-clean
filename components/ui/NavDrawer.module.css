@@ -101,30 +101,6 @@
   transform: translateX(0);
 }
 
-/* ── Bezárás gomb ── */
-.closeBtn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 22px;
-  line-height: 1;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s, color 0.2s;
-}
-.closeBtn:hover {
-  background: rgba(0, 229, 255, 0.12);
-  color: #00e5ff;
-}
-
 /* ── Nav lista ── */
 .navList {
   list-style: none;
