@@ -56,6 +56,29 @@
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
+/* Landing-variáns: fehér/piros téma (csak a /landing oldalon) */
+.landing {
+  background: #fff;
+  color: #14161b;
+  bottom: 100px; /* a sticky visszaszámláló fölé */
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+.landing .text {
+  color: rgba(0, 0, 0, 0.7);
+}
+.landing .text a {
+  color: #ff3340;
+}
+.landing .accept {
+  background: linear-gradient(135deg, #ff3340, #ff8c00);
+  color: #16181d;
+}
+.landing .reject {
+  background: #f3f4f6;
+  color: #16181d;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
 @media (max-width: 560px) {
   .bar {
     flex-direction: column;

@@ -1,9 +1,12 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import styles from './CookieConsent.module.css';
 
 export function CookieConsent() {
   const [show, setShow] = useState(false);
+  const pathname = usePathname();
+  const isLanding = pathname === '/landing';
 
   useEffect(() => {
     let stored: string | null = null;
@@ -30,7 +33,7 @@ export function CookieConsent() {
   };
 
   return (
-    <div className={`${styles.bar} ${show ? styles.barShow : ''}`}>
+    <div className={`${styles.bar} ${show ? styles.barShow : ''} ${isLanding ? styles.landing : ''}`}>
       <p className={styles.text}>
         Ez a weboldal sütiket használ a működéshez és a felhasználói élmény javításához. Részletek az{' '}
         <a href="/adatkezeles">Adatkezelési tájékoztatóban</a>.
