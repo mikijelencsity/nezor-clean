@@ -20,9 +20,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Hiányzó vagy érvénytelen mezők' }, { status: 400 });
     }
 
+    // A lead értesítő címzettjei (duplikáció kiszűrve)
+    const ertesitok = [...new Set([NOTIFY_EMAIL, 'mullerdanielev@gmail.com'])];
+
     const { error: sendError } = await resend.emails.send({
       from: FROM_EMAIL,
-      to: [NOTIFY_EMAIL],
+      to: ertesitok,
       subject: `[NEZOR] Új lead – Ügyfélszerző rendszer (19.990) — ${esc(nev)}`,
       html: `
         <h2>Új lead a landing oldalról (19.990 Ft ajánlat)</h2>
