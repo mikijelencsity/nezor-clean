@@ -473,6 +473,28 @@ export function HomePage() {
         </p>
       </section>
 
+      {/* REFERENCIA KÉPEK */}
+      <section className="light-section ref-portfolio-section">
+        <div className="section-label">Referenciáink</div>
+        <h2 className="section-title">Elkészített weboldalainkból</h2>
+        <p className="section-sub">Minden oldal egyedi — a vállalkozásra, annak ügyfelére és céljaira szabva.</p>
+        <div className="ref-portfolio-grid">
+          {[
+            { src: '/referencia-1.webp', alt: 'Referencia weboldal 1' },
+            { src: '/referencia-2.webp', alt: 'Referencia weboldal 2' },
+            { src: '/referencia-3.webp', alt: 'Referencia weboldal 3' },
+          ].map((r, i) => (
+            <div key={r.src} className="ref-portfolio-card" style={{ animationDelay: `${i * 0.6}s` }}>
+              <div className="ref-portfolio-shadow" aria-hidden="true" />
+              <Image src={r.src} alt={r.alt} width={560} height={400} className="ref-portfolio-img" />
+            </div>
+          ))}
+        </div>
+        <div className="ref-portfolio-cta-wrap">
+          <a href="/epitoipari-weboldal" className="btn btn-primary">Bővebben →</a>
+        </div>
+      </section>
+
       <section className="process" id="process">
         <div className="process-inner">
           <div className="process-eyebrow">Te lehetsz a következő. <span className="pe-arrow">→</span></div>

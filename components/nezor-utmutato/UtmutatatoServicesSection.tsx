@@ -80,19 +80,6 @@ export function UtmutatatoServicesSection() {
             </div>
           </div>
         </div>
-        <div className={styles.priceBox}>
-          <div className={styles.priceBoxText}>
-            <span className={styles.pbLabel}>Mennyibe kerül?</span>
-            <strong>Alap weboldal 50 000 Ft-tól indul.</strong>
-            <p>
-              Egyetlen elveszített megrendelés általában ennek a 3–4-szerese. Az egyeztetésen pontos
-              árajánlatot adunk — ingyen, kötelezettség nélkül.
-            </p>
-          </div>
-          <a href="#kapcsolat" className={`${shared.btn} ${shared.btnPrimary}`}>
-            Kérek árajánlatot →
-          </a>
-        </div>
       </div>
     </section>
   );

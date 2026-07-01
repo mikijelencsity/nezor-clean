@@ -68,68 +68,9 @@
   color: #4a5070;
 }
 
-.priceBox {
-  width: min(1500px, calc(100vw - 96px));
-  max-width: none;
-  margin-left: 50%;
-  transform: translateX(-50%);
-  margin-top: 32px;
-  background: linear-gradient(135deg, #0a1438 0%, #1b1240 50%, #0a1438 100%);
-  border-radius: 24px;
-  padding: 64px 72px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-  flex-wrap: wrap;
-  box-shadow: 0 30px 80px rgba(0, 150, 200, 0.25), 0 0 0 1px rgba(255, 230, 0, 0.2);
-  text-align: center;
-}
-
-.priceBoxText {
-  width: 100%;
-  max-width: 960px;
-}
-
-.pbLabel {
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
-  display: block;
-  margin-bottom: 8px;
-}
-
-.priceBoxText strong {
-  font-size: clamp(2.15rem, 3.5vw, 2.8rem);
-  font-weight: 900;
-  background: linear-gradient(135deg, var(--blue), var(--yellow));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  display: block;
-  margin-bottom: 8px;
-  letter-spacing: -0.02em;
-}
-
-.priceBoxText p {
-  font-size: 20px;
-  color: rgba(255, 255, 255, 0.6);
-  line-height: 1.82;
-  max-width: 760px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 0;
-}
-
 @media (max-width: 900px) {
   .servicesGrid {
     grid-template-columns: 1fr;
-  }
-  .priceBox {
-    flex-direction: column;
-    text-align: center;
   }
 }
 
@@ -147,14 +88,6 @@
   .serviceBody {
     padding: 18px 22px 24px;
   }
-  .priceBox {
-    width: 100%;
-    margin-left: auto;
-    transform: none;
-    padding: 32px 22px;
-    border-radius: 18px;
-    gap: 20px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -168,15 +101,6 @@
     font-size: 1.05rem;
   }
   .serviceBody p {
-    font-size: 14px;
-  }
-  .priceBox {
-    padding: 28px 18px;
-  }
-  .priceBoxText strong {
-    font-size: 1.5rem;
-  }
-  .priceBoxText p {
     font-size: 14px;
   }
 }

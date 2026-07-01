@@ -11,6 +11,7 @@ import { TimelineSection } from '@/components/nezor-utmutato/TimelineSection';
 import { ChecklistVerifySection } from '@/components/nezor-utmutato/ChecklistVerifySection';
 import { UtmutatatoServicesSection } from '@/components/nezor-utmutato/UtmutatatoServicesSection';
 import { RefsSection } from '@/components/nezor-utmutato/RefsSection';
+import { FreeDemoSection } from '@/components/nezor-utmutato/FreeDemoSection';
 import { BridgeSection } from '@/components/nezor-utmutato/BridgeSection';
 import { ReviewsDarkSection } from '@/components/nezor-utmutato/ReviewsDarkSection';
 import { UtmutatatoContactSection } from '@/components/nezor-utmutato/UtmutatatoContactSection';
@@ -38,6 +39,7 @@ export default function UtmutatatoPage() {
       <ChecklistVerifySection />
       <UtmutatatoServicesSection />
       <RefsSection />
+      <FreeDemoSection />
       <BridgeSection />
       <ReviewsDarkSection />
       <UtmutatatoContactSection />

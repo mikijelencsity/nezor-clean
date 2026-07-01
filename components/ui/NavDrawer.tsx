@@ -3,10 +3,10 @@ import { useState, useEffect } from 'react';
 import styles from './NavDrawer.module.css';
 
 const links = [
-  { label: 'Referenciák', href: '#referenciak', num: '01' },
-  { label: 'Folyamat', href: '#process', num: '02' },
-  { label: 'Szolgáltatás', href: '#szolgaltatas', num: '03' },
-  { label: 'Kapcsolat', href: '#kapcsolat', num: '04' },
+  { label: 'Referenciák', href: '/referenciak', num: '01', external: true },
+  { label: 'Folyamat', href: '#process', num: '02', external: false },
+  { label: 'Szolgáltatás', href: '#szolgaltatas', num: '03', external: false },
+  { label: 'Kapcsolat', href: '#kapcsolat', num: '04', external: false },
 ];
 
 export function NavDrawer() {
@@ -75,7 +75,7 @@ export function NavDrawer() {
               <a
                 href={link.href}
                 className={styles.navLink}
-                onClick={(e) => { e.preventDefault(); handleLink(link.href); }}
+                onClick={link.external ? undefined : (e) => { e.preventDefault(); handleLink(link.href); }}
               >
                 <span className={styles.navNum}>{link.num}</span>
                 <span className={styles.navLabel}>{link.label}</span>

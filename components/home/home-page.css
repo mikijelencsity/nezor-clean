@@ -555,6 +555,55 @@
     color:#4a5070;line-height:1.6;
   }
 
+  /* === REFERENCIA PORTFOLIO === */
+  .ref-portfolio-section{
+    padding-bottom:50px;
+  }
+  .ref-portfolio-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    max-width:1000px;
+    margin:0 auto 0;
+    padding:0 24px;
+  }
+  .ref-portfolio-card{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:transparent;
+    animation:refPortFloat 4.5s ease-in-out infinite;
+  }
+  .ref-portfolio-card:nth-child(2){animation-delay:1.5s;}
+  .ref-portfolio-card:nth-child(3){animation-delay:3s;}
+  @keyframes refPortFloat{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-8px);}
+  }
+  .ref-portfolio-shadow{
+    position:absolute;
+    left:50%;bottom:-14px;
+    width:72%;height:24px;
+    transform:translateX(-50%);
+    background:radial-gradient(ellipse at center,rgba(10,14,31,0.2),transparent 75%);
+    filter:blur(8px);
+    z-index:0;
+  }
+  .ref-portfolio-img{
+    position:relative;
+    z-index:1;
+    width:100%;
+    height:auto;
+  }
+  .ref-portfolio-cta-wrap{
+    text-align:center;
+    margin-top:28px;
+  }
+  .ref-portfolio-section .section-sub{
+    margin-bottom:36px;
+  }
+
   /* === FAQ === */
   .faq-list{
     max-width:820px;margin:0 auto;
@@ -1583,6 +1632,7 @@
     .process{padding:70px 16px 60px}
     .reviews .section-title{margin-bottom:36px}
     .section-sub{margin-bottom:40px}
+    .ref-portfolio-grid{grid-template-columns:1fr;gap:48px;}
     .hero{padding:60px 20px 40px}
     /* Google Cégem mobil javítás */
     .gbp-card h3{font-size:1.5rem;line-height:1.2}

@@ -1,0 +1,350 @@
+.freeBanner {
+  max-width: 760px;
+  margin: 0 auto 20px;
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.12), rgba(255, 230, 0, 0.12));
+  border: 1px solid rgba(0, 153, 184, 0.3);
+  border-radius: 100px;
+  padding: 16px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #0f1226;
+  text-align: center;
+}
+.freeBanner strong {
+  font-weight: 900;
+}
+
+.infoBanner {
+  max-width: 760px;
+  margin: 0 auto 36px;
+  background: rgba(0, 153, 184, 0.08);
+  border: 1px solid rgba(0, 153, 184, 0.25);
+  border-radius: 16px;
+  padding: 20px 28px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #3a4256;
+  text-align: left;
+}
+.infoBanner strong {
+  color: #0f1226;
+}
+
+.perksGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto 48px;
+  text-align: left;
+}
+.perkCard {
+  background: #fff;
+  border: 1px solid #e5eaf2;
+  border-radius: 16px;
+  padding: 24px;
+}
+.perkIcon {
+  display: inline-block;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+.perkCard h4 {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0f1226;
+  margin: 0 0 8px;
+}
+.perkCard p {
+  font-size: 14px;
+  line-height: 1.55;
+  color: #5a6079;
+  margin: 0;
+}
+.perkCard strong {
+  color: #0f1226;
+}
+
+.templateGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  width: min(1500px, calc(100vw - 48px));
+  margin-left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 40px;
+  text-align: left;
+}
+
+.templateCard {
+  background: #fff;
+  border: 2px solid #e5eaf2;
+  border-radius: 18px;
+  overflow: hidden;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.templateCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 150, 200, 0.15);
+}
+.templateCardActive {
+  border-color: var(--cyan2);
+  box-shadow: 0 16px 40px rgba(0, 153, 184, 0.25);
+}
+
+.templateSelect {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.previewBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 18px 18px;
+  padding: 18px 22px;
+  border-radius: 14px;
+  font-size: 18px;
+  font-weight: 800;
+  font-family: 'Inter', sans-serif;
+  color: #000;
+  text-decoration: none;
+  background: linear-gradient(135deg, var(--blue), var(--yellow));
+  box-shadow: 0 8px 24px rgba(0, 229, 255, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.previewBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 229, 255, 0.45);
+}
+
+.templateImgWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+}
+
+.templateCheck {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue), var(--yellow));
+  color: #000;
+  font-weight: 900;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0, 229, 255, 0.4);
+}
+
+.templateInfo {
+  flex: 1;
+  padding: 16px 18px;
+}
+.templateInfo h3 {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0f1226;
+  margin: 0 0 6px;
+}
+.templateInfo p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #5a6079;
+  margin: 0;
+}
+
+.formCard {
+  max-width: 640px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #e5eaf2;
+  border-radius: 22px;
+  padding: 44px;
+  box-shadow: 0 30px 80px rgba(0, 150, 200, 0.12);
+  text-align: left;
+}
+.formCard h4 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #0f1226;
+  margin: 0 0 24px;
+  text-align: center;
+}
+
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  left: -9999px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.field label {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #5a6079;
+}
+.field input {
+  width: 100%;
+  padding: 16px 18px;
+  border: 1px solid #e5eaf2;
+  border-radius: 12px;
+  background: #f7fafd;
+  font-family: inherit;
+  font-size: 16px;
+  color: #0f1226;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+.field input:focus {
+  outline: none;
+  border-color: var(--cyan2);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(0, 153, 184, 0.12);
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 22px;
+  cursor: pointer;
+}
+.checkboxRow input {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  accent-color: var(--cyan2);
+  cursor: pointer;
+}
+.checkboxRow span {
+  font-size: 14px;
+  line-height: 1.55;
+  color: #5a6079;
+}
+
+.formSubmit {
+  width: 100%;
+  padding: 22px;
+  background: linear-gradient(135deg, var(--blue), var(--yellow));
+  color: #000;
+  font-weight: 800;
+  font-size: 19px;
+  font-family: inherit;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 12px 35px rgba(0, 229, 255, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.formSubmit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 45px rgba(0, 229, 255, 0.5);
+}
+.formSubmit:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.formFoot {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 13px;
+  color: #9aa3b8;
+  line-height: 1.5;
+}
+
+.successWrap {
+  max-width: 560px;
+  margin: 0 auto 40px;
+  background: #fff;
+  border: 1px solid #e5eaf2;
+  border-radius: 22px;
+  padding: 60px 40px;
+  text-align: center;
+  box-shadow: 0 30px 80px rgba(0, 150, 200, 0.12);
+}
+
+.back {
+  display: inline-block;
+  margin-top: 30px;
+  color: #5a6079;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 15px;
+}
+.back:hover {
+  color: var(--cyan2);
+}
+
+@media (max-width: 900px) {
+  .templateGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .perksGrid {
+    grid-template-columns: 1fr;
+  }
+  .formCard {
+    padding: 30px 24px;
+  }
+}
+
+@media (max-width: 560px) {
+  .templateGrid {
+    grid-template-columns: 1fr;
+    width: 100%;
+    margin-left: 0;
+    transform: none;
+    gap: 14px;
+  }
+  .freeBanner {
+    border-radius: 18px;
+    font-size: 14px;
+    padding: 14px 18px;
+  }
+  .formCard {
+    padding: 24px 18px;
+  }
+  .field input {
+    font-size: 16px;
+    padding: 14px 16px;
+  }
+  .formSubmit {
+    font-size: 16px;
+    padding: 18px;
+  }
+}
