@@ -44,7 +44,7 @@ a{text-decoration:none;color:inherit}
 .hero{padding:64px 0 80px;}
 .hero-grid{
   display:grid;
-  grid-template-columns:1fr 2.4fr;
+  grid-template-columns:1fr 3.2fr;
   gap:48px;
   align-items:center;
 }
