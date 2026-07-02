@@ -5,7 +5,8 @@ import styles from './NavDrawer.module.css';
 const links = [
   { label: 'Főoldal', href: '/', num: '01', external: true },
   { label: 'Referenciák', href: '/referenciak', num: '02', external: true },
-  { label: 'Kapcsolat', href: '/#kapcsolat', num: '03', external: true },
+  { label: 'Csomagjaink', href: '/csomagjaink', num: '03', external: true },
+  { label: 'Kapcsolat', href: '/#kapcsolat', num: '04', external: true },
 ];
 
 export function NavDrawer() {
