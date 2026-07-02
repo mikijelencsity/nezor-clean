@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { GridBg } from '@/components/ui/GridBg';
 import { GlowBlob } from '@/components/ui/GlowBlob';
 import styles from './StorySection.module.css';
@@ -21,7 +22,16 @@ export function StorySection() {
       <GlowBlob color="yellow" style={{ bottom: 0, left: '-100px' }} />
 
       <div className={styles.storyCard}>
-        <div className={styles.storyImg}><span>Kép helye</span></div>
+        <div className={styles.storyImg}>
+          <Image
+            src="/alapitok.webp"
+            alt="Müller Dániel és Jelencsity Miklós – NEZOR alapítók"
+            width={400}
+            height={400}
+            className={styles.storyImgPhoto}
+            priority
+          />
+        </div>
         <div className={styles.storyBody}>
           <div className={styles.storyEyebrow}>Miért mi</div>
           <h3>16 évesen indultunk. <span className={styles.accent}>Bukni nem lehetett.</span></h3>
