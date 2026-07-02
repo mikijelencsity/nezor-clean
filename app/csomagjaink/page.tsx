@@ -40,21 +40,18 @@ export default function Page() {
         <NavDrawer />
 
         <section className="hero" id="csomagok">
-          <div className="hero-grid">
-            <div>
-              <div className="eyebrow">NEZOR / Csomagjaink</div>
-              <h1>Weboldal <span>csomagok</span> vállalkozásoknak.</h1>
-              <p>
-                3 tiszta opció: induláshoz, komolyabb céges megjelenéshez vagy prémium szinthez.
-                Nincs túlbonyolítva: választasz egy irányt, mi pedig felépítjük.
-              </p>
-
-              <div className="hero-actions">
-                <a href="#kapcsolat" className="btn btn-primary">Segíts választani</a>
-                <a href="#bizalom" className="btn btn-secondary">Mit kapsz?</a>
-              </div>
-
+          <div className="hero-left">
+            <div className="eyebrow">NEZOR / Csomagjaink</div>
+            <h1>Weboldal <span>csomagok</span> vállalkozásoknak.</h1>
+            <p className="hero-desc">
+              3 tiszta opció: induláshoz, komolyabb céges megjelenéshez vagy prémium szinthez.
+              Nincs túlbonyolítva: választasz egy irányt, mi pedig felépítjük.
+            </p>
+            <div className="hero-actions">
+              <a href="#kapcsolat" className="btn btn-primary">Segíts választani</a>
+              <a href="#bizalom" className="btn btn-secondary">Mit kapsz?</a>
             </div>
+          </div>
 
             <div className="package-visual" aria-label="NEZOR csomagjaink látványos árkártyák">
               <div className="neon-line left"></div>
@@ -110,7 +107,6 @@ export default function Page() {
                 </article>
               </div>
             </div>
-          </div>
         </section>
 
         <section className="after-packages" id="bizalom">
