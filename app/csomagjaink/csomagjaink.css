@@ -44,9 +44,14 @@ a{text-decoration:none;color:inherit}
 .hero{padding:64px 0 80px;}
 .hero-grid{
   display:grid;
-  grid-template-columns:1fr 3.2fr;
+  grid-template-columns:minmax(0,480px) 1fr;
   gap:48px;
   align-items:center;
+  padding-left:max(16px, calc((100vw - 1180px) / 2 + 16px));
+}
+
+.package-visual{
+  border-radius:28px 0 0 28px !important;
 }
 
 .eyebrow{
@@ -256,8 +261,8 @@ footer{background:#081022;color:#8fa0b8;border-top:1px solid rgba(255,255,255,.0
 .footer-row{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;}
 
 @media (max-width:1120px){
-  .hero-grid{grid-template-columns:1fr}
-  .package-visual{min-height:auto}
+  .hero-grid{grid-template-columns:1fr;padding-left:16px;padding-right:16px}
+  .package-visual{min-height:auto;border-radius:24px !important}
 }
 @media (max-width:820px){
   .visual-cards{grid-template-columns:1fr}

@@ -40,7 +40,7 @@ export default function Page() {
         <NavDrawer />
 
         <section className="hero" id="csomagok">
-          <div className="wrap hero-grid">
+          <div className="hero-grid">
             <div>
               <div className="eyebrow">NEZOR / Csomagjaink</div>
               <h1>Weboldal <span>csomagok</span> vállalkozásoknak.</h1>
