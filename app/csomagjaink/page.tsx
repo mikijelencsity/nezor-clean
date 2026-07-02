@@ -382,7 +382,7 @@ export default function Page() {
             linear-gradient(145deg,#081226 0%,#090f23 52%,#071022 100%);
           box-shadow:0 34px 90px rgba(8,16,34,.25);
           border:1px solid rgba(255,255,255,.12);
-          padding:38px 34px;
+          padding:28px 22px;
           isolation:isolate;
         }
 
@@ -444,28 +444,28 @@ export default function Page() {
           text-align:center;
           position:relative;
           z-index:2;
-          margin-bottom:44px;
+          margin-bottom:24px;
         }
 
         .visual-brand{
           color:var(--cyan);
-          letter-spacing:7px;
-          font-size:13px;
+          letter-spacing:5px;
+          font-size:11px;
           font-weight:1000;
-          margin-bottom:20px;
+          margin-bottom:10px;
         }
 
         .visual-title{
           display:inline-block;
-          font-size:clamp(42px,5vw,68px);
+          font-size:clamp(28px,3vw,42px);
           line-height:1;
-          letter-spacing:-2.5px;
+          letter-spacing:-1.5px;
           font-weight:1000;
           background:var(--accent);
           -webkit-background-clip:text;
           background-clip:text;
           color:transparent;
-          filter:drop-shadow(0 12px 32px rgba(0,223,255,.15));
+          filter:drop-shadow(0 8px 20px rgba(0,223,255,.15));
         }
 
         .visual-cards{
@@ -473,17 +473,17 @@ export default function Page() {
           z-index:2;
           display:grid;
           grid-template-columns:1fr 1.12fr 1fr;
-          gap:20px;
+          gap:10px;
           align-items:center;
         }
 
         .visual-card{
-          min-height:330px;
-          border-radius:28px;
-          padding:28px 26px;
+          min-height:auto;
+          border-radius:20px;
+          padding:18px 14px;
           border:1px solid rgba(255,255,255,.12);
           background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.032));
-          box-shadow:0 24px 70px rgba(0,0,0,.18);
+          box-shadow:0 16px 50px rgba(0,0,0,.18);
           backdrop-filter:blur(10px);
           display:flex;
           flex-direction:column;
@@ -493,12 +493,13 @@ export default function Page() {
         }
 
         .visual-card.featured{
-          min-height:392px;
+          min-height:auto;
+          padding-top:46px;
           border-color:rgba(0,223,255,.55);
           box-shadow:
-            0 28px 80px rgba(0,223,255,.12),
+            0 20px 60px rgba(0,223,255,.12),
             inset 0 0 0 1px rgba(215,255,56,.45);
-          transform:translateY(-10px);
+          transform:translateY(-8px);
         }
 
         .visual-card.featured:before{
@@ -510,18 +511,18 @@ export default function Page() {
         }
 
         .icon-bubble{
-          width:58px;
-          height:58px;
+          width:40px;
+          height:40px;
           border-radius:50%;
           display:grid;
           place-items:center;
-          margin:0 auto 28px;
+          margin:0 auto 14px;
           color:var(--cyan);
           border:1px solid rgba(0,223,255,.28);
           background:rgba(0,223,255,.07);
-          font-size:25px;
+          font-size:17px;
           font-weight:1000;
-          box-shadow:0 0 34px rgba(0,223,255,.10);
+          box-shadow:0 0 20px rgba(0,223,255,.10);
         }
 
         .visual-card:nth-child(3) .icon-bubble{
@@ -532,81 +533,81 @@ export default function Page() {
 
         .popular-badge{
           position:absolute;
-          top:24px;
+          top:14px;
           left:50%;
           transform:translateX(-50%);
           display:inline-flex;
           align-items:center;
-          gap:8px;
-          padding:9px 15px;
+          gap:5px;
+          padding:5px 10px;
           border-radius:999px;
           background:var(--accent);
           color:#061020;
-          font-size:13px;
+          font-size:10px;
           font-weight:1000;
           white-space:nowrap;
-          box-shadow:0 10px 30px rgba(215,255,56,.16);
+          box-shadow:0 6px 20px rgba(215,255,56,.16);
         }
 
         .visual-card h3{
           color:#fff;
           text-align:center;
-          font-size:clamp(28px,3vw,39px);
-          letter-spacing:-1.4px;
+          font-size:clamp(16px,1.8vw,22px);
+          letter-spacing:-.8px;
           line-height:1;
-          margin-bottom:18px;
+          margin-bottom:10px;
         }
 
         .visual-card .small-line{
-          width:46px;
-          height:3px;
+          width:32px;
+          height:2px;
           border-radius:999px;
           background:var(--accent);
-          margin:0 auto 28px;
+          margin:0 auto 14px;
         }
 
         .visual-price{
           text-align:center;
-          font-size:clamp(34px,4vw,50px);
+          font-size:clamp(20px,2.2vw,28px);
           line-height:1;
           font-weight:1000;
-          letter-spacing:-2px;
+          letter-spacing:-1px;
           background:var(--accent);
           -webkit-background-clip:text;
           background-clip:text;
           color:transparent;
-          margin-bottom:12px;
+          margin-bottom:6px;
         }
 
         .visual-desc{
           text-align:center;
           color:#b7c3d5;
           font-weight:700;
-          line-height:1.45;
-          font-size:15px;
-          margin-bottom:24px;
-          min-height:42px;
+          line-height:1.4;
+          font-size:11px;
+          margin-bottom:14px;
+          min-height:auto;
         }
 
         .visual-feature-list{
           display:grid;
-          gap:12px;
-          padding-top:22px;
+          gap:7px;
+          padding-top:12px;
           border-top:1px solid rgba(255,255,255,.08);
         }
 
         .visual-feature{
           display:flex;
-          gap:10px;
+          gap:7px;
           align-items:center;
           color:#e9f1ff;
-          font-size:14px;
+          font-size:11px;
           font-weight:750;
         }
 
         .visual-feature i{
-          width:20px;
-          height:20px;
+          width:15px;
+          height:15px;
           flex:none;
           border-radius:50%;
           display:grid;
@@ -614,7 +615,7 @@ export default function Page() {
           color:#061020;
           background:var(--accent);
           font-style:normal;
-          font-size:12px;
+          font-size:9px;
           font-weight:1000;
         }
 
