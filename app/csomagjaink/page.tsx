@@ -248,7 +248,7 @@ export default function Page() {
 
         .hero-grid{
           display:grid;
-          grid-template-columns:1fr 1.4fr;
+          grid-template-columns:1fr 1.8fr;
           gap:48px;
           align-items:center;
         }
