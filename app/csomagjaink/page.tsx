@@ -47,7 +47,7 @@ export default function Page() {
         </header>
 
         <section className="hero" id="csomagok">
-          <div className="hero-grid">
+          <div className="wrap hero-grid">
             <div>
               <div className="eyebrow">NEZOR / Csomagjaink</div>
               <h1>Weboldal <span>csomagok</span> vállalkozásoknak.</h1>
@@ -288,20 +288,14 @@ export default function Page() {
         }
 
         .hero{
-          padding:72px 0 82px;
+          padding:64px 0 80px;
         }
 
         .hero-grid{
           display:grid;
-          grid-template-columns:.82fr 1.18fr;
-          gap:42px;
+          grid-template-columns:1fr 1.1fr;
+          gap:48px;
           align-items:center;
-          width:100%;
-          padding-left:max(24px, calc((100vw - 1180px) / 2 + 16px));
-        }
-
-        .hero-grid > div:first-child{
-          max-width:600px;
         }
 
         .eyebrow{
@@ -315,12 +309,11 @@ export default function Page() {
         }
 
         h1{
-          font-size:clamp(44px,6.4vw,82px);
-          line-height:.92;
-          letter-spacing:-3.5px;
+          font-size:clamp(36px,4.8vw,64px);
+          line-height:.96;
+          letter-spacing:-2.5px;
           color:#081022;
           margin-bottom:20px;
-          max-width:640px;
         }
 
         h1 span{
@@ -378,9 +371,7 @@ export default function Page() {
 
         .package-visual{
           position:relative;
-          aspect-ratio:5/4;
-          min-height:520px;
-          border-radius:34px 0 0 34px;
+          border-radius:28px;
           overflow:hidden;
           background:
             radial-gradient(circle at 8% 18%, rgba(0,223,255,.23), transparent 26%),
@@ -814,8 +805,8 @@ export default function Page() {
         }
 
         @media (max-width:1120px){
-          .hero-grid{grid-template-columns:1fr;padding-left:16px;padding-right:16px}
-          .package-visual{min-height:auto;border-radius:24px}
+          .hero-grid{grid-template-columns:1fr}
+          .package-visual{min-height:auto}
         }
 
         @media (max-width:820px){
