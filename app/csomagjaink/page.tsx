@@ -1,6 +1,37 @@
 'use client';
 
+import { useState } from 'react';
+import { trackEvent } from '@/components/analytics/FacebookPixel';
+
 export default function Page() {
+  const [nev, setNev] = useState('');
+  const [email, setEmail] = useState('');
+  const [telefon, setTelefon] = useState('');
+  const [hp, setHp] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState('');
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (hp) return;
+    setLoading(true);
+    setError('');
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nev, email, telefon }),
+    });
+    if (!res.ok) {
+      setError('Hiba történt, kérjük próbáld újra.');
+      setLoading(false);
+      return;
+    }
+    trackEvent('Lead');
+    setSent(true);
+    setLoading(false);
+  }
+
   return (
     <>
       <main>
@@ -123,14 +154,34 @@ export default function Page() {
             </div>
 
             <div className="final-cta" id="kapcsolat">
-              <div>
-                <h3>Nem tudod melyik kell?</h3>
-                <p>
-                  A legtöbb vállalkozásnak a Többoldalas csomag a legerősebb döntés.
-                  Az Alap indulni jó, a Prémium pedig akkor kell, ha a megjelenésednek is prémiumnak kell lennie.
-                </p>
-              </div>
-              <a href="#" className="btn btn-primary">Segíts választani</a>
+              {sent ? (
+                <div className="form-success">
+                  <div className="success-icon">✓</div>
+                  <h3>Megkaptuk!</h3>
+                  <p>Hamarosan felvesszük veled a kapcsolatot.</p>
+                </div>
+              ) : (
+                <>
+                  <div className="cta-text">
+                    <h3>Nem tudod melyik kell?</h3>
+                    <p>
+                      Írj nekünk és segítünk választani. A legtöbb vállalkozásnak a Többoldalas csomag a legerősebb döntés.
+                    </p>
+                  </div>
+                  <form className="contact-form" onSubmit={handleSubmit}>
+                    <input type="text" name="nezor_hp_field" value={hp} onChange={e => setHp(e.target.value)} style={{display:'none'}} tabIndex={-1} autoComplete="off" />
+                    <div className="form-row">
+                      <input className="form-input" type="text" placeholder="Neved" value={nev} onChange={e => setNev(e.target.value)} required />
+                      <input className="form-input" type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
+                    </div>
+                    <input className="form-input" type="tel" placeholder="Telefonszám (opcionális)" value={telefon} onChange={e => setTelefon(e.target.value)} />
+                    {error && <p className="form-error">{error}</p>}
+                    <button className="btn btn-primary form-btn" type="submit" disabled={loading}>
+                      {loading ? 'Küldés...' : 'Segíts választani'}
+                    </button>
+                  </form>
+                </>
+              )}
             </div>
           </div>
         </section>
@@ -638,14 +689,18 @@ export default function Page() {
           background:linear-gradient(135deg,rgba(255,255,255,.09),rgba(255,255,255,.045));
           border:1px solid rgba(255,255,255,.10);
           display:flex;
-          align-items:center;
-          justify-content:space-between;
-          gap:20px;
-          flex-wrap:wrap;
+          flex-direction:column;
+          gap:24px;
           box-shadow:var(--shadow);
         }
 
-        .final-cta h3{
+        .final-cta{
+          flex-direction:column;
+          align-items:stretch;
+          gap:28px;
+        }
+
+        .cta-text h3{
           color:#fff;
           font-size:clamp(28px,4vw,44px);
           line-height:.96;
@@ -653,11 +708,86 @@ export default function Page() {
           margin-bottom:8px;
         }
 
-        .final-cta p{
+        .cta-text p{
           color:#a5b5c9;
           font-weight:650;
           line-height:1.65;
-          max-width:720px;
+        }
+
+        .contact-form{
+          display:flex;
+          flex-direction:column;
+          gap:12px;
+        }
+
+        .form-row{
+          display:grid;
+          grid-template-columns:1fr 1fr;
+          gap:12px;
+        }
+
+        .form-input{
+          width:100%;
+          padding:14px 18px;
+          border-radius:14px;
+          border:1px solid rgba(255,255,255,.12);
+          background:rgba(255,255,255,.06);
+          color:#fff;
+          font-size:15px;
+          font-family:inherit;
+          outline:none;
+          transition:.2s;
+        }
+
+        .form-input::placeholder{color:rgba(255,255,255,.35)}
+        .form-input:focus{border-color:rgba(0,223,255,.5);background:rgba(0,223,255,.06)}
+
+        .form-btn{
+          align-self:flex-start;
+          border:none;
+          cursor:pointer;
+          font-family:inherit;
+          font-size:15px;
+        }
+
+        .form-btn:disabled{opacity:.6;cursor:not-allowed}
+
+        .form-error{
+          color:#ff6b6b;
+          font-size:14px;
+          font-weight:700;
+        }
+
+        .form-success{
+          text-align:center;
+          padding:40px;
+          width:100%;
+        }
+
+        .success-icon{
+          width:60px;
+          height:60px;
+          border-radius:50%;
+          background:var(--accent);
+          color:#061020;
+          font-size:26px;
+          font-weight:900;
+          display:grid;
+          place-items:center;
+          margin:0 auto 18px;
+        }
+
+        .form-success h3{
+          color:#fff;
+          font-size:32px;
+          letter-spacing:-1px;
+          margin-bottom:8px;
+        }
+
+        .form-success p{color:#a5b5c9;font-weight:650}
+
+        @media (max-width:580px){
+          .form-row{grid-template-columns:1fr}
         }
 
         footer{
