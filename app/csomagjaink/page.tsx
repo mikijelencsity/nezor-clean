@@ -47,7 +47,7 @@ export default function Page() {
         </header>
 
         <section className="hero" id="csomagok">
-          <div className="wrap hero-grid">
+          <div className="hero-grid">
             <div>
               <div className="eyebrow">NEZOR / Csomagjaink</div>
               <h1>Weboldal <span>csomagok</span> vállalkozásoknak.</h1>
@@ -296,6 +296,12 @@ export default function Page() {
           grid-template-columns:.82fr 1.18fr;
           gap:42px;
           align-items:center;
+          width:100%;
+          padding-left:max(24px, calc((100vw - 1180px) / 2 + 16px));
+        }
+
+        .hero-grid > div:first-child{
+          max-width:600px;
         }
 
         .eyebrow{
@@ -374,7 +380,7 @@ export default function Page() {
           position:relative;
           aspect-ratio:5/4;
           min-height:520px;
-          border-radius:34px;
+          border-radius:34px 0 0 34px;
           overflow:hidden;
           background:
             radial-gradient(circle at 8% 18%, rgba(0,223,255,.23), transparent 26%),
@@ -808,8 +814,8 @@ export default function Page() {
         }
 
         @media (max-width:1120px){
-          .hero-grid{grid-template-columns:1fr}
-          .package-visual{min-height:auto}
+          .hero-grid{grid-template-columns:1fr;padding-left:16px;padding-right:16px}
+          .package-visual{min-height:auto;border-radius:24px}
         }
 
         @media (max-width:820px){
@@ -838,7 +844,7 @@ export default function Page() {
           .hero{padding:48px 0 58px}
           h1{letter-spacing:-2.4px}
           .hero-mini{grid-template-columns:1fr}
-          .package-visual{padding:28px 18px;border-radius:28px}
+          .package-visual{padding:28px 18px;border-radius:20px}
           .visual-title{font-size:42px}
           .after-packages{padding:64px 0 76px}
         }
