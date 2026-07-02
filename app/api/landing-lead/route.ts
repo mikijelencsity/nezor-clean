@@ -3,17 +3,11 @@ import { resend, FROM_EMAIL, NOTIFY_EMAIL, esc, isValidEmail } from '@/lib/resen
 
 export async function POST(request: Request) {
   try {
-    const { nev, telefon, email, website } = await request.json() as {
+    const { nev, telefon, email } = await request.json() as {
       nev: string;
       telefon: string;
       email?: string;
-      website?: string;
     };
-
-    // honeypot – bot csendben "sikeres"
-    if (website) {
-      return NextResponse.json({ ok: true });
-    }
 
     // név + telefon + email kötelező
     if (!nev || !telefon || !email || !isValidEmail(email)) {

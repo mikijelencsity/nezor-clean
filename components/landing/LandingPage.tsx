@@ -1,5 +1,6 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styles from './LandingPage.module.css';
 
@@ -58,10 +59,10 @@ const faq = [
 ];
 
 export function LandingPage() {
+  const router = useRouter();
   const [nev, setNev] = useState('');
   const [telefon, setTelefon] = useState('');
   const [email, setEmail] = useState('');
-  const [website, setWebsite] = useState(''); // honeypot
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [sent, setSent] = useState(false);
@@ -132,11 +133,11 @@ export function LandingPage() {
       const res = await fetch('/api/landing-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nev, telefon, email, website }),
+        body: JSON.stringify({ nev, telefon, email }),
       });
       const data = await res.json();
       if (data.ok) {
-        setSent(true);
+        router.push('/landing/koszonjuk');
       } else {
         setError('Hiba történt. Próbáld újra, vagy írj nekünk: info@nezor.hu');
       }
@@ -360,17 +361,6 @@ export function LandingPage() {
                   Csak a neved és telefonszámod kell — 30 mp, a többit hívásban egyeztetjük.
                 </p>
 
-                {/* honeypot – valódi látogató nem tölti ki */}
-                <input
-                  type="text"
-                  name="nezor_hp_field"
-                  value={website}
-                  onChange={(e) => setWebsite(e.target.value)}
-                  className={styles.honeypot}
-                  tabIndex={-1}
-                  autoComplete="off"
-                  aria-hidden="true"
-                />
 
                 <div className={styles.field}>
                   <label>Teljes név *</label>
