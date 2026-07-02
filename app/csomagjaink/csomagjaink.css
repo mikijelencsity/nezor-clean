@@ -15,7 +15,7 @@ html{scroll-behavior:smooth}
 body{
   font-family:Inter,Arial,sans-serif;
   color:var(--text);
-  background:#081022;
+  background:#fafcff !important;
   overflow-x:hidden;
 }
 a{text-decoration:none;color:inherit}
