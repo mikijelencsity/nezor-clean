@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { trackEvent } from '@/components/analytics/FacebookPixel';
 import { NavDrawer } from '@/components/ui/NavDrawer';
+import './csomagjaink.css';
 
 export default function Page() {
   const [nev, setNev] = useState('');
@@ -186,7 +187,8 @@ export default function Page() {
         </div>
       </footer>
 
-      <style jsx global>{`
+      {/* styles moved to csomagjaink.css */}
+      {false && <style jsx global>{`
         :root{
           --dark:#081022;
           --dark2:#0b1832;
@@ -794,7 +796,7 @@ export default function Page() {
           .visual-title{font-size:42px}
           .after-packages{padding:64px 0 76px}
         }
-      `}</style>
+      `}</style>}
     </>
   );
 }
