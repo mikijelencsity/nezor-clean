@@ -741,8 +741,8 @@ export function HomePage() {
         <div className="glow glow-yellow" style={{ bottom: 0, left: '-100px' }}></div>
 
         <div className="story-card">
-          <div className="story-img"><Image src="/miértmi.webp" alt="NEZOR alapítók" fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 100vw, 50vw" /></div>
-          <div className="story-body">
+          <div className="story-body" style={{ position: 'relative' }}>
+            <Image src="/alapitok.webp" alt="NEZOR alapítók" width={180} height={180} style={{ position: 'absolute', top: -90, right: -90, borderRadius: '50%', objectFit: 'cover', border: '4px solid #fff', boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }} />
             <div className="story-eyebrow">Miért mi</div>
             <h3>16 évesen indultunk. <span className="accent">Bukni nem lehetett.</span></h3>
             <p>A családi vállalkozás matrica termékeit kellett online eladnunk, különben az egész megszűnik. Nem volt B terv. Eredményt kellett hoznunk, ráadásul ingyen, mert csak akkor volt értelme, ha közben az értékesítés is működik.</p>

@@ -21,14 +21,7 @@ export function StorySection() {
       <GlowBlob color="yellow" style={{ bottom: 0, left: '-100px' }} />
 
       <div className={styles.storyCard}>
-        <div className={styles.storyImg}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/alapitok.webp"
-            alt="Müller Dániel és Jelencsity Miklós – NEZOR alapítók"
-            className={styles.storyImgPhoto}
-          />
-        </div>
+        <div className={styles.storyImg}></div>
         <div className={styles.storyBody}>
           <div className={styles.storyEyebrow}>Miért mi</div>
           <h3>16 évesen indultunk. <span className={styles.accent}>Bukni nem lehetett.</span></h3>
