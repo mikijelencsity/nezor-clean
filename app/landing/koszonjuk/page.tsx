@@ -3,9 +3,13 @@ import { useEffect } from 'react';
 
 export default function KoszonjukPage() {
   useEffect(() => {
-    if (typeof window !== 'undefined' && (window as Window & { fbq?: (...a: unknown[]) => void }).fbq) {
+    const fire = () => {
       (window as Window & { fbq?: (...a: unknown[]) => void }).fbq?.('track', 'Lead');
-    }
+    };
+    // Pixel init (FacebookPixel komponens) és a Lead event egyszerre fut useEffect-ben,
+    // ezért várunk egy ticket hogy a pixel biztosan init-elődjön előbb.
+    const t = setTimeout(fire, 300);
+    return () => clearTimeout(t);
   }, []);
 
   return (
