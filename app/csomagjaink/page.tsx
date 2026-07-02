@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { trackEvent } from '@/components/analytics/FacebookPixel';
+import { NavDrawer } from '@/components/ui/NavDrawer';
 
 export default function Page() {
   const [nev, setNev] = useState('');
@@ -35,16 +36,7 @@ export default function Page() {
   return (
     <>
       <main>
-        <header>
-          <div className="wrap nav">
-            <div className="logo">NE<span>ZOR</span></div>
-            <div className="nav-right">
-              <a href="#csomagok" className="nav-link">Csomagok</a>
-              <a href="#kapcsolat" className="nav-link">Kapcsolat</a>
-              <a href="#kapcsolat" className="btn btn-primary">Ajánlatot kérek</a>
-            </div>
-          </div>
-        </header>
+        <NavDrawer />
 
         <section className="hero" id="csomagok">
           <div className="wrap hero-grid">
@@ -225,43 +217,6 @@ export default function Page() {
         a{text-decoration:none;color:inherit}
         .wrap{width:min(1180px,calc(100% - 32px));margin:0 auto}
 
-        header{
-          position:sticky;
-          top:0;
-          z-index:30;
-          background:rgba(248,248,242,.78);
-          backdrop-filter:blur(16px);
-          border-bottom:1px solid rgba(10,25,45,.06);
-        }
-
-        .nav{
-          min-height:74px;
-          display:flex;
-          align-items:center;
-          justify-content:space-between;
-          gap:18px;
-        }
-
-        .logo{
-          font-size:22px;
-          font-weight:1000;
-          letter-spacing:-1px;
-          color:#081022;
-        }
-
-        .logo span{color:#00bfe9}
-
-        .nav-right{
-          display:flex;
-          align-items:center;
-          gap:14px;
-        }
-
-        .nav-link{
-          font-size:14px;
-          font-weight:900;
-          color:#596273;
-        }
 
         .btn{
           display:inline-flex;
