@@ -36,7 +36,7 @@ export default function Page() {
 
   return (
     <>
-      <main>
+      <main style={{background:'#fafcff',minHeight:'100vh'}}>
         <NavDrawer />
 
         <section className="hero" id="csomagok">
