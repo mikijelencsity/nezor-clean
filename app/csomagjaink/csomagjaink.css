@@ -41,7 +41,7 @@ a{text-decoration:none;color:inherit}
 .btn-primary{background:var(--accent);color:#071225;box-shadow:0 12px 30px rgba(0,223,255,.22);}
 .btn-secondary{background:#fff;border:1px solid var(--lineLight);color:#071225;}
 
-.hero{padding:64px 0 80px;}
+.hero{padding:80px 0 0;}
 .hero-grid{
   display:grid;
   grid-template-columns:minmax(0,480px) 1fr;
@@ -87,8 +87,12 @@ h1 span{
 
 .package-visual{
   position:relative;
+  min-height:600px;
   border-radius:28px;
   overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
   background:
     radial-gradient(circle at 8% 18%, rgba(0,223,255,.23), transparent 26%),
     radial-gradient(circle at 88% 82%, rgba(215,255,56,.20), transparent 28%),
