@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { GridBg } from '@/components/ui/GridBg';
 import { GlowBlob } from '@/components/ui/GlowBlob';
 import styles from './StorySection.module.css';
@@ -23,13 +22,11 @@ export function StorySection() {
 
       <div className={styles.storyCard}>
         <div className={styles.storyImg}>
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/alapitok.webp"
             alt="Müller Dániel és Jelencsity Miklós – NEZOR alapítók"
-            width={400}
-            height={400}
             className={styles.storyImgPhoto}
-            priority
           />
         </div>
         <div className={styles.storyBody}>
