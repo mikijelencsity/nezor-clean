@@ -41,6 +41,7 @@ export default function Page() {
 
         <section className="hero" id="csomagok">
           <div className="hero-left">
+            <div className="hero-blob-mid" aria-hidden="true" />
             <div className="eyebrow">NEZOR / Csomagjaink</div>
             <h1>Weboldal <span>csomagok</span> vállalkozásoknak.</h1>
             <p className="hero-desc">
