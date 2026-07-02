@@ -15,7 +15,7 @@ html{scroll-behavior:smooth}
 body{
   font-family:Inter,Arial,sans-serif;
   color:var(--text);
-  background:#fafcff;
+  background:#081022;
   overflow-x:hidden;
 }
 a{text-decoration:none;color:inherit}
@@ -58,6 +58,7 @@ a{text-decoration:none;color:inherit}
   display:grid;
   grid-template-columns:1fr 1.6fr;
   align-items:center;
+  background:#fafcff;
 }
 
 .hero-left{
