@@ -54,20 +54,6 @@ export default function Page() {
                 <a href="#bizalom" className="btn btn-secondary">Mit kapsz?</a>
               </div>
 
-              <div className="hero-mini">
-                <div className="mini-card">
-                  <strong>50k</strong>
-                  <span>belépő csomag</span>
-                </div>
-                <div className="mini-card">
-                  <strong>120k</strong>
-                  <span>legjobb ár / érték</span>
-                </div>
-                <div className="mini-card">
-                  <strong>320k</strong>
-                  <span>prémium megoldás</span>
-                </div>
-              </div>
             </div>
 
             <div className="package-visual" aria-label="NEZOR csomagjaink látványos árkártyák">
