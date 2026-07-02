@@ -38,25 +38,25 @@ a{text-decoration:none;color:inherit}
 }
 
 .hero-left{
-  padding:80px 48px 80px max(24px, calc((100vw - 1280px) / 2 + 24px));
+  padding:80px 48px 80px 48px;
 }
 
 .eyebrow{
   display:inline-block;color:#00bfe9;
-  font-size:12px;letter-spacing:1.8px;text-transform:uppercase;
-  font-weight:950;margin-bottom:18px;
+  font-size:13px;letter-spacing:1.8px;text-transform:uppercase;
+  font-weight:950;margin-bottom:22px;
 }
 
 h1{
-  font-size:clamp(40px,5vw,70px);
-  line-height:.94;letter-spacing:-3px;
-  color:#081022;margin-bottom:20px;
+  font-size:clamp(48px,5.8vw,82px);
+  line-height:.92;letter-spacing:-3.5px;
+  color:#081022;margin-bottom:24px;
 }
 h1 span{background:var(--accent);-webkit-background-clip:text;background-clip:text;color:transparent;}
 
 .hero-desc{
-  font-size:clamp(16px,1.6vw,19px);line-height:1.65;
-  color:#5d6675;font-weight:650;max-width:480px;margin-bottom:28px;
+  font-size:clamp(17px,1.8vw,21px);line-height:1.65;
+  color:#5d6675;font-weight:650;max-width:520px;margin-bottom:32px;
 }
 
 .hero-actions{display:flex;flex-wrap:wrap;gap:12px;}
