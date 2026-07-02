@@ -106,7 +106,7 @@ h1 span{background:var(--accent);-webkit-background-clip:text;background-clip:te
 .visual-brand{color:var(--cyan);letter-spacing:6px;font-size:11px;font-weight:1000;margin-bottom:10px;}
 .visual-title{
   display:inline-block;font-size:clamp(32px,3.5vw,52px);
-  line-height:1;letter-spacing:-2px;font-weight:1000;
+  line-height:1.15;letter-spacing:-2px;font-weight:1000;
   background:var(--accent);-webkit-background-clip:text;background-clip:text;color:transparent;
 }
 
