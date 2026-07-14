@@ -19,8 +19,8 @@ export const cities: City[] = [
   { slug: 'kiskoros',         name: 'Kiskőrös',          inCity: 'Kiskőrösön',        adjective: 'kiskőrösi',        county: 'Bács-Kiskun',  isLocal: true },
   { slug: 'kunszentmiklos',   name: 'Kunszentmiklós',    inCity: 'Kunszentmiklóson',  adjective: 'kunszentmiklósi',  county: 'Bács-Kiskun',  isLocal: true },
   { slug: 'tiszakecske',      name: 'Tiszakécske',       inCity: 'Tiszakécskén',      adjective: 'tiszakécskei',     county: 'Bács-Kiskun',  isLocal: true },
-  { slug: 'lajosmizse',       name: 'Lajosmizse',        inCity: 'Lajosmizséen',      adjective: 'lajosmizsiei',     county: 'Bács-Kiskun',  isLocal: true },
-  { slug: 'dunavecse',        name: 'Dunavecse',         inCity: 'Dunavecséen',       adjective: 'dunavecsei',       county: 'Bács-Kiskun',  isLocal: true },
+  { slug: 'lajosmizse',       name: 'Lajosmizse',        inCity: 'Lajosmizsén',       adjective: 'lajosmizsei',      county: 'Bács-Kiskun',  isLocal: true },
+  { slug: 'dunavecse',        name: 'Dunavecse',         inCity: 'Dunavecsén',        adjective: 'dunavecsei',       county: 'Bács-Kiskun',  isLocal: true },
   { slug: 'soltvadkert',      name: 'Soltvadkert',       inCity: 'Soltvadkerten',     adjective: 'soltvadkerti',     county: 'Bács-Kiskun',  isLocal: true },
   { slug: 'janoshalma',       name: 'Jánoshalma',        inCity: 'Jánoshalman',       adjective: 'jánoshalmai',      county: 'Bács-Kiskun',  isLocal: true },
   // Top magyar városok
