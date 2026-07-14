@@ -24,7 +24,7 @@
   align-items: center;
   gap: 8px;
   background: rgba(0, 229, 255, 0.12);
-  color: #00e5ff;
+  color: var(--blue);
   font-size: 13px;
   font-weight: 700;
   padding: 8px 18px;
@@ -41,7 +41,7 @@
 }
 
 .accent {
-  color: #0099b8;
+  color: var(--cyan2);
 }
 
 .heroDesc {
@@ -64,7 +64,7 @@
   align-items: center;
   padding: 14px 28px;
   border-radius: 999px;
-  background: linear-gradient(135deg, #00e5ff, #ffe600);
+  background: linear-gradient(135deg, var(--blue), var(--yellow));
   color: #071225;
   font-weight: 800;
   transition: transform 0.2s ease;
@@ -175,7 +175,7 @@
 .cityLinkPrimary {
   padding: 8px 16px;
   border-radius: 999px;
-  background: #00e5ff;
+  background: var(--blue);
   color: #071225;
   font-size: 14px;
   font-weight: 700;
