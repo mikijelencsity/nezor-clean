@@ -16,16 +16,18 @@ export function FAQAccordion({ items }: { items: FAQItem[] }) {
       {items.map((item, i) => {
         const open = openIndex === i;
         return (
-          <div key={item.question} className={styles.item}>
+          <div key={i} className={styles.item}>
             <button
+              type="button"
               className={styles.question}
               onClick={() => setOpenIndex(open ? null : i)}
               aria-expanded={open}
+              aria-controls={`faq-answer-${i}`}
             >
               <span>{item.question}</span>
-              <span className={`${styles.icon} ${open ? styles.iconOpen : ''}`}>+</span>
+              <span aria-hidden="true" className={`${styles.icon} ${open ? styles.iconOpen : ''}`}>+</span>
             </button>
-            {open && <p className={styles.answer}>{item.answer}</p>}
+            {open && <p id={`faq-answer-${i}`} className={styles.answer}>{item.answer}</p>}
           </div>
         );
       })}
