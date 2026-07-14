@@ -2,8 +2,16 @@
 import { City } from './cities'
 
 // Deterministic variation selector — minden városhoz más kombináció
+function hashSlug(slug: string): number {
+  let hash = 0
+  for (let i = 0; i < slug.length; i++) {
+    hash = (hash * 31 + slug.charCodeAt(i)) | 0
+  }
+  return Math.abs(hash)
+}
+
 export function pick<T>(arr: T[], city: City, offset = 0): T {
-  const index = (city.slug.charCodeAt(0) + city.slug.length + offset) % arr.length
+  const index = (hashSlug(city.slug) + offset) % arr.length
   return arr[index]
 }
 
