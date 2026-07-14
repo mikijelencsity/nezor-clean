@@ -6,8 +6,8 @@ import styles from './LandingPage.module.css';
 
 const formatFt = (n: number) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
-// Az ajánlat lejárata: 2026. július 20. 23:59:59
-const DEADLINE = new Date('2026-07-20T23:59:59').getTime();
+// Az ajánlat lejárata: 2026. augusztus 10. 23:59:59
+const DEADLINE = new Date('2026-08-10T23:59:59').getTime();
 const pad2 = (n: number) => String(n).padStart(2, '0');
 
 
@@ -24,6 +24,20 @@ const hirdetesKreativok = [
   { kep: '/HIRDETES4.webp', metrika: '90.000', tipus: 'Elérés 10.000 Ft-ból', ceg: 'ZT Épületgépészet' },
   { kep: '/HIRDETES2.webp', metrika: '100.000 Ft', tipus: 'Bevétel 12.000 Ft-ból', ceg: 'Hazai Kávé Kft.' },
   { kep: '/HIRDETES1.webp', metrika: '4×', tipus: 'Megtérülés', ceg: 'Dover Check' },
+];
+
+// FONTOS: ezek javasolt értékek — írd át a valós áraidra!
+const ertekLebontas = [
+  { cim: 'Bemutatkozó oldal', jegyzet: 'a 3. hónap után véglegesen a tiéd', ertek: '120.000 Ft' },
+  { cim: 'Google cégprofil beállítás', jegyzet: 'a 3. hónap után véglegesen a tiéd', ertek: '40.000 Ft' },
+  { cim: 'Hirdetési kampány + 1 havi kezelés', jegyzet: 'felépítés, indítás, optimalizálás', ertek: '79.000 Ft' },
+];
+
+const folyamat = [
+  { cim: 'Jelentkezel', leiras: '30 másodperc. Csak a neved, telefonszámod és email-címed kell.' },
+  { cim: 'Felhívunk 24 órán belül', leiras: 'Egy 15 perces beszélgetés: megismerjük a vállalkozásod és a céljaid.' },
+  { cim: 'Megépítjük', leiras: 'Bemutatkozó oldal + Google cégprofil, néhány nap alatt. Neked nem kell szöveget írnod.' },
+  { cim: 'Indul a kampány', leiras: 'Elindítjuk a hirdetést, és jönnek az érdeklődők. Végig szólunk, mi történik.' },
 ];
 
 const kampanySor1 = [
@@ -55,7 +69,7 @@ const faq = [
   { k: 'Van bármilyen kötelezettség?', v: 'Nincs. Bármikor lemondhatod az első hónapban, nem kötünk hosszú távú szerződést, míg nem vagy elkötelezett a közös munka felé.' },
   { k: 'Nekem kell megírnom a szövegeket?', v: 'Nem. Elég, ha elmondod, mivel foglalkozol – a szöveget és a felépítést mi rakjuk össze.' },
   { k: 'Mennyi idő, míg elindul?', v: 'Néhány nap alatt élesben van a megjelenésed és a hirdetési kampányod.' },
-  { k: 'A hirdetési költség benne van?', v: 'A Meta felé fizetendő budget-et közvetlenül te állítod be, a mi munkánk a 19.990 Ft. Így átlátható, mi megy hirdetésre és mi a mi díjunk.' },
+  { k: 'A hirdetési költség benne van?', v: 'A hirdetési budget közvetlenül a Metához megy, nem hozzánk — a 19.990 Ft a mi munkánk díja. Így átlátható, mennyi megy hirdetésre és mennyi a mi díjunk. A beállításban végig segítünk, nem kell értened hozzá.' },
 ];
 
 export function LandingPage() {
@@ -159,30 +173,24 @@ export function LandingPage() {
             Te is <span className={styles.grad}>TUDOD</span>:<br />több ügyfél kell.<br />Megmutatjuk, hogyan.
           </h1>
           <p className={styles.heroMatch}>
-            Te értesz a szakmádhoz. <span className={styles.heroMatchHi}>Mi az ügyfélszerzéshez.</span>
+            Te értesz a szakmádhoz.<br />
+            <span className={styles.heroMatchHi}>Mi az ügyfélszerzéshez.</span>
           </p>
           <p className={styles.heroSub}>
-            Több ügyfelet szeretnél — de eddig vagy nem működött, amit próbáltál, vagy bele se kezdtél. Érthető.
+            Több ügyfelet szeretnél — de eddig vagy nem működött, amit próbáltál,<br />
+            vagy bele se kezdtél. <strong>Érthető.</strong>
           </p>
 
-          {/* A rendszer fizikai bemutatója */}
-          <div className={styles.heroArrow} aria-hidden="true">
-            <svg viewBox="0 0 72 62" fill="none" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M14 8c30 2 42 18 34 40" fill="none" />
-              <path d="M40 36l8 14 12-9" fill="none" />
-            </svg>
+          {/* görgetés-jelző: elválasztja a hero-t a következő szekciótól */}
+          <div className={styles.scrollCue} aria-hidden="true">
+            <span className={styles.scrollCueLine} />
+            <span className={styles.scrollCueCircle}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 5v13M6 12l6 6 6-6" />
+              </svg>
+            </span>
           </div>
-          <div className={styles.heroMockup}>
-            <Image
-              src="/nezor-doboz-circle.webp"
-              alt="NEZOR Online Rendszer csomag"
-              width={760}
-              height={760}
-              className={styles.heroMockupImg}
-              priority
-              sizes="(max-width: 720px) 60vw, 260px"
-            />
-          </div>
+
         </section>
 
         {/* ── PROBLÉMA ── */}
@@ -224,7 +232,9 @@ export function LandingPage() {
             ))}
           </div>
           <div className={styles.refStars}>★★★★★</div>
-          <p className={styles.refText}>Már <strong>21 vállalkozás</strong> választott minket</p>
+          <p className={styles.refText}>
+            Már <strong>21 vállalkozás</strong> választott minket <strong className={styles.grad}>idén</strong>
+          </p>
         </section>
 
         {/* ── HIRDETÉSI KAMPÁNY REFERENCIÁK (mozgó sáv) ── */}
@@ -311,28 +321,69 @@ export function LandingPage() {
 
         {/* ── ÉRTÉK-INDOKLÁS ── */}
         <section className={styles.section}>
-          <h2 className={styles.h2}>19.990 Ft — hol a csapda?</h2>
-          <p className={styles.lead}><span className={styles.grad}>Nincs csapda.</span></p>
+          <h2 className={styles.h2}>
+            A 3. hónap után <span className={styles.grad}>a weboldal és a Google profil is a tiéd.</span>
+          </h2>
           <p className={styles.body}>
-            Az első hónap a bizonyítás hónapja. Ha nem hozunk értéket, lemondod. Ha igen, együtt építkezünk tovább.
+            Ha 3 hónapig együtt dolgozunk, a bemutatkozó oldalad és a Google cégprofilod{' '}
+            <strong>véglegesen nálad marad — örökre</strong>.
           </p>
         </section>
 
-        {/* ── SZOLGÁLTATÁS PAKK + CTA ── */}
+        {/* ── SZOLGÁLTATÁS PAKK + ÉRTÉK-LEBONTÁS ── */}
         <section className={styles.section}>
           <div className={styles.packCard}>
             <span className={styles.packBadge}>Komplett rendszer</span>
-            <h3 className={styles.packTitle}>A teljes ügyfélszerző rendszer</h3>
-            <ul className={styles.packList}>
-              {csomagTartalom.map((f) => (
-                <li key={f.cim}>{f.cim}</li>
+            <h3 className={styles.packTitle}>Mit kapsz, és mit ér?</h3>
+
+            <ul className={styles.valueList}>
+              {ertekLebontas.map((e) => (
+                <li key={e.cim}>
+                  <span className={styles.valueName}>
+                    {e.cim}
+                    {e.jegyzet && <em>{e.jegyzet}</em>}
+                  </span>
+                  <b className={styles.valuePrice}>{e.ertek}</b>
+                </li>
               ))}
             </ul>
-            <div className={styles.packPrice}>
-              <span className={styles.priceOld}>79.000 Ft</span>
-              <span className={styles.packPriceNew}>19.990 Ft<span> / első hó</span></span>
+
+            <div className={styles.valueTotal}>
+              Összesen <strong>239.000 Ft</strong> értékben
             </div>
-            <p className={styles.guarantee}>🔓 Bármikor lemondhatod — teljes elégedettségi garancia.</p>
+
+            <div className={styles.packPrice}>
+              <span className={styles.packPriceLabel}>Az első hónap:</span>
+              <span className={styles.packPriceNew}>19.990 Ft</span>
+            </div>
+
+            <p className={styles.budgetNote}>
+              A <strong>hirdetési budget közvetlenül a Metához megy</strong>, nem hozzánk — mi csak a
+              saját munkánk díját számlázzuk. Így minden forint átlátható: tudod, mennyi megy hirdetésre
+              és mennyi a mi díjunk. <strong>A beállításban végig segítünk</strong>, nem kell értened hozzá.
+            </p>
+            <p className={styles.guarantee}>
+              🔓 <strong>Kockázatmentes:</strong> az első hónapot bármikor lemondhatod, a 3. hónap után
+              pedig a weboldal és a Google cégprofil <strong>véglegesen a te tulajdonod</strong>.
+            </p>
+          </div>
+        </section>
+
+        {/* ── FOLYAMAT: mi történik, ha jelentkezel ── */}
+        <section className={styles.section}>
+          <h2 className={styles.h2}>
+            Mi történik, ha <span className={styles.grad}>jelentkezel?</span>
+          </h2>
+          <div className={styles.folyamatList}>
+            {folyamat.map((f, i) => (
+              <div key={f.cim} className={styles.folyamatStep}>
+                <span className={styles.folyamatNum}>{i + 1}</span>
+                <div className={styles.folyamatBody}>
+                  <h3>{f.cim}</h3>
+                  <p>{f.leiras}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -389,6 +440,16 @@ export function LandingPage() {
                 </p>
               </>
             )}
+
+            {/* Alapítói fotó — kerek, a form tetején, szöveget nem takar */}
+            <Image
+              src="/alapitok.webp"
+              alt="Müller Dániel és Jelencsity Miklós — NEZOR alapítók"
+              width={440}
+              height={440}
+              className={styles.formPhoto}
+              sizes="120px"
+            />
           </div>
           <p className={styles.signature}>
             Velünk dolgozol: <strong>Müller Dániel</strong> és <strong>Jelencsity Miklós</strong>
