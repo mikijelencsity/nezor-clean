@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { cities } from '@/lib/cities';
+import { getAllPosts } from '@/lib/blog';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = 'https://nezor.hu';
@@ -14,6 +15,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   );
 
+  const blogUrls: MetadataRoute.Sitemap = getAllPosts().map((post) => ({
+    url: `${base}/blog/${post.slug}`,
+    lastModified: new Date(post.date),
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }));
+
   return [
     {
       url: base,
@@ -27,6 +35,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.7,
     },
+    {
+      url: `${base}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.7,
+    },
+    ...blogUrls,
     {
       url: `${base}/adatkezeles`,
       lastModified: new Date(),
