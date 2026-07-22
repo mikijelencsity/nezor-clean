@@ -1,6 +1,7 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import { trackEvent, ujEventId } from '@/components/analytics/FacebookPixel';
 import styles from './SzakemberPage.module.css';
 
 // TODO: cseréld ki a 3 valódi kész weboldal screenshotjára
@@ -98,14 +99,18 @@ export function SzakemberPage() {
     setLoading(true);
     setError('');
     try {
+      // Közös azonosító a browser pixel és a szerver oldali CAPI dedupjához
+      const eventId = ujEventId();
       const res = await fetch('/api/szakember-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nev, telefon, email, cegnev, terulet, szakma: valasztottNev, foglalkozas, website }),
+        body: JSON.stringify({ nev, telefon, email, cegnev, terulet, szakma: valasztottNev, foglalkozas, eventId, website }),
       });
       const data = await res.json();
-      if (data.ok) setSent(true);
-      else setError('Hiba történt. Próbáld újra, vagy hívj: +36 30 203 6721');
+      if (data.ok) {
+        trackEvent('Lead', { content_name: valasztottNev }, eventId); // csak sikeres beküldésre
+        setSent(true);
+      } else setError('Hiba történt. Próbáld újra, vagy hívj: +36 30 203 6721');
     } catch {
       setError('Hiba történt. Próbáld újra, vagy hívj: +36 30 203 6721');
     } finally {

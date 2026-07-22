@@ -1,12 +1,14 @@
 import { NextResponse } from 'next/server';
 import { resend, FROM_EMAIL, NOTIFY_EMAIL, esc, isValidEmail } from '@/lib/resend';
+import { sendCapiEvent, capiContext } from '@/lib/meta-capi';
 
 export async function POST(request: Request) {
   try {
-    const { nev, telefon, email } = await request.json() as {
+    const { nev, telefon, email, eventId } = await request.json() as {
       nev: string;
       telefon: string;
       email?: string;
+      eventId?: string;
     };
 
     // név + telefon + email kötelező
@@ -49,6 +51,23 @@ export async function POST(request: Request) {
       } catch (confirmErr) {
         console.error('[landing-lead] visszaigazoló email sikertelen', confirmErr);
       }
+    }
+
+    // Meta CAPI — szerver oldali Lead, a browser eventtel deduplikálva (közös eventId)
+    if (eventId) {
+      const ctx = capiContext(request);
+      await sendCapiEvent({
+        eventName: 'Lead',
+        eventId,
+        sourceUrl: ctx.sourceUrl ?? 'https://nezor.hu/landing',
+        email,
+        phone: telefon,
+        fullName: nev,
+        clientIp: ctx.clientIp,
+        clientUserAgent: ctx.clientUserAgent,
+        fbp: ctx.fbp,
+        fbc: ctx.fbc,
+      });
     }
 
     return NextResponse.json({ ok: true });

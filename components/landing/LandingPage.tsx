@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { trackEvent, ujEventId } from '@/components/analytics/FacebookPixel';
 import styles from './LandingPage.module.css';
 
 const formatFt = (n: number) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -136,13 +137,16 @@ export function LandingPage() {
     setLoading(true);
     setError('');
     try {
+      // Közös azonosító a browser pixel és a szerver oldali CAPI dedupjához
+      const eventId = ujEventId();
       const res = await fetch('/api/landing-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nev, telefon, email }),
+        body: JSON.stringify({ nev, telefon, email, eventId }),
       });
       const data = await res.json();
       if (data.ok) {
+        trackEvent('Lead', {}, eventId); // csak sikeres beküldésre
         router.push('/landing/koszonjuk');
       } else {
         setError('Hiba történt. Próbáld újra, vagy írj nekünk: info@nezor.hu');
