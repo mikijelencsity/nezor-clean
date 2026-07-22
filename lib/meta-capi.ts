@@ -4,6 +4,13 @@ const PIXEL_ID = process.env.NEXT_PUBLIC_FB_PIXEL_ID;
 const CAPI_TOKEN = process.env.META_CAPI_TOKEN;
 const CAPI_URL = `https://graph.facebook.com/v19.0/${PIXEL_ID}/events`;
 
+/**
+ * Ha be van állítva, a szerver oldali események megjelennek a Meta
+ * "Események tesztelése" fülén is. ÉLESBEN HAGYD ÜRESEN — teszt kód mellett
+ * a Meta nem számolja be rendesen az eseményeket.
+ */
+const TEST_EVENT_CODE = process.env.META_TEST_EVENT_CODE;
+
 function hashSha256(value: string): string {
   return crypto.createHash('sha256').update(value.toLowerCase().trim()).digest('hex');
 }
@@ -87,7 +94,9 @@ export async function sendCapiEvent({
         user_data,
       },
     ],
-    ...(testEventCode && { test_event_code: testEventCode }),
+    ...((testEventCode ?? TEST_EVENT_CODE) && {
+      test_event_code: testEventCode ?? TEST_EVENT_CODE,
+    }),
   };
 
   try {
