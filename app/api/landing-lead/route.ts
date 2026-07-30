@@ -4,15 +4,17 @@ import { sendCapiEvent, capiContext } from '@/lib/meta-capi';
 
 export async function POST(request: Request) {
   try {
-    const { nev, telefon, email, eventId } = await request.json() as {
+    const { nev, telefon, email, cegnev, szakma, eventId } = await request.json() as {
       nev: string;
       telefon: string;
       email?: string;
+      cegnev?: string;
+      szakma?: string;
       eventId?: string;
     };
 
-    // név + telefon + email kötelező
-    if (!nev || !telefon || !email || !isValidEmail(email)) {
+    // név + telefon + email + cégnév + szakma kötelező
+    if (!nev || !telefon || !email || !isValidEmail(email) || !cegnev || !szakma) {
       return NextResponse.json({ error: 'Hiányzó vagy érvénytelen mezők' }, { status: 400 });
     }
 
@@ -22,12 +24,14 @@ export async function POST(request: Request) {
     const { error: sendError } = await resend.emails.send({
       from: FROM_EMAIL,
       to: ertesitok,
-      subject: `[NEZOR] Új lead – Ügyfélszerző rendszer (19.990) — ${esc(nev)}`,
+      subject: `[NEZOR] Új lead – Ügyfélszerző rendszer (49.000) — ${esc(nev)}`,
       html: `
-        <h2>Új lead a landing oldalról (19.990 Ft ajánlat)</h2>
+        <h2>Új lead a landing oldalról (49.000 Ft ajánlat)</h2>
         <p><strong>Név:</strong> ${esc(nev)}</p>
         <p><strong>Telefon:</strong> ${esc(telefon)}</p>
         <p><strong>Email:</strong> ${email ? esc(email) : '– (nem adott meg)'}</p>
+        <p><strong>Cégnév:</strong> ${esc(cegnev)}</p>
+        <p><strong>Mivel foglalkozik:</strong> ${esc(szakma)}</p>
       `,
     });
     if (sendError) {

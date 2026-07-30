@@ -12,6 +12,15 @@ const DEADLINE = new Date('2026-08-10T23:59:59').getTime();
 const pad2 = (n: number) => String(n).padStart(2, '0');
 
 
+const szolgaltatasokCsomag = [
+  { ikon: '🖥️', cim: 'Landing oldalak', leiras: 'Konverzióra optimalizált oldal minden kampányhoz.' },
+  { ikon: '📣', cim: 'Facebook / Meta hirdetések', leiras: 'Célzott kampányok, mérve — nem találgatva.' },
+];
+const szolgaltatasokElotte = [
+  { ikon: '🛠️', cim: 'Weboldal / webshop', leiras: 'Ha még nincs, felépítjük előtte — nem hagyunk üresen.' },
+  { ikon: '📍', cim: 'Google cégprofil', leiras: 'Beállítjuk, hogy megtaláljanak, mielőtt hirdetnél.' },
+];
+
 const cegek = [
   { src: '/estur.webp', alt: 'Estur', style: { objectFit: 'cover' as const, transform: 'scale(1.4) translateY(17%)' } },
   { src: '/cruisershop.webp', alt: 'Cruiser Shop', style: {} },
@@ -20,57 +29,48 @@ const cegek = [
   { src: '/image.webp', alt: 'Ügyfél', style: {} },
 ];
 
-const hirdetesKreativok = [
-  { kep: '/HIRDETES3.webp', metrika: '6×', tipus: 'Megtérülés', ceg: 'Forint - Soft Kft.' },
-  { kep: '/HIRDETES4.webp', metrika: '90.000', tipus: 'Elérés 10.000 Ft-ból', ceg: 'ZT Épületgépészet' },
-  { kep: '/HIRDETES2.webp', metrika: '100.000 Ft', tipus: 'Bevétel 12.000 Ft-ból', ceg: 'Hazai Kávé Kft.' },
-  { kep: '/HIRDETES1.webp', metrika: '4×', tipus: 'Megtérülés', ceg: 'Dover Check' },
-];
-
 // FONTOS: ezek javasolt értékek — írd át a valós áraidra!
 const ertekLebontas = [
-  { cim: 'Bemutatkozó oldal', jegyzet: 'a 3. hónap után véglegesen a tiéd', ertek: '120.000 Ft' },
-  { cim: 'Google cégprofil beállítás', jegyzet: 'a 3. hónap után véglegesen a tiéd', ertek: '40.000 Ft' },
+  { cim: 'Landing oldal a kampányhoz', jegyzet: '', ertek: '70.000 Ft' },
   { cim: 'Hirdetési kampány + 1 havi kezelés', jegyzet: 'felépítés, indítás, optimalizálás', ertek: '79.000 Ft' },
 ];
 
 const folyamat = [
-  { cim: 'Jelentkezel', leiras: '30 másodperc. Csak a neved, telefonszámod és email-címed kell.' },
+  { cim: 'Jelentkezel', leiras: '30 másodperc. Csak néhány adat rólad.' },
   { cim: 'Felhívunk 24 órán belül', leiras: 'Egy 15 perces beszélgetés: megismerjük a vállalkozásod és a céljaid.' },
-  { cim: 'Megépítjük', leiras: 'Bemutatkozó oldal + Google cégprofil, néhány nap alatt. Neked nem kell szöveget írnod.' },
+  { cim: 'Megépítjük', leiras: 'Landing oldal a kampányhoz, néhány nap alatt. Neked nem kell szöveget írnod. Ha nincs weboldal / webshop vagy Google profil, azt is pótoljuk.' },
   { cim: 'Indul a kampány', leiras: 'Elindítjuk a hirdetést, és jönnek az érdeklődők. Végig szólunk, mi történik.' },
 ];
 
 const kampanySor1 = [
-  'Cruiser Shop', 'Hazai Kávé Kft.', 'Kisállatkereskedes Baja', 'Neked Sütöm', 'InShape - Diet',
+  'Cruiser Shop', 'Hazai Kávé Kft.', 'Kisállatkereskedes Baja', 'Neked Sütöm', 'InShape - Diet', 'Loft Of Beauty',
 ];
 const kampanySor2 = [
-  'Estur Épker Kft.', 'ZT Épületgépészet', 'Hellinger Kft.', 'Dover Check', 'Korona Gombaipari Egyesülés',
+  'Estur Épker Kft.', 'ZT Épületgépészet', 'Hellinger Kft.', 'Dover Check', 'Korona Gombaipari Egyesülés', 'Tóth Tamás - kertépítés',
 ];
 const kampanySor3 = [
-  'Forint - Soft Kft.', 'Adótanácsadók Egyesülete', 'G-R Ékszerszalon', 'Samu Kutyakozmetika',
+  'Forint - Soft Kft.', 'Adótanácsadók Egyesülete', 'G-R Ékszerszalon', 'Samu Kutyakozmetika', 'Szeko Ablak Kft.',
 ];
 
 const csomagTartalom = [
-  { cim: 'Bemutatkozó oldal', leiras: 'Ahol az érdeklődő látja, hogy komoly vagy, és bizalmat kap tőled.' },
-  { cim: 'Google cégprofil', leiras: 'Hogy akkor is megtaláljanak, ha még nem ismernek.' },
+  { cim: 'Landing oldal a kampányhoz', leiras: 'Ahol az érdeklődő landol a hirdetésből, és leadként konvertálódik.' },
   { cim: '1 teljes havi hirdetési kampány', leiras: 'Érdeklődőket hozunk neked, és vásárlókká konvertáljuk őket.' },
 ];
 
 // A profilképek erős blurja és a név takarása a képbe van égetve (_p.jpeg)
 const kepVelemenyek = [
-  { kep: '/IMG_1699_m2.webp', w: 1169, h: 688, alt: 'Ügyfél visszajelzés' },
-  { kep: '/IMG_1700_m2.webp', w: 1170, h: 270, alt: 'Ügyfél visszajelzés' },
-  { kep: '/IMG_1702_m2.webp', w: 1169, h: 1649, alt: 'Ügyfél visszajelzés' },
+  { kep: '/IMG_1699_m2.webp', w: 1169, h: 688, alt: 'Ügyfél visszajelzés', idezet: 'Nagyon nem bántam meg, hogy ebbe belevágtunk.' },
+  { kep: '/IMG_1700_m2.webp', w: 1170, h: 270, alt: 'Ügyfél visszajelzés', idezet: 'A munkát és az erőfeszítéseteket értékelem, köszönöm.' },
+  { kep: '/IMG_1702_m2.webp', w: 1169, h: 1649, alt: 'Ügyfél visszajelzés', idezet: 'Nah srácok, erről beszéltem! Ez így profi lett!' },
 ];
 
 const faq = [
-  { k: 'Ez tényleg 19.990 Ft?', v: 'Igen. Az első teljes hónap 79.000 helyett 19.990 Ft. Utána te döntöd el, folytatjuk-e a közös munkát.' },
-  { k: 'Mit kapok pontosan?', v: 'Egy bemutatkozó oldalt, egy Google cégprofilt, és egy teljes havi hirdetési kampányt – összerakva, élesben.' },
+  { k: 'Ez tényleg 49.000 Ft?', v: 'Igen. Az első teljes hónap 79.000 helyett 49.000 Ft. Utána te döntöd el, folytatjuk-e a közös munkát.' },
+  { k: 'Mit kapok pontosan?', v: 'Egy landing oldalt a kampányhoz és egy teljes havi hirdetési kampányt kapsz, összerakva, élesben.' },
   { k: 'Van bármilyen kötelezettség?', v: 'Nincs. Bármikor lemondhatod az első hónapban, nem kötünk hosszú távú szerződést, míg nem vagy elkötelezett a közös munka felé.' },
-  { k: 'Nekem kell megírnom a szövegeket?', v: 'Nem. Elég, ha elmondod, mivel foglalkozol – a szöveget és a felépítést mi rakjuk össze.' },
+  { k: 'Nekem kell megírnom a szövegeket?', v: 'Nem. Elég, ha elmondod, mivel foglalkozol. A szöveget és a felépítést mi rakjuk össze.' },
   { k: 'Mennyi idő, míg elindul?', v: 'Néhány nap alatt élesben van a megjelenésed és a hirdetési kampányod.' },
-  { k: 'A hirdetési költség benne van?', v: 'A hirdetési budget közvetlenül a Metához megy, nem hozzánk — a 19.990 Ft a mi munkánk díja. Így átlátható, mennyi megy hirdetésre és mennyi a mi díjunk. A beállításban végig segítünk, nem kell értened hozzá.' },
+  { k: 'A hirdetési költség benne van?', v: 'A hirdetési budget közvetlenül a Metához megy, nem hozzánk. A 49.000 Ft a mi munkánk díja. Így átlátható, mennyi megy hirdetésre és mennyi a mi díjunk. A beállításban végig segítünk, nem kell értened hozzá.' },
 ];
 
 export function LandingPage() {
@@ -78,14 +78,49 @@ export function LandingPage() {
   const [nev, setNev] = useState('');
   const [telefon, setTelefon] = useState('');
   const [email, setEmail] = useState('');
+  const [cegnev, setCegnev] = useState('');
+  const [szakma, setSzakma] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [sent, setSent] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
 
+  // Nem döntött még? — csak emailt kérő, alacsonyabb elköteleződésű opt-in
+  const [magnetEmail, setMagnetEmail] = useState('');
+  const [magnetLoading, setMagnetLoading] = useState(false);
+  const [magnetError, setMagnetError] = useState('');
+  const [magnetSent, setMagnetSent] = useState(false);
+
+  const handleMagnetSubmit = async (e: React.FormEvent | React.MouseEvent) => {
+    e.preventDefault();
+    if (!magnetEmail.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(magnetEmail)) {
+      setMagnetError('Adj meg egy érvényes email címet.');
+      return;
+    }
+    setMagnetLoading(true);
+    setMagnetError('');
+    try {
+      const res = await fetch('/api/landing-magnet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: magnetEmail }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setMagnetSent(true);
+      } else {
+        setMagnetError('Hiba történt. Próbáld újra, vagy írj nekünk: info@nezor.hu');
+      }
+    } catch {
+      setMagnetError('Hiba történt. Próbáld újra, vagy írj nekünk: info@nezor.hu');
+    } finally {
+      setMagnetLoading(false);
+    }
+  };
+
   const scrollToForm = () => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-  // Ár-kalkulátor: 79.000 → 19.990 leszámlálás, amikor a szekció képbe ér
+  // Ár-kalkulátor: 79.000 → 49.000 leszámlálás, amikor a szekció képbe ér
   const priceRef = useRef<HTMLDivElement>(null);
   const [priceVal, setPriceVal] = useState(79000);
   useEffect(() => {
@@ -96,7 +131,7 @@ export function LandingPage() {
       if (entries[0].isIntersecting && !started) {
         started = true;
         io.disconnect();
-        const start = 79000, end = 19990, dur = 1400, t0 = performance.now();
+        const start = 79000, end = 49000, dur = 1400, t0 = performance.now();
         const tick = (now: number) => {
           const p = Math.min(1, (now - t0) / dur);
           const eased = 1 - Math.pow(1 - p, 3);
@@ -134,6 +169,8 @@ export function LandingPage() {
     if (!nev.trim() || !telefon.trim()) { setError('Add meg a neved és telefonszámod!'); return; }
     if (!email.trim()) { setError('Add meg az email címed!'); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('Érvénytelen email cím.'); return; }
+    if (!cegnev.trim()) { setError('Add meg a cégneved!'); return; }
+    if (!szakma.trim()) { setError('Add meg, milyen vállalkozásod van!'); return; }
     setLoading(true);
     setError('');
     try {
@@ -142,7 +179,7 @@ export function LandingPage() {
       const res = await fetch('/api/landing-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nev, telefon, email, eventId }),
+        body: JSON.stringify({ nev, telefon, email, cegnev, szakma, eventId }),
       });
       const data = await res.json();
       if (data.ok) {
@@ -174,15 +211,20 @@ export function LandingPage() {
             Komplett ügyfélszerző rendszer · 5+ év tapasztalat
           </div>
           <h1 className={styles.h1}>
-            Te is <span className={styles.grad}>TUDOD</span>:<br />több ügyfél kell.<br />Megmutatjuk, hogyan.
+            Kétféle vállalkozó kattint <span className={styles.grad}>erre a hirdetésre.</span>
           </h1>
-          <p className={styles.heroMatch}>
-            Te értesz a szakmádhoz.<br />
-            <span className={styles.heroMatchHi}>Mi az ügyfélszerzéshez.</span>
-          </p>
+          <div className={styles.heroSegments}>
+            <div className={styles.heroSegment}>
+              <span className={styles.heroSegNum}>1</span>
+              <p><strong>Volt hirdetése, de nem volt elégedett.</strong></p>
+            </div>
+            <div className={styles.heroSegment}>
+              <span className={styles.heroSegNum}>2</span>
+              <p><strong>Nem próbálta még, de tudja, hogy kell.</strong></p>
+            </div>
+          </div>
           <p className={styles.heroSub}>
-            Több ügyfelet szeretnél — de eddig vagy nem működött, amit próbáltál,<br />
-            vagy bele se kezdtél. <strong>Érthető.</strong>
+            Bármelyik is vagy — <strong>itt jó helyen jársz.</strong>
           </p>
 
           {/* görgetés-jelző: elválasztja a hero-t a következő szekciótól */}
@@ -197,32 +239,33 @@ export function LandingPage() {
 
         </section>
 
-        {/* ── PROBLÉMA ── */}
-        <section className={`${styles.section} ${styles.markSection}`}>
-          <span className={styles.bgMark} aria-hidden="true">?</span>
-          <div className={styles.markContent}>
-            <h2 className={styles.h2}>De mi is a <span className={styles.grad}>baj?</span></h2>
-            <p className={styles.lead}>
-              Jó vagy a szakmádban, de nem érkezik annyi megkeresés, mint amennyi kellene. Ez érthető.
-            </p>
-            <p className={styles.body}>
-              Miért lehet ez? Mert nem látják a szolgáltatásod, nem látják eleget, vagy nem megfelelően
-              vannak kezelve a lehetséges érdeklődők.
-            </p>
-          </div>
-        </section>
-
-        {/* ── MEGOLDÁS ── */}
+        {/* ── AMIT CSINÁLUNK ── */}
         <div className={styles.accentStripe} aria-hidden="true" />
-        <section className={`${styles.section} ${styles.markSection}`}>
-          <span className={`${styles.bgMark} ${styles.bgMarkExcl}`} aria-hidden="true">!</span>
-          <div className={styles.markContent}>
-            <span className={styles.kicker}>Megoldásunk erre…</span>
-            <p className={styles.solution}>
-              Nem varázslók vagyunk, hanem <strong>5 éve foglalkozunk ügyfélszerzéssel – online.</strong>{' '}
-              Megjelenést alakítunk ki, bizalmat építünk, érdeklődőket hozunk neked, melyeket vásárlókká
-              konvertálunk.
-            </p>
+        <section className={styles.section}>
+          <h2 className={styles.h2}>
+            Eszközeink, melyekkel <span className={styles.grad}>segítjük ügyfélszerzésed</span>
+          </h2>
+
+          <p className={styles.toolGroupLabel}>Ez benne van a csomagban:</p>
+          <div className={styles.featureGrid}>
+            {szolgaltatasokCsomag.map((s) => (
+              <div key={s.cim} className={styles.featureCard}>
+                <span className={styles.featureCheck}>{s.ikon}</span>
+                <h3>{s.cim}</h3>
+                <p>{s.leiras}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className={styles.toolGroupLabel} style={{ marginTop: 32 }}>Ha még nincs meg, előtte felépítjük:</p>
+          <div className={styles.featureGrid}>
+            {szolgaltatasokElotte.map((s) => (
+              <div key={s.cim} className={styles.featureCard}>
+                <span className={styles.featureCheck}>{s.ikon}</span>
+                <h3>{s.cim}</h3>
+                <p>{s.leiras}</p>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -237,13 +280,13 @@ export function LandingPage() {
           </div>
           <div className={styles.refStars}>★★★★★</div>
           <p className={styles.refText}>
-            Már <strong>21 vállalkozás</strong> választott minket <strong className={styles.grad}>idén</strong>
+            Már <strong>24 vállalkozás</strong> választott minket <strong className={styles.grad}>idén</strong>
           </p>
         </section>
 
         {/* ── HIRDETÉSI KAMPÁNY REFERENCIÁK (mozgó sáv) ── */}
         <div className={styles.campaignStrip}>
-          <div className={styles.campaignLabel}>Cégek, akiknek már futtattunk <span className={styles.grad}>hirdetési kampányt</span></div>
+          <div className={styles.campaignLabel}>Cégek, akik már <span className={styles.grad}>bíztak bennünk</span>…</div>
           <div className={styles.campaignTrack}>
             {[...kampanySor1, ...kampanySor1, ...kampanySor1, ...kampanySor1].map((ceg, i) => (
               <span key={`s1-${i}`}>{ceg}</span>
@@ -261,36 +304,13 @@ export function LandingPage() {
           </div>
         </div>
 
-        {/* ── HIRDETÉSI KREATÍVOK (csúszó sáv) ── */}
-        <section className={styles.section} style={{ marginBottom: 24 }}>
-          <h2 className={styles.h2}>Másoknak már <span className={styles.grad}>bevált</span> hirdetések</h2>
-          <p className={styles.body}>
-            Ha kész a megjelenésed, hirdetéssel hozzuk rá a forgalmat — íme pár valós kampányeredmény.
-          </p>
-        </section>
-        <div className={styles.creativeMarquee}>
-          <div className={styles.creativeTrack}>
-            {[...hirdetesKreativok, ...hirdetesKreativok].map((h, i) => (
-              <div key={`kr-${i}`} className={styles.creativeCard}>
-                <div className={styles.creativeImg}>
-                  <Image src={h.kep} alt={`${h.metrika} ${h.tipus} – ${h.ceg}`} fill sizes="(max-width: 720px) 60vw, 260px" style={{ objectFit: 'cover' }} />
-                </div>
-                <div className={styles.creativeFoot}>
-                  <span className={styles.creativeMetric}>{h.metrika}</span>
-                  <span className={styles.creativeType}>{h.tipus}</span>
-                  <span className={styles.creativeCeg}>{h.ceg}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* ── VÉLEMÉNYEK (valós screenshotok, személyes adat kitakarva) ── */}
         <section className={styles.section}>
           <h2 className={styles.h2}>Amit az <span className={styles.grad}>ügyfeleink</span> mondanak</h2>
           <div className={styles.kepVelemenyStack}>
             {kepVelemenyek.map((v) => (
               <div key={v.kep} className={styles.kepVelemenyCard}>
+                <p className={styles.kepVelemenyQuote}>„{v.idezet}”</p>
                 <div className={styles.kepVelemenyImgWrap}>
                   <Image
                     src={v.kep}
@@ -306,33 +326,45 @@ export function LandingPage() {
           </div>
         </section>
 
+        <p className={styles.sectionTease}>Jó, jó… <span className={styles.grad}>de mennyibe kerül ez nekem?</span></p>
+
         {/* ── ÁR REVEAL ── */}
         <section className={styles.section}>
-          <p className={styles.body}>
-            Most biztos azt gondolnád, hogy egy <span className={styles.grad}>több száz ezer forintos rendszerről</span> van szó…
-          </p>
           <div className={styles.priceCard} ref={priceRef}>
-            <p className={styles.priceLead}>De nem. 1 teljes hónapig veled dolgozunk:</p>
+            <p className={styles.priceLead}><span className={styles.grad}>Ajánlatunk</span> az 1. hónapra</p>
             <div className={styles.priceRow}>
               <span className={styles.priceOld}>79.000 Ft</span>
               <span className={styles.priceReveal}>
                 <span className={styles.priceTag}>ELSŐ HÓNAP CSAK</span>
-                <span className={`${styles.priceNew} ${priceVal > 19990 ? styles.priceCounting : ''}`}>{formatFt(priceVal)} Ft</span>
+                <span className={`${styles.priceNew} ${priceVal > 49000 ? styles.priceCounting : ''}`}>{formatFt(priceVal)} Ft</span>
               </span>
             </div>
+            <p className={styles.priceCtaLead}>
+              Egy egész hónapig azon dolgozunk, hogy új ügyfeleid legyenek.
+            </p>
+            <button type="button" className={styles.ctaPrimary} onClick={scrollToForm}>
+              Vedd fel velünk a kapcsolatot →
+            </button>
           </div>
         </section>
 
-        {/* ── ÉRTÉK-INDOKLÁS ── */}
+        <p className={styles.sectionTease}>Garancia? <span className={styles.grad}>Van!</span></p>
+
+        {/* ── GARANCIA ── */}
         <section className={styles.section}>
-          <h2 className={styles.h2}>
-            A 3. hónap után <span className={styles.grad}>a weboldal és a Google profil is a tiéd.</span>
-          </h2>
-          <p className={styles.body}>
-            Ha 3 hónapig együtt dolgozunk, a bemutatkozó oldalad és a Google cégprofilod{' '}
-            <strong>véglegesen nálad marad — örökre</strong>.
-          </p>
+          <div className={styles.guaranteeCard}>
+            <span className={styles.guaranteeIcon}>🔒</span>
+            <h2 className={styles.h2}>
+              Garancia: <span className={styles.grad}>kockázat nélkül próbálhatod ki</span>
+            </h2>
+            <ul className={styles.guaranteeList}>
+              <li>Az első hónapot bármikor lemondhatod, nincs szerződés.</li>
+              <li>Ha a hirdetésed statisztikailag nem térül meg, <strong>visszafizetjük a hirdetés készítésével eltöltött órabérünket neked</strong>.</li>
+            </ul>
+          </div>
         </section>
+
+        <p className={styles.sectionTease}>Oké, de <span className={styles.grad}>hogy is nézne ez ki?</span></p>
 
         {/* ── SZOLGÁLTATÁS PAKK + ÉRTÉK-LEBONTÁS ── */}
         <section className={styles.section}>
@@ -353,12 +385,12 @@ export function LandingPage() {
             </ul>
 
             <div className={styles.valueTotal}>
-              Összesen <strong>239.000 Ft</strong> értékben
+              Összesen <strong>149.000 Ft</strong> értékben
             </div>
 
             <div className={styles.packPrice}>
               <span className={styles.packPriceLabel}>Az első hónap:</span>
-              <span className={styles.packPriceNew}>19.990 Ft</span>
+              <span className={styles.packPriceNew}>49.000 Ft</span>
             </div>
 
             <p className={styles.budgetNote}>
@@ -366,17 +398,13 @@ export function LandingPage() {
               saját munkánk díját számlázzuk. Így minden forint átlátható: tudod, mennyi megy hirdetésre
               és mennyi a mi díjunk. <strong>A beállításban végig segítünk</strong>, nem kell értened hozzá.
             </p>
-            <p className={styles.guarantee}>
-              🔓 <strong>Kockázatmentes:</strong> az első hónapot bármikor lemondhatod, a 3. hónap után
-              pedig a weboldal és a Google cégprofil <strong>véglegesen a te tulajdonod</strong>.
-            </p>
           </div>
         </section>
 
         {/* ── FOLYAMAT: mi történik, ha jelentkezel ── */}
         <section className={styles.section}>
           <h2 className={styles.h2}>
-            Mi történik, ha <span className={styles.grad}>jelentkezel?</span>
+            Jelentkezés után, <span className={styles.grad}>hogyan tovább?</span>
           </h2>
           <div className={styles.folyamatList}>
             {folyamat.map((f, i) => (
@@ -405,7 +433,7 @@ export function LandingPage() {
               <>
                 <h2 className={styles.formTitle}><span className={styles.grad}>Kezdjük meg</span> a közös munkát</h2>
                 <p className={styles.formSub}>
-                  Csak a neved és telefonszámod kell — 30 mp, a többit hívásban egyeztetjük.
+                  Csak néhány gyors adat kell tőled, nem lesz macera.
                 </p>
 
 
@@ -426,6 +454,14 @@ export function LandingPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSubmit(e)}
                   />
+                </div>
+                <div className={styles.field}>
+                  <label>Cégnév *</label>
+                  <input type="text" placeholder="Pl. Kovács Tetőfedés" value={cegnev} onChange={(e) => setCegnev(e.target.value)} />
+                </div>
+                <div className={styles.field}>
+                  <label>Milyen vállalkozásod van? *</label>
+                  <input type="text" placeholder="Pl. webshop, szépségszalon, tanácsadás, tetőfedés" value={szakma} onChange={(e) => setSzakma(e.target.value)} />
                 </div>
 
                 {error && <p className={styles.error}>{error}</p>}
@@ -460,6 +496,44 @@ export function LandingPage() {
           </p>
         </section>
 
+        {/* ── MÉG NEM DÖNTÖTTÉL? — email opt-in, kampánypélda + 3 tipp ── */}
+        <section className={styles.section}>
+          <div className={styles.magnetCard}>
+            {magnetSent ? (
+              <div className={styles.success}>
+                <div className={styles.successIcon}>✓</div>
+                <h3>Elküldtük emailben!</h3>
+                <p>Nézd meg a postaládád — benne egy valós kampánypélda és 3 tipp, amivel már ma elindulhatsz.</p>
+              </div>
+            ) : (
+              <>
+                <h2 className={styles.h2}>Még <span className={styles.grad}>nem döntöttél?</span></h2>
+                <p className={styles.sectionTease} style={{ margin: '10px 0 20px' }}>
+                  Valaki ugyanígy olvasta ezt, mint most te.<br />
+                  <span className={styles.grad}>Ma már ügyfelünk.</span>
+                </p>
+                <ul className={styles.guaranteeList} style={{ marginTop: 4 }}>
+                  <li><strong>Friss, belsős példa</strong> egy valódi kampányból.</li>
+                  <li><strong>3 tipp</strong>, amit akár már ma használhatsz.</li>
+                </ul>
+                <div className={styles.magnetForm}>
+                  <input
+                    type="email"
+                    placeholder="te@example.hu"
+                    value={magnetEmail}
+                    onChange={(e) => setMagnetEmail(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleMagnetSubmit(e)}
+                  />
+                  <button type="button" onClick={handleMagnetSubmit} disabled={magnetLoading}>
+                    {magnetLoading ? 'Küldés...' : 'Kérem a tippeket →'}
+                  </button>
+                </div>
+                {magnetError && <p className={styles.error}>{magnetError}</p>}
+              </>
+            )}
+          </div>
+        </section>
+
         {/* ── FAQ (legalul) ── */}
         <section className={styles.faqSection}>
           <h2 className={styles.h2}>Gyakori kérdések</h2>
@@ -477,7 +551,7 @@ export function LandingPage() {
         <section className={styles.section} style={{ marginTop: 72 }}>
           <h2 className={styles.h2}>Kezdjük el?</h2>
           <p className={styles.body}>
-            Az első hónap 19.990 Ft, bármikor lemondható. Gyakorlatilag nem kockáztatsz semmit.
+            Az első hónap 49.000 Ft, bármikor lemondható. Gyakorlatilag nem kockáztatsz semmit.
           </p>
           <button type="button" className={styles.ctaPrimary} onClick={scrollToForm} style={{ marginTop: 24 }}>
             Vedd fel velünk a kapcsolatot →
