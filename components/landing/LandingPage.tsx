@@ -13,10 +13,9 @@ const pad2 = (n: number) => String(n).padStart(2, '0');
 
 
 const szolgaltatasTimeline = [
-  { tag: 'A csomagban', cim: 'Landing oldalak', leiras: 'Konverzióra optimalizált oldal minden kampányhoz.', kep: '/szolgaltatas-landing.webp' },
-  { tag: 'A csomagban', cim: 'Facebook / Meta hirdetések', leiras: 'Célzott kampányok, mérve, nem találgatva.', kep: '/szolgaltatas-hirdetes.webp' },
-  { tag: 'Ha kell, felépítjük előtte', cim: 'Weboldal / webshop', leiras: 'Ha még nincs, felépítjük előtte, nem hagyunk üresen.', kep: null },
-  { tag: 'Ha kell, felépítjük előtte', cim: 'Google cégprofil', leiras: 'Beállítjuk, hogy megtaláljanak, mielőtt hirdetnél.', kep: null },
+  { cim: 'Adatgyűjtés és ajánlatkészítés', leiras: 'Felmérjük vállalkozásod szolgáltatásait, és közösen kialakítunk egy neked szóló ajánlatot.', kep: null },
+  { cim: 'Meglévő online jelenlét felmérése', leiras: 'Van-e weboldalad, webshopod, Facebook oldalad, hirdetési fiókod és Google cégprofilod. Ha ezek nincsenek, közösen pótoljuk, hogy hirdetésed hatékony legyen.', kep: null },
+  { cim: 'Landing oldal és hirdetés készítés', leiras: 'Elkészítjük a landing oldalt, és elindítjuk rá a hirdetési kampányt.', kep: ['/szolgaltatas-landing.webp', '/szolgaltatas-hirdetes.webp'] },
 ];
 
 const cegek = [
@@ -64,6 +63,7 @@ const kepVelemenyek = [
 
 const faq = [
   { k: 'Ez tényleg 49.000 Ft?', v: 'Igen. Az első teljes hónap 79.000 helyett 49.000 Ft. Utána te döntöd el, folytatjuk-e a közös munkát.' },
+  { k: 'Miből jön ki a 49.000 Ft, és mi az, amit garantálunk?', v: 'Az első hónap 49.000 Ft-jából 30.000 Ft a landing oldal, 19.000 Ft pedig a hirdetéskezelés díja. Ha a hirdetésed statisztikailag nem térül meg, a 19.000 Ft-os hirdetéskezelési díjat garanciálisan visszaadjuk — a landing oldal 30.000 Ft-os értéke viszont a tiéd marad, örökre, hiszen az már a te tulajdonod, egy örök érték.' },
   { k: 'Mit kapok pontosan?', v: 'Egy landing oldalt a kampányhoz és egy teljes havi hirdetési kampányt kapsz, összerakva, élesben.' },
   { k: 'Van bármilyen kötelezettség?', v: 'Nincs. Bármikor lemondhatod az első hónapban, nem kötünk hosszú távú szerződést, míg nem vagy elkötelezett a közös munka felé.' },
   { k: 'Nekem kell megírnom a szövegeket?', v: 'Nem. Elég, ha elmondod, mivel foglalkozol. A szöveget és a felépítést mi rakjuk össze.' },
@@ -82,26 +82,6 @@ export function LandingPage() {
   const [error, setError] = useState('');
   const [sent, setSent] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
-
-  // Görgetéssel töltődő összekötő csík a szolgáltatás-idővonalhoz
-  const connectorWrapRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const connectorFillRefs = useRef<(HTMLDivElement | null)[]>([]);
-  useEffect(() => {
-    const onScroll = () => {
-      const triggerY = window.innerHeight * 0.75;
-      connectorWrapRefs.current.forEach((wrap, i) => {
-        const fill = connectorFillRefs.current[i];
-        if (!wrap || !fill) return;
-        const rect = wrap.getBoundingClientRect();
-        const h = rect.height || 1;
-        const pct = Math.min(1, Math.max(0, (triggerY - rect.top) / h));
-        fill.style.height = `${pct * 100}%`;
-      });
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
 
   // Nem döntött még? — csak emailt kérő, alacsonyabb elköteleződésű opt-in
   const [magnetEmail, setMagnetEmail] = useState('');
@@ -229,10 +209,20 @@ export function LandingPage() {
             Komplett ügyfélszerző rendszer · 5+ év tapasztalat
           </div>
           <h1 className={styles.h1}>
-            Nem térül meg az együttműködés? <span className={styles.grad}>Visszafizetjük az óradíjunkat.</span>
+            ONLINE ÜGYFÉLSZERZÉS <span className={styles.grad}>VÁLLALKOZÁSODNAK.</span>
           </h1>
+          <div className={styles.heroPills}>
+            <span className={styles.badge}>
+              <span className={styles.badgeDot} />
+              30 nap kötöttség nélkül
+            </span>
+            <span className={`${styles.badge} ${styles.badgeAlt}`}>
+              <span className={`${styles.badgeDot} ${styles.badgeDotAlt}`} />
+              Garanciával
+            </span>
+          </div>
           <p className={styles.heroSub}>
-            <strong>Ezt kevesen merik leírni.</strong>
+            Nézd meg, hogyan dolgozunk
           </p>
 
           {/* görgetés-jelző: elválasztja a hero-t a következő szekciótól */}
@@ -248,42 +238,38 @@ export function LandingPage() {
 
         </section>
 
-        {/* ── AMIT CSINÁLUNK (görgetős idővonal, kép-helyekkel) ── */}
+        {/* ── AMIT CSINÁLUNK (kompakt, 3 lépéses, nem görgetős) ── */}
         <div className={styles.accentStripe} aria-hidden="true" />
         <section className={styles.section}>
           <h2 className={styles.h2}>
-            Eszközeink, melyekkel segítjük <span className={styles.grad}>ügyfélszerzésed</span>
+            Így növeljük <span className={styles.grad}>vállalkozásod forgalmát</span>
           </h2>
+          <p className={styles.toolGroupLabel} style={{ textAlign: 'center', fontWeight: 600, color: 'rgba(0,0,0,.5)' }}>
+            (saját példáinkkal bemutatva)
+          </p>
 
-          <div className={styles.serviceTimeline}>
+          <div className={styles.serviceGrid}>
             {szolgaltatasTimeline.map((s, i) => (
-              <div key={s.cim} className={styles.serviceStepWrap}>
-                <div className={styles.serviceStep}>
-                  <span className={styles.serviceStepTag}>{s.tag}</span>
-                  {s.kep ? (
-                    <div className={styles.serviceImageWrap}>
-                      <Image src={s.kep} alt={s.cim} fill sizes="(max-width: 720px) 92vw, 480px" style={{ objectFit: 'cover' }} />
-                    </div>
-                  ) : (
-                    <div className={styles.serviceImagePlaceholder}>
+              <div key={s.cim} className={styles.serviceCard}>
+                <span className={styles.serviceCardNum}>{i + 1}</span>
+                {s.kep ? (
+                  <div className={Array.isArray(s.kep) ? styles.serviceThumbRow : styles.serviceThumbWrap}>
+                    {(Array.isArray(s.kep) ? s.kep : [s.kep]).map((k) => (
+                      <div key={k} className={styles.serviceThumb}>
+                        <Image src={k} alt={s.cim} fill sizes="140px" style={{ objectFit: 'cover' }} />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className={styles.serviceThumbWrap}>
+                    <div className={styles.serviceThumbPlaceholder}>
                       <span className={styles.serviceImagePlaceholderIcon}>🖼️</span>
                       <span>KÉP HELYE</span>
                     </div>
-                  )}
-                  <h3 className={styles.serviceStepTitle}>{s.cim}</h3>
-                  <p className={styles.serviceStepText}>{s.leiras}</p>
-                </div>
-                {i < szolgaltatasTimeline.length - 1 && (
-                  <div
-                    className={styles.stepConnector}
-                    ref={(el) => { connectorWrapRefs.current[i] = el; }}
-                  >
-                    <div
-                      className={styles.stepConnectorFill}
-                      ref={(el) => { connectorFillRefs.current[i] = el; }}
-                    />
                   </div>
                 )}
+                <h3 className={styles.serviceCardTitle}>{s.cim}</h3>
+                <p className={styles.serviceCardText}>{s.leiras}</p>
               </div>
             ))}
           </div>
@@ -386,7 +372,7 @@ export function LandingPage() {
             </h2>
             <ul className={styles.guaranteeList}>
               <li>Az első hónapot bármikor lemondhatod, nincs szerződés.</li>
-              <li>Ha a hirdetésed statisztikailag nem térül meg, <strong>visszafizetjük a hirdetés készítésével eltöltött órabérünket neked</strong>.</li>
+              <li>Ha a hirdetésed statisztikailag nem térül meg, <strong>visszafizetjük a 19.000 Ft-os hirdetéskezelési díjat</strong> — a landing oldal 30.000 Ft-os értéke marad a tiéd, örökre.</li>
             </ul>
             <p className={styles.body} style={{ marginTop: 18 }}>
               Azért merjük ezt vállalni, mert nem vállalunk el senkit, akin úgy érezzük, nem
