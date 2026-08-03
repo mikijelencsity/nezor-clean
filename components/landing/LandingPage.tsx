@@ -12,13 +12,11 @@ const DEADLINE = new Date('2026-08-10T23:59:59').getTime();
 const pad2 = (n: number) => String(n).padStart(2, '0');
 
 
-const szolgaltatasokCsomag = [
-  { ikon: '🖥️', cim: 'Landing oldalak', leiras: 'Konverzióra optimalizált oldal minden kampányhoz.' },
-  { ikon: '📣', cim: 'Facebook / Meta hirdetések', leiras: 'Célzott kampányok, mérve — nem találgatva.' },
-];
-const szolgaltatasokElotte = [
-  { ikon: '🛠️', cim: 'Weboldal / webshop', leiras: 'Ha még nincs, felépítjük előtte — nem hagyunk üresen.' },
-  { ikon: '📍', cim: 'Google cégprofil', leiras: 'Beállítjuk, hogy megtaláljanak, mielőtt hirdetnél.' },
+const szolgaltatasTimeline = [
+  { tag: 'A csomagban', cim: 'Landing oldalak', leiras: 'Konverzióra optimalizált oldal minden kampányhoz.', kep: '/szolgaltatas-landing.webp' },
+  { tag: 'A csomagban', cim: 'Facebook / Meta hirdetések', leiras: 'Célzott kampányok, mérve, nem találgatva.', kep: '/szolgaltatas-hirdetes.webp' },
+  { tag: 'Ha kell, felépítjük előtte', cim: 'Weboldal / webshop', leiras: 'Ha még nincs, felépítjük előtte, nem hagyunk üresen.', kep: null },
+  { tag: 'Ha kell, felépítjük előtte', cim: 'Google cégprofil', leiras: 'Beállítjuk, hogy megtaláljanak, mielőtt hirdetnél.', kep: null },
 ];
 
 const cegek = [
@@ -84,6 +82,26 @@ export function LandingPage() {
   const [error, setError] = useState('');
   const [sent, setSent] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
+
+  // Görgetéssel töltődő összekötő csík a szolgáltatás-idővonalhoz
+  const connectorWrapRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const connectorFillRefs = useRef<(HTMLDivElement | null)[]>([]);
+  useEffect(() => {
+    const onScroll = () => {
+      const triggerY = window.innerHeight * 0.75;
+      connectorWrapRefs.current.forEach((wrap, i) => {
+        const fill = connectorFillRefs.current[i];
+        if (!wrap || !fill) return;
+        const rect = wrap.getBoundingClientRect();
+        const h = rect.height || 1;
+        const pct = Math.min(1, Math.max(0, (triggerY - rect.top) / h));
+        fill.style.height = `${pct * 100}%`;
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   // Nem döntött még? — csak emailt kérő, alacsonyabb elköteleződésű opt-in
   const [magnetEmail, setMagnetEmail] = useState('');
@@ -211,23 +229,14 @@ export function LandingPage() {
             Komplett ügyfélszerző rendszer · 5+ év tapasztalat
           </div>
           <h1 className={styles.h1}>
-            Kétféle vállalkozó kattint <span className={styles.grad}>erre a hirdetésre.</span>
+            Nem térül meg az együttműködés? <span className={styles.grad}>Visszafizetjük az óradíjunkat.</span>
           </h1>
-          <div className={styles.heroSegments}>
-            <div className={styles.heroSegment}>
-              <span className={styles.heroSegNum}>1</span>
-              <p><strong>Volt hirdetése, de nem volt elégedett.</strong></p>
-            </div>
-            <div className={styles.heroSegment}>
-              <span className={styles.heroSegNum}>2</span>
-              <p><strong>Nem próbálta még, de tudja, hogy kell.</strong></p>
-            </div>
-          </div>
           <p className={styles.heroSub}>
-            Bármelyik is vagy — <strong>itt jó helyen jársz.</strong>
+            <strong>Ezt kevesen merik leírni.</strong>
           </p>
 
           {/* görgetés-jelző: elválasztja a hero-t a következő szekciótól */}
+          <p className={styles.scrollCueLabel}>Nézd meg, mit csinálunk!</p>
           <div className={styles.scrollCue} aria-hidden="true">
             <span className={styles.scrollCueLine} />
             <span className={styles.scrollCueCircle}>
@@ -239,31 +248,42 @@ export function LandingPage() {
 
         </section>
 
-        {/* ── AMIT CSINÁLUNK ── */}
+        {/* ── AMIT CSINÁLUNK (görgetős idővonal, kép-helyekkel) ── */}
         <div className={styles.accentStripe} aria-hidden="true" />
         <section className={styles.section}>
           <h2 className={styles.h2}>
-            Eszközeink, melyekkel <span className={styles.grad}>segítjük ügyfélszerzésed</span>
+            Eszközeink, melyekkel segítjük <span className={styles.grad}>ügyfélszerzésed</span>
           </h2>
 
-          <p className={styles.toolGroupLabel}>Ez benne van a csomagban:</p>
-          <div className={styles.featureGrid}>
-            {szolgaltatasokCsomag.map((s) => (
-              <div key={s.cim} className={styles.featureCard}>
-                <span className={styles.featureCheck}>{s.ikon}</span>
-                <h3>{s.cim}</h3>
-                <p>{s.leiras}</p>
-              </div>
-            ))}
-          </div>
-
-          <p className={styles.toolGroupLabel} style={{ marginTop: 32 }}>Ha még nincs meg, előtte felépítjük:</p>
-          <div className={styles.featureGrid}>
-            {szolgaltatasokElotte.map((s) => (
-              <div key={s.cim} className={styles.featureCard}>
-                <span className={styles.featureCheck}>{s.ikon}</span>
-                <h3>{s.cim}</h3>
-                <p>{s.leiras}</p>
+          <div className={styles.serviceTimeline}>
+            {szolgaltatasTimeline.map((s, i) => (
+              <div key={s.cim} className={styles.serviceStepWrap}>
+                <div className={styles.serviceStep}>
+                  <span className={styles.serviceStepTag}>{s.tag}</span>
+                  {s.kep ? (
+                    <div className={styles.serviceImageWrap}>
+                      <Image src={s.kep} alt={s.cim} fill sizes="(max-width: 720px) 92vw, 480px" style={{ objectFit: 'cover' }} />
+                    </div>
+                  ) : (
+                    <div className={styles.serviceImagePlaceholder}>
+                      <span className={styles.serviceImagePlaceholderIcon}>🖼️</span>
+                      <span>KÉP HELYE</span>
+                    </div>
+                  )}
+                  <h3 className={styles.serviceStepTitle}>{s.cim}</h3>
+                  <p className={styles.serviceStepText}>{s.leiras}</p>
+                </div>
+                {i < szolgaltatasTimeline.length - 1 && (
+                  <div
+                    className={styles.stepConnector}
+                    ref={(el) => { connectorWrapRefs.current[i] = el; }}
+                  >
+                    <div
+                      className={styles.stepConnectorFill}
+                      ref={(el) => { connectorFillRefs.current[i] = el; }}
+                    />
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -331,6 +351,13 @@ export function LandingPage() {
         {/* ── ÁR REVEAL ── */}
         <section className={styles.section}>
           <div className={styles.priceCard} ref={priceRef}>
+            <Image
+              src="/nezorgarancia.webp"
+              alt="1 hónapos garancia"
+              width={140}
+              height={140}
+              className={styles.guaranteeSeal}
+            />
             <p className={styles.priceLead}><span className={styles.grad}>Ajánlatunk</span> az 1. hónapra</p>
             <div className={styles.priceRow}>
               <span className={styles.priceOld}>79.000 Ft</span>
@@ -361,6 +388,10 @@ export function LandingPage() {
               <li>Az első hónapot bármikor lemondhatod, nincs szerződés.</li>
               <li>Ha a hirdetésed statisztikailag nem térül meg, <strong>visszafizetjük a hirdetés készítésével eltöltött órabérünket neked</strong>.</li>
             </ul>
+            <p className={styles.body} style={{ marginTop: 18 }}>
+              Azért merjük ezt vállalni, mert nem vállalunk el senkit, akin úgy érezzük, nem
+              tudunk segíteni. Csak azért, hogy több ügyfelünk legyen.
+            </p>
           </div>
         </section>
 
