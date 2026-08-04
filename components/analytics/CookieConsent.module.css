@@ -67,11 +67,11 @@
   color: rgba(0, 0, 0, 0.7);
 }
 .landing .text a {
-  color: #ff3340;
+  color: #1D4ED8;
 }
 .landing .accept {
-  background: linear-gradient(135deg, #ff3340, #ff8c00);
-  color: #16181d;
+  background: linear-gradient(135deg, #1D4ED8, #60A5FA);
+  color: #fff;
 }
 .landing .reject {
   background: #f3f4f6;

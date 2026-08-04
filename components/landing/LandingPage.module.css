@@ -10,20 +10,20 @@
 .grid {
   position: absolute; inset: -2px; z-index: 0; pointer-events: none;
   background-image:
-    linear-gradient(rgba(37,99,235,0.15) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(37,99,235,0.15) 1px, transparent 1px);
+    linear-gradient(rgba(29,78,216,0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(29,78,216,0.15) 1px, transparent 1px);
   background-size: 60px 60px; animation: gridMove 12s linear infinite;
   mask-image: radial-gradient(ellipse at 50% 20%, #000 30%, transparent 80%);
 }
 .blobA {
   position: absolute; width: 520px; height: 520px; border-radius: 50%;
-  background: #2563EB; top: -140px; left: -140px;
+  background: #1D4ED8; top: -140px; left: -140px;
   filter: blur(150px); opacity: .16; z-index: 0;
   animation: float 9s ease-in-out infinite;
 }
 .blobB {
   position: absolute; width: 480px; height: 480px; border-radius: 50%;
-  background: #8CD91A; bottom: -160px; right: -120px;
+  background: #60A5FA; bottom: -160px; right: -120px;
   filter: blur(150px); opacity: .14; z-index: 0;
   animation: float 11s ease-in-out infinite reverse;
 }
@@ -37,8 +37,7 @@
 /* Logo */
 .logo {
   font-size: 26px; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 22px;
-  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 55%, #8CD91A 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
+  color: #1D4ED8;
 }
 .logo span { color: inherit; }
 
@@ -47,22 +46,19 @@
 .kicker {
   font-size: clamp(1.6rem, 4vw, 2.8rem); font-weight: 900; letter-spacing: -0.02em;
   line-height: 1.1; margin-bottom: 24px;
-  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 55%, #8CD91A 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
+  color: #1D4ED8;
 }
 
 /* dekoratív elválasztó csík */
 .accentStripe {
   width: 100vw; margin-left: calc(50% - 50vw); height: 4px; margin-bottom: 72px;
-  background: linear-gradient(90deg, transparent, rgba(37,99,235,.9), rgba(20,184,166,.9), transparent);
-  box-shadow: 0 0 24px rgba(37,99,235,.4);
+  background: linear-gradient(90deg, transparent, rgba(29,78,216,.9), rgba(37,99,235,.9), transparent);
+  box-shadow: 0 0 24px rgba(29,78,216,.4);
 }
 .grad {
-  /* padding: a festett doboz fedje a fel- és lenyúló szárakat is (b, j, ?, g, y) */
   padding-top: 0.12em;
   padding-bottom: 0.14em;
-  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 55%, #8CD91A 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
+  color: #1D4ED8;
 }
 
 /* ── HERO ── */
@@ -85,32 +81,32 @@
 }
 .scrollCueLine {
   width: 2px; height: 46px; border-radius: 2px;
-  background: linear-gradient(180deg, transparent, rgba(37,99,235,.5));
+  background: linear-gradient(180deg, transparent, rgba(29,78,216,.5));
 }
 .scrollCueCircle {
   width: 64px; height: 64px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 55%, #8CD91A 100%);
-  box-shadow: 0 14px 34px rgba(37,99,235,.40), 0 0 0 8px rgba(37,99,235,.08);
+  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 55%, #60A5FA 100%);
+  box-shadow: 0 14px 34px rgba(29,78,216,.40), 0 0 0 8px rgba(29,78,216,.08);
 }
 .scrollCue svg { width: 30px; height: 30px; display: block; }
 @keyframes cueBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
 .badge {
   display: inline-flex; align-items: center; gap: 10px;
-  padding: 10px 22px; border: 1px solid rgba(37,99,235,0.4);
-  border-radius: 100px; background: rgba(37,99,235,0.06);
-  font-size: 13.5px; font-weight: 600; color: #2563EB;
+  padding: 10px 22px; border: 1px solid rgba(29,78,216,0.4);
+  border-radius: 100px; background: rgba(29,78,216,0.06);
+  font-size: 13.5px; font-weight: 600; color: #1D4ED8;
   margin-bottom: 16px; backdrop-filter: blur(10px);
 }
 .heroPills { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 18px 0 14px; }
 .heroPills .badge { margin-bottom: 0; font-size: 16px; padding: 12px 26px; }
 .badgeAlt {
-  border-color: rgba(20,184,166,.4); background: rgba(20,184,166,.08); color: #0D9488;
+  border-color: rgba(37,99,235,.4); background: rgba(37,99,235,.08); color: #1E3A8A;
 }
-.badgeDotAlt { background: #8CD91A; box-shadow: 0 0 12px #8CD91A; }
+.badgeDotAlt { background: #60A5FA; box-shadow: 0 0 12px #60A5FA; }
 .badgeDot {
-  width: 9px; height: 9px; border-radius: 50%; background: #14B8A6;
-  box-shadow: 0 0 12px #14B8A6; animation: dot 2s infinite; flex-shrink: 0;
+  width: 9px; height: 9px; border-radius: 50%; background: #2563EB;
+  box-shadow: 0 0 12px #2563EB; animation: dot 2s infinite; flex-shrink: 0;
 }
 .h1 {
   font-size: clamp(2.6rem, 5vw, 4.8rem); font-weight: 900;
@@ -125,7 +121,7 @@
   margin-bottom: 22px; line-height: 1.35; letter-spacing: -0.01em;
   box-shadow: 0 10px 30px rgba(0,0,0,.18);
 }
-.heroMatchHi { color: #8CD91A; }
+.heroMatchHi { color: #60A5FA; }
 
 .heroSegments {
   display: flex; flex-direction: column; gap: 14px;
@@ -133,15 +129,15 @@
 }
 .heroSegment {
   display: flex; align-items: center; gap: 16px;
-  background: rgba(37,99,235,.05); border: 1.5px solid rgba(37,99,235,.22);
+  background: rgba(29,78,216,.05); border: 1.5px solid rgba(29,78,216,.22);
   border-radius: 18px; padding: 18px 24px;
 }
 .heroSegNum {
   flex: 0 0 auto; width: 38px; height: 38px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 55%, #8CD91A 100%);
+  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 55%, #60A5FA 100%);
   color: #fff; font-weight: 900; font-size: 17px;
-  box-shadow: 0 6px 18px rgba(37,99,235,.35);
+  box-shadow: 0 6px 18px rgba(29,78,216,.35);
 }
 .heroSegment p {
   margin: 0; font-size: clamp(1.2rem, 2.6vw, 1.55rem); color: #16181d; line-height: 1.35;
@@ -155,7 +151,7 @@
   animation: mockupIn .7s ease both;
 }
 /* nyíl a dobozra */
-.heroArrow { margin-top: 10px; margin-bottom: -6px; color: #2563EB; animation: heroArrowBob 1.8s ease-in-out infinite; }
+.heroArrow { margin-top: 10px; margin-bottom: -6px; color: #1D4ED8; animation: heroArrowBob 1.8s ease-in-out infinite; }
 .heroArrow svg { width: 54px; height: 46px; display: block; margin: 0 auto; }
 @keyframes heroArrowBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
 .heroMockupImg {
@@ -176,8 +172,8 @@
   display: inline-block; margin-top: 28px;
   padding: 18px 40px; border-radius: 100px;
   font-size: 18px; font-weight: 800; color: #16181d;
-  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 55%, #8CD91A 100%);
-  box-shadow: 0 12px 40px rgba(37,99,235,.35);
+  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 55%, #60A5FA 100%);
+  box-shadow: 0 12px 40px rgba(29,78,216,.35);
   user-select: none; cursor: default;
 }
 @keyframes mockupIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
@@ -196,7 +192,7 @@
 .h2::after {
   content: ''; display: block; width: 64px; height: 4px; border-radius: 4px;
   margin: 14px auto 0;
-  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 55%, #8CD91A 100%);
+  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 55%, #60A5FA 100%);
 }
 .lead {
   font-size: clamp(1.1rem, 1.7vw, 1.4rem); font-weight: 600;
@@ -211,26 +207,26 @@
   font-size: clamp(1.15rem, 1.9vw, 1.5rem); color: rgba(0,0,0,.9);
   max-width: 760px; line-height: 1.6;
 }
-.solution strong { color: #2563EB; font-weight: 800; }
+.solution strong { color: #1D4ED8; font-weight: 800; }
 
 /* ── CTA button ── */
 .ctaPrimary {
   display: inline-block; cursor: pointer;
   padding: 18px 40px; border: none; border-radius: 100px;
   font-size: 18px; font-weight: 800; color: #0f1226;
-  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 55%, #8CD91A 100%);
-  box-shadow: 0 12px 40px rgba(37,99,235,.35);
+  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 55%, #60A5FA 100%);
+  box-shadow: 0 12px 40px rgba(29,78,216,.35);
   transition: transform .2s, box-shadow .2s;
 }
-.ctaPrimary:hover { transform: translateY(-2px); box-shadow: 0 16px 50px rgba(37,99,235,.5); }
+.ctaPrimary:hover { transform: translateY(-2px); box-shadow: 0 16px 50px rgba(29,78,216,.5); }
 .ctaSecondary {
   display: inline-block; cursor: pointer; margin-top: 32px;
   padding: 15px 34px; border-radius: 100px;
-  font-size: 16px; font-weight: 800; color: #2563EB;
-  background: transparent; border: 1.5px solid rgba(37,99,235,.5);
+  font-size: 16px; font-weight: 800; color: #1D4ED8;
+  background: transparent; border: 1.5px solid rgba(29,78,216,.5);
   transition: background .2s, transform .2s;
 }
-.ctaSecondary:hover { background: rgba(37,99,235,.1); transform: translateY(-2px); }
+.ctaSecondary:hover { background: rgba(29,78,216,.1); transform: translateY(-2px); }
 
 /* ── REFERENCIA SOR ── */
 .refRow {
@@ -251,7 +247,7 @@
 /* ── HIRDETÉSI KAMPÁNY REFERENCIÁK (marquee) ── */
 .campaignStrip {
   width: 100%; max-width: 1100px; margin: 0 auto 88px; padding: 22px 0; overflow: hidden;
-  border-top: 1px solid rgba(37,99,235,.15); border-bottom: 1px solid rgba(37,99,235,.15);
+  border-top: 1px solid rgba(29,78,216,.15); border-bottom: 1px solid rgba(29,78,216,.15);
   mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
   position: relative;
 }
@@ -267,7 +263,7 @@
 .campaignTrack + .campaignTrack { margin-top: 16px; }
 .campaignTrackAlt { animation-direction: reverse; }
 .campaignTrack span { white-space: nowrap; }
-.campaignTrack span::after { content: '·'; margin-left: 22px; color: rgba(37,99,235,.5); }
+.campaignTrack span::after { content: '·'; margin-left: 22px; color: rgba(29,78,216,.5); }
 @keyframes refMarquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -277,7 +273,7 @@
 .priceCard {
   position: relative;
   width: 100%; max-width: 820px; margin-top: 28px;
-  background: rgba(0,0,0,.03); border: 1px solid rgba(37,99,235,.25);
+  background: rgba(0,0,0,.03); border: 1px solid rgba(29,78,216,.25);
   border-radius: 28px; padding: 40px 32px; backdrop-filter: blur(10px);
 }
 .guaranteeSeal {
@@ -291,8 +287,8 @@
   display: inline-flex; align-items: center; gap: 6px;
   padding: 8px 20px; border-radius: 100px;
   font-size: 13px; font-weight: 800; letter-spacing: .02em; color: #fff;
-  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 55%, #8CD91A 100%);
-  box-shadow: 0 8px 22px rgba(37,99,235,.35);
+  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 55%, #60A5FA 100%);
+  box-shadow: 0 8px 22px rgba(29,78,216,.35);
   white-space: nowrap;
 }
 .priceLead {
@@ -304,13 +300,12 @@
 .priceReveal { display: inline-flex; flex-direction: column; align-items: center; gap: 8px; }
 .priceTag {
   font-size: 12px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: #fff;
-  background: #2563EB; padding: 5px 12px; border-radius: 8px; box-shadow: 0 6px 18px rgba(37,99,235,.4);
+  background: #1D4ED8; padding: 5px 12px; border-radius: 8px; box-shadow: 0 6px 18px rgba(29,78,216,.4);
 }
 .priceNew {
   font-variant-numeric: tabular-nums;
   font-size: clamp(2.6rem, 6vw, 4rem); font-weight: 900; letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 55%, #8CD91A 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
+  color: #1D4ED8;
 }
 /* számláló közben – finoman visszafogott, villódzás nélkül */
 .priceCounting { opacity: .92; }
@@ -325,7 +320,7 @@
 .toolGroupLabel {
   width: 100%; max-width: 700px; margin: 8px auto 16px;
   font-size: clamp(1.05rem, 2vw, 1.3rem); font-weight: 800; letter-spacing: 0; text-transform: none;
-  color: #2563EB; text-align: left;
+  color: #1D4ED8; text-align: left;
 }
 
 /* ── AMIT CSINÁLUNK (kompakt, 3 lépéses rács, görgetés nélkül) ── */
@@ -343,9 +338,9 @@
   position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
   display: inline-flex; align-items: center; justify-content: center;
   width: 34px; height: 34px; border-radius: 50%;
-  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 55%, #8CD91A 100%);
+  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 55%, #60A5FA 100%);
   color: #fff; font-weight: 900; font-size: 15px;
-  box-shadow: 0 6px 16px rgba(37,99,235,.35);
+  box-shadow: 0 6px 16px rgba(29,78,216,.35);
 }
 .serviceThumbWrap {
   position: relative; width: 100%; aspect-ratio: 4 / 3; border-radius: 14px;
@@ -373,7 +368,7 @@
 .bgMark {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
   font-size: clamp(14rem, 42vw, 32rem); font-weight: 900; line-height: 1;
-  color: rgba(37,99,235,.06); z-index: 0; pointer-events: none; user-select: none;
+  color: rgba(29,78,216,.06); z-index: 0; pointer-events: none; user-select: none;
 }
 .bgMarkExcl { color: rgba(20,22,27,.05); }
 .featureCard {
@@ -383,7 +378,7 @@
 .featureCheck {
   display: inline-flex; align-items: center; justify-content: center;
   width: 42px; height: 42px; border-radius: 50%; margin-bottom: 14px;
-  background: rgba(37,99,235,.12); font-size: 20px;
+  background: rgba(29,78,216,.12); font-size: 20px;
 }
 .featureCard h3 { font-size: 1.05rem; font-weight: 800; color: #16181d; margin-bottom: 8px; }
 .featureCard p { font-size: .92rem; color: rgba(0,0,0,.65); line-height: 1.5; }
@@ -405,22 +400,21 @@
 }
 .creativeImg {
   position: relative; width: 100%; height: 260px;
-  background: linear-gradient(135deg, #e8f4ff, #e9fbe5);
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
 }
 .creativeImg :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .creativeFoot { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 18px 16px; text-align: center; }
 .creativeMetric {
   font-size: 1.8rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1; white-space: nowrap;
-  background: linear-gradient(135deg, #2563EB, #14B8A6);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
+  color: #1D4ED8;
 }
 .creativeType { font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #5a6079; line-height: 1.4; }
-.creativeCeg { font-size: 11px; font-weight: 700; color: #14B8A6; margin-top: 2px; }
+.creativeCeg { font-size: 11px; font-weight: 700; color: #2563EB; margin-top: 2px; }
 
 /* ── KÉPES REFERENCIÁK ── */
 .refImgGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; margin-top: 12px; }
 .refImgCard {
-  border-radius: 18px; overflow: hidden; border: 1px solid rgba(37,99,235,.2);
+  border-radius: 18px; overflow: hidden; border: 1px solid rgba(29,78,216,.2);
   background: #0F172A; box-shadow: 0 20px 50px rgba(0,0,0,.4);
   animation: floatCard 6s ease-in-out infinite;
 }
@@ -429,16 +423,16 @@
 /* ── GARANCIA ── */
 .guaranteeCard {
   width: 100%; max-width: 640px; text-align: center;
-  background: linear-gradient(160deg, rgba(37,99,235,.06), rgba(20,184,166,.05));
-  border: 1.5px solid rgba(37,99,235,.3);
+  background: linear-gradient(160deg, rgba(29,78,216,.06), rgba(37,99,235,.05));
+  border: 1.5px solid rgba(29,78,216,.3);
   border-radius: 28px; padding: 44px 36px;
-  box-shadow: 0 20px 50px rgba(37,99,235,.1);
+  box-shadow: 0 20px 50px rgba(29,78,216,.1);
 }
 .guaranteeIcon {
   display: inline-flex; align-items: center; justify-content: center;
   width: 56px; height: 56px; border-radius: 50%; margin-bottom: 18px;
-  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 55%, #8CD91A 100%);
-  font-size: 26px; box-shadow: 0 10px 28px rgba(37,99,235,.35);
+  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 55%, #60A5FA 100%);
+  font-size: 26px; box-shadow: 0 10px 28px rgba(29,78,216,.35);
 }
 .guaranteeCard .h2 { margin-left: auto; margin-right: auto; }
 .guaranteeList {
@@ -454,22 +448,22 @@
 .guaranteeList li::before {
   content: '✓'; position: absolute; left: 0; top: 12px;
   width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  background: rgba(37,99,235,.15); color: #2563EB; font-weight: 900; font-size: 13px;
+  background: rgba(29,78,216,.15); color: #1D4ED8; font-weight: 900; font-size: 13px;
 }
 .guaranteeList strong { color: #16181d; font-weight: 800; }
 
 /* ── SZOLGÁLTATÁS PAKK ── */
 .packCard {
   width: 100%; max-width: 560px;
-  background: linear-gradient(160deg, rgba(37,99,235,.08), rgba(20,184,166,.05));
-  border: 1px solid rgba(37,99,235,.35);
+  background: linear-gradient(160deg, rgba(29,78,216,.08), rgba(37,99,235,.05));
+  border: 1px solid rgba(29,78,216,.35);
   border-radius: 28px; padding: 44px 36px; text-align: center;
-  box-shadow: 0 24px 70px rgba(37,99,235,.15);
+  box-shadow: 0 24px 70px rgba(29,78,216,.15);
 }
 .packBadge {
   display: inline-block; padding: 7px 18px; border-radius: 100px; margin-bottom: 20px;
   font-size: 13px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
-  background: #14B8A6; color: #fff;
+  background: #2563EB; color: #fff;
 }
 .packTitle { font-size: 1.5rem; font-weight: 900; color: #16181d; margin-bottom: 22px; }
 .packList { list-style: none; padding: 0; margin: 0 0 28px; text-align: left; display: inline-block; }
@@ -480,7 +474,7 @@
 .packList li::before {
   content: '✓'; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
   width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  background: rgba(37,99,235,.15); color: #2563EB; font-weight: 900; font-size: 13px;
+  background: rgba(29,78,216,.15); color: #1D4ED8; font-weight: 900; font-size: 13px;
 }
 /* ── ÉRTÉK-LEBONTÁS (value stack) ── */
 .valueList { list-style: none; padding: 0; margin: 0 0 18px; text-align: left; }
@@ -516,7 +510,7 @@
 .folyamatNum {
   flex: 0 0 auto; width: 38px; height: 38px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 55%, #8CD91A 100%); color: #fff;
+  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 55%, #60A5FA 100%); color: #fff;
   font-weight: 900; font-size: 17px;
 }
 .folyamatBody h3 { font-size: 1.08rem; font-weight: 800; color: #16181d; margin-bottom: 4px; }
@@ -525,8 +519,7 @@
 .packPrice { display: flex; align-items: baseline; justify-content: center; gap: 14px; margin-bottom: 28px; }
 .packPriceNew {
   font-size: 2.6rem; font-weight: 900; letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 55%, #8CD91A 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
+  color: #1D4ED8;
 }
 .packPriceNew span { font-size: 1.1rem; -webkit-text-fill-color: rgba(0,0,0,.6); }
 .guarantee { margin-top: 18px; font-size: 14px; line-height: 1.55; color: rgba(0,0,0,.65); }
@@ -536,7 +529,7 @@
 .kepVelemenyStack { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 560px; margin: 24px auto 0; }
 .kepVelemenyCard {
   background: #fff; border-radius: 18px; overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0,0,0,.35), 0 0 0 1px rgba(37,99,235,.15);
+  box-shadow: 0 20px 50px rgba(0,0,0,.35), 0 0 0 1px rgba(29,78,216,.15);
 }
 .kepVelemenyQuote {
   margin: 0; padding: 20px 22px 4px;
@@ -551,7 +544,7 @@
 .formBox {
   position: relative;
   width: 100%; max-width: 520px; margin: 0 auto;
-  background: rgba(0,0,0,.04); border: 1px solid rgba(37,99,235,.3);
+  background: rgba(0,0,0,.04); border: 1px solid rgba(29,78,216,.3);
   border-radius: 24px; padding: 76px 32px 40px; backdrop-filter: blur(10px);
   margin-top: 58px; /* hely a kilógó kerek fotónak */
 }
@@ -569,13 +562,13 @@
   color: #16181d; font-size: 16px; outline: none; transition: border-color .2s;
 }
 .field input::placeholder { color: rgba(0,0,0,.4); }
-.field input:focus { border-color: #2563EB; }
+.field input:focus { border-color: #1D4ED8; }
 .select {
   width: 100%; padding: 15px 18px; border-radius: 14px;
   border: 1px solid rgba(0,0,0,.18); background: rgba(0,0,0,.06);
   color: #16181d; font-size: 16px; outline: none; cursor: pointer; transition: border-color .2s;
 }
-.select:focus { border-color: #2563EB; }
+.select:focus { border-color: #1D4ED8; }
 .select option { color: #16181d; }
 
 .error { color: #cc1122; font-size: 13px; margin: 4px 0 12px; }
@@ -583,17 +576,17 @@
 .formBtn {
   cursor: pointer; padding: 17px; border: none; border-radius: 14px; margin-top: 8px;
   font-size: 17px; font-weight: 800; color: #0f1226;
-  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 55%, #8CD91A 100%);
-  box-shadow: 0 12px 40px rgba(37,99,235,.3); transition: transform .2s;
+  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 55%, #60A5FA 100%);
+  box-shadow: 0 12px 40px rgba(29,78,216,.3); transition: transform .2s;
 }
 .formBtn:hover:not(:disabled) { transform: translateY(-2px); }
 .formBtn:disabled { opacity: .6; cursor: default; }
 .formNote { margin-top: 18px; font-size: 12.5px; color: rgba(0,0,0,.5); line-height: 1.5; }
-.formNote a { color: #2563EB; text-decoration: underline; }
+.formNote a { color: #1D4ED8; text-decoration: underline; }
 
 /* click-to-call – egyszerű szöveges elérhetőség */
 .contactLine { margin-top: 16px; text-align: center; font-size: 15px; color: rgba(0,0,0,.6); }
-.contactLine a { color: #2563EB; font-weight: 800; text-decoration: none; }
+.contactLine a { color: #1D4ED8; font-weight: 800; text-decoration: none; }
 .contactLine a:hover { text-decoration: underline; }
 
 /* alapítói aláírás a form alatt */
@@ -612,7 +605,7 @@
 /* ── MÉG NEM DÖNTÖTTÉL (email opt-in) ── */
 .magnetCard {
   width: 100%; max-width: 560px; text-align: center;
-  background: rgba(0,0,0,.03); border: 1px solid rgba(37,99,235,.2);
+  background: rgba(0,0,0,.03); border: 1px solid rgba(29,78,216,.2);
   border-radius: 24px; padding: 40px 32px;
 }
 .magnetForm {
@@ -624,12 +617,12 @@
   color: #16181d; font-size: 16px; outline: none; transition: border-color .2s;
 }
 .magnetForm input::placeholder { color: rgba(0,0,0,.4); }
-.magnetForm input:focus { border-color: #2563EB; }
+.magnetForm input:focus { border-color: #1D4ED8; }
 .magnetForm button {
   flex: 0 0 auto; cursor: pointer; padding: 15px 26px; border: none; border-radius: 14px;
   font-size: 16px; font-weight: 800; color: #0f1226;
-  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 55%, #8CD91A 100%);
-  box-shadow: 0 10px 30px rgba(37,99,235,.3); transition: transform .2s;
+  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 55%, #60A5FA 100%);
+  box-shadow: 0 10px 30px rgba(29,78,216,.3); transition: transform .2s;
   white-space: nowrap;
 }
 .magnetForm button:hover:not(:disabled) { transform: translateY(-2px); }
@@ -640,11 +633,11 @@
 .successIcon {
   width: 64px; height: 64px; margin: 0 auto 20px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 900;
-  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 55%, #8CD91A 100%); color: #0f1226;
+  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 55%, #60A5FA 100%); color: #0f1226;
 }
 .success h3 { font-size: 1.5rem; font-weight: 900; color: #16181d; margin-bottom: 12px; }
 .success p { font-size: 1rem; color: rgba(0,0,0,.75); line-height: 1.6; }
-.success a { color: #2563EB; text-decoration: underline; }
+.success a { color: #1D4ED8; text-decoration: underline; }
 
 /* ── FAQ ── */
 .faqSection { width: 100%; max-width: 720px; margin-top: 40px; }
@@ -659,7 +652,7 @@
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
 }
 .faqItem summary::-webkit-details-marker { display: none; }
-.faqItem summary::after { content: '+'; color: #2563EB; font-size: 1.4rem; font-weight: 400; line-height: 1; }
+.faqItem summary::after { content: '+'; color: #1D4ED8; font-size: 1.4rem; font-weight: 400; line-height: 1; }
 .faqItem[open] summary::after { content: '−'; }
 .faqItem p { padding: 0 0 20px; font-size: .96rem; color: rgba(0,0,0,.7); line-height: 1.6; }
 
@@ -691,13 +684,13 @@
   font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.55);
 }
 .countdownClock b {
-  font-size: 30px; font-weight: 900; color: #8CD91A; font-variant-numeric: tabular-nums; margin-bottom: 3px;
+  font-size: 30px; font-weight: 900; color: #60A5FA; font-variant-numeric: tabular-nums; margin-bottom: 3px;
 }
 .countdownBtn {
   flex: 0 0 auto; cursor: pointer; padding: 16px 30px; border: none; border-radius: 100px;
   font-size: 17px; font-weight: 900; color: #16181d; white-space: nowrap;
-  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 55%, #8CD91A 100%);
-  box-shadow: 0 8px 24px rgba(37,99,235,.45); transition: transform .2s;
+  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 55%, #60A5FA 100%);
+  box-shadow: 0 8px 24px rgba(29,78,216,.45); transition: transform .2s;
 }
 .countdownBtn:hover { transform: translateY(-2px); }
 
@@ -743,7 +736,7 @@
   .hero { min-height: calc(100svh - 148px); margin-bottom: 36px; }
   .scrollCue { margin-top: 24px; gap: 10px; }
   .scrollCueLine { height: 32px; }
-  .scrollCueCircle { width: 54px; height: 54px; box-shadow: 0 10px 26px rgba(37,99,235,.38), 0 0 0 6px rgba(37,99,235,.08); }
+  .scrollCueCircle { width: 54px; height: 54px; box-shadow: 0 10px 26px rgba(29,78,216,.38), 0 0 0 6px rgba(29,78,216,.08); }
   .scrollCue svg { width: 26px; height: 26px; }
   .badge { margin-bottom: 14px; padding: 7px 13px; font-size: 11.5px; }
   .h1 { font-size: clamp(2.1rem, 8.4vw, 3rem); margin-bottom: 10px; padding: 0 6px; }
