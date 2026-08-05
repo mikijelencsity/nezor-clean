@@ -7,15 +7,15 @@ import styles from './LandingPage.module.css';
 
 const formatFt = (n: number) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
-// Az ajánlat lejárata: 2026. augusztus 10. 23:59:59
-const DEADLINE = new Date('2026-08-10T23:59:59').getTime();
+// Az ajánlat lejárata: 2026. augusztus 25. 23:59:59
+const DEADLINE = new Date('2026-08-25T23:59:59').getTime();
 const pad2 = (n: number) => String(n).padStart(2, '0');
 
 
 const szolgaltatasTimeline = [
-  { cim: 'Adatgyűjtés és ajánlatkészítés', leiras: 'Felmérjük vállalkozásod szolgáltatásait, és közösen kialakítunk egy neked szóló ajánlatot.', kep: null },
-  { cim: 'Meglévő online jelenlét felmérése', leiras: 'Van-e weboldalad, webshopod, Facebook oldalad, hirdetési fiókod és Google cégprofilod. Ha ezek nincsenek, közösen pótoljuk, hogy hirdetésed hatékony legyen.', kep: null },
-  { cim: 'Landing oldal és hirdetés készítés', leiras: 'Elkészítjük a landing oldalt, és elindítjuk rá a hirdetési kampányt.', kep: ['/szolgaltatas-landing.webp', '/szolgaltatas-hirdetes.webp'] },
+  { cim: 'Adatgyűjtés és ajánlatkészítés', leiras: 'Felmérjük vállalkozásod szolgáltatásait, és közösen kialakítunk egy neked szóló ajánlatot.', kep: '/szolgaltatas-ajanlat.png' },
+  { cim: 'Meglévő online jelenlét felmérése', leiras: 'Van-e weboldalad, webshopod, Facebook oldalad, hirdetési fiókod és Google cégprofilod. Ha ezek nincsenek, közösen pótoljuk, hogy hirdetésed hatékony legyen.', kep: '/szolgaltatas-jelenlet.png' },
+  { cim: 'Landing oldal és hirdetés készítés', leiras: 'Elkészítjük a landing oldalt, és elindítjuk rá a hirdetési kampányt.', kep: '/szolgaltatas-landing-hirdetes.png' },
 ];
 
 const cegek = [
@@ -40,12 +40,7 @@ const kampanySor2 = [
   'Estur Épker Kft.', 'ZT Épületgépészet', 'Hellinger Kft.', 'Dover Check', 'Korona Gombaipari Egyesülés', 'Tóth Tamás - kertépítés',
 ];
 const kampanySor3 = [
-  'Forint - Soft Kft.', 'Adótanácsadók Egyesülete', 'G-R Ékszerszalon', 'Samu Kutyakozmetika', 'Szeko Ablak Kft.',
-];
-
-const csomagTartalom = [
-  { cim: 'Landing oldal a kampányhoz', leiras: 'Ahol az érdeklődő landol a hirdetésből, és leadként konvertálódik.' },
-  { cim: '1 teljes havi hirdetési kampány', leiras: 'Érdeklődőket hozunk neked, és vásárlókká konvertáljuk őket.' },
+  'Forint - Soft Kft.', 'Adótanácsadók Egyesülete', 'G-R Ékszerszalon', 'Samu Kutyakozmetika', 'Szeko Ablak Kft.', 'XL - Lemeztechnika Kft.',
 ];
 
 // A profilképek erős blurja és a név takarása a képbe van égetve (_p.jpeg)
@@ -57,12 +52,12 @@ const kepVelemenyek = [
 
 const faq = [
   { k: 'Ez tényleg 39.500 Ft?', v: 'Igen. Az első teljes hónap 79.000 helyett 39.500 Ft. Utána te döntöd el, folytatjuk-e a közös munkát.' },
-  { k: 'Miből jön ki a 39.500 Ft, és mi az, amit garantálunk?', v: 'Az első hónap 39.500 Ft-jából 30.000 Ft a landing oldal, 9.500 Ft pedig a hirdetéskezelés díja. Ha a hirdetésed statisztikailag nem térül meg, a 9.500 Ft-os hirdetéskezelési díjat garanciálisan visszaadjuk — a landing oldal 30.000 Ft-os értéke viszont a tiéd marad, örökre, hiszen az már a te tulajdonod, egy örök érték.' },
-  { k: 'Mit kapok pontosan?', v: 'Egy landing oldalt a kampányhoz és egy teljes havi hirdetési kampányt kapsz, összerakva, élesben.' },
+  { k: 'Miből jön ki a 39.500 Ft, és mi az, amit garantálunk?', v: 'Az első hónap 39.500 Ft-jából 29.500 Ft a landing oldal, 10.000 Ft pedig a hirdetéskezelés díja. Ha a hirdetésed statisztikailag nem térül meg, a 10.000 Ft-os hirdetéskezelési díjat garanciálisan visszaadjuk — a landing oldal 29.500 Ft-os értéke viszont a tiéd marad, örökre, hiszen az már a te tulajdonod, egy örök érték.' },
+  { k: 'Mit kapok pontosan?', v: 'Egy erre a célra épített weboldalt (ún. landing oldalt) — ide érkeznek majd az érdeklődők a hirdetésből —, és egy teljes havi hirdetési kampányt kapsz, összerakva, élesben.' },
   { k: 'Van bármilyen kötelezettség?', v: 'Nincs. Bármikor lemondhatod az első hónapban, nem kötünk hosszú távú szerződést, míg nem vagy elkötelezett a közös munka felé.' },
   { k: 'Nekem kell megírnom a szövegeket?', v: 'Nem. Elég, ha elmondod, mivel foglalkozol. A szöveget és a felépítést mi rakjuk össze.' },
   { k: 'Mennyi idő, míg elindul?', v: 'Néhány nap alatt élesben van a megjelenésed és a hirdetési kampányod.' },
-  { k: 'A hirdetési költség benne van?', v: 'A hirdetési budget közvetlenül a Metához megy, nem hozzánk. A 39.500 Ft a mi munkánk díja. Így átlátható, mennyi megy hirdetésre és mennyi a mi díjunk. A beállításban végig segítünk, nem kell értened hozzá.' },
+  { k: 'A hirdetési költség benne van?', v: 'A hirdetési budget közvetlenül a Metához megy, nem hozzánk. A 39.500 Ft a mi munkánk díja. Így átlátható, mennyi megy hirdetésre és mennyi a mi díjunk. Egy átlagos hazai kampány napi 2.000 Ft-tól akár napi több száz ezer Ft-ig is terjedhet — a te vállalkozásodhoz és céljaidhoz mérten közösen állapítjuk meg, mennyit érdemes rászánnod. A beállításban végig segítünk, nem kell értened hozzá.' },
 ];
 
 export function LandingPage() {
@@ -204,9 +199,10 @@ export function LandingPage() {
           </div>
           <span className={styles.heroQuoteMark} aria-hidden="true">&ldquo;</span>
           <h1 className={`${styles.h1} ${styles.heroQuote}`}>
-            <span>Új ügyfeleket hozunk</span>
-            <span className={styles.heroNum}>30</span>
-            <span>nap alatt.</span>
+            <span className={styles.heroQuoteLine}>Új ügyfeleket hozunk</span>
+            <span className={styles.heroNumLine}>
+              <span className={styles.heroNum}>30</span> nap alatt.
+            </span>
             <span className={`${styles.grad} ${styles.heroGuaranteeLine}`}>Vagy visszakapod a hirdetéskezelési díjat.</span>
           </h1>
           <div className={styles.heroPills}>
@@ -251,7 +247,7 @@ export function LandingPage() {
                   <div className={Array.isArray(s.kep) ? styles.serviceThumbRow : styles.serviceThumbWrap}>
                     {(Array.isArray(s.kep) ? s.kep : [s.kep]).map((k) => (
                       <div key={k} className={styles.serviceThumb}>
-                        <Image src={k} alt={s.cim} fill sizes="140px" style={{ objectFit: 'cover' }} />
+                        <Image src={k} alt={s.cim} fill sizes="(max-width: 720px) 90vw, 300px" style={{ objectFit: 'cover' }} />
                       </div>
                     ))}
                   </div>
@@ -347,6 +343,28 @@ export function LandingPage() {
                 <span className={`${styles.priceNew} ${priceVal > 39500 ? styles.priceCounting : ''}`}>{formatFt(priceVal)} Ft</span>
               </span>
             </div>
+
+            <h3 className={styles.packTitle} style={{ fontSize: '1.15rem', marginTop: 28 }}>Mit kapsz, és mit ér?</h3>
+            <ul className={styles.valueList}>
+              {ertekLebontas.map((e) => (
+                <li key={e.cim}>
+                  <span className={styles.valueName}>
+                    {e.cim}
+                    {e.jegyzet && <em>{e.jegyzet}</em>}
+                  </span>
+                  <b className={styles.valuePrice}>{e.ertek}</b>
+                </li>
+              ))}
+            </ul>
+            <div className={styles.valueTotal}>
+              <div className={styles.valueTotalRow}>
+                <span>Érték:</span> <strong>149.000 Ft</strong>
+              </div>
+              <div className={styles.valueTotalRow}>
+                <span>Ár:</span> <strong className={styles.valuePriceHi}>39.500 Ft</strong>
+              </div>
+            </div>
+
             <p className={styles.priceCtaLead}>
               Egy egész hónapig azon dolgozunk, hogy új ügyfeleid legyenek.
             </p>
@@ -367,48 +385,11 @@ export function LandingPage() {
             </h2>
             <ul className={styles.guaranteeList}>
               <li>Az első hónapot bármikor lemondhatod, nincs szerződés.</li>
-              <li>Ha a hirdetésed statisztikailag nem térül meg, <strong>visszafizetjük a 9.500 Ft-os hirdetéskezelési díjat</strong> — a landing oldal 30.000 Ft-os értéke marad a tiéd, örökre.</li>
+              <li>Ha a hirdetésed statisztikailag nem térül meg, <strong>visszafizetjük a 10.000 Ft-os hirdetéskezelési díjat</strong> — a landing oldal 29.500 Ft-os értéke marad a tiéd, örökre.</li>
             </ul>
             <p className={styles.body} style={{ marginTop: 18 }}>
               Azért merjük ezt vállalni, mert nem vállalunk el senkit, akin úgy érezzük, nem
               tudunk segíteni. Csak azért, hogy több ügyfelünk legyen.
-            </p>
-          </div>
-        </section>
-
-        <p className={styles.sectionTease}>Oké, de <span className={styles.grad}>hogy is nézne ez ki?</span></p>
-
-        {/* ── SZOLGÁLTATÁS PAKK + ÉRTÉK-LEBONTÁS ── */}
-        <section className={styles.section}>
-          <div className={styles.packCard}>
-            <span className={styles.packBadge}>Komplett rendszer</span>
-            <h3 className={styles.packTitle}>Mit kapsz, és mit ér?</h3>
-
-            <ul className={styles.valueList}>
-              {ertekLebontas.map((e) => (
-                <li key={e.cim}>
-                  <span className={styles.valueName}>
-                    {e.cim}
-                    {e.jegyzet && <em>{e.jegyzet}</em>}
-                  </span>
-                  <b className={styles.valuePrice}>{e.ertek}</b>
-                </li>
-              ))}
-            </ul>
-
-            <div className={styles.valueTotal}>
-              Összesen <strong>149.000 Ft</strong> értékben
-            </div>
-
-            <div className={styles.packPrice}>
-              <span className={styles.packPriceLabel}>Az első hónap:</span>
-              <span className={styles.packPriceNew}>39.500 Ft</span>
-            </div>
-
-            <p className={styles.budgetNote}>
-              A <strong>hirdetési budget közvetlenül a Metához megy</strong>, nem hozzánk — mi csak a
-              saját munkánk díját számlázzuk. Így minden forint átlátható: tudod, mennyi megy hirdetésre
-              és mennyi a mi díjunk. <strong>A beállításban végig segítünk</strong>, nem kell értened hozzá.
             </p>
           </div>
         </section>
@@ -477,7 +458,7 @@ export function LandingPage() {
 
             {/* Alapítói fotó — kerek, a form tetején, szöveget nem takar */}
             <Image
-              src="/alapitok.webp"
+              src="/alapitok2.webp"
               alt="Müller Dániel és Jelencsity Miklós — NEZOR alapítók"
               width={440}
               height={440}

@@ -239,16 +239,18 @@ const variants: { id: string; num: string; name: string; rationale: string; rend
           className={landing.h1}
           style={{
             fontSize: 'clamp(1.6rem, 3.8vw, 2.4rem)', fontWeight: 800, fontStyle: 'italic',
-            maxWidth: 620, display: 'flex', alignItems: 'baseline', justifyContent: 'center',
-            flexWrap: 'wrap', gap: '0 14px', rowGap: 4,
+            maxWidth: 620, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+            gap: 6,
           }}
         >
           <span>Új ügyfeleket hozunk</span>
-          <span style={{
-            fontStyle: 'normal', fontWeight: 900, color: '#1D4ED8',
-            fontSize: 'clamp(2.6rem, 7vw, 4rem)', lineHeight: .85, letterSpacing: '-0.03em',
-          }}>30</span>
-          <span>nap alatt.</span>
+          <span style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', flexWrap: 'wrap', gap: 10 }}>
+            <span style={{
+              fontStyle: 'normal', fontWeight: 900, color: '#1D4ED8',
+              fontSize: 'clamp(2.6rem, 7vw, 4rem)', lineHeight: .85, letterSpacing: '-0.03em',
+            }}>30</span>
+            nap alatt.
+          </span>
           <span className={landing.grad} style={{ fontStyle: 'normal', width: '100%', display: 'block', marginTop: 4 }}>
             Vagy visszakapod a hirdetéskezelési díjat.
           </span>
