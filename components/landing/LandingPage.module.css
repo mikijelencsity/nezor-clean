@@ -113,6 +113,24 @@
   line-height: 1.16; letter-spacing: -0.02em; color: #16181d;
   margin-bottom: 14px; max-width: 1000px;
 }
+/* idézet-hangulatú hero fejléc: idézőjel-ornamens + kiemelt "30" szám */
+.heroQuoteMark {
+  display: block; font-size: clamp(2.6rem, 6vw, 4rem); line-height: .5; font-weight: 900;
+  color: rgba(29,78,216,.28); margin-bottom: 6px;
+}
+.heroQuote {
+  font-style: italic; font-weight: 800;
+  display: flex; align-items: baseline; justify-content: center;
+  flex-wrap: wrap; gap: 0 clamp(8px, 1.6vw, 14px); row-gap: 2px;
+  font-size: clamp(1.9rem, 4.4vw, 3.1rem);
+}
+.heroNum {
+  font-style: normal; font-weight: 900; color: #1D4ED8;
+  font-size: clamp(2.9rem, 8vw, 4.6rem); line-height: .82; letter-spacing: -0.03em;
+}
+.heroGuaranteeLine {
+  font-style: normal; width: 100%; display: block; margin-top: 6px;
+}
 /* hirdetés-hangulat: fekete blokk + sárga kiemelés */
 .heroMatch {
   display: inline-block;
@@ -740,6 +758,10 @@
   .scrollCue svg { width: 26px; height: 26px; }
   .badge { margin-bottom: 14px; padding: 7px 13px; font-size: 11.5px; }
   .h1 { font-size: clamp(2.1rem, 8.4vw, 3rem); margin-bottom: 10px; padding: 0 6px; }
+  .heroQuoteMark { font-size: 2.4rem; margin-bottom: 2px; }
+  .heroQuote { font-size: clamp(1.5rem, 6.6vw, 2rem); gap: 0 7px; padding: 0 4px; }
+  .heroNum { font-size: clamp(2.3rem, 13vw, 3.2rem); }
+  .heroGuaranteeLine { margin-top: 4px; }
   .heroMatch { font-size: 1.08rem; padding: 10px 16px; margin-bottom: 12px; }
   .heroSub { font-size: 1.05rem; margin-bottom: 8px; }
   .heroSegments { gap: 10px; margin: 14px 0 18px; }

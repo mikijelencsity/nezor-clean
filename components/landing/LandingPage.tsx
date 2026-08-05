@@ -62,13 +62,13 @@ const kepVelemenyek = [
 ];
 
 const faq = [
-  { k: 'Ez tényleg 49.000 Ft?', v: 'Igen. Az első teljes hónap 79.000 helyett 49.000 Ft. Utána te döntöd el, folytatjuk-e a közös munkát.' },
-  { k: 'Miből jön ki a 49.000 Ft, és mi az, amit garantálunk?', v: 'Az első hónap 49.000 Ft-jából 30.000 Ft a landing oldal, 19.000 Ft pedig a hirdetéskezelés díja. Ha a hirdetésed statisztikailag nem térül meg, a 19.000 Ft-os hirdetéskezelési díjat garanciálisan visszaadjuk — a landing oldal 30.000 Ft-os értéke viszont a tiéd marad, örökre, hiszen az már a te tulajdonod, egy örök érték.' },
+  { k: 'Ez tényleg 39.500 Ft?', v: 'Igen. Az első teljes hónap 79.000 helyett 39.500 Ft. Utána te döntöd el, folytatjuk-e a közös munkát.' },
+  { k: 'Miből jön ki a 39.500 Ft, és mi az, amit garantálunk?', v: 'Az első hónap 39.500 Ft-jából 30.000 Ft a landing oldal, 9.500 Ft pedig a hirdetéskezelés díja. Ha a hirdetésed statisztikailag nem térül meg, a 9.500 Ft-os hirdetéskezelési díjat garanciálisan visszaadjuk — a landing oldal 30.000 Ft-os értéke viszont a tiéd marad, örökre, hiszen az már a te tulajdonod, egy örök érték.' },
   { k: 'Mit kapok pontosan?', v: 'Egy landing oldalt a kampányhoz és egy teljes havi hirdetési kampányt kapsz, összerakva, élesben.' },
   { k: 'Van bármilyen kötelezettség?', v: 'Nincs. Bármikor lemondhatod az első hónapban, nem kötünk hosszú távú szerződést, míg nem vagy elkötelezett a közös munka felé.' },
   { k: 'Nekem kell megírnom a szövegeket?', v: 'Nem. Elég, ha elmondod, mivel foglalkozol. A szöveget és a felépítést mi rakjuk össze.' },
   { k: 'Mennyi idő, míg elindul?', v: 'Néhány nap alatt élesben van a megjelenésed és a hirdetési kampányod.' },
-  { k: 'A hirdetési költség benne van?', v: 'A hirdetési budget közvetlenül a Metához megy, nem hozzánk. A 49.000 Ft a mi munkánk díja. Így átlátható, mennyi megy hirdetésre és mennyi a mi díjunk. A beállításban végig segítünk, nem kell értened hozzá.' },
+  { k: 'A hirdetési költség benne van?', v: 'A hirdetési budget közvetlenül a Metához megy, nem hozzánk. A 39.500 Ft a mi munkánk díja. Így átlátható, mennyi megy hirdetésre és mennyi a mi díjunk. A beállításban végig segítünk, nem kell értened hozzá.' },
 ];
 
 export function LandingPage() {
@@ -118,7 +118,7 @@ export function LandingPage() {
 
   const scrollToForm = () => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-  // Ár-kalkulátor: 79.000 → 49.000 leszámlálás, amikor a szekció képbe ér
+  // Ár-kalkulátor: 79.000 → 39.500 leszámlálás, amikor a szekció képbe ér
   const priceRef = useRef<HTMLDivElement>(null);
   const [priceVal, setPriceVal] = useState(79000);
   useEffect(() => {
@@ -129,7 +129,7 @@ export function LandingPage() {
       if (entries[0].isIntersecting && !started) {
         started = true;
         io.disconnect();
-        const start = 79000, end = 49000, dur = 1400, t0 = performance.now();
+        const start = 79000, end = 39500, dur = 1400, t0 = performance.now();
         const tick = (now: number) => {
           const p = Math.min(1, (now - t0) / dur);
           const eased = 1 - Math.pow(1 - p, 3);
@@ -206,10 +206,14 @@ export function LandingPage() {
         <section className={styles.hero}>
           <div className={styles.badge}>
             <span className={styles.badgeDot} />
-            Komplett ügyfélszerző rendszer · 5+ év tapasztalat
+            5+ év tapasztalat · valós ügyfelek, valós eredmények
           </div>
-          <h1 className={styles.h1}>
-            ONLINE ÜGYFÉLSZERZÉS <span className={styles.grad}>VÁLLALKOZÁSODNAK.</span>
+          <span className={styles.heroQuoteMark} aria-hidden="true">&ldquo;</span>
+          <h1 className={`${styles.h1} ${styles.heroQuote}`}>
+            <span>Új ügyfeleket hozunk</span>
+            <span className={styles.heroNum}>30</span>
+            <span>nap alatt.</span>
+            <span className={`${styles.grad} ${styles.heroGuaranteeLine}`}>Vagy visszakapod a hirdetéskezelési díjat.</span>
           </h1>
           <div className={styles.heroPills}>
             <span className={styles.badge}>
@@ -222,7 +226,7 @@ export function LandingPage() {
             </span>
           </div>
           <p className={styles.heroSub}>
-            Nézd meg, hogyan dolgozunk
+            Landing oldal + élő hirdetési kampány, összerakva, 39.500 Ft-ból az első hónapban.
           </p>
 
           {/* görgetés-jelző: elválasztja a hero-t a következő szekciótól */}
@@ -349,7 +353,7 @@ export function LandingPage() {
               <span className={styles.priceOld}>79.000 Ft</span>
               <span className={styles.priceReveal}>
                 <span className={styles.priceTag}>ELSŐ HÓNAP CSAK</span>
-                <span className={`${styles.priceNew} ${priceVal > 49000 ? styles.priceCounting : ''}`}>{formatFt(priceVal)} Ft</span>
+                <span className={`${styles.priceNew} ${priceVal > 39500 ? styles.priceCounting : ''}`}>{formatFt(priceVal)} Ft</span>
               </span>
             </div>
             <p className={styles.priceCtaLead}>
@@ -372,7 +376,7 @@ export function LandingPage() {
             </h2>
             <ul className={styles.guaranteeList}>
               <li>Az első hónapot bármikor lemondhatod, nincs szerződés.</li>
-              <li>Ha a hirdetésed statisztikailag nem térül meg, <strong>visszafizetjük a 19.000 Ft-os hirdetéskezelési díjat</strong> — a landing oldal 30.000 Ft-os értéke marad a tiéd, örökre.</li>
+              <li>Ha a hirdetésed statisztikailag nem térül meg, <strong>visszafizetjük a 9.500 Ft-os hirdetéskezelési díjat</strong> — a landing oldal 30.000 Ft-os értéke marad a tiéd, örökre.</li>
             </ul>
             <p className={styles.body} style={{ marginTop: 18 }}>
               Azért merjük ezt vállalni, mert nem vállalunk el senkit, akin úgy érezzük, nem
@@ -407,7 +411,7 @@ export function LandingPage() {
 
             <div className={styles.packPrice}>
               <span className={styles.packPriceLabel}>Az első hónap:</span>
-              <span className={styles.packPriceNew}>49.000 Ft</span>
+              <span className={styles.packPriceNew}>39.500 Ft</span>
             </div>
 
             <p className={styles.budgetNote}>
@@ -513,7 +517,8 @@ export function LandingPage() {
           </p>
         </section>
 
-        {/* ── MÉG NEM DÖNTÖTTÉL? — email opt-in, kampánypélda + 3 tipp ── */}
+        {/* ── MÉG NEM DÖNTÖTTÉL? — email opt-in, kampánypélda + 3 tipp ──
+            Egyelőre kikapcsolva (elmentve, ha vissza kell kapcsolni).
         <section className={styles.section}>
           <div className={styles.magnetCard}>
             {magnetSent ? (
@@ -550,6 +555,7 @@ export function LandingPage() {
             )}
           </div>
         </section>
+        */}
 
         {/* ── FAQ (legalul) ── */}
         <section className={styles.faqSection}>
@@ -568,7 +574,7 @@ export function LandingPage() {
         <section className={styles.section} style={{ marginTop: 72 }}>
           <h2 className={styles.h2}>Kezdjük el?</h2>
           <p className={styles.body}>
-            Az első hónap 49.000 Ft, bármikor lemondható. Gyakorlatilag nem kockáztatsz semmit.
+            Az első hónap 39.500 Ft, bármikor lemondható. Gyakorlatilag nem kockáztatsz semmit.
           </p>
           <button type="button" className={styles.ctaPrimary} onClick={scrollToForm} style={{ marginTop: 24 }}>
             Vedd fel velünk a kapcsolatot →
