@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 declare global {
@@ -55,13 +55,21 @@ function initPixel() {
 export function FacebookPixel() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const searchStr = searchParams.toString();
+  // A useSearchParams() referenciája renderek közt akkor is változhat, ha az
+  // útvonal ténylegesen nem változott (pl. hidratáció) — ez duplikált
+  // PageView-t okozott. Csak az útvonal STRING-je alapján döntünk.
+  const lastTracked = useRef<string | null>(null);
 
   useEffect(() => {
     if (!PIXEL_ID) return;
+    const key = `${pathname}?${searchStr}`;
+    if (lastTracked.current === key) return; // ugyanaz az oldal, ne tüzeljünk kétszer
+    lastTracked.current = key;
     initPixel();
     // PageView minden oldalváltáskor (hozzájárulás nélkül a Meta visszatartja)
     window.fbq('track', 'PageView');
-  }, [pathname, searchParams]);
+  }, [pathname, searchStr]);
 
   // A süti-sáv döntésére azonnal reagálunk
   useEffect(() => {
