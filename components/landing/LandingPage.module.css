@@ -236,7 +236,7 @@
 .ctaPrimary {
   display: inline-block; cursor: pointer;
   padding: 18px 40px; border: none; border-radius: 100px;
-  font-size: 18px; font-weight: 800; color: #0f1226;
+  font-size: 18px; font-weight: 800; color: #fff;
   background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 55%, #60A5FA 100%);
   box-shadow: 0 12px 40px rgba(29,78,216,.35);
   transition: transform .2s, box-shadow .2s;
@@ -607,7 +607,7 @@
 
 .formBtn {
   cursor: pointer; padding: 17px; border: none; border-radius: 14px; margin-top: 8px;
-  font-size: 17px; font-weight: 800; color: #0f1226;
+  font-size: 17px; font-weight: 800; color: #fff;
   background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 55%, #60A5FA 100%);
   box-shadow: 0 12px 40px rgba(29,78,216,.3); transition: transform .2s;
 }
@@ -720,7 +720,7 @@
 }
 .countdownBtn {
   flex: 0 0 auto; cursor: pointer; padding: 16px 30px; border: none; border-radius: 100px;
-  font-size: 17px; font-weight: 900; color: #16181d; white-space: nowrap;
+  font-size: 17px; font-weight: 900; color: #fff; white-space: nowrap;
   background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 55%, #60A5FA 100%);
   box-shadow: 0 8px 24px rgba(29,78,216,.45); transition: transform .2s;
 }
