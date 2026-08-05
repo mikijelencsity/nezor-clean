@@ -246,11 +246,8 @@ export function LandingPage() {
         <div className={styles.accentStripe} aria-hidden="true" />
         <section className={styles.section}>
           <h2 className={styles.h2}>
-            Így növeljük <span className={styles.grad}>vállalkozásod forgalmát</span>
+            Így növeljük <span className={styles.grad}>ügyfeleink vállalkozásának forgalmát</span>
           </h2>
-          <p className={styles.toolGroupLabel} style={{ textAlign: 'center', fontWeight: 600, color: 'rgba(0,0,0,.5)' }}>
-            (saját példáinkkal bemutatva)
-          </p>
 
           <div className={styles.serviceGrid}>
             {szolgaltatasTimeline.map((s, i) => (
