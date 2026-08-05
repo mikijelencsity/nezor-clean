@@ -759,8 +759,8 @@
   .creativeCard { flex: 0 0 210px; margin-right: 16px; }
   .creativeImg { height: 210px; }
   .creativeMetric { font-size: 1.5rem; }
-  .priceCard { padding: 32px 22px; }
-  .guaranteeSeal { top: -58px; right: 4px; width: 64px; height: 64px; }
+  .priceCard { padding: 46px 22px 32px; }
+  .guaranteeSeal { top: -16px; right: -14px; width: 60px; height: 60px; }
   .priceLead { font-size: clamp(1.05rem, 5vw, 1.3rem); white-space: nowrap; }
   .packCard { padding: 36px 24px; }
   .refAvatar { width: 52px; height: 52px; }
