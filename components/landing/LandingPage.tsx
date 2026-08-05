@@ -32,12 +32,6 @@ const ertekLebontas = [
   { cim: 'Hirdetési kampány + 1 havi kezelés', jegyzet: 'felépítés, indítás, optimalizálás', ertek: '79.000 Ft' },
 ];
 
-const folyamat = [
-  { cim: 'Jelentkezel', leiras: '30 másodperc. Csak néhány adat rólad.' },
-  { cim: 'Felhívunk 24 órán belül', leiras: 'Egy 15 perces beszélgetés: megismerjük a vállalkozásod és a céljaid.' },
-  { cim: 'Megépítjük', leiras: 'Landing oldal a kampányhoz, néhány nap alatt. Neked nem kell szöveget írnod. Ha nincs weboldal / webshop vagy Google profil, azt is pótoljuk.' },
-  { cim: 'Indul a kampány', leiras: 'Elindítjuk a hirdetést, és jönnek az érdeklődők. Végig szólunk, mi történik.' },
-];
 
 const kampanySor1 = [
   'Cruiser Shop', 'Hazai Kávé Kft.', 'Kisállatkereskedes Baja', 'Neked Sütöm', 'InShape - Diet', 'Loft Of Beauty',
@@ -416,24 +410,6 @@ export function LandingPage() {
               saját munkánk díját számlázzuk. Így minden forint átlátható: tudod, mennyi megy hirdetésre
               és mennyi a mi díjunk. <strong>A beállításban végig segítünk</strong>, nem kell értened hozzá.
             </p>
-          </div>
-        </section>
-
-        {/* ── FOLYAMAT: mi történik, ha jelentkezel ── */}
-        <section className={styles.section}>
-          <h2 className={styles.h2}>
-            Jelentkezés után, <span className={styles.grad}>hogyan tovább?</span>
-          </h2>
-          <div className={styles.folyamatList}>
-            {folyamat.map((f, i) => (
-              <div key={f.cim} className={styles.folyamatStep}>
-                <span className={styles.folyamatNum}>{i + 1}</span>
-                <div className={styles.folyamatBody}>
-                  <h3>{f.cim}</h3>
-                  <p>{f.leiras}</p>
-                </div>
-              </div>
-            ))}
           </div>
         </section>
 
