@@ -760,6 +760,8 @@
   .creativeImg { height: 210px; }
   .creativeMetric { font-size: 1.5rem; }
   .priceCard { padding: 32px 22px; }
+  .guaranteeSeal { top: -22px; right: -8px; width: 68px; height: 68px; }
+  .priceLead { padding-right: 56px; }
   .packCard { padding: 36px 24px; }
   .refAvatar { width: 52px; height: 52px; }
 

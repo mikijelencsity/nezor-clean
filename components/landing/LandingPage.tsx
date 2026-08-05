@@ -15,7 +15,7 @@ const pad2 = (n: number) => String(n).padStart(2, '0');
 const szolgaltatasTimeline = [
   { cim: 'Adatgyűjtés és ajánlatkészítés', leiras: 'Felmérjük vállalkozásod szolgáltatásait, és közösen kialakítunk egy neked szóló ajánlatot.', kep: '/szolgaltatas-ajanlat.png' },
   { cim: 'Meglévő online jelenlét felmérése', leiras: 'Van-e weboldalad, webshopod, Facebook oldalad, hirdetési fiókod és Google cégprofilod. Ha ezek nincsenek, közösen pótoljuk, hogy hirdetésed hatékony legyen.', kep: '/szolgaltatas-jelenlet.png' },
-  { cim: 'Landing oldal és hirdetés készítés', leiras: 'Elkészítjük a landing oldalt, és elindítjuk rá a hirdetési kampányt.', kep: '/szolgaltatas-landing-hirdetes.png' },
+  { cim: 'Hirdetés és landing oldal készítés', leiras: 'Elkészítjük a landing oldalt, és elindítjuk rá a hirdetési kampányt.', kep: '/szolgaltatas-landing-hirdetes.png' },
 ];
 
 const cegek = [
