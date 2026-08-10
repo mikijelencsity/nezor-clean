@@ -61,28 +61,19 @@
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 
-/* ── GYORSVÁLASZTÓ a headline alatt ── */
-.chooseLabel {
-  font-size: 1.05rem; font-weight: 800; color: rgba(0,0,0,.6); margin-bottom: 14px;
+/* ── HERO ALATTI VISSZASZÁMLÁLÓ + NAGY CTA ── */
+.heroCountdown {
+  margin: 0 auto 18px; display: flex; flex-direction: column; align-items: center; gap: 10px;
 }
-.chooseRow {
-  display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-bottom: 54px;
+.heroCountdownLabel { font-size: 13px; font-weight: 700; color: rgba(0,0,0,.55); }
+.heroCountdownClock { display: flex; gap: 8px; }
+.heroCountdownClock span {
+  display: flex; flex-direction: column; align-items: center; min-width: 58px;
+  padding: 10px 8px; border-radius: 12px; background: #fff; border: 1px solid rgba(0,0,0,.08);
+  box-shadow: 0 8px 20px rgba(0,0,0,.06);
+  font-size: 10px; font-weight: 700; color: rgba(0,0,0,.5); text-transform: uppercase;
 }
-.chooseBtn {
-  cursor: pointer; padding: 20px 34px; border-radius: 100px;
-  font-size: 19px; font-weight: 900; color: #16181d;
-  background: #fff; border: 2px solid rgba(0,0,0,.12);
-  box-shadow: 0 10px 26px rgba(0,0,0,.08);
-  transition: transform .2s, border-color .2s, box-shadow .2s;
-}
-.chooseBtn:hover {
-  transform: translateY(-3px); border-color: #ff3340;
-  box-shadow: 0 16px 34px rgba(255,51,64,.20);
-}
-.chooseBtnActive {
-  background: linear-gradient(135deg, #ff3340, #ff8c00); color: #fff;
-  border-color: transparent; box-shadow: 0 14px 32px rgba(255,51,64,.38);
-}
+.heroCountdownClock b { font-size: 26px; font-weight: 900; color: #16181d; line-height: 1.1; }
 
 /* ── SZEKCIÓ ── */
 .section { margin-bottom: 56px; }
@@ -208,18 +199,6 @@
 }
 .formTitle { font-size: 1.6rem; font-weight: 900; margin-bottom: 18px; }
 
-.pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 22px; }
-.pill {
-  cursor: pointer; padding: 12px 20px; border-radius: 100px;
-  font-size: 15px; font-weight: 800; color: #16181d;
-  background: #f3f4f6; border: 2px solid transparent; transition: all .2s;
-}
-.pill:hover { background: #eceef1; }
-.pillActive {
-  background: linear-gradient(135deg, #ff3340, #ff8c00); color: #fff;
-  box-shadow: 0 8px 20px rgba(255,51,64,.32);
-}
-
 .honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .fields { display: flex; flex-direction: column; gap: 12px; }
 .fields input {
@@ -311,9 +290,6 @@
   .priceLead { font-size: clamp(1.05rem, 5vw, 1.3rem); white-space: nowrap; }
   .guaranteeCard { padding: 28px 20px; }
   .formCard { padding: 28px 20px; }
-  .pill { padding: 11px 16px; font-size: 14px; }
-  .chooseRow { flex-direction: column; gap: 12px; }
-  .chooseBtn { width: 100%; padding: 18px 24px; font-size: 18px; }
   .countdownLabel { display: none; }
   .countdownBar { padding: 12px 14px calc(12px + env(safe-area-inset-bottom)); }
   .countdownInner { gap: 10px; }

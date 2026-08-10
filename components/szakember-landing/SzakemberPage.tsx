@@ -34,14 +34,6 @@ const kepVelemenyek = [
   { kep: '/IMG_1702_m2.webp', w: 1169, h: 1649, alt: 'Ügyfél visszajelzés', idezet: 'Nah srácok, erről beszéltem! Ez így profi lett!' },
 ];
 
-const szakmak = [
-  { id: 'vizszerelo', nev: 'Vízszerelő' },
-  { id: 'tetofedo', nev: 'Tetőfedő' },
-  { id: 'festo', nev: 'Festő' },
-];
-const EGYEB = { id: 'egyeb', nev: 'Egyéb' };
-const opciok = [...szakmak, EGYEB];
-
 const ertekLebontas = [
   { cim: 'Landing oldal a kampányhoz', jegyzet: '', ertek: '70.000 Ft' },
   { cim: 'Hirdetési kampány + 1 havi kezelés', jegyzet: 'felépítés, indítás, optimalizálás', ertek: '79.000 Ft' },
@@ -56,7 +48,6 @@ const faq = [
 
 export function SzakemberPage() {
   const [szakma, setSzakma] = useState('');
-  const [foglalkozas, setFoglalkozas] = useState('');
   const [nev, setNev] = useState('');
   const [telefon, setTelefon] = useState('');
   const [email, setEmail] = useState('');
@@ -88,25 +79,15 @@ export function SzakemberPage() {
 
   const scrollToForm = () => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-  // headline alatti gyorsválasztó: kiválasztja a szakmát és a formhoz görget
-  const valasztSzakma = (id: string) => {
-    setSzakma(id);
-    setError('');
-    scrollToForm();
-  };
-
-  const valasztottNev = opciok.find((s) => s.id === szakma)?.nev ?? '';
-  const egyebValasztva = szakma === EGYEB.id;
-
   const handleSubmit = async (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault();
-    if (!szakma) { setError('Válaszd ki, melyik szakmában dolgozol!'); return; }
     if (!nev.trim() || !telefon.trim()) { setError('Add meg a neved és telefonszámod!'); return; }
     if (!PHONE_RE.test(telefon.trim())) { setError('Érvénytelen telefonszám. Pl. 06 30 123 4567 vagy +36 30 123 4567.'); return; }
     if (!email.trim()) { setError('Add meg az email címed!'); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('Érvénytelen email cím.'); return; }
     if (!cegnev.trim()) { setError('Add meg a vállalkozásod nevét!'); return; }
     if (!terulet.trim()) { setError('Add meg, hol vállalsz munkát!'); return; }
+    if (!szakma.trim()) { setError('Add meg, milyen szakmában dolgozol!'); return; }
     setLoading(true);
     setError('');
     try {
@@ -115,11 +96,11 @@ export function SzakemberPage() {
       const res = await fetch('/api/szakember-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nev, telefon, email, cegnev, terulet, szakma: valasztottNev, foglalkozas, eventId, website }),
+        body: JSON.stringify({ nev, telefon, email, cegnev, terulet, szakma, eventId, website }),
       });
       const data = await res.json();
       if (data.ok) {
-        trackEvent('Lead', { content_name: valasztottNev }, eventId); // csak sikeres beküldésre
+        trackEvent('Lead', { content_name: szakma }, eventId); // csak sikeres beküldésre
         setSent(true);
       } else setError('Hiba történt. Próbáld újra, vagy hívj: +36 30 203 6721');
     } catch {
@@ -148,20 +129,19 @@ export function SzakemberPage() {
           <strong> A te szakmádra szabva.</strong>
         </p>
 
-        {/* GYORSVÁLASZTÓ a headline alatt */}
-        <p className={styles.chooseLabel}>Melyik szakmában dolgozol?</p>
-        <div className={styles.chooseRow}>
-          {opciok.map((s) => (
-            <button
-              key={s.id}
-              type="button"
-              className={`${styles.chooseBtn} ${szakma === s.id ? styles.chooseBtnActive : ''}`}
-              onClick={() => valasztSzakma(s.id)}
-            >
-              {s.nev} →
-            </button>
-          ))}
+        {/* HERO ALATT: visszaszámláló + nagy kapcsolatfelvételi gomb */}
+        <div className={styles.heroCountdown}>
+          <span className={styles.heroCountdownLabel}>⏳ Az ajánlat lejár:</span>
+          <div className={styles.heroCountdownClock}>
+            <span><b>{cdReady ? cd.nap : '–'}</b>nap</span>
+            <span><b>{cdReady ? pad2(cd.ora) : '––'}</b>óra</span>
+            <span><b>{cdReady ? pad2(cd.perc) : '––'}</b>perc</span>
+            <span><b>{cdReady ? pad2(cd.mp) : '––'}</b>mp</span>
+          </div>
         </div>
+        <button type="button" className={styles.ctaPrimary} onClick={scrollToForm} style={{ maxWidth: 420, marginBottom: 56 }}>
+          Vedd fel velünk a kapcsolatot →
+        </button>
 
         {/* REFERENCIA SOR */}
         <section className={styles.refRow}>
@@ -290,20 +270,6 @@ export function SzakemberPage() {
                 <span className={styles.grad}>Kezdjük meg</span> a közös munkát
               </h3>
 
-              {/* szakma választó – a gyorsválasztóról érkezve már ki van választva */}
-              <div className={styles.pills}>
-                {opciok.map((s) => (
-                  <button
-                    key={s.id}
-                    type="button"
-                    className={`${styles.pill} ${szakma === s.id ? styles.pillActive : ''}`}
-                    onClick={() => { setSzakma(s.id); setError(''); }}
-                  >
-                    {szakma === s.id ? '✓ ' : ''}{s.nev}
-                  </button>
-                ))}
-              </div>
-
               <input
                 type="text"
                 name="nezor_hp_field"
@@ -328,9 +294,9 @@ export function SzakemberPage() {
                 />
                 <input
                   type="text"
-                  placeholder={egyebValasztva ? 'Mivel foglalkozol? (pl. villanyszerelő)' : 'Mivel foglalkozol? (nem kötelező)'}
-                  value={foglalkozas}
-                  onChange={(e) => setFoglalkozas(e.target.value)}
+                  placeholder="Milyen szakmában dolgozol? *"
+                  value={szakma}
+                  onChange={(e) => setSzakma(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSubmit(e)}
                 />
               </div>
