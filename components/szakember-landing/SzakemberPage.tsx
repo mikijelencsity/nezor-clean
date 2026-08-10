@@ -31,7 +31,6 @@ const kampanySor2 = [
 // A profilképek erős blurja és a név takarása a képbe van égetve (_p.jpeg)
 const kepVelemenyek = [
   { kep: '/IMG_1699_m2.webp', w: 1169, h: 688, alt: 'Ügyfél visszajelzés', idezet: 'Nagyon nem bántam meg, hogy ebbe belevágtunk.' },
-  { kep: '/IMG_1702_m2.webp', w: 1169, h: 1649, alt: 'Ügyfél visszajelzés', idezet: 'Nah srácok, erről beszéltem! Ez így profi lett!' },
 ];
 
 const ertekLebontas = [
@@ -175,7 +174,6 @@ export function SzakemberPage() {
 
         {/* VÉLEMÉNYEK */}
         <section className={styles.section}>
-          <h2 className={styles.h2}>Amit az <span className={styles.grad}>ügyfeleink</span> mondanak</h2>
           <div className={styles.kepVelemenyStack}>
             {kepVelemenyek.map((v) => (
               <div key={v.kep} className={styles.kepVelemenyCard}>
