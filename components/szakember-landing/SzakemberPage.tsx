@@ -120,7 +120,8 @@ export function SzakemberPage() {
         {/* HERO */}
         <span className={styles.badge}>⚡ Ügyfélszerzés szakembereknek</span>
         <h1 className={styles.h1}>
-          Új ügyfeleket hozunk 30 nap alatt.<br />
+          Új ügyfeleket hozunk<br />
+          30 nap alatt.<br />
           <span className={styles.grad}>Vagy visszakapod a hirdetéskezelési díjat.</span>
         </h1>
         <p className={styles.lead}>
