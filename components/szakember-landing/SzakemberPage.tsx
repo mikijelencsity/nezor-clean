@@ -4,31 +4,34 @@ import Image from 'next/image';
 import { trackEvent, ujEventId } from '@/components/analytics/FacebookPixel';
 import styles from './SzakemberPage.module.css';
 
-// TODO: cseréld ki a 3 valódi kész weboldal screenshotjára
+const formatFt = (n: number) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+// Magyar mobilszám: 06/+36 előhívó + 20/30/31/50/70 szolgáltatói kód + 7 számjegy (szóköz/kötőjel opcionális)
+const PHONE_RE = /^(?:\+36|06)[\s-]?(20|30|31|50|70)[\s-]?\d{3}[\s-]?\d{4}$/;
+
+// Az ajánlat lejárata: 2026. augusztus 25. 23:59:59
+const DEADLINE = new Date('2026-08-25T23:59:59').getTime();
+const pad2 = (n: number) => String(n).padStart(2, '0');
+
 const szakmak = [
-  {
-    id: 'vizszerelo',
-    nev: 'Vízszerelő',
-    kep: '/oldal-vizszerelo.webp',
-    leiras: 'Duguláselhárítás, csőtörés, szerelvényezés — kész, szövegezett oldal.',
-  },
-  {
-    id: 'tetofedo',
-    nev: 'Tetőfedő',
-    kep: '/oldal-tetofedo.webp',
-    leiras: 'Tetőfelújítás, bádogos munkák, javítás — kész, szövegezett oldal.',
-  },
-  {
-    id: 'festo',
-    nev: 'Festő',
-    kep: '/oldal-festo.webp',
-    leiras: 'Lakásfestés, tapétázás, homlokzat — kész, szövegezett oldal.',
-  },
+  { id: 'vizszerelo', nev: 'Vízszerelő' },
+  { id: 'tetofedo', nev: 'Tetőfedő' },
+  { id: 'festo', nev: 'Festő' },
+];
+const EGYEB = { id: 'egyeb', nev: 'Egyéb' };
+const opciok = [...szakmak, EGYEB];
+
+const ertekLebontas = [
+  { cim: 'Landing oldal a kampányhoz', jegyzet: '', ertek: '70.000 Ft' },
+  { cim: 'Hirdetési kampány + 1 havi kezelés', jegyzet: 'felépítés, indítás, optimalizálás', ertek: '79.000 Ft' },
 ];
 
-// Az "Egyéb"-hez nincs kész oldal, ezért nincs kártyája — egyből a formhoz visz
-const EGYEB = { id: 'egyeb', nev: 'Egyéb' };
-const opciok = [...szakmak.map((s) => ({ id: s.id, nev: s.nev })), EGYEB];
+const faq = [
+  { k: 'Ez tényleg 39.500 Ft?', v: 'Igen. Az első teljes hónap 79.000 helyett 39.500 Ft. Utána te döntöd el, folytatjuk-e a közös munkát.' },
+  { k: 'Mit kapok pontosan?', v: 'Egy erre a célra épített weboldalt (landing oldalt) — ide érkeznek majd az érdeklődők a hirdetésből —, és egy teljes havi hirdetési kampányt, a te szakmádra szabva.' },
+  { k: 'Van bármilyen kötelezettség?', v: 'Nincs. Bármikor lemondhatod az első hónapban, nem kötünk hosszú távú szerződést, míg nem vagy elkötelezett a közös munka felé.' },
+  { k: 'Mennyi idő, míg elindul?', v: 'Néhány nap alatt élesben van a megjelenésed és a hirdetési kampányod.' },
+];
 
 export function SzakemberPage() {
   const [szakma, setSzakma] = useState('');
@@ -42,47 +45,33 @@ export function SzakemberPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [sent, setSent] = useState(false);
-  const [nagykep, setNagykep] = useState<string | null>(null);
   const formRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  // nagyított kép: Escape-re zár, közben ne görögjön a háttér
+  // Élő visszaszámlálás a sticky sávhoz
+  const [cdReady, setCdReady] = useState(false);
+  const [remaining, setRemaining] = useState(0);
   useEffect(() => {
-    if (!nagykep) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setNagykep(null); };
-    document.addEventListener('keydown', onKey);
-    const eredeti = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = eredeti;
-    };
-  }, [nagykep]);
-
-  // "Ez kell nekem!" a nagyított képből: bezár, kiválaszt, formhoz görget
-  const kellNekem = (id: string) => {
-    setNagykep(null);
-    setSzakma(id);
-    setError('');
-    setTimeout(() => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 80);
+    const tick = () => setRemaining(Math.max(0, DEADLINE - Date.now()));
+    tick();
+    setCdReady(true);
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+  const totalSec = Math.floor(remaining / 1000);
+  const cd = {
+    nap: Math.floor(totalSec / 86400),
+    ora: Math.floor((totalSec % 86400) / 3600),
+    perc: Math.floor((totalSec % 3600) / 60),
+    mp: totalSec % 60,
   };
 
-  const nagykepSzakma = szakmak.find((s) => s.id === nagykep);
+  const scrollToForm = () => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-  // headline alatti gyorsválasztó: kiválasztja és az adott oldalhoz görget
-  // (Egyéb-nél nincs kártya, ezért egyből a formhoz)
-  const ugrasSzakmahoz = (id: string) => {
+  // headline alatti gyorsválasztó: kiválasztja a szakmát és a formhoz görget
+  const valasztSzakma = (id: string) => {
     setSzakma(id);
     setError('');
-    const cel = id === EGYEB.id ? formRef.current : cardRefs.current[id];
-    cel?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  };
-
-  // kártyáról: kiválasztja és a formhoz görget
-  const valaszt = (id: string) => {
-    setSzakma(id);
-    setError('');
-    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    scrollToForm();
   };
 
   const valasztottNev = opciok.find((s) => s.id === szakma)?.nev ?? '';
@@ -90,8 +79,9 @@ export function SzakemberPage() {
 
   const handleSubmit = async (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault();
-    if (!szakma) { setError('Válaszd ki, melyik oldal kell!'); return; }
+    if (!szakma) { setError('Válaszd ki, melyik szakmában dolgozol!'); return; }
     if (!nev.trim() || !telefon.trim()) { setError('Add meg a neved és telefonszámod!'); return; }
+    if (!PHONE_RE.test(telefon.trim())) { setError('Érvénytelen telefonszám. Pl. 06 30 123 4567 vagy +36 30 123 4567.'); return; }
     if (!email.trim()) { setError('Add meg az email címed!'); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('Érvénytelen email cím.'); return; }
     if (!cegnev.trim()) { setError('Add meg a vállalkozásod nevét!'); return; }
@@ -127,20 +117,15 @@ export function SzakemberPage() {
         <div className={styles.logo}>NEZ<span>OR</span></div>
 
         {/* HERO */}
-        <span className={styles.badge}>⚡ Kész oldalak — mindegyikből egy vihető</span>
+        <span className={styles.badge}>⚡ Ügyfélszerzés szakembereknek</span>
         <h1 className={styles.h1}>
-          24 órán belül<br />
-          <span className={styles.grad}>tiéd a kész weboldal.</span>
+          Új ügyfeleket hozunk 30 nap alatt.<br />
+          <span className={styles.grad}>Vagy visszakapod a hirdetéskezelési díjat.</span>
         </h1>
         <p className={styles.lead}>
-          Előre megcsináltuk ezeket az oldalakat, hogy neked ne kelljen ezzel bajlódnod.
-          <strong> A te nevedre szabjuk, és 24 órán belül élesben van.</strong>
+          Landing oldal + élő hirdetési kampány, összerakva, 39.500 Ft-ból az első hónapban.
+          <strong> A te szakmádra szabva.</strong>
         </p>
-        <div className={styles.priceRow}>
-          <span className={styles.priceOld}>120.000 Ft</span>
-          <span className={styles.arrow}>→</span>
-          <span className={styles.priceNew}>50.000 Ft</span>
-        </div>
 
         {/* GYORSVÁLASZTÓ a headline alatt */}
         <p className={styles.chooseLabel}>Melyik szakmában dolgozol?</p>
@@ -150,64 +135,89 @@ export function SzakemberPage() {
               key={s.id}
               type="button"
               className={`${styles.chooseBtn} ${szakma === s.id ? styles.chooseBtnActive : ''}`}
-              onClick={() => ugrasSzakmahoz(s.id)}
+              onClick={() => valasztSzakma(s.id)}
             >
               {s.nev} →
             </button>
           ))}
         </div>
 
-        {/* KÁRTYÁK */}
-        <div className={styles.cards}>
-          {szakmak.map((s) => (
-            <div
-              key={s.id}
-              ref={(el) => { cardRefs.current[s.id] = el; }}
-              className={`${styles.card} ${styles[s.id]} ${szakma === s.id ? styles.cardActive : ''}`}
-            >
-              <span className={styles.cardGlow} aria-hidden="true" />
-              <div className={styles.cardInner}>
-                <button
-                  type="button"
-                  className={styles.cardImg}
-                  onClick={() => setNagykep(s.id)}
-                  aria-label={`${s.nev} weboldal nagyítása`}
-                >
-                  <Image src={s.kep} alt={`${s.nev} weboldal`} fill sizes="(max-width: 900px) 92vw, 340px" style={{ objectFit: 'contain' }} />
-                  <span className={styles.zoomHint}>🔍 Kattints a nagyításhoz</span>
-                </button>
-                <h2>{s.nev}</h2>
-                <p>{s.leiras}</p>
-                <button type="button" className={styles.cardBtn} onClick={() => valaszt(s.id)}>
-                  Ez kell →
-                </button>
+        {/* ÁR REVEAL */}
+        <section className={styles.section}>
+          <div className={styles.priceCard}>
+            <Image
+              src="/nezorgarancia.webp"
+              alt="1 hónapos garancia"
+              width={120}
+              height={120}
+              className={styles.guaranteeSeal}
+            />
+            <p className={styles.priceLead}><span className={styles.grad}>Ajánlatunk</span> az 1. hónapra</p>
+            <div className={styles.priceRow} style={{ marginBottom: 28 }}>
+              <span className={styles.priceOld}>79.000 Ft</span>
+              <span className={styles.arrow}>→</span>
+              <span className={styles.priceNew}>39.500 Ft</span>
+            </div>
+
+            <h3 className={styles.packTitle}>Mit kapsz, és mit ér?</h3>
+            <ul className={styles.valueList}>
+              {ertekLebontas.map((e) => (
+                <li key={e.cim}>
+                  <span className={styles.valueName}>
+                    {e.cim}
+                    {e.jegyzet && <em>{e.jegyzet}</em>}
+                  </span>
+                  <b className={styles.valuePrice}>{e.ertek}</b>
+                </li>
+              ))}
+            </ul>
+            <div className={styles.valueTotal}>
+              <div className={styles.valueTotalRow}>
+                <span>Érték:</span> <strong>149.000 Ft</strong>
+              </div>
+              <div className={styles.valueTotalRow}>
+                <span>Ár:</span> <strong className={styles.valuePriceHi}>39.500 Ft</strong>
               </div>
             </div>
-          ))}
-        </div>
+
+            <button type="button" className={styles.ctaPrimary} onClick={scrollToForm}>
+              Vedd fel velünk a kapcsolatot →
+            </button>
+          </div>
+        </section>
+
+        {/* GARANCIA */}
+        <section className={styles.section}>
+          <div className={styles.guaranteeCard}>
+            <span className={styles.guaranteeIcon}>🔒</span>
+            <h2 className={styles.h2}>
+              Garancia: <span className={styles.grad}>kockázat nélkül próbálhatod ki</span>
+            </h2>
+            <ul className={styles.guaranteeList}>
+              <li>Az első hónapot bármikor lemondhatod, nincs szerződés.</li>
+              <li>Ha a hirdetésed statisztikailag nem térül meg, <strong>visszafizetjük a 10.000 Ft-os hirdetéskezelési díjat</strong> — a landing oldal 29.500 Ft-os értéke marad a tiéd, örökre.</li>
+            </ul>
+          </div>
+        </section>
 
         {/* FORM */}
         <div ref={formRef} className={styles.formCard}>
           {sent ? (
             <div className={styles.success}>
               <div className={styles.successIcon}>✓</div>
-              <h3>Megvan, foglaltuk neked!</h3>
+              <h3>Megkaptuk a jelentkezésed!</h3>
               <p>
-                Hamarosan hívunk a részletekkel, és 24 órán belül élesben lesz az oldalad.
+                Hamarosan felvesszük veled a kapcsolatot, és megkezdjük a közös munkát.
                 Addig is: <a href="tel:+36302036721">+36 30 203 6721</a>
               </p>
             </div>
           ) : (
             <>
               <h3 className={styles.formTitle}>
-                {!valasztottNev && 'Melyik oldal kell?'}
-                {valasztottNev && egyebValasztva && 'Mondd el, mire van szükséged'}
-                {valasztottNev && !egyebValasztva && (
-                  <>Kérem a <span className={styles.grad}>{valasztottNev.toLowerCase()}</span> oldalt</>
-                )}
+                <span className={styles.grad}>Kezdjük meg</span> a közös munkát
               </h3>
 
-              {/* szakma választó – a kártyáról érkezve már ki van választva */}
+              {/* szakma választó – a gyorsválasztóról érkezve már ki van választva */}
               <div className={styles.pills}>
                 {opciok.map((s) => (
                   <button
@@ -251,16 +261,11 @@ export function SzakemberPage() {
                   onKeyDown={(e) => e.key === 'Enter' && handleSubmit(e)}
                 />
               </div>
-              <p className={styles.fieldsNote}>
-                {egyebValasztva
-                  ? <>A <strong>&bdquo;Mivel foglalkozol?&rdquo;</strong> mezőt nem kötelező kitölteni — de ha megírod, pontosabb ajánlatot tudunk adni.</>
-                  : <>A <strong>&bdquo;Mivel foglalkozol?&rdquo;</strong> mező nem kötelező, a többivel tudunk <strong>azonnal nekiállni</strong>.</>}
-              </p>
 
               {error && <p className={styles.error}>{error}</p>}
 
               <button type="button" className={styles.submitBtn} onClick={handleSubmit} disabled={loading}>
-                {loading ? 'Küldés...' : 'Kérem az oldalt 50.000 Ft-ért →'}
+                {loading ? 'Küldés...' : 'Vedd fel velünk a kapcsolatot →'}
               </button>
               <p className={styles.note}>
                 Inkább telefonon? <a href="tel:+36302036721">+36 30 203 6721</a>
@@ -272,36 +277,48 @@ export function SzakemberPage() {
             </>
           )}
         </div>
+
+        {/* FAQ */}
+        <section className={styles.faqSection}>
+          <h2 className={styles.h2}>Gyakori kérdések</h2>
+          <div className={styles.faqList}>
+            {faq.map((f) => (
+              <details key={f.k} className={styles.faqItem}>
+                <summary>{f.k}</summary>
+                <p>{f.v}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        {/* ZÁRÓ NUDGE */}
+        <section className={styles.section} style={{ marginTop: 56 }}>
+          <h2 className={styles.h2}>Kezdjük el?</h2>
+          <p className={styles.lead} style={{ marginBottom: 0 }}>
+            Az első hónap 39.500 Ft, bármikor lemondható. Gyakorlatilag nem kockáztatsz semmit.
+          </p>
+          <button type="button" className={styles.ctaPrimary} onClick={scrollToForm} style={{ marginTop: 24 }}>
+            Vedd fel velünk a kapcsolatot →
+          </button>
+        </section>
+
+        <p className={styles.foot}>© 2026 NEZOR Webfejlesztés · <a href="mailto:info@nezor.hu">info@nezor.hu</a></p>
       </div>
 
-      {/* ── NAGYÍTOTT KÉP (telón és gépen is) ── */}
-      {nagykepSzakma && (
-        <div
-          className={styles.lightbox}
-          role="dialog"
-          aria-modal="true"
-          aria-label={`${nagykepSzakma.nev} weboldal`}
-          onClick={() => setNagykep(null)}
-        >
-          <button type="button" className={styles.lbClose} onClick={() => setNagykep(null)} aria-label="Bezárás">✕</button>
-
-          <div className={styles.lbInner} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.lbImgWrap}>
-              <Image
-                src={nagykepSzakma.kep}
-                alt={`${nagykepSzakma.nev} weboldal`}
-                width={900}
-                height={558}
-                className={styles.lbImg}
-                sizes="(max-width: 900px) 96vw, 900px"
-              />
+      {/* STICKY VISSZASZÁMLÁLÓ */}
+      {!sent && (
+        <div className={styles.countdownBar}>
+          <div className={styles.countdownInner}>
+            <div className={styles.countdownLeft}>
+              <span className={styles.countdownLabel}>⏳ Az ajánlat lejár:</span>
+              <div className={styles.countdownClock}>
+                <span><b>{cdReady ? cd.nap : '–'}</b>nap</span>
+                <span><b>{cdReady ? pad2(cd.ora) : '––'}</b>óra</span>
+                <span><b>{cdReady ? pad2(cd.perc) : '––'}</b>perc</span>
+                <span><b>{cdReady ? pad2(cd.mp) : '––'}</b>mp</span>
+              </div>
             </div>
-            <div className={styles.lbBar}>
-              <span className={styles.lbNev}>{nagykepSzakma.nev} weboldal</span>
-              <button type="button" className={styles.lbCta} onClick={() => kellNekem(nagykepSzakma.id)}>
-                Ez kell nekem! →
-              </button>
-            </div>
+            <button type="button" className={styles.countdownBtn} onClick={scrollToForm}>Kell nekem! →</button>
           </div>
         </div>
       )}

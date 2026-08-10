@@ -31,10 +31,10 @@ export async function POST(request: Request) {
     const { error: sendError } = await resend.emails.send({
       from: FROM_EMAIL,
       to: ertesitok,
-      subject: `[NEZOR] Kész oldal (50.000) – ${esc(szakma)} — ${esc(nev)}`,
+      subject: `[NEZOR] Szakember lead (39.500) – ${esc(szakma)} — ${esc(nev)}`,
       html: `
-        <h2>Új lead a kész oldal flash-ajánlatról (50.000 Ft)</h2>
-        <p><strong>Melyik oldal kell:</strong> ${esc(szakma)}</p>
+        <h2>Új lead az ügyfélszerzés-ajánlatról (39.500 Ft, szakember-landing)</h2>
+        <p><strong>Szakma:</strong> ${esc(szakma)}</p>
         <p><strong>Név:</strong> ${esc(nev)}</p>
         <p><strong>Telefon:</strong> ${esc(telefon)}</p>
         <p><strong>Email:</strong> ${esc(email)}</p>
@@ -55,8 +55,8 @@ export async function POST(request: Request) {
         to: [email],
         subject: 'Megkaptuk a jelentkezésed — NEZOR',
         html: `
-          <h2>Foglaltuk neked az oldalt!</h2>
-          <p>Megkaptuk a jelentkezésed. Hamarosan hívunk a részletekkel, és 24 órán belül élesben lesz az oldalad.</p>
+          <h2>Megkaptuk a jelentkezésed!</h2>
+          <p>Hamarosan felvesszük veled a kapcsolatot, és megkezdjük a közös munkát.</p>
           <p>Ha kérdésed van: <a href="mailto:info@nezor.hu">info@nezor.hu</a> · +36 30 203 6721</p>
         `,
       });

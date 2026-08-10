@@ -1,6 +1,6 @@
 .page {
   position: relative; min-height: 100vh; overflow: hidden;
-  padding: 44px 20px 70px;
+  padding: 44px 20px 116px;
   background: radial-gradient(ellipse at top, #ffffff 0%, #f3f4f6 65%);
   color: #16181d;
 }
@@ -16,7 +16,7 @@
 }
 .container {
   position: relative; z-index: 1;
-  max-width: 1200px; margin: 0 auto; text-align: center;
+  max-width: 720px; margin: 0 auto; text-align: center;
 }
 
 .logo {
@@ -33,8 +33,12 @@
 }
 
 .h1 {
-  font-size: clamp(2.3rem, 6vw, 4.2rem); font-weight: 900;
-  line-height: 1.12; letter-spacing: -0.02em; margin-bottom: 18px;
+  font-size: clamp(2.1rem, 5.4vw, 3.4rem); font-weight: 900;
+  line-height: 1.14; letter-spacing: -0.02em; margin-bottom: 18px;
+}
+.h2 {
+  font-size: clamp(1.5rem, 3.2vw, 2rem); font-weight: 900;
+  line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 18px;
 }
 .grad {
   padding-top: 0.12em; padding-bottom: 0.14em;
@@ -44,15 +48,15 @@
 
 .lead {
   font-size: clamp(1.02rem, 1.5vw, 1.2rem); color: rgba(0,0,0,.7);
-  line-height: 1.6; max-width: 680px; margin: 0 auto 24px;
+  line-height: 1.6; max-width: 560px; margin: 0 auto 24px;
 }
 .lead strong { color: #16181d; font-weight: 800; }
 
-.priceRow { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 46px; }
+.priceRow { display: flex; align-items: center; justify-content: center; gap: 14px; }
 .priceOld { font-size: 1.35rem; font-weight: 700; color: rgba(0,0,0,.45); text-decoration: line-through; text-decoration-color: #ff3b47; }
 .arrow { font-size: 1.35rem; font-weight: 900; color: #ff3340; }
 .priceNew {
-  font-size: clamp(2.2rem, 6vw, 3.2rem); font-weight: 900; letter-spacing: -0.02em; line-height: 1;
+  font-size: clamp(2rem, 5.4vw, 2.8rem); font-weight: 900; letter-spacing: -0.02em; line-height: 1;
   background: linear-gradient(135deg, #ff3340, #ff8c00);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
@@ -80,130 +84,70 @@
   border-color: transparent; box-shadow: 0 14px 32px rgba(255,51,64,.38);
 }
 
-/* ── KÁRTYÁK ── */
-.cards {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-bottom: 60px;
-}
-/* Kártya: tömör gradient keret (mint a 3-as), és rajta körbefut egy fénycsík — "kígyó" */
-.card {
-  position: relative; overflow: hidden;
-  border-radius: 22px; padding: 3px; /* a keret vastagsága */
-  background: linear-gradient(135deg, var(--sav, #ff3340), var(--sav2, #ff8c00));
-  box-shadow: 0 16px 40px rgba(0,0,0,.10);
-  transition: transform .25s, box-shadow .25s;
-}
-.card:hover { transform: translateY(-5px); box-shadow: 0 24px 54px rgba(0,0,0,.16); }
+/* ── SZEKCIÓ ── */
+.section { margin-bottom: 56px; }
 
-/* a körbefutó fénycsík: egy forgó kúp-gradiens, amit a belső fehér lap kitakar,
-   így csak a keret mentén látszik — mint egy kígyó */
-.cardGlow {
-  position: absolute; inset: -60%;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    transparent 250deg,
-    rgba(255,255,255,.35) 292deg,
-    rgba(255,255,255,.95) 320deg,
-    rgba(255,255,255,.35) 348deg,
-    transparent 360deg
-  );
-  animation: korbe 3.2s linear infinite;
+/* ── ÁR REVEAL ── */
+.priceCard {
+  position: relative;
+  width: 100%; margin: 0 auto;
+  background: #fff; border: 1px solid rgba(255,51,64,.2);
+  border-radius: 28px; padding: 40px 32px;
+  box-shadow: 0 26px 64px rgba(0,0,0,.10);
 }
-@keyframes korbe { to { transform: rotate(360deg); } }
+.guaranteeSeal {
+  position: absolute; top: -20px; right: -14px; z-index: 2;
+  width: 76px; height: 76px; transform: rotate(10deg);
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,.25));
+  pointer-events: none; user-select: none;
+}
+.priceLead {
+  font-size: clamp(1.3rem, 2.4vw, 1.7rem); font-weight: 900; letter-spacing: -0.01em;
+  color: #16181d; margin-bottom: 20px; text-align: center;
+}
+.packTitle { font-size: 1.1rem; font-weight: 900; margin: 28px 0 14px; }
+.valueList { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.valueList li {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  padding: 12px 14px; border-radius: 12px; background: rgba(0,0,0,.03);
+  font-size: 15px; text-align: left;
+}
+.valueName { font-weight: 700; color: #16181d; }
+.valueName em { display: block; font-style: normal; font-weight: 400; font-size: 12.5px; color: rgba(0,0,0,.5); margin-top: 2px; }
+.valuePrice { font-weight: 800; color: rgba(0,0,0,.55); white-space: nowrap; }
+.valueTotal { margin-top: 18px; padding-top: 18px; border-top: 1px dashed rgba(0,0,0,.15); }
+.valueTotalRow { display: flex; justify-content: space-between; font-size: 15px; margin-bottom: 6px; }
+.valueTotalRow strong { font-weight: 900; }
+.valuePriceHi { color: #ff3340; font-size: 1.15em; }
 
-.cardInner {
-  position: relative; z-index: 1;
-  display: flex; flex-direction: column; height: 100%;
-  background: #fff; border-radius: 19px;
-  padding: 16px 16px 20px; text-align: center;
-}
-
-.cardActive { box-shadow: 0 22px 52px rgba(0,0,0,.20); }
-.cardActive .cardGlow { animation-duration: 1.5s; }
-
-/* szakma-színek a körbefutó csíkhoz */
-.vizszerelo { --sav: #2563eb; --sav2: #38bdf8; }   /* kék – víz */
-.tetofedo   { --sav: #b45309; --sav2: #f59e0b; }   /* barna/arany – tető */
-.festo      { --sav: #c2410c; --sav2: #fb923c; }   /* terrakotta – festés */
-
-/* a kép teljes egészében látszik (16:10 arány) + kattintható a nagyításhoz */
-.cardImg {
-  position: relative; display: block; width: 100%; aspect-ratio: 900 / 558;
-  border: none; padding: 0; cursor: zoom-in;
-  border-radius: 14px; overflow: hidden; background: #f6f7f9; margin-bottom: 16px;
-}
-.zoomHint {
-  position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%);
-  padding: 7px 14px; border-radius: 100px; white-space: nowrap;
-  font-size: 12px; font-weight: 700; color: #fff;
-  background: rgba(20,22,27,.78); backdrop-filter: blur(6px);
-  opacity: 0; transition: opacity .2s;
-}
-.cardImg:hover .zoomHint { opacity: 1; }
-/* érintős eszközön nincs hover, ezért ott mindig látszik */
-@media (hover: none) {
-  .zoomHint { opacity: 1; }
-}
-
-/* ── NAGYÍTOTT KÉP (lightbox) ── */
-.lightbox {
-  position: fixed; inset: 0; z-index: 9000;
-  display: flex; align-items: center; justify-content: center;
-  padding: 20px;
-  background: rgba(12,14,18,.86); backdrop-filter: blur(6px);
-  animation: lbBe .18s ease-out;
-}
-@keyframes lbBe { from { opacity: 0; } to { opacity: 1; } }
-
-.lbClose {
-  position: absolute; top: 16px; right: 16px; z-index: 2;
-  width: 46px; height: 46px; border-radius: 50%; cursor: pointer;
-  font-size: 20px; font-weight: 900; color: #16181d;
-  background: #fff; border: none; box-shadow: 0 8px 24px rgba(0,0,0,.3);
-}
-
-.lbInner {
-  width: 100%; max-width: 980px;
-  display: flex; flex-direction: column; gap: 14px;
-}
-.lbImgWrap {
-  background: #fff; border-radius: 16px; overflow: hidden;
-  box-shadow: 0 30px 70px rgba(0,0,0,.5);
-}
-.lbImg { display: block; width: 100%; height: auto; max-height: 72vh; object-fit: contain; }
-
-.lbBar {
-  display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
-}
-.lbNev { font-size: 1.05rem; font-weight: 800; color: #fff; }
-.lbCta {
-  cursor: pointer; padding: 17px 32px; border: none; border-radius: 100px;
-  font-size: 18px; font-weight: 900; color: #16181d;
+.ctaPrimary {
+  display: inline-block; width: 100%; cursor: pointer; margin-top: 28px;
+  padding: 18px 40px; border: none; border-radius: 100px;
+  font-size: 18px; font-weight: 800; color: #fff;
   background: linear-gradient(135deg, #ff3340, #ff8c00);
-  box-shadow: 0 12px 32px rgba(255,51,64,.45); transition: transform .2s;
+  box-shadow: 0 12px 40px rgba(255,51,64,.35);
+  transition: transform .2s, box-shadow .2s;
 }
-.lbCta:hover { transform: translateY(-2px); }
+.ctaPrimary:hover { transform: translateY(-2px); box-shadow: 0 16px 50px rgba(255,51,64,.5); }
 
-@media (max-width: 560px) {
-  .lightbox { padding: 14px; }
-  .lbClose { top: 10px; right: 10px; width: 42px; height: 42px; }
-  .lbImg { max-height: 58vh; }
-  .lbBar { flex-direction: column; align-items: stretch; text-align: center; }
-  .lbCta { width: 100%; padding: 18px; }
+/* ── GARANCIA ── */
+.guaranteeCard {
+  background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 24px;
+  padding: 36px 30px; box-shadow: 0 20px 50px rgba(0,0,0,.08);
 }
-.cardInner h2 { font-size: 1.5rem; font-weight: 900; margin-bottom: 8px; }
-.cardInner p { font-size: .94rem; color: rgba(0,0,0,.62); line-height: 1.5; flex: 1; margin-bottom: 18px; }
-.cardBtn {
-  width: 100%; cursor: pointer; padding: 18px; border: none; border-radius: 14px;
-  font-size: 18px; font-weight: 900; color: #16181d;
-  background: linear-gradient(135deg, #ff3340, #ff8c00);
-  box-shadow: 0 10px 28px rgba(255,51,64,.32); transition: transform .2s;
+.guaranteeIcon { font-size: 34px; display: block; margin-bottom: 10px; }
+.guaranteeList { list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-direction: column; gap: 12px; text-align: left; }
+.guaranteeList li {
+  position: relative; padding-left: 26px; font-size: 15px; line-height: 1.55; color: rgba(0,0,0,.75);
 }
-.cardBtn:hover { transform: translateY(-2px); }
+.guaranteeList li::before {
+  content: '✓'; position: absolute; left: 0; top: 0; color: #ff3340; font-weight: 900;
+}
+.guaranteeList strong { color: #16181d; }
 
 /* ── FORM ── */
 .formCard {
-  width: 100%; max-width: 560px; margin: 0 auto; scroll-margin-top: 30px;
+  width: 100%; margin: 0 auto 56px; scroll-margin-top: 30px;
   background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 24px;
   padding: 36px 30px; box-shadow: 0 26px 64px rgba(0,0,0,.10);
 }
@@ -230,14 +174,12 @@
 }
 .fields input::placeholder { color: rgba(0,0,0,.4); }
 .fields input:focus { border-color: #ff3340; }
-.fieldsNote { margin-top: 10px; font-size: 12.5px; color: rgba(0,0,0,.55); line-height: 1.45; }
-.fieldsNote strong { color: #16181d; font-weight: 800; }
 .error { color: #cc1122; font-size: 13.5px; font-weight: 700; margin: 12px 0 0; }
 
 .submitBtn {
   width: 100%; margin-top: 16px; cursor: pointer;
   padding: 19px; border: none; border-radius: 14px;
-  font-size: 18px; font-weight: 900; color: #16181d;
+  font-size: 18px; font-weight: 900; color: #fff;
   background: linear-gradient(135deg, #ff3340, #ff8c00);
   box-shadow: 0 12px 34px rgba(255,51,64,.35); transition: transform .2s;
 }
@@ -260,18 +202,68 @@
 .success h3 { font-size: 1.4rem; font-weight: 900; margin-bottom: 8px; }
 .success p { font-size: 1rem; color: rgba(0,0,0,.7); line-height: 1.55; }
 
-@media (max-width: 900px) {
-  .cards { grid-template-columns: 1fr; max-width: 480px; margin-left: auto; margin-right: auto; }
+/* ── FAQ ── */
+.faqSection { margin-bottom: 56px; text-align: left; }
+.faqSection .h2 { text-align: center; }
+.faqList { display: flex; flex-direction: column; gap: 10px; }
+.faqItem {
+  background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 14px;
+  padding: 16px 18px;
 }
+.faqItem summary {
+  cursor: pointer; font-weight: 800; font-size: 15px; list-style: none;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.faqItem summary::-webkit-details-marker { display: none; }
+.faqItem summary::after { content: '+'; font-size: 20px; color: #ff3340; font-weight: 900; margin-left: 10px; }
+.faqItem[open] summary::after { content: '–'; }
+.faqItem p { margin-top: 10px; font-size: 14.5px; line-height: 1.55; color: rgba(0,0,0,.65); }
 
-/* mozgásérzékenyeknek ne pörögjön a csík */
-@media (prefers-reduced-motion: reduce) {
-  .cardGlow { animation: none; }
+.foot { margin-top: 24px; font-size: 13px; color: rgba(0,0,0,.4); }
+.foot a { color: rgba(0,0,0,.55); text-decoration: underline; }
+
+/* ── STICKY VISSZASZÁMLÁLÓ ── */
+.countdownBar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 500;
+  background: #16181d; padding: 14px 20px calc(14px + env(safe-area-inset-bottom));
+  box-shadow: 0 -10px 30px rgba(0,0,0,.25);
 }
+.countdownInner {
+  max-width: 720px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: nowrap;
+}
+.countdownLeft { display: flex; align-items: center; gap: 12px; }
+.countdownLabel { font-size: 12.5px; font-weight: 700; color: rgba(255,255,255,.7); white-space: nowrap; }
+.countdownClock { display: flex; gap: 8px; }
+.countdownClock span {
+  display: flex; flex-direction: column; align-items: center; min-width: 54px;
+  padding: 8px 6px; border-radius: 10px; background: rgba(255,255,255,.08);
+  font-size: 9px; font-weight: 700; color: rgba(255,255,255,.6); text-transform: uppercase;
+}
+.countdownClock b { font-size: 24px; font-weight: 900; color: #fff; line-height: 1.1; }
+.countdownBtn {
+  flex: 0 0 auto; cursor: pointer; padding: 16px 30px; border: none; border-radius: 100px;
+  font-size: 17px; font-weight: 900; color: #fff; white-space: nowrap;
+  background: linear-gradient(135deg, #ff3340, #ff8c00);
+  box-shadow: 0 8px 24px rgba(255,51,64,.45); transition: transform .2s;
+}
+.countdownBtn:hover { transform: translateY(-2px); }
+
 @media (max-width: 560px) {
-  .page { padding: 32px 16px 56px; }
+  .page { padding: 32px 16px 132px; }
+  .priceCard { padding: 32px 22px; }
+  .guaranteeSeal { top: -14px; right: -10px; width: 56px; height: 56px; }
+  .priceLead { font-size: clamp(1.05rem, 5vw, 1.3rem); white-space: nowrap; }
+  .guaranteeCard { padding: 28px 20px; }
   .formCard { padding: 28px 20px; }
   .pill { padding: 11px 16px; font-size: 14px; }
   .chooseRow { flex-direction: column; gap: 12px; }
   .chooseBtn { width: 100%; padding: 18px 24px; font-size: 18px; }
+  .countdownLabel { display: none; }
+  .countdownBar { padding: 12px 14px calc(12px + env(safe-area-inset-bottom)); }
+  .countdownInner { gap: 10px; }
+  .countdownClock { gap: 7px; }
+  .countdownClock span { min-width: 50px; padding: 7px 6px; font-size: 8px; }
+  .countdownClock b { font-size: 23px; }
+  .countdownBtn { padding: 13px 18px; font-size: 15px; }
 }
