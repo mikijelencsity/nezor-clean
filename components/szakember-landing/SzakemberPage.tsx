@@ -1,5 +1,6 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { trackEvent, ujEventId } from '@/components/analytics/FacebookPixel';
 import styles from './SzakemberPage.module.css';
@@ -47,16 +48,15 @@ const faq = [
 ];
 
 export function SzakemberPage() {
+  const router = useRouter();
   const [szakma, setSzakma] = useState('');
   const [nev, setNev] = useState('');
   const [telefon, setTelefon] = useState('');
   const [email, setEmail] = useState('');
   const [cegnev, setCegnev] = useState('');
-  const [terulet, setTerulet] = useState('');
   const [website, setWebsite] = useState(''); // honeypot
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [sent, setSent] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
 
   // Élő visszaszámlálás a sticky sávhoz
@@ -86,7 +86,6 @@ export function SzakemberPage() {
     if (!email.trim()) { setError('Add meg az email címed!'); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('Érvénytelen email cím.'); return; }
     if (!cegnev.trim()) { setError('Add meg a vállalkozásod nevét!'); return; }
-    if (!terulet.trim()) { setError('Add meg, hol vállalsz munkát!'); return; }
     if (!szakma.trim()) { setError('Add meg, milyen szakmában dolgozol!'); return; }
     setLoading(true);
     setError('');
@@ -96,12 +95,12 @@ export function SzakemberPage() {
       const res = await fetch('/api/szakember-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nev, telefon, email, cegnev, terulet, szakma, eventId, website }),
+        body: JSON.stringify({ nev, telefon, email, cegnev, szakma, eventId, website }),
       });
       const data = await res.json();
       if (data.ok) {
         trackEvent('Lead', { content_name: szakma }, eventId); // csak sikeres beküldésre
-        setSent(true);
+        router.push('/landing/koszonjuk');
       } else setError('Hiba történt. Próbáld újra, vagy hívj: +36 30 203 6721');
     } catch {
       setError('Hiba történt. Próbáld újra, vagy hívj: +36 30 203 6721');
@@ -256,66 +255,47 @@ export function SzakemberPage() {
 
         {/* FORM */}
         <div ref={formRef} className={styles.formCard}>
-          {sent ? (
-            <div className={styles.success}>
-              <div className={styles.successIcon}>✓</div>
-              <h3>Megkaptuk a jelentkezésed!</h3>
-              <p>
-                Hamarosan felvesszük veled a kapcsolatot, és megkezdjük a közös munkát.
-                Addig is: <a href="tel:+36302036721">+36 30 203 6721</a>
-              </p>
-            </div>
-          ) : (
-            <>
-              <h3 className={styles.formTitle}>
-                <span className={styles.grad}>Kezdjük meg</span> a közös munkát
-              </h3>
+          <h3 className={styles.formTitle}>
+            <span className={styles.grad}>Kezdjük meg</span> a közös munkát
+          </h3>
 
-              <input
-                type="text"
-                name="nezor_hp_field"
-                value={website}
-                onChange={(e) => setWebsite(e.target.value)}
-                className={styles.honeypot}
-                tabIndex={-1}
-                autoComplete="off"
-                aria-hidden="true"
-              />
+          <input
+            type="text"
+            name="nezor_hp_field"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+            className={styles.honeypot}
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+          />
 
-              <div className={styles.fields}>
-                <input type="text" placeholder="Teljes neved *" value={nev} onChange={(e) => setNev(e.target.value)} />
-                <input type="tel" placeholder="Telefonszámod *" value={telefon} onChange={(e) => setTelefon(e.target.value)} />
-                <input type="email" placeholder="Email címed *" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <input type="text" placeholder="Vállalkozás neve *" value={cegnev} onChange={(e) => setCegnev(e.target.value)} />
-                <input
-                  type="text"
-                  placeholder="Hol vállalsz munkát? *"
-                  value={terulet}
-                  onChange={(e) => setTerulet(e.target.value)}
-                />
-                <input
-                  type="text"
-                  placeholder="Milyen szakmában dolgozol? *"
-                  value={szakma}
-                  onChange={(e) => setSzakma(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSubmit(e)}
-                />
-              </div>
+          <div className={styles.fields}>
+            <input type="text" placeholder="Teljes neved *" value={nev} onChange={(e) => setNev(e.target.value)} />
+            <input type="tel" placeholder="Telefonszámod *" value={telefon} onChange={(e) => setTelefon(e.target.value)} />
+            <input type="email" placeholder="Email címed *" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input type="text" placeholder="Vállalkozás neve *" value={cegnev} onChange={(e) => setCegnev(e.target.value)} />
+            <input
+              type="text"
+              placeholder="Milyen szakmában dolgozol? *"
+              value={szakma}
+              onChange={(e) => setSzakma(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSubmit(e)}
+            />
+          </div>
 
-              {error && <p className={styles.error}>{error}</p>}
+          {error && <p className={styles.error}>{error}</p>}
 
-              <button type="button" className={styles.submitBtn} onClick={handleSubmit} disabled={loading}>
-                {loading ? 'Küldés...' : 'Vedd fel velünk a kapcsolatot →'}
-              </button>
-              <p className={styles.note}>
-                Inkább telefonon? <a href="tel:+36302036721">+36 30 203 6721</a>
-              </p>
-              <p className={styles.gdpr}>
-                A jelentkezés elküldésével elfogadod az{' '}
-                <a href="/adatkezeles" target="_blank" rel="noopener noreferrer">adatkezelési tájékoztatónkat</a>.
-              </p>
-            </>
-          )}
+          <button type="button" className={styles.submitBtn} onClick={handleSubmit} disabled={loading}>
+            {loading ? 'Küldés...' : 'Vedd fel velünk a kapcsolatot →'}
+          </button>
+          <p className={styles.note}>
+            Inkább telefonon? <a href="tel:+36302036721">+36 30 203 6721</a>
+          </p>
+          <p className={styles.gdpr}>
+            A jelentkezés elküldésével elfogadod az{' '}
+            <a href="/adatkezeles" target="_blank" rel="noopener noreferrer">adatkezelési tájékoztatónkat</a>.
+          </p>
 
           {/* Alapítói fotó — kerek, a form tetején, szöveget nem takar */}
           <Image
@@ -359,22 +339,20 @@ export function SzakemberPage() {
       </div>
 
       {/* STICKY VISSZASZÁMLÁLÓ */}
-      {!sent && (
-        <div className={styles.countdownBar}>
-          <div className={styles.countdownInner}>
-            <div className={styles.countdownLeft}>
-              <span className={styles.countdownLabel}>⏳ Az ajánlat lejár:</span>
-              <div className={styles.countdownClock}>
-                <span><b>{cdReady ? cd.nap : '–'}</b>nap</span>
-                <span><b>{cdReady ? pad2(cd.ora) : '––'}</b>óra</span>
-                <span><b>{cdReady ? pad2(cd.perc) : '––'}</b>perc</span>
-                <span><b>{cdReady ? pad2(cd.mp) : '––'}</b>mp</span>
-              </div>
+      <div className={styles.countdownBar}>
+        <div className={styles.countdownInner}>
+          <div className={styles.countdownLeft}>
+            <span className={styles.countdownLabel}>⏳ Az ajánlat lejár:</span>
+            <div className={styles.countdownClock}>
+              <span><b>{cdReady ? cd.nap : '–'}</b>nap</span>
+              <span><b>{cdReady ? pad2(cd.ora) : '––'}</b>óra</span>
+              <span><b>{cdReady ? pad2(cd.perc) : '––'}</b>perc</span>
+              <span><b>{cdReady ? pad2(cd.mp) : '––'}</b>mp</span>
             </div>
-            <button type="button" className={styles.countdownBtn} onClick={scrollToForm}>Kell nekem! →</button>
           </div>
+          <button type="button" className={styles.countdownBtn} onClick={scrollToForm}>Kell nekem! →</button>
         </div>
-      )}
+      </div>
     </div>
   );
 }

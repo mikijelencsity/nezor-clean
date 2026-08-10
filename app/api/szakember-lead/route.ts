@@ -4,14 +4,12 @@ import { sendCapiEvent, capiContext } from '@/lib/meta-capi';
 
 export async function POST(request: Request) {
   try {
-    const { nev, telefon, email, cegnev, terulet, szakma, foglalkozas, eventId, website } = await request.json() as {
+    const { nev, telefon, email, cegnev, szakma, eventId, website } = await request.json() as {
       nev: string;
       telefon: string;
       email: string;
       cegnev: string;
-      terulet: string;
       szakma: string;
-      foglalkozas?: string;
       eventId?: string;
       website?: string;
     };
@@ -22,7 +20,7 @@ export async function POST(request: Request) {
     }
 
     // minden mező kötelező
-    if (!nev || !telefon || !email || !cegnev || !terulet || !szakma || !isValidEmail(email)) {
+    if (!nev || !telefon || !email || !cegnev || !szakma || !isValidEmail(email)) {
       return NextResponse.json({ error: 'Hiányzó vagy érvénytelen mezők' }, { status: 400 });
     }
 
@@ -39,8 +37,6 @@ export async function POST(request: Request) {
         <p><strong>Telefon:</strong> ${esc(telefon)}</p>
         <p><strong>Email:</strong> ${esc(email)}</p>
         <p><strong>Vállalkozás:</strong> ${esc(cegnev)}</p>
-        <p><strong>Működési terület:</strong> ${esc(terulet)}</p>
-        <p><strong>Mivel foglalkozik:</strong> ${foglalkozas ? esc(foglalkozas) : '– (nem adta meg)'}</p>
       `,
     });
     if (sendError) {
