@@ -87,6 +87,61 @@
 /* ── SZEKCIÓ ── */
 .section { margin-bottom: 56px; }
 
+/* ── REFERENCIA SOR ── */
+.refRow {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  margin-bottom: 40px;
+}
+.refAvatars { display: flex; }
+.refAvatar {
+  width: 64px; height: 64px; border-radius: 50%; overflow: hidden;
+  border: 3px solid #fff; margin-left: -14px; background: #e9eaee; box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+.refAvatar:first-child { margin-left: 0; }
+.refAvatar :global(img) { width: 100%; height: 100%; object-fit: cover; }
+.refStars { color: #F59E0B; font-size: 22px; letter-spacing: 2px; margin-top: 6px; }
+.refText { font-size: clamp(1.05rem, 2vw, 1.3rem); font-weight: 600; color: rgba(0,0,0,.75); }
+.refText strong { color: #16181d; }
+
+/* ── CÉGEK, AKIK MÁR BÍZTAK BENNÜNK (marquee) ── */
+.campaignStrip {
+  width: 100%; margin: 0 auto 56px; padding: 22px 0; overflow: hidden;
+  border-top: 1px solid rgba(255,51,64,.15); border-bottom: 1px solid rgba(255,51,64,.15);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  position: relative;
+}
+.campaignLabel {
+  text-align: center; font-size: clamp(1.05rem, 2.2vw, 1.3rem); font-weight: 800;
+  color: #16181d; margin-bottom: 18px;
+}
+.campaignTrack {
+  display: flex; gap: 22px; width: max-content;
+  animation: refMarquee 13s linear infinite;
+  font-size: 14px; font-weight: 600; letter-spacing: 0.05em; color: rgba(0,0,0,.72);
+}
+.campaignTrack + .campaignTrack { margin-top: 16px; }
+.campaignTrackAlt { animation-direction: reverse; }
+.campaignTrack span { white-space: nowrap; }
+.campaignTrack span::after { content: '·'; margin-left: 22px; color: rgba(255,51,64,.5); }
+@keyframes refMarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ── VÉLEMÉNYEK (screenshot idézetek) ── */
+.kepVelemenyStack { display: flex; flex-direction: column; gap: 20px; width: 100%; margin: 24px auto 0; }
+.kepVelemenyCard {
+  background: #fff; border-radius: 18px; overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,.12), 0 0 0 1px rgba(255,51,64,.12);
+}
+.kepVelemenyQuote {
+  margin: 0; padding: 20px 22px 4px;
+  font-size: clamp(1.05rem, 1.6vw, 1.2rem); font-weight: 800; line-height: 1.4;
+  color: #16181d;
+}
+.kepVelemenyImgWrap { position: relative; display: block; font-size: 0; }
+.kepVelemenyImg { width: 100%; height: auto; display: block; }
+
 /* ── ÁR REVEAL ── */
 .priceCard {
   position: relative;

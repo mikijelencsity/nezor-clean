@@ -13,6 +13,27 @@ const PHONE_RE = /^(?:\+36|06)[\s-]?(20|30|31|50|70)[\s-]?\d{3}[\s-]?\d{4}$/;
 const DEADLINE = new Date('2026-08-25T23:59:59').getTime();
 const pad2 = (n: number) => String(n).padStart(2, '0');
 
+const cegek = [
+  { src: '/estur.webp', alt: 'Estur', style: { objectFit: 'cover' as const, transform: 'scale(1.4) translateY(17%)' } },
+  { src: '/cruisershop.webp', alt: 'Cruiser Shop', style: {} },
+  { src: '/koronagomba.webp', alt: 'Korona Gomba', style: { objectFit: 'cover' as const, transform: 'scale(2.8) translateY(13%)' } },
+  { src: '/nekedsutom.webp', alt: 'Neked Sütöm', style: {} },
+  { src: '/image.webp', alt: 'Ügyfél', style: {} },
+];
+
+const kampanySor1 = [
+  'Cruiser Shop', 'Hazai Kávé Kft.', 'Kisállatkereskedes Baja', 'Neked Sütöm', 'InShape - Diet', 'Loft Of Beauty',
+];
+const kampanySor2 = [
+  'Estur Épker Kft.', 'ZT Épületgépészet', 'Hellinger Kft.', 'Dover Check', 'Korona Gombaipari Egyesülés', 'Tóth Tamás - kertépítés',
+];
+
+// A profilképek erős blurja és a név takarása a képbe van égetve (_p.jpeg)
+const kepVelemenyek = [
+  { kep: '/IMG_1699_m2.webp', w: 1169, h: 688, alt: 'Ügyfél visszajelzés', idezet: 'Nagyon nem bántam meg, hogy ebbe belevágtunk.' },
+  { kep: '/IMG_1702_m2.webp', w: 1169, h: 1649, alt: 'Ügyfél visszajelzés', idezet: 'Nah srácok, erről beszéltem! Ez így profi lett!' },
+];
+
 const szakmak = [
   { id: 'vizszerelo', nev: 'Vízszerelő' },
   { id: 'tetofedo', nev: 'Tetőfedő' },
@@ -141,6 +162,58 @@ export function SzakemberPage() {
             </button>
           ))}
         </div>
+
+        {/* REFERENCIA SOR */}
+        <section className={styles.refRow}>
+          <div className={styles.refAvatars}>
+            {cegek.map((c) => (
+              <div key={c.src} className={styles.refAvatar}>
+                <Image src={c.src} alt={c.alt} width={64} height={64} style={c.style} />
+              </div>
+            ))}
+          </div>
+          <div className={styles.refStars}>★★★★★</div>
+          <p className={styles.refText}>
+            Már <strong>24 vállalkozás</strong> választott minket <strong className={styles.grad}>idén</strong>
+          </p>
+        </section>
+
+        {/* CÉGEK, AKIK MÁR BÍZTAK BENNÜNK (mozgó sáv) */}
+        <div className={styles.campaignStrip}>
+          <div className={styles.campaignLabel}>Cégek, akik már <span className={styles.grad}>bíztak bennünk</span>…</div>
+          <div className={styles.campaignTrack}>
+            {[...kampanySor1, ...kampanySor1, ...kampanySor1, ...kampanySor1].map((ceg, i) => (
+              <span key={`s1-${i}`}>{ceg}</span>
+            ))}
+          </div>
+          <div className={`${styles.campaignTrack} ${styles.campaignTrackAlt}`}>
+            {[...kampanySor2, ...kampanySor2, ...kampanySor2, ...kampanySor2].map((ceg, i) => (
+              <span key={`s2-${i}`}>{ceg}</span>
+            ))}
+          </div>
+        </div>
+
+        {/* VÉLEMÉNYEK */}
+        <section className={styles.section}>
+          <h2 className={styles.h2}>Amit az <span className={styles.grad}>ügyfeleink</span> mondanak</h2>
+          <div className={styles.kepVelemenyStack}>
+            {kepVelemenyek.map((v) => (
+              <div key={v.kep} className={styles.kepVelemenyCard}>
+                <p className={styles.kepVelemenyQuote}>„{v.idezet}”</p>
+                <div className={styles.kepVelemenyImgWrap}>
+                  <Image
+                    src={v.kep}
+                    alt={v.alt}
+                    width={v.w}
+                    height={v.h}
+                    className={styles.kepVelemenyImg}
+                    sizes="(max-width: 720px) 92vw, 560px"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* ÁR REVEAL */}
         <section className={styles.section}>
