@@ -31,6 +31,7 @@ const kampanySor2 = [
 // A profilképek erős blurja és a név takarása a képbe van égetve (_p.jpeg)
 const kepVelemenyek = [
   { kep: '/IMG_1699_m2_crop.webp', w: 1050, h: 273, alt: 'Ügyfél visszajelzés', idezet: 'Nagyon nem bántam meg, hogy ebbe belevágtunk.' },
+  { kep: '/IMG_1702_m2_crop.webp', w: 1050, h: 260, alt: 'Ügyfél visszajelzés', idezet: 'Nah srácok, erről beszéltem! Ez így profi lett!' },
 ];
 
 const ertekLebontas = [
@@ -120,7 +121,7 @@ export function SzakemberPage() {
         {/* HERO */}
         <span className={styles.badge}>⚡ Ügyfélszerzés szakembereknek</span>
         <h1 className={styles.h1}>
-          Új ügyfeleket hozunk<br />
+          Új munkákat hozunk<br />
           30 nap alatt.<br />
           <span className={styles.grad}>Vagy visszakapod a hirdetéskezelési díjat.</span>
         </h1>

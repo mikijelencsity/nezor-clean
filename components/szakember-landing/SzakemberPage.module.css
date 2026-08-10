@@ -209,7 +209,7 @@
 /* ── FORM ── */
 .formCard {
   position: relative;
-  width: 100%; margin: 50px auto 0; scroll-margin-top: 30px;
+  width: 100%; margin: 100px auto 0; scroll-margin-top: 30px;
   background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 24px;
   padding: 64px 30px 34px; box-shadow: 0 26px 64px rgba(0,0,0,.10);
 }
@@ -314,7 +314,8 @@
   .guaranteeSeal { top: -14px; right: -10px; width: 56px; height: 56px; }
   .priceLead { font-size: clamp(1.05rem, 5vw, 1.3rem); white-space: nowrap; }
   .guaranteeCard { padding: 28px 20px; }
-  .formCard { padding: 28px 20px; }
+  .formCard { padding: 56px 20px 28px; margin-top: 80px; }
+  .formPhoto { width: 88px; height: 88px; top: -44px; border-width: 4px; }
   .countdownLabel { display: none; }
   .countdownBar { padding: 12px 14px calc(12px + env(safe-area-inset-bottom)); }
   .countdownInner { gap: 10px; }
