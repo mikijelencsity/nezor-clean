@@ -30,7 +30,7 @@ const kampanySor2 = [
 
 // A profilképek erős blurja és a név takarása a képbe van égetve (_p.jpeg)
 const kepVelemenyek = [
-  { kep: '/IMG_1699_m2.webp', w: 1169, h: 688, alt: 'Ügyfél visszajelzés', idezet: 'Nagyon nem bántam meg, hogy ebbe belevágtunk.' },
+  { kep: '/IMG_1699_m2_crop.webp', w: 1050, h: 273, alt: 'Ügyfél visszajelzés', idezet: 'Nagyon nem bántam meg, hogy ebbe belevágtunk.' },
 ];
 
 const ertekLebontas = [
@@ -224,12 +224,13 @@ export function SzakemberPage() {
               ))}
             </ul>
             <div className={styles.valueTotal}>
-              <div className={styles.valueTotalRow}>
-                <span>Érték:</span> <strong>149.000 Ft</strong>
+              <div className={styles.valueTotalOld}>
+                <span>Érték</span> <s>149.000 Ft</s>
               </div>
-              <div className={styles.valueTotalRow}>
-                <span>Ár:</span> <strong className={styles.valuePriceHi}>39.500 Ft</strong>
+              <div className={styles.valueTotalNew}>
+                <span>Ár</span> <strong>39.500 Ft</strong>
               </div>
+              <div className={styles.valueSavings}>109.500 Ft-ot spórolsz <b>(–73%)</b></div>
             </div>
 
             <button type="button" className={styles.ctaPrimary} onClick={scrollToForm}>
@@ -314,7 +315,20 @@ export function SzakemberPage() {
               </p>
             </>
           )}
+
+          {/* Alapítói fotó — kerek, a form tetején, szöveget nem takar */}
+          <Image
+            src="/alapitok2.webp"
+            alt="Müller Dániel és Jelencsity Miklós — NEZOR alapítók"
+            width={440}
+            height={440}
+            className={styles.formPhoto}
+            sizes="120px"
+          />
         </div>
+        <p className={styles.signature}>
+          Velünk dolgozol: <strong>Müller Dániel</strong> és <strong>Jelencsity Miklós</strong>
+        </p>
 
         {/* FAQ */}
         <section className={styles.faqSection}>
