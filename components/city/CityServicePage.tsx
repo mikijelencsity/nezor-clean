@@ -47,7 +47,7 @@ const serviceConfig: Record<ServiceType, ServiceConfig> = {
       'Support az átadás után',
     ],
     faq: (c) => [
-      { question: `Mennyibe kerül egy weboldal ${c.inCity}?`, answer: `${c.inCity} a weboldal ára a komplexitástól függ. Ingyenes ajánlatkérés után pontos árat adunk, a "Csomagjaink" oldalon látod a kiindulási árszinteket.` },
+      { question: `Mennyibe kerül egy weboldal ${c.inCity}?`, answer: `${c.inCity} a weboldal ára a komplexitástól függ. Ingyenes ajánlatkérés után pontos, egyedi árat adunk.` },
       { question: `Mennyi idő alatt készül el a weboldal ${c.inCity}?`, answer: `Alap weboldalak 1-2 héten belül elkészülnek. Összetettebb, egyedi oldalak tovább tarthatnak. A határidőt írásban vállaljuk.` },
       { question: `Segítetek a ${c.adjective} vállalkozásom szövegének megírásában?`, answer: `Igen, kérés esetén segítünk a szövegek megírásában is, SEO-barát formában, hogy a ${c.adjective} keresőtalálatok között minél előrébb kerülj.` },
       { question: `Van-e helyi irodájuk ${c.inCity}?`, answer: `Bács-Kiskun megye egész területén és országosan is dolgozunk, ${c.inCity} is szolgáljuk az ügyfeleinket. Az együttműködés online is gördülékenyen zajlik, szükség esetén Zoom-on egyeztetünk.` },
@@ -198,7 +198,6 @@ export function CityServicePage({ city, service }: Props) {
           <p className={styles.heroDesc}>{cfg.heroDesc(city)}</p>
           <div className={styles.heroActions}>
             <a href="/#kapcsolat" className={styles.btnPrimary}>{cfg.cta}</a>
-            <Link href="/csomagjaink" className={styles.btnSecondary}>Csomagok megtekintése</Link>
           </div>
         </div>
       </section>

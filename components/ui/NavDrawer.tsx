@@ -5,10 +5,9 @@ import styles from './NavDrawer.module.css';
 const links = [
   { label: 'Főoldal', href: '/', num: '01', external: true },
   { label: 'Referenciák', href: '/referenciak', num: '02', external: true },
-  { label: 'Csomagjaink', href: '/csomagjaink', num: '03', external: true },
-  { label: 'Városok', href: '/varosok', num: '04', external: true },
-  { label: 'Blog', href: '/blog', num: '05', external: true },
-  { label: 'Kapcsolat', href: '/#kapcsolat', num: '06', external: true },
+  { label: 'Városok', href: '/varosok', num: '03', external: true },
+  { label: 'Blog', href: '/blog', num: '04', external: true },
+  { label: 'Kapcsolat', href: '/#kapcsolat', num: '05', external: true },
 ];
 
 export function NavDrawer() {

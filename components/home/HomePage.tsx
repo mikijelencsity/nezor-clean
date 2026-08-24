@@ -176,58 +176,6 @@ export function HomePage() {
       });
     })();
 
-    // Nyeremény pop-up
-    (function () {
-      const pop = document.getElementById('winPop');
-      const trigger = document.querySelector('.ai-section');
-      if (!pop || !trigger) return;
-      let shown = false;
-      function openWin() {
-        pop!.classList.add('show'); pop!.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-      }
-      function closeWin() {
-        pop!.classList.remove('show'); pop!.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      }
-      const io = new IntersectionObserver(es => {
-        es.forEach(e => {
-          if (e.isIntersecting && !shown) { shown = true; openWin(); io.disconnect(); }
-        });
-      }, { threshold: 0 });
-      io.observe(trigger);
-      const winCloseBtn = document.getElementById('winClose');
-      if (winCloseBtn) winCloseBtn.addEventListener('click', closeWin);
-      pop.addEventListener('click', e => { if (e.target === pop) closeWin(); });
-      document.addEventListener('keydown', e => { if (e.key === 'Escape' && pop!.classList.contains('show')) closeWin(); });
-      const winForm = document.getElementById('winForm');
-      if (winForm) winForm.addEventListener('submit', async e => {
-        e.preventDefault();
-        const emailInput = document.getElementById('winEmail') as HTMLInputElement | null;
-        const emailVal = emailInput?.value?.trim() ?? '';
-        // API hívás — nyeremény email mentése
-        if (emailVal) {
-          try {
-            await fetch('/api/nyeremeny', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email: emailVal }),
-            });
-          } catch { /* silent - UI still shows success */ }
-        }
-        const card = pop!.querySelector('.winpop-card');
-        if (card) {
-          card.innerHTML = '<button class="winpop-close" id="winClose2" aria-label="Bezárás">×</button>' +
-            '<div class="winpop-eyebrow">🎉 Sikeres jelentkezés</div>' +
-            '<h2 class="winpop-title">Köszönjük!</h2>' +
-            '<p class="winpop-sub">Felvettünk a listára. Ha te leszel a szerencsés, e-mailben jelentkezünk!</p>';
-          const wc2 = document.getElementById('winClose2');
-          if (wc2) wc2.addEventListener('click', closeWin);
-        }
-        setTimeout(closeWin, 2800);
-      });
-    })();
-
     // Jogi dokumentumok
     (function () {
       const docs: Record<string, { title: string; html: string }> = {
@@ -937,20 +885,6 @@ export function HomePage() {
         </div>
         <div className="sms-actions">
           <a href="#kapcsolat" className="sms-btn" id="smsContact">Kapcsolatfelvétel →</a>
-        </div>
-      </div>
-
-      <div className="winpop" id="winPop" aria-hidden="true">
-        <div className="winpop-card">
-          <button className="winpop-close" id="winClose" aria-label="Bezárás">×</button>
-          <div className="winpop-eyebrow">🎉 Nyereményjáték</div>
-          <h2 className="winpop-title">Nyerj egy <span className="accent">prémium weboldalt</span> ingyen</h2>
-          <p className="winpop-sub">Hogy nyerhetsz? Egy e-mail cím és játékban vagy.</p>
-          <form className="winpop-form" id="winForm">
-            <input type="email" id="winEmail" placeholder="te@email.hu" required />
-            <button type="submit">Jelentkezem</button>
-          </form>
-          <div className="winpop-foot">Az eredményekről időben tájékoztatunk, sok sikert!</div>
         </div>
       </div>
 
