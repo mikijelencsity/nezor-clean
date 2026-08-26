@@ -10,8 +10,8 @@ const formatFt = (n: number) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.
 // Magyar mobilszám: 06/+36 előhívó + 20/30/31/50/70 szolgáltatói kód + 7 számjegy (szóköz/kötőjel opcionális)
 const PHONE_RE = /^(?:\+36|06)[\s-]?(20|30|31|50|70)[\s-]?\d{3}[\s-]?\d{4}$/;
 
-// Az ajánlat lejárata: 2026. augusztus 25. 23:59:59
-const DEADLINE = new Date('2026-08-25T23:59:59').getTime();
+// Az ajánlat lejárata: 2026. szeptember 1. 23:59:59
+const DEADLINE = new Date('2026-09-01T23:59:59').getTime();
 const pad2 = (n: number) => String(n).padStart(2, '0');
 
 const cegek = [
