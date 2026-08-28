@@ -27,6 +27,7 @@
   filter: blur(60px);
   opacity: 0.35;
   pointer-events: none;
+  transition: transform 0.2s ease-out;
 }
 .blob1 {
   width: 320px;
@@ -131,14 +132,41 @@
 }
 
 .mascot {
-  position: fixed;
+  position: absolute;
   width: 64px;
   height: 64px;
   pointer-events: none;
   z-index: 5;
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), left 0.35s ease, top 0.35s ease;
-  filter: drop-shadow(0 0 12px rgba(0, 229, 255, 0.6));
+  transition: left 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 0 14px rgba(0, 229, 255, 0.65));
+  animation: mascotBob 2.2s ease-in-out infinite;
   will-change: left, top;
+}
+
+@keyframes mascotBob {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50% { transform: translateY(-8px) rotate(4deg); }
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--blue);
+  opacity: 0.5;
+  pointer-events: none;
+  animation: particleDrift linear infinite;
+}
+
+.particle:nth-child(3n) {
+  background: var(--yellow);
+}
+
+@keyframes particleDrift {
+  0% { transform: translate(0, 0); opacity: 0; }
+  10% { opacity: 0.6; }
+  50% { transform: translate(30px, -60px); }
+  90% { opacity: 0.4; }
+  100% { transform: translate(-20px, -120px); opacity: 0; }
 }
 
 @keyframes glitch {
