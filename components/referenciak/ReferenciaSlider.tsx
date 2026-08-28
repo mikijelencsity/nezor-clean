@@ -95,6 +95,21 @@ const cases = [
     noteTitle: 'Prémium atmoszféra',
     noteText: 'A design egyszerre formál imázst és mutat profi terméket.',
   },
+  {
+    number: '07',
+    tags: ['Nyílászáró gyártás', 'Bemutatkozó weboldal', 'Bizalomépítés'],
+    title: 'Szeko Ablak Kft.',
+    desc: 'Letisztult bemutatkozó oldal a 2010 óta piacon lévő ablakgyártónak, ami szakmai hitelességet és minőséget közvetít.',
+    href: 'https://szekoablak.hu/',
+    metrics: [
+      { value: '2010', label: 'Alapítva' },
+      { value: 'Nyílászáró', label: 'Gyártás' },
+      { value: 'Minőség', label: 'Szakmai hitelesség' },
+    ],
+    image: '/szeko-ablak.png',
+    noteTitle: 'Szakmai bemutatkozás',
+    noteText: 'Az oldal a gyártói háttér és a tapasztalat köré építi a bizalmat.',
+  },
 ];
 
 function renderCaseTitle(title: string) {
