@@ -110,6 +110,21 @@ const cases = [
     noteTitle: 'Szakmai bemutatkozás',
     noteText: 'Az oldal a gyártói háttér és a tapasztalat köré építi a bizalmat.',
   },
+  {
+    number: '08',
+    tags: ['Építőipar', 'Kivitelezés', 'Ajánlatkérés'],
+    title: 'Komár és Fia Kft.',
+    desc: 'Teljes körű építőipari kivitelező weboldala Budapest és Pest vármegye térségére, egyértelmű ajánlatkérő fókusszal.',
+    href: 'https://komaresfiakft.hu/',
+    metrics: [
+      { value: 'Teljes körű', label: 'Kivitelezés' },
+      { value: 'Ingyenes', label: 'Helyszíni felmérés' },
+      { value: 'Pest vm.', label: 'Kiszolgálási terület' },
+    ],
+    image: '/komar-es-fia.png',
+    noteTitle: 'Ajánlatkérésre optimalizált',
+    noteText: 'Az oldal megbízhatóságot közvetít, és gyorsan az árajánlat-kéréshez vezeti a látogatót.',
+  },
 ];
 
 function renderCaseTitle(title: string) {
