@@ -218,6 +218,38 @@
   font-weight: 600;
 }
 
+.tabSwitch {
+  display: inline-flex;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--stroke);
+  margin-bottom: 32px;
+}
+
+.tabBtn {
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.tabBtn:hover {
+  color: var(--text);
+}
+
+.tabBtnActive,
+.tabBtnActive:hover {
+  color: #02050d;
+  background: linear-gradient(135deg, var(--cyan), var(--lime));
+}
+
 .cases {
   display: grid;
   gap: 24px;

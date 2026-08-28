@@ -4,11 +4,25 @@ import Image from 'next/image';
 import { NavDrawer } from '@/components/ui/NavDrawer';
 import styles from './ReferenciaSlider.module.css';
 
-const cases = [
+type Case = {
+  number: string;
+  tags: string[];
+  title: string;
+  desc: string;
+  href?: string;
+  metrics: { value: string; label: string }[];
+  image: string;
+  noteTitle: string;
+  noteText: string;
+  category: 'weboldal' | 'hirdetes';
+};
+
+const cases: Case[] = [
   {
     number: '01',
     tags: ['Ajánlatkérés', 'Értékesítés'],
     title: 'Hellinger Kft.',
+    category: 'weboldal',
     desc: 'Egyszerű, üzleti ajánlatra épített oldal, ahol a szolgáltatás gyorsan érthető és a döntés gyorsul.',
     href: 'https://hellingerkft.hu/',
     metrics: [
@@ -24,6 +38,7 @@ const cases = [
     number: '02',
     tags: ['Weboldal', 'Landing oldal', 'Lead fókusz'],
     title: 'Estur Kft.',
+    category: 'weboldal',
     desc: 'Ajánlatkérő fókusz: minden blokk a kapcsolatfelvételre irányít, egyszerűen és világosan.',
     href: 'https://estur.hu/',
     metrics: [
@@ -39,6 +54,7 @@ const cases = [
     number: '03',
     tags: ['Márkaépítés', 'Prémium webdesign', 'Vizualis upgrade'],
     title: 'DoverCheck',
+    category: 'weboldal',
     desc: 'Prémium megjelenés, ami megbízhatóságot és hitelességet közvetít a márka számára.',
     href: 'https://doversolution.hu/',
     metrics: [
@@ -54,6 +70,7 @@ const cases = [
     number: '04',
     tags: ['Vendéglátás', 'Helyi brand', 'Mobil'],
     title: 'Neked Sütöm',
+    category: 'weboldal',
     desc: 'Helyi weboldal, ami gyorsan viszi a vendéget az étlaphoz és az ízek hangulatát adja át.',
     href: 'https://nekedsutom.hu/',
     metrics: [
@@ -69,6 +86,7 @@ const cases = [
     number: '05',
     tags: ['Kiskereskedelem', 'Szerviz', 'Konverzió'],
     title: 'CruiserShop',
+    category: 'weboldal',
     desc: 'Online kirakat, amely a bringákat és a szervizszolgáltatást egyaránt könnyen áttekinthetővé teszi.',
     href: 'https://kerekparszakuzletbaja.hu/',
     metrics: [
@@ -84,6 +102,7 @@ const cases = [
     number: '06',
     tags: ['Egészséges életmód', 'E-commerce', 'Prémium'],
     title: 'Inshape-Diet',
+    category: 'weboldal',
     desc: 'Prémium életmód webshop, ahol a termékek és a szolgáltatások egységes, profi élményt adnak.',
     href: 'https://inshape-diet.com/',
     metrics: [
@@ -99,6 +118,7 @@ const cases = [
     number: '07',
     tags: ['Nyílászáró gyártás', 'Bemutatkozó weboldal', 'Bizalomépítés'],
     title: 'Szeko Ablak Kft.',
+    category: 'weboldal',
     desc: 'Letisztult bemutatkozó oldal a 2010 óta piacon lévő ablakgyártónak, ami szakmai hitelességet és minőséget közvetít.',
     href: 'https://szekoablak.hu/',
     metrics: [
@@ -114,6 +134,7 @@ const cases = [
     number: '08',
     tags: ['Építőipar', 'Kivitelezés', 'Ajánlatkérés'],
     title: 'Komár és Fia Kft.',
+    category: 'weboldal',
     desc: 'Teljes körű építőipari kivitelező weboldala Budapest és Pest vármegye térségére, egyértelmű ajánlatkérő fókusszal.',
     href: 'https://komaresfiakft.hu/',
     metrics: [
@@ -124,6 +145,66 @@ const cases = [
     image: '/komar-es-fia.png',
     noteTitle: 'Ajánlatkérésre optimalizált',
     noteText: 'Az oldal megbízhatóságot közvetít, és gyorsan az árajánlat-kéréshez vezeti a látogatót.',
+  },
+  {
+    number: '09',
+    tags: ['Facebook hirdetés', 'ROAS', 'Kreatív tesztelés'],
+    title: 'Dover Check',
+    category: 'hirdetes',
+    desc: 'Tesztelt kreatívokból építkező Facebook-kampány, amely stabil, magas megtérülést hozott.',
+    metrics: [
+      { value: '4×', label: 'Megtérülés' },
+      { value: 'Facebook', label: 'Hirdetési platform' },
+      { value: 'Tesztelt', label: 'Kreatív' },
+    ],
+    image: '/HIRDETES1.webp',
+    noteTitle: 'Kreatívvezérelt kampány',
+    noteText: 'A/B tesztelt kreatívok emelték a megtérülést kampányszinten.',
+  },
+  {
+    number: '10',
+    tags: ['Facebook hirdetés', 'Bevétel', 'Kis büdzsé'],
+    title: 'Hazai Kávé Kft.',
+    category: 'hirdetes',
+    desc: 'Kis hirdetési kerettel indított kampány, ami arányaiban komoly bevételt hozott.',
+    metrics: [
+      { value: '100.000 Ft+', label: 'Bevétel' },
+      { value: '12.000 Ft', label: 'Költségből' },
+      { value: 'Facebook', label: 'Hirdetési platform' },
+    ],
+    image: '/HIRDETES2.webp',
+    noteTitle: 'Kis büdzséből nagy eredmény',
+    noteText: 'A célzás és a kreatív együtt hozta ki a magas megtérülést alacsony költésből.',
+  },
+  {
+    number: '11',
+    tags: ['Facebook hirdetés', 'ROAS', 'Kreatív tesztelés'],
+    title: 'Forint - Soft Kft.',
+    category: 'hirdetes',
+    desc: 'Több kreatívváltozat tesztelése után stabilizált, magas megtérülésű kampány.',
+    metrics: [
+      { value: '6×', label: 'Megtérülés' },
+      { value: 'Facebook', label: 'Hirdetési platform' },
+      { value: 'Tesztelt', label: 'Kreatív' },
+    ],
+    image: '/HIRDETES3.webp',
+    noteTitle: 'Kreatívvezérelt kampány',
+    noteText: 'A tesztelt kreatívok közül a legjobban teljesítőre állt rá a büdzsé.',
+  },
+  {
+    number: '12',
+    tags: ['Facebook hirdetés', 'Elérés', 'Kis büdzsé'],
+    title: 'ZT Épületgépészet',
+    category: 'hirdetes',
+    desc: 'Alacsony költésből futó kampány, amely nagy márkaismertséget és elérést hozott.',
+    metrics: [
+      { value: '90.000', label: 'Elérés' },
+      { value: '10.000 Ft', label: 'Költségből' },
+      { value: 'Facebook', label: 'Hirdetési platform' },
+    ],
+    image: '/HIRDETES4.webp',
+    noteTitle: 'Kis büdzséből nagy elérés',
+    noteText: 'A célzás pontossága miatt a kis költés is komoly elérést hozott.',
   },
 ];
 
@@ -140,10 +221,15 @@ function renderCaseTitle(title: string) {
 }
 
 export function ReferenciaSlider() {
+  const [activeTab, setActiveTab] = useState<'weboldal' | 'hirdetes'>('weboldal');
   const [visibleCases, setVisibleCases] = useState<string[]>([]);
   const casesRef = useRef<HTMLDivElement>(null);
 
+  const filteredCases = cases.filter((item) => item.category === activeTab);
+
   useEffect(() => {
+    setVisibleCases([]);
+
     const container = casesRef.current;
     if (!container) return;
 
@@ -170,7 +256,7 @@ export function ReferenciaSlider() {
     cards.forEach((card) => observer.observe(card));
 
     return () => observer.disconnect();
-  }, []);
+  }, [activeTab]);
 
   return (
     <main className={styles.root}>
@@ -183,8 +269,29 @@ export function ReferenciaSlider() {
             <h2>Referenciák, a legfrissebb munkáinkból</h2>
           </div>
 
+          <div className={styles.tabSwitch} role="tablist">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'weboldal'}
+              className={`${styles.tabBtn} ${activeTab === 'weboldal' ? styles.tabBtnActive : ''}`}
+              onClick={() => setActiveTab('weboldal')}
+            >
+              Weboldalak
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === 'hirdetes'}
+              className={`${styles.tabBtn} ${activeTab === 'hirdetes' ? styles.tabBtnActive : ''}`}
+              onClick={() => setActiveTab('hirdetes')}
+            >
+              Hirdetések
+            </button>
+          </div>
+
           <div className={styles.cases} ref={casesRef}>
-            {cases.map((item, index) => {
+            {filteredCases.map((item, index) => {
               const isVisible = visibleCases.includes(item.number);
 
               return (
@@ -202,16 +309,18 @@ export function ReferenciaSlider() {
                     <h3 className={styles.caseTitle}>{renderCaseTitle(item.title)}</h3>
                     <p className={styles.caseDesc}>{item.desc}</p>
 
-                    <div className={styles.caseActions}>
-                      <a
-                        href={item.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className={styles.btn + ' ' + styles.btnPrimary}
-                      >
-                        Projekt megnyitása
-                      </a>
-                    </div>
+                    {item.href && (
+                      <div className={styles.caseActions}>
+                        <a
+                          href={item.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={styles.btn + ' ' + styles.btnPrimary}
+                        >
+                          Projekt megnyitása
+                        </a>
+                      </div>
+                    )}
                   </div>
 
                   <div className={styles.caseVisual}>
