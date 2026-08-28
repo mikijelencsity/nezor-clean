@@ -36,7 +36,6 @@ export function ReviewsSection() {
           <p className={styles.reviewText}>
             Korábban semmit sem tudtam a hirdetéseinkről. Most <mark>minden hétfőn megnézem a riportot</mark>, és pontosan tudom, mi működött és mi nem. Nagyobb lett a bizalmam a marketingbe is, meg magamba is.
           </p>
-          <div className={styles.reviewActions}><span>👍 Hasznos</span><span>🖼 Fotók</span></div>
         </div>
 
         {/* Card 2 */}
@@ -53,7 +52,6 @@ export function ReviewsSection() {
           <p className={styles.reviewText}>
             A második hónap végére <mark>kétszer annyi minőségi érdeklődőnk volt</mark>, és a pipeline is rendezett lett. Nem vesztek el a jó leadek – és ez volt a legnagyobb problémánk korábban.
           </p>
-          <div className={styles.reviewActions}><span>👍 Hasznos</span><span>🖼 Fotók</span></div>
         </div>
 
         {/* Card 3 */}
@@ -70,7 +68,6 @@ export function ReviewsSection() {
           <p className={styles.reviewText}>
             Nem egy újabb bonyolult szoftvert kaptam, hanem <mark>egy működő rendszert</mark>. A heti riport tényleg segít, és végre értem, mi mögött van eredmény és mi mögött csak szerencse.
           </p>
-          <div className={styles.reviewActions}><span>👍 Hasznos</span><span>🖼 Fotók</span></div>
         </div>
       </div>
 

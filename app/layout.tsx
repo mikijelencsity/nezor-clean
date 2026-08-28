@@ -11,13 +11,25 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'], weight: ['400', '600', '800', '900'] });
 
 const siteDescription =
-  'NEZOR Webfejlesztés — Müller Dániel és Jelencsity Miklós ügynöksége Baján: weboldalt, webshopot építünk és Meta hirdetésekkel hozzuk rá a vevőket. 16 évesen indultak, mára 20+ magyar vállalkozásnak segítettek online ügyfeleket szerezni.';
+  'NEZOR Webfejlesztés — Müller Dániel és Jelencsity Miklós fejlesztési vállalata országos kiszolgálással: weboldalt, webshopot építünk és Meta hirdetésekkel hozzuk rá a vevőket. 16 évesen indultak, mára 20+ magyar vállalkozásnak segítettek online ügyfeleket szerezni.';
 
 export const metadata: Metadata = {
   title: 'NEZOR — Weboldal + Meta hirdetés Baján, 20+ magyar vállalkozásnak',
   description: siteDescription,
+  manifest: '/site.webmanifest',
   icons: {
-    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+    icon: [
+      { url: '/icon-48.png', type: 'image/png' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/icon-48.png', type: 'image/png', sizes: '48x48' },
+      { url: '/icon-96.png', type: 'image/png', sizes: '96x96' },
+      { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
+      { url: '/icon-512.png', type: 'image/png', sizes: '512x512' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
+  appleWebApp: {
+    title: 'NEZOR',
   },
   openGraph: {
     title: 'NEZOR — Weboldal + Meta hirdetés Baján, 20+ magyar vállalkozásnak',

@@ -380,7 +380,6 @@ export function HomePage() {
             <p className="review-text">
               Az új oldalunk egyszerűen <mark>profin és modernül néz ki</mark>. Többen mondták, hogy mennyivel komolyabb lett a benyomás, és érződik az érdeklődőkön is, hogy jobban megbíznak bennünk.
             </p>
-            <div className="review-actions"><span>👍 Hasznos</span><span>🖼 Fotók</span></div>
           </div>
 
           <div className="review-card">
@@ -396,7 +395,6 @@ export function HomePage() {
             <p className="review-text">
               Végre van egy weboldalunk, amire <mark>büszkén küldöm rá az ügyfeleket</mark>. Letisztult, gyors, mobilon is tökéletes, pontosan olyan, amilyennek mindig szerettem volna.
             </p>
-            <div className="review-actions"><span>👍 Hasznos</span><span>🖼 Fotók</span></div>
           </div>
 
           <div className="review-card">
@@ -412,7 +410,6 @@ export function HomePage() {
             <p className="review-text">
               Nem gondoltam, hogy ekkora különbség lesz. Az oldal <mark>igényes és bizalmat kelt</mark>, és azóta többen keresnek minket. Nyilván azért, mert már ránézésre komolyan vesznek bennünket.
             </p>
-            <div className="review-actions"><span>👍 Hasznos</span><span>🖼 Fotók</span></div>
           </div>
         </div>
 
