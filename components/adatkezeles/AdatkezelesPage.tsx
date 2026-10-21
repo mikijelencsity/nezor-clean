@@ -23,8 +23,8 @@ export function AdatkezelesPage() {
             Adatkezelési<br /><span>Tájékoztató</span>
           </h1>
           <p className={styles.docMeta}>
-            <strong>Hatályos:</strong> 2026. június 5-től ·{' '}
-            <strong>Utoljára frissítve:</strong> 2026. június 5.
+            <strong>Hatályos:</strong> 2026. október 21-től ·{' '}
+            <strong>Utoljára frissítve:</strong> 2026. október 21.
           </p>
         </div>
 
@@ -49,30 +49,52 @@ export function AdatkezelesPage() {
         <div className={styles.docSection}>
           <div className={styles.docSectionNum}>2</div>
           <h2>Milyen adatokat kezelünk?</h2>
-          <p>A landing oldalon keresztül történő feliratkozás során az alábbi személyes adatokat kezeljük:</p>
+          <p><strong>Feliratkozás (ingyenes útmutató, kuponkód) esetén:</strong></p>
           <ul>
             <li><strong>E-mail cím</strong> — a feliratkozási űrlap kitöltésekor megadott</li>
-            <li><strong>IP-cím</strong> — automatikusan rögzítve a szerver által a látogatás során</li>
             <li><strong>Feliratkozás időpontja</strong> — automatikusan rögzített technikai adat</li>
           </ul>
-          <p>Más személyes adatot (pl. telefonszám, lakcím) ezen az oldalon nem gyűjtünk.</p>
+          <p><strong>Kapcsolatfelvételi és ajánlatkérő űrlapok esetén:</strong></p>
+          <ul>
+            <li><strong>Név, telefonszám, e-mail cím</strong> — a kapcsolatfelvételhez</li>
+            <li><strong>Vállalkozás neve, tevékenysége</strong> és az űrlap kérdéseire adott válaszok (pl. hirdetési tapasztalat, weboldal megléte, kívánt ügyfélszám)</li>
+            <li><strong>A hozzájárulás időpontja</strong> — automatikusan rögzített technikai adat</li>
+          </ul>
+          <p><strong>Minden látogatás során:</strong></p>
+          <ul>
+            <li><strong>IP-cím, böngésző- és eszközadatok</strong> — a szerver és a tárhelyszolgáltató által automatikusan rögzítve</li>
+            <li><strong>Süti-azonosítók és látogatási adatok</strong> — csak ha a süti-sávban hozzájárult (lásd 6. pont)</li>
+          </ul>
         </div>
 
         {/* 3. Az adatkezelés célja és jogalapja */}
         <div className={styles.docSection}>
           <div className={styles.docSectionNum}>3</div>
           <h2>Az adatkezelés célja és jogalapja</h2>
-          <p>
-            Az e-mail cím kezelésének célja az ingyenes útmutató és a 10% kuponkód eljuttatása, valamint az azt
-            követő — előzetesen ígért — tájékoztató tartalmak küldése.
-          </p>
+          <ul>
+            <li>
+              <strong>Feliratkozás:</strong> az ingyenes útmutató és a kuponkód eljuttatása, valamint az azt követő —
+              előzetesen ígért — tájékoztató tartalmak küldése.
+            </li>
+            <li>
+              <strong>Kapcsolatfelvételi űrlapok:</strong> hogy telefonon vagy e-mailben felvegyük Önnel a kapcsolatot,
+              és a megadott válaszok alapján személyre szabott javaslatot (pl. hirdetési keretet) adjunk.
+            </li>
+            <li>
+              <strong>Hirdetésmérés és statisztika:</strong> hirdetéseink hatékonyságának mérése és a látogatottság
+              elemzése (Meta Pixel, Conversions API, Google Analytics).
+            </li>
+          </ul>
           <div className={styles.docHighlight}>
             <strong>Jogalap:</strong> Az érintett önkéntes hozzájárulása (GDPR 6. cikk (1) bekezdés a) pont) — az
-            űrlap kitöltésével és elküldésével Ön kifejezetten hozzájárul az adatkezeléshez.
+            űrlap kitöltésével, a hozzájáruló jelölőnégyzet bepipálásával és elküldésével, illetve a süti-sávban
+            az „Elfogadom az összeset” gombbal Ön kifejezetten hozzájárul az adatkezeléshez. A hozzájárulását
+            bármikor visszavonhatja, ez nem érinti a visszavonás előtti adatkezelés jogszerűségét.
           </div>
           <p>
-            <strong>Megőrzési idő:</strong> Az adatokat a feliratkozástól számított legfeljebb 2 évig őrizzük meg,
-            vagy amíg Ön a leiratkozást nem kéri — amelyik előbb következik be.
+            <strong>Megőrzési idő:</strong> A feliratkozási adatokat legfeljebb 2 évig, a kapcsolatfelvételi űrlapon
+            megadott adatokat — ha nem jön létre szerződés — legfeljebb 1 évig őrizzük meg, vagy amíg Ön a törlést
+            nem kéri. Szerződés létrejötte esetén a számviteli jogszabályokban előírt ideig.
           </p>
         </div>
 
@@ -80,17 +102,36 @@ export function AdatkezelesPage() {
         <div className={styles.docSection}>
           <div className={styles.docSectionNum}>4</div>
           <h2>Kinek adjuk át az adatokat?</h2>
-          <p>Az Ön e-mail címét harmadik fél részére nem adjuk el és nem adjuk át, kivéve az alábbi eseteket:</p>
+          <p>Személyes adatait nem adjuk el. Az alábbi adatfeldolgozókat és címzetteket vesszük igénybe:</p>
           <ul>
             <li>
-              <strong>Resend (resend.com)</strong> — e-mail kézbesítési szolgáltatás, kizárólag az üzenetek
-              technikai kézbesítéséhez szükséges mértékben. Adatfeldolgozói szerződés alapján.
+              <strong>Resend (Resend, Inc., USA)</strong> — e-mail kézbesítési szolgáltatás, kizárólag az üzenetek
+              technikai kézbesítéséhez szükséges mértékben.
             </li>
             <li>
-              <strong>Jogszabályi kötelezettség</strong> esetén — ha hatóság jogszerű megkeresés alapján kéri
+              <strong>Vercel (Vercel Inc., USA)</strong> — a weboldal tárhelyszolgáltatója; a látogatás során a
+              szervernaplókban IP-címet és technikai adatokat kezel.
+            </li>
+            <li>
+              <strong>Meta (Meta Platforms Ireland Ltd.)</strong> — ha a sütiket elfogadta: a Meta Pixel a látogatást
+              és az űrlapküldést méri; a Conversions API az űrlap beküldésekor a megadott e-mail címet, telefonszámot és
+              nevet <strong>visszafejthetetlen (SHA-256) titkosított formában</strong>, valamint IP-címet és böngészőadatokat
+              továbbít a Meta részére hirdetéseink mérése céljából. A Meta adatkezeléséről:{' '}
+              <a href="https://www.facebook.com/privacy/policy" target="_blank" rel="noopener">facebook.com/privacy/policy</a>.
+            </li>
+            <li>
+              <strong>Google (Google Ireland Ltd.)</strong> — Google Analytics látogatottsági statisztika; sütiket csak
+              hozzájárulás esetén használ, hozzájárulás nélkül csak anonim, sütimentes jelzéseket kap.
+            </li>
+            <li>
+              <strong>Jogszabályi kötelezettség</strong> esetén — ha hatóság jogszerű megkeresés alapján kéri.
             </li>
           </ul>
-          <p>Az adatfeldolgozók az adatokat az adatkezelő utasításai szerint, kizárólag a megjelölt célra használhatják fel.</p>
+          <p>
+            Az Európai Gazdasági Térségen kívüli (USA) adattovábbítás az EU–USA adatvédelmi keretrendszer (Data Privacy
+            Framework), illetve az Európai Bizottság általános szerződési feltételei alapján történik. Az adatfeldolgozók
+            az adatokat kizárólag a megjelölt célra használhatják fel.
+          </p>
         </div>
 
         {/* 5. Az érintett jogai */}
@@ -134,15 +175,23 @@ export function AdatkezelesPage() {
           <div className={styles.docSectionNum}>6</div>
           <h2>Cookie-k (sütik)</h2>
           <p>
-            Ez az oldal alapvetően csak technikai sütiket használ a működéshez szükséges mértékben. Marketing vagy
-            nyomkövető cookie-kat kizárólag az Ön előzetes hozzájárulásával alkalmazunk.
+            Az oldal első megnyitásakor egy süti-sávban dönthet. A működéshez szükséges sütiken kívül marketing és
+            statisztikai sütiket <strong>kizárólag az Ön előzetes hozzájárulásával</strong> alkalmazunk. Döntését
+            bármikor megváltoztathatja az oldalak láblécében található „Süti-beállítások” gombbal, vagy a böngészője
+            sütijeinek törlésével.
           </p>
           <ul>
             <li>
-              <strong>Munkamenet cookie</strong> — az oldal működéséhez szükséges, session végén törlődik
+              <strong>Szükséges</strong> — a süti-döntés tárolása (<code>nezorCookieConsent</code>, a böngésző helyi
+              tárhelyén), amíg Ön nem törli
             </li>
             <li>
-              <strong>Analitika</strong> — aggregált, személyazonosításra nem alkalmas látogatottsági adatok
+              <strong>Statisztika (Google Analytics)</strong> — <code>_ga</code>, <code>_ga_*</code>: látogatottsági
+              adatok, legfeljebb 2 évig — csak hozzájárulással
+            </li>
+            <li>
+              <strong>Marketing (Meta Pixel)</strong> — <code>_fbp</code>, <code>_fbc</code>: hirdetésmérés és
+              hirdetési célközönségek, legfeljebb 90 napig — csak hozzájárulással
             </li>
           </ul>
         </div>

@@ -22,6 +22,13 @@ export function CookieConsent() {
     return undefined;
   }, []);
 
+  // A süti-sáv bármikor újranyitható (pl. lábléc „Süti-beállítások” gomb) — hozzájárulás visszavonásához
+  useEffect(() => {
+    const open = () => setShow(true);
+    window.addEventListener('nezor_cookie_open', open);
+    return () => window.removeEventListener('nezor_cookie_open', open);
+  }, []);
+
   const decide = (v: 'accepted' | 'rejected') => {
     try {
       localStorage.setItem('nezorCookieConsent', v);
