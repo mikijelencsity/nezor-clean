@@ -292,10 +292,19 @@ export function EpitoiparPage() {
             <p className={styles.introEset}>
               <strong>Komár és Fia Kft.</strong> (építőipar): <strong>73 érdeklődő</strong>, érdeklődőnként <strong>935 Ft</strong>-ból
             </p>
+            {/* ALAPÍTÓK — egymásra mutatnak, középen a nevek */}
             <div className={styles.alapitok}>
-              <Image src="/alapitok.webp" alt="Müller Dániel és Jelencsity Miklós, a NEZOR alapítói" width={440} height={440} sizes="(max-width: 700px) 90vw, 360px" />
-              <p className={styles.alapitokNev}>Müller Dániel &amp; Jelencsity Miklós</p>
-              <p className={styles.alapitokSzerep}>Alapítók · NEZOR</p>
+              <div className={styles.alapitoKep}>
+                <Image src="/alapito-bal.webp" alt="A NEZOR egyik alapítója öltönyben, jobbra mutat" width={702} height={1000} sizes="(max-width: 700px) 34vw, 240px" />
+              </div>
+              <div className={styles.alapitokKozep}>
+                <p className={styles.alapitokNev}>Müller Dániel &amp; Jelencsity Miklós</p>
+                <p className={styles.alapitokSzerep}>Alapítók · NEZOR</p>
+                <p className={styles.alapitokHivas}>Mi hívunk vissza személyesen</p>
+              </div>
+              <div className={styles.alapitoKep}>
+                <Image src="/alapito-jobb.webp" alt="A NEZOR másik alapítója öltönyben, balra mutat" width={677} height={1000} sizes="(max-width: 700px) 34vw, 240px" />
+              </div>
             </div>
           </div>
         ) : sent ? (
