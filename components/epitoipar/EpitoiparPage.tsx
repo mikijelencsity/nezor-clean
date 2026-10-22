@@ -1,6 +1,5 @@
 'use client';
 import Image from 'next/image';
-import Link from 'next/link';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { trackEvent, ujEventId } from '@/components/analytics/FacebookPixel';
 import styles from './EpitoiparPage.module.css';
@@ -15,6 +14,7 @@ function sutiElfogadva(): boolean {
 
 // Magyar mobilszám a +36 előhívó UTÁN: 20/30/31/50/70 + 7 számjegy
 const MOBIL_RE = /^(20|30|31|50|70)\d{7}$/;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** A beírt telefonszámból a +36 utáni rész (06/36/+36 előtagot levágjuk) */
 function mobilSzamjegyek(raw: string): string {
@@ -155,6 +155,54 @@ const referenciak = [
   'Passa Bőrdíszmű', 'LégvárBirodalom Baja', 'Kisállatkereskedés Baja', 'Samu Kutyakozmetika',
 ];
 
+// Építőipari referenciák a referencia panelhez (Meta hirdetéskezelő, 2026.10.22-i állapot).
+// koltes: eddigi teljes költés, napi: jelenlegi napi keret, aktiv: fut-e most a kampány
+// kep: a szegmens legtöbb érdeklődőt hozó hirdetésének képe
+const epitoipariReferenciak = [
+  {
+    szegmens: 'Mobilház-gyártás',
+    kep: '/referencia-hirdetesek/mobilhaz.webp', kepW: 900, kepH: 900,
+    leiras: 'Mobilházakra kerestünk vevőket Facebookon és Instagramon. Eddig ez hozta a legolcsóbb érdeklődőket.',
+    lead: '1 125', arPerLead: '339 Ft', idotartam: '5 hét',
+    koltes: '381 046 Ft', napi: '10 000 Ft', aktiv: true,
+  },
+  {
+    szegmens: 'Generálkivitelezés',
+    kep: '/referencia-hirdetesek/generalkivitelezes.webp', kepW: 900, kepH: 882,
+    leiras: 'Építkezni, felújítani készülő érdeklődőket hoztunk egy generálkivitelezőnek képes, videós hirdetésekkel.',
+    lead: '242', arPerLead: '1 355 Ft', idotartam: '5 hét',
+    koltes: '327 976 Ft', napi: '10 000 Ft', aktiv: true,
+  },
+  {
+    szegmens: 'Könnyűszerkezetes házak',
+    kep: '/referencia-hirdetesek/konnyuszerkezetes.webp', kepW: 900, kepH: 1066,
+    leiras: 'Acélvázas, könnyűszerkezetes házakra gyűjtöttünk érdeklődőket. A kampány már az első hetekben beindult.',
+    lead: '204', arPerLead: '867 Ft', idotartam: '2,5 hét',
+    koltes: '177 009 Ft', napi: '10 000 Ft', aktiv: true,
+  },
+  {
+    szegmens: 'Térkövezés, betonozás, kertépítés',
+    kep: '/referencia-hirdetesek/terkovezes.webp', kepW: 900, kepH: 1073,
+    leiras: 'Egy helyi kivitelezőnek hozunk ajánlatkéréseket térkövezésre, betonozásra és kertépítésre.',
+    lead: '200', arPerLead: '741 Ft', idotartam: '3 hónap',
+    koltes: '148 299 Ft', napi: '2 000 Ft', aktiv: true,
+  },
+  {
+    szegmens: 'Laminált parketta',
+    kep: '/referencia-hirdetesek/laminalt.webp', kepW: 900, kepH: 1600,
+    leiras: 'Laminált parkettára gyűjtöttünk érdeklődőket egy hónapon át.',
+    lead: '46', arPerLead: '1 290 Ft', idotartam: '4 hét',
+    koltes: '59 339 Ft', napi: '2 200 Ft', aktiv: false,
+  },
+  {
+    szegmens: 'Hőszigetelés',
+    kep: '/referencia-hirdetesek/hoszigeteles.webp', kepW: 900, kepH: 900,
+    leiras: 'Frissen indult kampány, ezek az első napok számai.',
+    lead: '2', arPerLead: '4 206 Ft', idotartam: '8 nap',
+    koltes: '8 439 Ft', napi: '1 000 Ft', aktiv: true,
+  },
+];
+
 export function EpitoiparPage() {
   const [indul, setIndul] = useState(false); // nyitóképernyő → űrlap
   const [lepes, setLepes] = useState(0);
@@ -162,6 +210,7 @@ export function EpitoiparPage() {
   const [vezeteknev, setVezeteknev] = useState('');
   const [telefon, setTelefon] = useState('');
   const [cegnev, setCegnev] = useState('');
+  const [email, setEmail] = useState('');
   const [hozzajarulas, setHozzajarulas] = useState(false);
   const [website, setWebsite] = useState(''); // honeypot
   const [loading, setLoading] = useState(false);
@@ -169,6 +218,7 @@ export function EpitoiparPage() {
   const [sent, setSent] = useState(false);
   const [kilepes, setKilepes] = useState(false); // kilépési popup
   const [panel, setPanel] = useState(false); // oldalról kinyíló „mi ez?” panel
+  const [refPanel, setRefPanel] = useState(false); // oldalról kinyíló referencia panel
   // ár-animáció: 150 000 Ft → 79 000 Ft, amikor a kártya a képernyőre ér (egyszer fut le)
   const [ar, setAr] = useState(150_000);
   const [arKesz, setArKesz] = useState(false);
@@ -191,6 +241,13 @@ export function EpitoiparPage() {
     window.scrollTo({ top: 0 });
   };
 
+
+  // állandó „vissza a főoldalra” gomb: a kérdőívből a nyitóképernyőre (a válaszok megmaradnak)
+  const fooldalra = () => {
+    setError('');
+    setIndul(false);
+    window.scrollTo({ top: 0 });
+  };
 
   const tovabb = () => {
     setError('');
@@ -272,8 +329,8 @@ export function EpitoiparPage() {
   }, [indul]);
 
   useEffect(() => {
-    if (!panel) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setPanel(false); };
+    if (!panel && !refPanel) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setPanel(false); setRefPanel(false); } };
     document.addEventListener('keydown', onKey);
     const regi = document.documentElement.style.overflow;
     document.documentElement.style.overflow = 'hidden';
@@ -281,7 +338,7 @@ export function EpitoiparPage() {
       document.removeEventListener('keydown', onKey);
       document.documentElement.style.overflow = regi;
     };
-  }, [panel]);
+  }, [panel, refPanel]);
 
   useEffect(() => {
     if (!kilepes) return;
@@ -322,7 +379,7 @@ export function EpitoiparPage() {
   };
 
   const mobil = mobilSzamjegyek(telefon);
-  const vegeErvenyes = nev !== '' && vezeteknev.trim() !== '' && MOBIL_RE.test(mobil) && cegnev.trim() !== '' && hozzajarulas;
+  const vegeErvenyes = nev !== '' && vezeteknev.trim() !== '' && MOBIL_RE.test(mobil) && cegnev.trim() !== '' && EMAIL_RE.test(email.trim()) && hozzajarulas;
 
   const valaszokOsszeallit = () => {
     const valaszok: Record<string, string> = {};
@@ -375,6 +432,7 @@ export function EpitoiparPage() {
     if (!vezeteknev.trim()) { setError('Add meg a vezetékneved!'); return; }
     if (!MOBIL_RE.test(mobil)) { setError('Érvénytelen mobilszám. Pl. 30 123 4567'); return; }
     if (!cegnev.trim()) { setError('Add meg a cégneved!'); return; }
+    if (!EMAIL_RE.test(email.trim())) { setError('Érvénytelen e-mail-cím. Pl. nev@ceged.hu'); return; }
     if (!hozzajarulas) { setError('A küldéshez fogadd el az adatkezelési tájékoztatót!'); return; }
     setLoading(true);
     setError('');
@@ -389,6 +447,7 @@ export function EpitoiparPage() {
           valaszok,
           nev: `${vezeteknev.trim()} ${nev}`,
           telefon: `+36 ${mobil}`,
+          email: email.trim(),
           hozzajarulas, eventId, website,
         }),
       });
@@ -433,10 +492,6 @@ export function EpitoiparPage() {
             </h1>
             <div className={styles.tartalom}>
             <p className={styles.introLead}>{szoveg.lead}</p>
-            <button type="button" className={`${styles.introCta} ${styles.nagyCta}`} onClick={indit}>
-              Igen, érdekel! <span aria-hidden="true">→</span>
-            </button>
-            <p className={`${styles.mikro} ${styles.mikroFelso}`}>{MIKROSZOVEG}</p>
             {/* META-LOGÓ (eredeti, Wikimedia Commons) */}
             <div className={styles.metaLogo}>
               <Image src="/meta-logo.svg" alt="Meta" width={288} height={191} />
@@ -461,8 +516,12 @@ export function EpitoiparPage() {
                 <circle cx="16.2" cy="7.8" r="1.05" fill="#fff" />
               </svg>
             </div>
-            {/* ALAPÍTÓ a gomb mellett — a gombra mutat */}
+            <button type="button" className={`${styles.introCta} ${styles.nagyCta}`} onClick={indit}>
+              Igen, érdekel! <span aria-hidden="true">→</span>
+            </button>
+            <p className={`${styles.mikro} ${styles.mikroFelso}`}>{MIKROSZOVEG}</p>
             <p className={styles.ctaCim}>{szoveg.ajanlat}</p>
+            {/* ALAPÍTÓ a gomb mellett — a gombra mutat */}
             <div className={styles.ctaSor}>
               <div className={styles.ctaAlapito}>
                 <Image src="/alapito-bal.webp" alt="Müller Dániel, a NEZOR alapítója öltönyben, a gombra mutat" width={702} height={1000} sizes="(max-width: 700px) 36vw, 260px" />
@@ -470,9 +529,13 @@ export function EpitoiparPage() {
               </div>
               <div className={styles.ctaTartalom}>
                 <button type="button" className={styles.introCta} onClick={() => setPanel(true)} aria-haspopup="dialog" aria-expanded={panel}>
-                  Nagy, kék gomb, nyomj rá! <span aria-hidden="true">→</span>
+                  {/* két tiszta sorban, hogy a „rá!” ne maradjon egyedül */}
+                  <span className={styles.ketSor}>
+                    <span>Nagy, kék gomb,</span>
+                    <span>nyomj rá! <span aria-hidden="true">→</span></span>
+                  </span>
                 </button>
-                <p className={`${styles.mikro} ${styles.mikroBal}`}>{MIKROSZOVEG}</p>
+                <p className={`${styles.mikro} ${styles.mikroBal}`}>Gyorstalpaló: mi ez, miért jó, miért mi.</p>
               </div>
             </div>
             <p className={styles.introBizalom}>
@@ -512,9 +575,9 @@ export function EpitoiparPage() {
             </figure>
             <div className={styles.refBlokk}>
               <p className={styles.refSzoveg}>Vannak szofisztikált referenciáink is.</p>
-              <Link href="/referenciak" className={`${styles.introCta} ${styles.refGomb}`}>
+              <button type="button" className={`${styles.introCta} ${styles.refGomb}`} onClick={() => setRefPanel(true)} aria-haspopup="dialog" aria-expanded={refPanel}>
                 Referenciák <span aria-hidden="true">→</span>
-              </Link>
+              </button>
             </div>
 
             {/* AJÁNLAT */}
@@ -551,6 +614,29 @@ export function EpitoiparPage() {
               </button>
               <p className={styles.mikro}>{MIKROSZOVEG}</p>
             </div>
+
+            {/* GARANCIA — a két alapító a dobozra mutat */}
+            <div className={styles.garanciaSor}>
+              <div className={styles.garanciaAlapito}>
+                <Image src="/alapito-bal.webp" alt="Müller Dániel, a NEZOR alapítója, a garanciára mutat" width={702} height={1000} sizes="(max-width: 700px) 28vw, 200px" />
+                <p className={styles.ctaNevek}>Müller Dániel</p>
+              </div>
+              <div className={styles.garancia}>
+                <svg className={styles.garanciaIkon} viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="currentColor" d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4Zm-1.2 15.2-4-4 1.4-1.4 2.6 2.6 5.6-5.6 1.4 1.4-7 7Z" />
+                </svg>
+                <p className={styles.garanciaCim}>Ha nem hozunk munkát, <span>a pénzt visszaadjuk.</span></p>
+                <p className={styles.garanciaSzoveg}>Ennyire biztosak vagyunk benne, hogy működik.</p>
+              </div>
+              <div className={styles.garanciaAlapito}>
+                <Image src="/alapito-jobb.webp" alt="Jelencsity Miklós, a NEZOR alapítója, a garanciára mutat" width={677} height={1000} sizes="(max-width: 700px) 28vw, 200px" />
+                <p className={styles.ctaNevek}>Jelencsity Miklós</p>
+              </div>
+            </div>
+            <p className={styles.garanciaCtaCim}>Így már más?</p>
+            <button type="button" className={`${styles.introCta} ${styles.nagyCta}`} onClick={indit}>
+              Kezdjünk el dolgozni! <span aria-hidden="true">→</span>
+            </button>
             </div>
           </div>
         ) : sent ? (
@@ -689,7 +775,7 @@ export function EpitoiparPage() {
                 <h2 className={styles.kerdes}>
                   BUMM! 👊 Úgy tűnik, komolyan tudunk segíteni a vállalkozásodnak a bevált hirdetési rendszereinkkel — csak add meg az adataidat!
                 </h2>
-                <p className={styles.al}>Már csak két adat, és hívunk a <b>+36 {mobil}</b> számon.</p>
+                <p className={styles.al}>Már csak pár adat, és hívunk a <b>+36 {mobil}</b> számon.</p>
                 <input
                   className={styles.honeypot}
                   tabIndex={-1}
@@ -706,6 +792,7 @@ export function EpitoiparPage() {
                     <input className={styles.mezo} type="tel" inputMode="tel" autoComplete="tel-national" placeholder="Mobilszám * (pl. 30 123 4567)" value={telefon} onChange={(e) => setTelefon(e.target.value)} />
                   </div>
                   <input className={styles.mezo} type="text" autoComplete="organization" placeholder="Cégnév *" value={cegnev} onChange={(e) => setCegnev(e.target.value)} />
+                  <input className={styles.mezo} type="email" inputMode="email" autoComplete="email" placeholder="E-mail-cím *" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 {error && <p className={styles.error}>{error}</p>}
                 <button type="submit" className={`${styles.tovabb} ${vegeErvenyes ? styles.tovabbAktiv : ''}`} disabled={loading}>
@@ -716,6 +803,12 @@ export function EpitoiparPage() {
 
             <button type="button" className={styles.vissza} onClick={vissza}>← Vissza</button>
           </div>
+        )}
+
+        {indul && (
+          <button type="button" className={styles.fooldalGomb} onClick={fooldalra}>
+            <span aria-hidden="true">←</span> Vissza a főoldalra
+          </button>
         )}
 
         {/* OLDALRÓL KINYÍLÓ PANEL — mi ez, miért jó, miért velünk */}
@@ -788,6 +881,46 @@ export function EpitoiparPage() {
           <p className={styles.mikro}>{MIKROSZOVEG}</p>
         </aside>
 
+        {/* OLDALRÓL KINYÍLÓ REFERENCIA PANEL — építőipari eredmények a Meta hirdetéskezelőből */}
+        <div className={`${styles.panelHatter} ${refPanel ? styles.panelHatterNyitva : ''}`} onClick={() => setRefPanel(false)} aria-hidden="true" />
+        <aside
+          className={`${styles.panel} ${refPanel ? styles.panelNyitva : ''}`}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="ref-panel-cim"
+          aria-hidden={!refPanel}
+        >
+          <button type="button" className={styles.panelBezar} aria-label="Bezárás" onClick={() => setRefPanel(false)} tabIndex={refPanel ? 0 : -1}>×</button>
+          <p id="ref-panel-cim" className={styles.panelCim}>REFERENCIÁK</p>
+
+          {epitoipariReferenciak.map((r, i) => (
+            <details key={r.szegmens} className={styles.panelBlokk} open={i === 0}>
+              <summary>
+                {r.szegmens}
+                <span className={`${styles.refAllapot} ${r.aktiv ? styles.refAktiv : ''}`}>{r.aktiv ? 'Aktív' : 'Szünetel'}</span>
+              </summary>
+              <Image className={styles.refKep} src={r.kep} alt={`${r.szegmens}: kép a munkáról`} width={r.kepW} height={r.kepH} sizes="(max-width: 480px) 86vw, 400px" />
+              <p>{r.leiras}</p>
+              <div className={styles.refStatok}>
+                <p><b>{r.lead}</b><span>érdeklődő</span></p>
+                <p><b>{r.arPerLead}</b><span>/ érdeklődő</span></p>
+                <p><b>{r.idotartam}</b><span>alatt</span></p>
+                <p><b>{r.koltes}</b><span>eddigi költés</span></p>
+                <p><b>{r.napi}</b><span>napi költés</span></p>
+              </div>
+              <button type="button" className={`${styles.introCta} ${styles.panelReszCta}`} tabIndex={refPanel ? 0 : -1} onClick={() => { setRefPanel(false); indit(); }}>
+                Nekem is ilyet! <span aria-hidden="true">→</span>
+              </button>
+            </details>
+          ))}
+
+          <p className={styles.refForras}>Valós adatok a Meta hirdetéskezelőből, 2026. október.</p>
+          <button type="button" className={`${styles.introCta} ${styles.panelCta}`} tabIndex={refPanel ? 0 : -1} onClick={() => { setRefPanel(false); indit(); }}>
+            Oké, kezdjük el <span aria-hidden="true">→</span>
+          </button>
+          <p className={styles.mikro}>{MIKROSZOVEG}</p>
+        </aside>
+
         {/* KILÉPÉSI POPUP */}
         {kilepes && (
           <div className={styles.kilepesHatter} onClick={() => setKilepes(false)}>
@@ -834,6 +967,7 @@ export function EpitoiparPage() {
             Ez az oldal nem a Meta Platforms, Inc. része, és a Meta semmilyen formában nem támogatja.
           </p>
         </footer>
+
       </div>
     </div>
   );
