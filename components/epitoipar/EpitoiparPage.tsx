@@ -860,15 +860,14 @@ export function EpitoiparPage() {
             <summary>Miért velünk?</summary>
             <p className={styles.panelEmoji} aria-hidden="true">🤝</p>
             <p>
-              16 évesen kezdtük: a családi vállalkozásunkat kellett online eladnunk, különben bezár. <b>Nem volt B terv.</b>
-              Működött, a család azóta is ebből él.
-            </p>
-            <p>Ma már <b>50+ magyar vállalkozásnál</b> csináljuk ugyanezt.</p>
-            <p>
-              Ketten vagyunk, Dani és Miki. <b>Minket hívsz, mi vesszük fel</b> — nem egy call center, ahol mindig más beszél veled.
+              Ma <b>50+ cégnek hozunk ügyfelet</b> minden szegmensből: az egyéni vállalkozótól a cégcsoportokig.
             </p>
             <p>
-              És mivel abból élünk, hogy nálad működjön: <b>ha neked nem éri meg, nekünk sem.</b>
+              Azoknak is, akik csak egy kis városban akarnak terjeszkedni, és azoknak is, akik egész Közép-Európát
+              akarják lefedni.
+            </p>
+            <p>
+              Sok rizikó nincs. <b>Ha nincs érdeklődő arra, amit csinálsz, a díjunkat visszautaljuk.</b>
             </p>
             <button type="button" className={`${styles.introCta} ${styles.panelReszCta}`} tabIndex={panel ? 0 : -1} onClick={() => { setPanel(false); indit(); }}>
               Igen, érdekel! <span aria-hidden="true">→</span>
