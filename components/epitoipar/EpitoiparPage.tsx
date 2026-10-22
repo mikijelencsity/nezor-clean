@@ -827,16 +827,17 @@ export function EpitoiparPage() {
             <summary>Mi ez?</summary>
             <p className={styles.panelEmoji} aria-hidden="true">🤔</p>
             <p>
-              Tegyük fel, <b>budapesti villanyszerelő vagy</b>, aki 50 km-es körzetben vállal munkát.
+              Tegyük fel, <b>budapesti villanyszerelő vagy</b>, és 50 km-en belül vállalsz munkát.
             </p>
             <p>
-              Mi kialakítunk neked egy ilyen oldalt, mint amin most vagy, és <b>hirdetésekkel érdeklődőket hozunk
-              ebből a megadott körből</b>.
+              Mi elkészítjük <b>a saját oldaladat</b> (olyat, mint ez), és <b>Facebook- és Instagram-hirdetésekkel</b>
+              odahozzuk azokat, akiknek 50 km-en belül villanyszerelő kell.
             </p>
             <p>
-              Amikor beérkezik egy érdeklődő, automatikusan kapsz róla egy e-mailt, vagy egyből <b>téged hívnak fel</b>.
+              Aki ajánlatot kér, annak az adatai <b>bekerülnek a saját Excel-táblázatodba</b>, vagy <b>elküldjük neked
+              e-mailben</b>, vagy <b>egyből téged hív fel</b>.
             </p>
-            <p><b>Pofon egyszerű.</b></p>
+            <p><b>Neked csak fel kell venned a telefont.</b> Pofon egyszerű.</p>
             <button type="button" className={`${styles.introCta} ${styles.panelReszCta}`} tabIndex={panel ? 0 : -1} onClick={() => { setPanel(false); indit(); }}>
               Igen, érdekel! <span aria-hidden="true">→</span>
             </button>
