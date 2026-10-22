@@ -133,7 +133,7 @@ const szoveg = {
     olyan dologra, ami roha*tul nem érdekel</strong> :)</>,
   ajanlat: <><span>Miért jó ez?</span><strong>Egy gomb,</strong><strong>és megtudod.</strong></>,
   fbCim: 'Te is a Facebookot nyomod, és egy hirdetés szövegét olvasod…',
-  fbPiros: 'Működik a téma — nem atomfizika.',
+  fbPiros: 'Működik a téma. Nem atomfizika.',
   csomag: [
     'Egész hónapban közös munka',
     'Éjjel-nappal működő ügyfélszerzés',
@@ -426,7 +426,7 @@ export function EpitoiparPage() {
                 </span>
                 <span className={styles.introPiros}>Felturbózzuk</span>
               </span>
-              <span className={`${styles.introSor} ${styles.introSorVekony}`}>az értékesítésedet —</span>
+              <span className={`${styles.introSor} ${styles.introSorVekony}`}>az értékesítésedet,</span>
               <span className={`${styles.introSor} ${styles.introSorVekony}`}>úgy, hogy közben</span>
               <span className={styles.introSor}><span className={styles.alahuzas}><span className={styles.introPiros}>zéró</span> feladatod</span> van.</span>
             </h1>
