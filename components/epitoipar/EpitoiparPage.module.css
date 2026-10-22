@@ -172,9 +172,10 @@
   background: #0064e0; color: #fff; font-size: 12.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
 }
 .csomagAr {
-  font-family: var(--font-robusztus), sans-serif; font-size: clamp(3rem, 15vw, 4.4rem); line-height: 1.05; color: #000;
+  font-family: var(--font-robusztus), sans-serif; font-size: clamp(2.3rem, 11vw, 4.4rem); line-height: 1.05; color: #000;
+  white-space: nowrap; /* a „/hó” mindig az ár mellett marad */
 }
-.arHo { font-size: .45em; color: #5a6079; }
+.arHo { margin-left: .12em; font-size: .45em; color: #5a6079; }
 .arSzam { position: relative; display: inline-flex; align-items: baseline; white-space: nowrap; }
 /* fix szélességű számjegyek (1ch = a „0” szélessége ebben a betűtípusban) */
 .arJegy {
@@ -472,7 +473,7 @@
 /* referencia panel: a blokkcímek feketék */
 .refPanel .panelBlokk summary { color: #000; }
 .refForras { margin-top: 14px; font-size: 14px; color: #000; }
-.panelKep { display: block; width: 100%; height: auto; margin: 4px 0 14px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,.12); }
+.panelBlokk .panelEmoji { margin: 4px 0 14px; font-size: 96px; line-height: 1.1; text-align: center; }
 .panelReszCta { width: 100%; max-width: none; margin-top: 16px; padding: 15px 14px; font-size: 17px; }
 .panelBlokk ul { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; }
 .panelBlokk li { position: relative; padding-left: 26px; }

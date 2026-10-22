@@ -573,8 +573,8 @@ export function EpitoiparPage() {
                       </Fragment>
                     ))}
                     <span className={styles.arFt}>Ft</span>
-                  </span>{' '}
-                  <span className={styles.arHo} aria-hidden="true">/ hó</span>
+                  </span>
+                  <span className={styles.arHo} aria-hidden="true">/hó</span>
                 </p>
                 <p className={styles.csomagAl}>Ennyi a mi díjunk — és ezért mindent mi csinálunk.</p>
               </div>
@@ -808,8 +808,8 @@ export function EpitoiparPage() {
           <p id="panel-cim" className={styles.panelCim}>NEZOR</p>
 
           <details className={styles.panelBlokk}>
-            <summary>🤔 Mi ez?</summary>
-            <Image unoptimized loading="eager" className={styles.panelKep} src="/epitoipari-hero-v2-800.webp" alt="Építőipari weboldal laptopon és telefonon, mellette egy új ajánlatkérés értesítés" width={800} height={600} sizes="(max-width: 480px) 86vw, 400px" />
+            <summary>Mi ez?</summary>
+            <p className={styles.panelEmoji} aria-hidden="true">🤔</p>
             <p>
               Tegyük fel, <b>budapesti villanyszerelő vagy</b>, aki 50 km-es körzetben vállal munkát.
             </p>
@@ -827,8 +827,8 @@ export function EpitoiparPage() {
           </details>
 
           <details className={styles.panelBlokk}>
-            <summary>💪 Miért jó neked?</summary>
-            <Image unoptimized loading="eager" className={styles.panelKep} src="/HIRDETES4-800.webp" alt="Példa hirdetés: Fűtesz vagy csak a lerakódást melegíted? — ZT Épületgépészet" width={800} height={800} sizes="(max-width: 480px) 86vw, 400px" />
+            <summary>Miért jó neked?</summary>
+            <p className={styles.panelEmoji} aria-hidden="true">💪</p>
             <p>
               Az emberek 90%-a a telefonját nyomja, és alapvetően <b>fel se ismeri a problémáját</b>, amíg az arcába nincs nyomva.
             </p>
@@ -841,8 +841,8 @@ export function EpitoiparPage() {
           </details>
 
           <details className={styles.panelBlokk}>
-            <summary>🤝 Miért velünk?</summary>
-            <Image unoptimized loading="eager" className={styles.panelKep} src="/alapitok.webp" alt="Müller Dániel és Jelencsity Miklós, a NEZOR alapítói" width={440} height={440} sizes="(max-width: 480px) 86vw, 400px" />
+            <summary>Miért velünk?</summary>
+            <p className={styles.panelEmoji} aria-hidden="true">🤝</p>
             <p>
               16 évesen kezdtük: a családi vállalkozásunkat kellett online eladnunk, különben bezár. <b>Nem volt B terv.</b>
               Működött, a család azóta is ebből él.
