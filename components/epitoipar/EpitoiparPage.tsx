@@ -837,7 +837,7 @@ export function EpitoiparPage() {
               Aki ajánlatot kér, annak az adatai <b>bekerülnek a saját Excel-táblázatodba</b>, vagy <b>elküldjük neked
               e-mailben</b>, vagy <b>egyből téged hív fel</b>.
             </p>
-            <p><b>Neked csak fel kell venned a telefont.</b> Pofon egyszerű.</p>
+            <p><b>Pofon egyszerű.</b></p>
             <button type="button" className={`${styles.introCta} ${styles.panelReszCta}`} tabIndex={panel ? 0 : -1} onClick={() => { setPanel(false); indit(); }}>
               Igen, érdekel! <span aria-hidden="true">→</span>
             </button>
