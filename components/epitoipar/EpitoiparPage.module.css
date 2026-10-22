@@ -250,7 +250,7 @@
 
 /* ── REFERENCIA SOR ── */
 .referenciak { margin: 36px auto 0; max-width: 900px; }
-.referenciakCim { margin-bottom: 12px; font-size: 12.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #8a90a6; }
+.referenciakCim { margin-bottom: 12px; font-size: 14px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #000; }
 .referenciakRacs { display: flex; flex-direction: column; gap: 6px; }
 .referenciakSav {
   overflow: hidden;
@@ -261,7 +261,7 @@
 .referenciakSorVissza { animation-direction: reverse; animation-duration: 25s; }
 .referencia {
   flex: none; padding: 0 14px; white-space: nowrap; font-family: var(--font-robusztus), sans-serif;
-  font-size: 14px; letter-spacing: .04em; text-transform: uppercase; color: #9a9fae;
+  font-size: 16px; letter-spacing: .04em; text-transform: uppercase; color: #000;
 }
 @keyframes gordul { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) {
@@ -462,14 +462,14 @@
 .refAktiv::before { content: '● '; }
 .panelBlokk .refStatok p {
   margin: 0; padding: 10px 6px; border-radius: 10px; background: #f2f6fd; text-align: center;
-  font-size: 13px; line-height: 1.3; color: #5a6079;
+  font-size: 13.5px; font-weight: 700; line-height: 1.3; color: #000;
 }
 .refStatok b { display: block; font-size: 20px; color: #0064e0; }
 .refKep {
   display: block; width: auto; max-width: 100%; height: auto; max-height: 460px;
   margin: 0 auto 12px; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.1);
 }
-.refForras { margin-top: 14px; font-size: 13px; color: #5a6079; }
+.refForras { margin-top: 14px; font-size: 14px; color: #000; }
 .panelKep { display: block; width: 100%; height: auto; margin: 4px 0 14px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,.12); }
 .panelReszCta { width: 100%; max-width: none; margin-top: 16px; padding: 15px 14px; font-size: 17px; }
 .panelBlokk ul { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; }
