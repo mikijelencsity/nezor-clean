@@ -102,11 +102,15 @@
   max-width: 520px; margin: 28px auto 0; padding: 22px 20px; border-radius: 16px;
   background: #fff; box-shadow: 0 8px 24px rgba(0,0,0,.08); text-align: left;
 }
-.velemenyCsillag { font-size: 20px; letter-spacing: 2px; color: #f5b301; }
-.velemenySzoveg { margin: 8px 0 12px; font-size: 17px; font-weight: 600; line-height: 1.5; color: #222; }
-.velemenySzoveg mark { background: rgba(0,100,224,.12); color: #000; padding: 0 2px; }
+.velemenyKep { display: block; width: 100%; height: auto; margin-bottom: 12px; border-radius: 12px; }
 .velemenyNev { font-size: 14px; color: #5a6079; }
 .velemenyNev b { color: #000; }
+.refBlokk { max-width: 520px; margin: 22px auto 0; text-align: center; }
+.refSzoveg { margin-bottom: 12px; font-size: 17px; font-weight: 700; color: #222; }
+.refGomb {
+  text-decoration: none; font-family: var(--font-robusztus), sans-serif; font-weight: 400;
+  font-size: clamp(21px, 6.4vw, 26px); text-transform: uppercase; letter-spacing: .06em;
+}
 
 /* ── ALAPÍTÓ A GOMB MELLETT ── */
 .ctaSor {

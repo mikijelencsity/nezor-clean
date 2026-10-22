@@ -1,5 +1,6 @@
 'use client';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { trackEvent, ujEventId } from '@/components/analytics/FacebookPixel';
 import styles from './EpitoiparPage.module.css';
@@ -131,7 +132,7 @@ const UTVONAL_CIMKE: Record<string, string> = {
 const szoveg = {
   lead: <>Egy gyönyörű családi ház árát már elhirdettük, hogy <strong>neked ne kelljen 7200+ órát rászánnod
     olyan dologra, ami roha*tul nem érdekel</strong> :)</>,
-  ajanlat: <><span>Miért jó ez?</span><strong>Egy gomb,</strong><strong>és megtudod.</strong></>,
+  ajanlat: <><span>Így termel pénzt</span><strong>ez cégednek</strong></>,
   fbCim: 'Te is a Facebookot nyomod, és egy hirdetés szövegét olvasod…',
   fbPiros: 'Működik a téma. Nem atomfizika.',
   csomag: [
@@ -489,7 +490,7 @@ export function EpitoiparPage() {
 
             {/* REFERENCIA SOR */}
             <div className={styles.referenciak}>
-              <p className={styles.referenciakCim}>Ők már velünk dolgoznak</p>
+              <p className={styles.referenciakCim}>Eddigi projektjeink:</p>
               <div className={styles.referenciakRacs}>
                 {[referenciak.slice(0, 10), referenciak.slice(10, 19), referenciak.slice(19)].map((sor, i) => (
                   <div key={i} className={styles.referenciakSav}>
@@ -504,15 +505,17 @@ export function EpitoiparPage() {
               </div>
             </div>
 
-            {/* ÜGYFÉLVÉLEMÉNY — a főoldali „Valós visszajelzések” közül */}
+            {/* ÜGYFÉLVÉLEMÉNY — valós üzenet egy ügyfelünktől, chatként */}
             <figure className={styles.velemeny}>
-              <p className={styles.velemenyCsillag} aria-label="5 csillag">★★★★★</p>
-              <blockquote className={styles.velemenySzoveg}>
-                „A második hónap végére <mark>kétszer annyi minőségi érdeklődőnk volt</mark>, és a pipeline is rendezett lett.
-                Nem vesztek el a jó leadek — és ez volt a legnagyobb problémánk korábban.”
-              </blockquote>
-              <figcaption className={styles.velemenyNev}><b>Nagy Balázs</b> · Google-értékelés</figcaption>
+              <Image className={styles.velemenyKep} src="/ugyfel-uzenet.webp" alt="Ügyfélüzenet: Aztaku**a dekomoly 💪💪💪 Nagyon jók vagytok 💪💪🤩🤩🤩" width={1398} height={672} sizes="(max-width: 560px) 90vw, 480px" />
+              <figcaption className={styles.velemenyNev}>Egy ügyfelünk öröme nemes egyszerűséggel megfogalmazva.</figcaption>
             </figure>
+            <div className={styles.refBlokk}>
+              <p className={styles.refSzoveg}>Vannak szofisztikált referenciáink is.</p>
+              <Link href="/referenciak" className={`${styles.introCta} ${styles.refGomb}`}>
+                Referenciák <span aria-hidden="true">→</span>
+              </Link>
+            </div>
 
             {/* AJÁNLAT */}
             <div className={styles.csomag}>
