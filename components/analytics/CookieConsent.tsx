@@ -7,6 +7,7 @@ export function CookieConsent() {
   const [show, setShow] = useState(false);
   const pathname = usePathname();
   const isLanding = pathname === '/landing';
+  const isEpitoipar = pathname === '/epitoipar' || pathname === '/landing100';
 
   useEffect(() => {
     let stored: string | null = null;
@@ -40,7 +41,7 @@ export function CookieConsent() {
   };
 
   return (
-    <div className={`${styles.bar} ${show ? styles.barShow : ''} ${isLanding ? styles.landing : ''}`}>
+    <div className={`${styles.bar} ${show ? styles.barShow : ''} ${isLanding ? styles.landing : ''} ${isEpitoipar ? styles.epitoipar : ''}`}>
       <p className={styles.text}>
         Ez a weboldal sütiket használ a működéshez és a felhasználói élmény javításához. Részletek az{' '}
         <a href="/adatkezeles">Adatkezelési tájékoztatóban</a>.

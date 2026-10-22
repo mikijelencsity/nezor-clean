@@ -4,7 +4,7 @@ import { sendCapiEvent, capiContext } from '@/lib/meta-capi';
 
 export async function POST(request: Request) {
   try {
-    const { valaszok, nev, telefon, email, hozzajarulas, eventId, website } = await request.json() as {
+    const { valaszok, nev, telefon, email, hozzajarulas, eventId, website, reszleges } = await request.json() as {
       valaszok: Record<string, string>;
       nev: string;
       telefon: string;
@@ -12,6 +12,8 @@ export async function POST(request: Request) {
       hozzajarulas?: boolean;
       eventId?: string;
       website?: string;
+      /** félbehagyott kitöltés (sendBeacon az oldal elhagyásakor) */
+      reszleges?: boolean;
     };
 
     // honeypot – bot csendben "sikeres"
@@ -31,9 +33,11 @@ export async function POST(request: Request) {
     const { error: sendError } = await resend.emails.send({
       from: FROM_EMAIL,
       to: ertesitok,
-      subject: `[NEZOR] Építőipar lead — ${esc(nev)}`,
+      subject: reszleges
+        ? `[NEZOR] Építőipar — FÉLBEHAGYOTT kitöltés — ${esc(nev)}`
+        : `[NEZOR] Építőipar lead — ${esc(nev)}`,
       html: `
-        <h2>Új lead az építőipar landingről</h2>
+        <h2>${reszleges ? 'Félbehagyott kitöltés az építőipar landingről (a telefonszám megvan, hívd vissza!)' : 'Új lead az építőipar landingről'}</h2>
         <p><strong>Név:</strong> ${esc(nev)}</p>
         <p><strong>Telefon:</strong> ${esc(telefon)}</p>
         ${email ? `<p><strong>Email:</strong> ${esc(email)}</p>` : ''}
@@ -48,8 +52,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Email küldés sikertelen' }, { status: 500 });
     }
 
-    // eventId-t a kliens csak süti-hozzájárulás esetén küld
-    if (eventId) {
+    // eventId-t a kliens csak süti-hozzájárulás esetén küld; félbehagyott kitöltés nem Lead esemény
+    if (eventId && !reszleges) {
       const ctx = capiContext(request);
       await sendCapiEvent({
         eventName: 'Lead',

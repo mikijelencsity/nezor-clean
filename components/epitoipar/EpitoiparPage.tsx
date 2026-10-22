@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { trackEvent, ujEventId } from '@/components/analytics/FacebookPixel';
 import styles from './EpitoiparPage.module.css';
 
@@ -25,31 +25,70 @@ function mobilSzamjegyek(raw: string): string {
 }
 
 type Ertek = string | string[];
-type Valaszok = Record<string, Ertek>;
-type Szoveg = string | ((nev: string) => string);
 
-type Lepes = { kulcs: string; cimke: string; cim: Szoveg; al?: Szoveg; felett?: Szoveg } & (
+/** „**szöveg**” → pirossal kiemelt rész a kérdésben */
+function kiemel(t: string | undefined, osztaly: string) {
+  if (!t) return t;
+  return t.split('**').map((r, i) => (i % 2 ? <span key={i} className={osztaly}>{r}</span> : r));
+}
+type Valaszok = Record<string, Ertek>;
+type Szoveg = string | ((nev: string, v: Valaszok) => string);
+
+type Lepes = {
+  kulcs: string; cimke: string; cim: Szoveg; al?: Szoveg; felett?: Szoveg;
+  /** csak akkor jelenik meg, ha igaz (pl. csak a váltóknak) */
+  mikor?: (v: Valaszok) => boolean;
+} & (
   | { tipus: 'szoveg'; placeholder: string; inputMode?: 'text' | 'email' | 'numeric' | 'url'; ellenoriz?: (v: string) => string | null }
   | { tipus: 'hosszu'; placeholder?: string }
-  | { tipus: 'egy'; opciok: string[] }
+  | { tipus: 'egy'; opciok: string[]; szuro?: (o: string, v: Valaszok) => boolean }
   | { tipus: 'tobb'; opciok: { cimke: string; ikon: string; szin: string }[] }
+  | { tipus: 'telefon' }
 );
 
 const lepesek: Lepes[] = [
   {
     tipus: 'szoveg', kulcs: 'keresztnev', cimke: 'Keresztnév',
-    cim: 'Rendben, nem húzzuk az időd. De mielőtt belevágunk — nem akarunk udvariatlanok lenni… Hogy hívnak?',
+    felett: 'Rendben, nem húzzuk az időd. De mielőtt belevágunk — nem akarunk udvariatlanok lenni…',
+    cim: '**Hogy hívnak?**',
     placeholder: 'Keresztneved',
+  },
+  {
+    // a telefonszámot korán kérjük: ha valaki félúton kilép, így is vissza tudjuk hívni
+    tipus: 'telefon', kulcs: 'telefon', cimke: 'Telefon',
+    cim: (n) => `Szia ${n}! **Hova hívhatunk**, hogy elindítsuk a közös munkát?`,
+    al: 'Csak ezért kérjük: telefonon mondjuk el, mit javaslunk. Spam nincs.',
   },
   {
     tipus: 'egy', kulcs: 'fb', cimke: 'Facebook-hirdetés',
     felett: (n) => `Köszi, ${n}! Hogy kiderüljön, tényleg tudunk-e segíteni a vállalkozásodnak… van pár kérdésünk.`,
-    cim: 'Először: próbáltál már fizetett Facebook-hirdetést?',
+    cim: 'Először: próbáltál már **fizetett Facebook-hirdetést**?',
     opciok: ['Igen, most is hirdetek', 'Próbáltam, de abbahagytam', 'Még nem próbáltam'],
+    mikor: (v) => v.utvonal !== 'kezdo',
+    szuro: (o, v) => !(v.utvonal === 'valto' && o === 'Még nem próbáltam'),
+  },
+  {
+    // csak annak, aki már hirdetett: ez a váltók legfontosabb kérdése
+    tipus: 'tobb', kulcs: 'gond', cimke: 'Mi volt a gond a hirdetéssel',
+    mikor: (v) => v.utvonal === 'valto' || (typeof v.fb === 'string' && v.fb !== 'Még nem próbáltam'),
+    felett: (n) => `Értem, ${n}. Akkor nézzük, min kell változtatni.`,
+    cim: 'Mi volt vele **a gond** eddig?',
+    al: '(Többet is választhatsz)',
+    opciok: [
+      { cimke: 'Drága volt, nem érte meg', ikon: '💸', szin: '#0064e0' },
+      { cimke: 'Nem jött belőle hívás', ikon: '📵', szin: '#555' },
+      { cimke: 'Nincs rá időm', ikon: '⏰', szin: '#f39c12' },
+      { cimke: 'Az ügynökség nem csinált semmit', ikon: '😴', szin: '#8e44ad' },
+      { cimke: 'Nem értek hozzá', ikon: '🤷', szin: '#1565c0' },
+      { cimke: 'Egyéb', ikon: '🔔', szin: '#f1c40f' },
+    ],
   },
   {
     tipus: 'tobb', kulcs: 'csatornak', cimke: 'Jelenlegi ügyfélszerzés',
-    cim: 'Oké, szuper! Most honnan jönnek az ügyfeleid?',
+    felett: (n, v) => (v.utvonal === 'kezdo' || v.fb === 'Még nem próbáltam'
+      ? `Semmi gond, ${n} — a legtöbb ügyfelünk is így kezdte. Mi mindent beállítunk.`
+      : ''),
+    cim: 'Oké, szuper! Most **honnan jönnek az ügyfeleid**?',
     al: '(Többet is választhatsz)',
     opciok: [
       { cimke: 'Facebook', ikon: 'f', szin: '#1877f2' },
@@ -64,24 +103,56 @@ const lepesek: Lepes[] = [
   },
   {
     tipus: 'hosszu', kulcs: 'leiras', cimke: 'Tevékenység',
-    cim: 'Röviden: mivel foglalkozol, kiknek, és milyen árszinten?',
+    cim: 'Röviden: **mivel foglalkozol**, kiknek, és milyen árszinten?',
     placeholder: 'Pl. tetőfedés és tetőfelújítás családi házakra, átlagosan 2–5 millió Ft-os munkák',
   },
   {
     tipus: 'egy', kulcs: 'keret', cimke: 'Havi hirdetési keret',
-    cim: 'Mekkora havi összeget szánnál hirdetésre?',
+    cim: 'Mekkora **havi összeget** szánnál hirdetésre?',
     al: 'Azért kérdezzük, hogy lássuk, tudunk-e segíteni — és hogy a kereteden belül a legjobb megoldást javasoljuk.',
     opciok: ['50 000 Ft alatt', '50–100 ezer Ft', '100–200 ezer Ft', '200–500 ezer Ft', '500 ezer Ft felett', 'Még nem tudom'],
   },
   {
     tipus: 'szoveg', kulcs: 'ugyfelszam', cimke: 'Havi új ügyfél', inputMode: 'numeric',
-    cim: 'Hány új ügyfelet szeretnél havonta?',
+    cim: 'Hány **új ügyfelet** szeretnél havonta?',
     al: 'Ehhez mérten javasoljuk a hirdetési keretet.',
     placeholder: 'Pl. 5',
   },
 ];
 
-const VEGE = lepesek.length; // utolsó lépés: elérhetőség
+const MIKROSZOVEG = 'Pár gyors kérdés · kb. 1 perc · utána hívunk és indulunk';
+
+const UTVONAL_CIMKE: Record<string, string> = {
+  kezdo: 'Még sosem hirdetett',
+  valto: 'Már hirdet — lecserélné / kiszervezné',
+};
+
+/** A nyitóképernyő szövegei */
+const szoveg = {
+  lead: <>Egy gyönyörű családi ház árát már elhirdettük, hogy <strong>neked ne kelljen 7200+ órát rászánnod
+    olyan dologra, ami roha*tul nem érdekel</strong> :)</>,
+  ajanlat: <><span>Miért jó ez?</span><strong>Egy gomb,</strong><strong>és megtudod.</strong></>,
+  fbCim: 'Te is a Facebookot nyomod, és egy hirdetés szövegét olvasod…',
+  fbPiros: 'Működik a téma — nem atomfizika.',
+  csomag: [
+    'Egész hónapban közös munka',
+    'Éjjel-nappal működő ügyfélszerzés',
+    'Kapsz egy ilyen oldalt, mint amin most vagy',
+    'Megkapod a leendő ügyfeleid elérhetőségeit',
+    'Heti beszámolók és teljes elérhetőség',
+  ],
+  };
+
+// Referenciák (a /referenciak oldal és a hirdetési eredmények ügyfelei)
+const referenciak = [
+  // építőipar elöl
+  'Komár és Fia Kft.', 'Szeko Ablak Kft.', 'ZT Épületgépészet', 'Estur Épker Kft.', 'Mobilházgyártó',
+  'QuickHouse', 'Empire Build', 'Tóth Tamás E.V.', 'XL - Lemeztechnika Kft.', 'Hellinger Kft.',
+  'Dover Check', 'Forint - Soft Kft.', 'Hazai Kávé Kft.', 'Cruiser Shop', 'Neked Sütöm', 'CupSeal',
+  'KingJet Europe', 'UV4YOU', 'Plasztikkártya',
+  'Korona Gombaipari Egyesülés', 'Adótanácsadók Egyesülete', 'G-R Ékszerszalon', 'InShape - Diet', 'Loft Of Beauty',
+  'Passa Bőrdíszmű', 'LégvárBirodalom Baja', 'Kisállatkereskedés Baja', 'Samu Kutyakozmetika',
+];
 
 export function EpitoiparPage() {
   const [indul, setIndul] = useState(false); // nyitóképernyő → űrlap
@@ -96,18 +167,29 @@ export function EpitoiparPage() {
   const [error, setError] = useState('');
   const [sent, setSent] = useState(false);
   const [kilepes, setKilepes] = useState(false); // kilépési popup
+  const [panel, setPanel] = useState(false); // oldalról kinyíló „mi ez?” panel
+  // ár-animáció: 150 000 Ft → 79 000 Ft, amikor a kártya a képernyőre ér (egyszer fut le)
+  const [ar, setAr] = useState(150_000);
+  const [arKesz, setArKesz] = useState(false);
+  const arRef = useRef<HTMLParagraphElement>(null);
+  const arLefutott = useRef(false);
   const elkuldve = useRef(false);
+  const reszlegesKuldve = useRef(false);
+  const reszlegesAdat = useRef<string | null>(null);
   const fokusz = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
 
   const nev = String(v.keresztnev ?? '').trim();
-  const sz = (t: Szoveg | undefined) => (typeof t === 'function' ? t(nev) : t);
-  const aktualis = lepesek[lepes];
+  const sz = (t: Szoveg | undefined) => (typeof t === 'function' ? t(nev, v) : t);
+  const aktivLepesek = lepesek.filter((l) => !l.mikor || l.mikor(v));
+  const VEGE = aktivLepesek.length; // utolsó lépés: elérhetőség
+  const aktualis = aktivLepesek[lepes];
 
   const indit = () => {
     setKilepes(false);
     setIndul(true);
     window.scrollTo({ top: 0 });
   };
+
 
   const tovabb = () => {
     setError('');
@@ -164,6 +246,43 @@ export function EpitoiparPage() {
   }, []);
 
   useEffect(() => {
+    const el = arRef.current;
+    if (!el || arLefutott.current) return;
+    const csokkentett = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let raf = 0;
+    const obs = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      obs.disconnect();
+      arLefutott.current = true;
+      if (csokkentett) { setAr(79_000); setArKesz(true); return; }
+      const start = performance.now();
+      const tart = 1400;
+      const lep = (t: number) => {
+        const x = Math.min((t - start) / tart, 1);
+        const lassul = 1 - Math.pow(1 - x, 3);
+        setAr(Math.round((150_000 - 71_000 * lassul) / 1000) * 1000);
+        if (x < 1) raf = requestAnimationFrame(lep);
+        else setArKesz(true);
+      };
+      raf = requestAnimationFrame(lep);
+    }, { threshold: 0.6 });
+    obs.observe(el);
+    return () => { obs.disconnect(); cancelAnimationFrame(raf); };
+  }, [indul]);
+
+  useEffect(() => {
+    if (!panel) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setPanel(false); };
+    document.addEventListener('keydown', onKey);
+    const regi = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.documentElement.style.overflow = regi;
+    };
+  }, [panel]);
+
+  useEffect(() => {
     if (!kilepes) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setKilepes(false); };
     document.addEventListener('keydown', onKey);
@@ -180,6 +299,8 @@ export function EpitoiparPage() {
         return typeof e === 'string' && e.trim().length > 0;
       case 'tobb':
         return Array.isArray(e) && e.length > 0;
+      case 'telefon':
+        return MOBIL_RE.test(mobilSzamjegyek(telefon)) && hozzajarulas;
       default:
         return typeof e === 'string';
     }
@@ -187,7 +308,11 @@ export function EpitoiparPage() {
 
   const szovegTovabb = (ev: React.FormEvent) => {
     ev.preventDefault();
-    if (!aktualis || !ervenyes) return;
+    if (!aktualis || (!ervenyes && aktualis.tipus !== 'telefon')) return;
+    if (aktualis.tipus === 'telefon') {
+      if (!MOBIL_RE.test(mobil)) { setError('Érvénytelen mobilszám. Pl. 30 123 4567'); return; }
+      if (!hozzajarulas) { setError('A továbblépéshez fogadd el az adatkezelési tájékoztatót!'); return; }
+    }
     if (aktualis.tipus === 'szoveg' && aktualis.ellenoriz) {
       const hiba = aktualis.ellenoriz(String(v[aktualis.kulcs]).trim());
       if (hiba) { setError(hiba); return; }
@@ -197,6 +322,51 @@ export function EpitoiparPage() {
 
   const mobil = mobilSzamjegyek(telefon);
   const vegeErvenyes = nev !== '' && vezeteknev.trim() !== '' && MOBIL_RE.test(mobil) && cegnev.trim() !== '' && hozzajarulas;
+
+  const valaszokOsszeallit = () => {
+    const valaszok: Record<string, string> = {};
+    if (cegnev.trim()) valaszok['Cégnév:'] = cegnev.trim();
+    const utvonal = typeof v.utvonal === 'string' ? v.utvonal : '';
+    if (UTVONAL_CIMKE[utvonal]) valaszok['Kiinduló helyzet:'] = UTVONAL_CIMKE[utvonal];
+    for (const l of aktivLepesek) {
+      if (l.kulcs === 'keresztnev' || l.tipus === 'telefon') continue;
+      const e = v[l.kulcs] ?? '';
+      valaszok[`${l.cimke}:`] = Array.isArray(e) ? e.join(', ') : e;
+    }
+    return valaszok;
+  };
+
+  // Félbehagyott jelentkezés: ha a telefonszám már megvan, de a látogató elhagyja az oldalt,
+  // az eddigi válaszokkal emailt kapunk róla (egyszer, beküldés esetén nem).
+  useEffect(() => {
+    reszlegesAdat.current = indul && !sent && MOBIL_RE.test(mobil) && hozzajarulas && lepes > 1
+      ? JSON.stringify({
+          reszleges: true,
+          valaszok: valaszokOsszeallit(),
+          nev: [vezeteknev.trim(), nev].filter(Boolean).join(' '),
+          telefon: `+36 ${mobil}`,
+          hozzajarulas,
+          website,
+        })
+      : null;
+  });
+
+  useEffect(() => {
+    const kuld = () => {
+      if (reszlegesKuldve.current || elkuldve.current || !reszlegesAdat.current) return;
+      reszlegesKuldve.current = true;
+      try {
+        navigator.sendBeacon('/api/epitoipar-lead', new Blob([reszlegesAdat.current], { type: 'application/json' }));
+      } catch { /* nem elérhető */ }
+    };
+    const onRejtve = () => { if (document.visibilityState === 'hidden') kuld(); };
+    document.addEventListener('visibilitychange', onRejtve);
+    window.addEventListener('pagehide', kuld);
+    return () => {
+      document.removeEventListener('visibilitychange', onRejtve);
+      window.removeEventListener('pagehide', kuld);
+    };
+  }, []);
 
   const handleSubmit = async (ev: React.FormEvent) => {
     ev.preventDefault();
@@ -210,12 +380,7 @@ export function EpitoiparPage() {
     try {
       // Meta Lead esemény (Pixel + CAPI) csak süti-hozzájárulás esetén
       const eventId = sutiElfogadva() ? ujEventId() : undefined;
-      const valaszok: Record<string, string> = { 'Cégnév:': cegnev.trim() };
-      for (const l of lepesek) {
-        if (l.kulcs === 'keresztnev') continue;
-        const e = v[l.kulcs] ?? '';
-        valaszok[`${l.cimke}:`] = Array.isArray(e) ? e.join(', ') : e;
-      }
+      const valaszok = valaszokOsszeallit();
       const res = await fetch('/api/epitoipar-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -229,6 +394,7 @@ export function EpitoiparPage() {
       const data = await res.json();
       if (data.ok) {
         if (eventId) trackEvent('Lead', {}, eventId);
+        elkuldve.current = true;
         setSent(true);
         window.scrollTo({ top: 0 });
       } else setError('Hiba történt. Próbáld újra, vagy hívj: +36 30 203 6721');
@@ -264,47 +430,124 @@ export function EpitoiparPage() {
               <span className={`${styles.introSor} ${styles.introSorVekony}`}>úgy, hogy közben</span>
               <span className={styles.introSor}><span className={styles.alahuzas}><span className={styles.introPiros}>zéró</span> feladatod</span> van.</span>
             </h1>
-            <p className={styles.introLead}>
-              Egy gyönyörű családi ház árát már elhirdettük, hogy <strong>neked ne kelljen 3000+ órát rászánnod
-              olyan dologra, ami roha*tul nem érdekel</strong> :)
-            </p>
-            {/* MÉM — „he tryna ignore it” (2026), magyar felirattal */}
-            <figure className={styles.mem}>
-              <figcaption className={styles.memSzitu}>
-                Az építőipari vállalkozó, amikor 3 hónapja nem csörög a telefon, de „majd jön ajánlás”:
-              </figcaption>
-              <div className={styles.memKep}>
-                <Image src="/mem-ignore.png" alt="Mém: egy kutya nyugodtan ül csukott szemmel, miközben mellette lángol a tűz" fill sizes="(max-width: 700px) 92vw, 440px" />
-                <p className={styles.memFelirat}>próbálja ignorálni 😭😭😭</p>
-              </div>
-            </figure>
-            <p className={styles.introAjanlat}>
-              🎁 <strong>Ingyenes konzultáció</strong>, ahol bemutatjuk, hogyan kell <strong>2026-ban ügyfelet szerezni</strong> és
-              felkészülni <strong>2027-re</strong>.
-            </p>
-            <button type="button" className={styles.introCta} onClick={indit}>
-              Rányomok erre a nagy gombra! <span aria-hidden="true">→</span>
+            <div className={styles.tartalom}>
+            <p className={styles.introLead}>{szoveg.lead}</p>
+            <button type="button" className={`${styles.introCta} ${styles.nagyCta}`} onClick={indit}>
+              Igen, érdekel! <span aria-hidden="true">→</span>
             </button>
+            <p className={`${styles.mikro} ${styles.mikroFelso}`}>{MIKROSZOVEG}</p>
+            {/* META-LOGÓ (eredeti, Wikimedia Commons) */}
+            <div className={styles.metaLogo}>
+              <Image src="/meta-logo.svg" alt="Meta" width={288} height={191} />
+            </div>
+            <div className={styles.metaAppok}>
+              <svg viewBox="0 0 24 24" role="img" aria-label="Facebook">
+                <path fill="#1877f2" d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07" />
+              </svg>
+              <svg viewBox="0 0 24 24" role="img" aria-label="Instagram">
+                <defs>
+                  <radialGradient id="igHatter" cx="30%" cy="107%" r="150%">
+                    <stop offset="0" stopColor="#fdf497" />
+                    <stop offset=".05" stopColor="#fdf497" />
+                    <stop offset=".45" stopColor="#fd5949" />
+                    <stop offset=".6" stopColor="#d6249f" />
+                    <stop offset=".9" stopColor="#285aeb" />
+                  </radialGradient>
+                </defs>
+                <rect width="24" height="24" rx="6" fill="url(#igHatter)" />
+                <rect x="5" y="5" width="14" height="14" rx="4.2" fill="none" stroke="#fff" strokeWidth="1.8" />
+                <circle cx="12" cy="12" r="3.3" fill="none" stroke="#fff" strokeWidth="1.8" />
+                <circle cx="16.2" cy="7.8" r="1.05" fill="#fff" />
+              </svg>
+            </div>
+            {/* ALAPÍTÓ a gomb mellett — a gombra mutat */}
+            <p className={styles.ctaCim}>{szoveg.ajanlat}</p>
+            <div className={styles.ctaSor}>
+              <div className={styles.ctaAlapito}>
+                <Image src="/alapito-bal.webp" alt="Müller Dániel, a NEZOR alapítója öltönyben, a gombra mutat" width={702} height={1000} sizes="(max-width: 700px) 36vw, 260px" />
+                <p className={styles.ctaNevek}>Müller Dániel</p>
+              </div>
+              <div className={styles.ctaTartalom}>
+                <button type="button" className={styles.introCta} onClick={() => setPanel(true)} aria-haspopup="dialog" aria-expanded={panel}>
+                  Nagy, kék gomb, nyomj rá! <span aria-hidden="true">→</span>
+                </button>
+                <p className={`${styles.mikro} ${styles.mikroBal}`}>{MIKROSZOVEG}</p>
+              </div>
+            </div>
             <p className={styles.introBizalom}>
               <span className={styles.csillagok} aria-hidden="true">★★★★★</span>
               50+ magyar vállalkozás bízik bennünk
             </p>
-            <p className={styles.introEset}>
-              <strong>Komár és Fia Kft.</strong> (építőipar): <strong>73 érdeklődő</strong>, érdeklődőnként <strong>935 Ft</strong>-ból
-            </p>
-            {/* ALAPÍTÓK — egymásra mutatnak, középen a nevek */}
-            <div className={styles.alapitok}>
-              <div className={styles.alapitoKep}>
-                <Image src="/alapito-bal.webp" alt="A NEZOR egyik alapítója öltönyben, jobbra mutat" width={702} height={1000} sizes="(max-width: 700px) 34vw, 240px" />
+            {/* „NEM ATOMFIZIKA” — teljes szélességű fekete sáv */}
+            <section className={styles.fb}>
+              <svg className={styles.fbIkon} viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07" />
+              </svg>
+              <h2 className={styles.fbCim}>{szoveg.fbCim}</h2>
+              <p className={styles.fbCimPiros}>{szoveg.fbPiros}</p>
+            </section>
+
+            {/* REFERENCIA SOR */}
+            <div className={styles.referenciak}>
+              <p className={styles.referenciakCim}>Ők már velünk dolgoznak</p>
+              <div className={styles.referenciakRacs}>
+                {[referenciak.slice(0, 10), referenciak.slice(10, 19), referenciak.slice(19)].map((sor, i) => (
+                  <div key={i} className={styles.referenciakSav}>
+                    {/* duplikálva a folyamatos körbeforgáshoz; minden második sor visszafelé megy */}
+                    <p className={`${styles.referenciakSor} ${i % 2 ? styles.referenciakSorVissza : ''}`}>
+                      {[...sor, ...sor].map((n, j) => (
+                        <span key={j} className={styles.referencia} aria-hidden={j >= sor.length}>{n}</span>
+                      ))}
+                    </p>
+                  </div>
+                ))}
               </div>
-              <div className={styles.alapitokKozep}>
-                <p className={styles.alapitokNev}>Müller Dániel &amp; Jelencsity Miklós</p>
-                <p className={styles.alapitokSzerep}>Alapítók · NEZOR</p>
-                <p className={styles.alapitokHivas}>Mi hívunk vissza személyesen</p>
+            </div>
+
+            {/* ÜGYFÉLVÉLEMÉNY — a főoldali „Valós visszajelzések” közül */}
+            <figure className={styles.velemeny}>
+              <p className={styles.velemenyCsillag} aria-label="5 csillag">★★★★★</p>
+              <blockquote className={styles.velemenySzoveg}>
+                „A második hónap végére <mark>kétszer annyi minőségi érdeklődőnk volt</mark>, és a pipeline is rendezett lett.
+                Nem vesztek el a jó leadek — és ez volt a legnagyobb problémánk korábban.”
+              </blockquote>
+              <figcaption className={styles.velemenyNev}><b>Nagy Balázs</b> · Google-értékelés</figcaption>
+            </figure>
+
+            {/* AJÁNLAT */}
+            <div className={styles.csomag}>
+              <div className={styles.csomagAlapito}>
+                <Image src="/alapito-jobb.webp" alt="Jelencsity Miklós, a NEZOR alapítója öltönyben, az árra mutat" width={677} height={1000} sizes="(max-width: 700px) 38vw, 230px" />
+                <p className={styles.csomagAlapitoNev}>Jelencsity Miklós</p>
               </div>
-              <div className={styles.alapitoKep}>
-                <Image src="/alapito-jobb.webp" alt="A NEZOR másik alapítója öltönyben, balra mutat" width={677} height={1000} sizes="(max-width: 700px) 34vw, 240px" />
+              <div className={styles.csomagFej}>
+                <p className={styles.csomagCimke}>Az ajánlatunk</p>
+                <p ref={arRef} className={styles.csomagAr} aria-label="79 000 Ft havonta">
+                  <span className={`${styles.arSzam} ${arKesz ? styles.arAlahuzva : ''}`} aria-hidden="true">
+                    {/* minden számjegy fix szélességű helyen áll, így pörgés közben semmi nem ugrál */}
+                    {String(ar).padStart(6, '0').split('').map((j, i) => (
+                      <Fragment key={i}>
+                        <span className={`${styles.arJegy} ${i === 0 && ar < 100_000 ? styles.arJegyRejtett : ''}`}>{j}</span>
+                        {i === 2 && <span className={styles.arKoz} />}
+                      </Fragment>
+                    ))}
+                    <span className={styles.arFt}>Ft</span>
+                  </span>{' '}
+                  <span className={styles.arHo} aria-hidden="true">/ hó</span>
+                </p>
+                <p className={styles.csomagAl}>Ennyi a mi díjunk — és ezért mindent mi csinálunk.</p>
               </div>
+              <ul className={styles.csomagLista}>
+                {szoveg.csomag.map((t) => <li key={t}>{t}</li>)}
+              </ul>
+              <p className={styles.csomagMegj}>
+                + a hirdetési keret, amit közvetlenül a Metának fizetsz — így minden forint átlátható.
+              </p>
+              <button type="button" className={styles.introCta} onClick={indit}>
+                Ezt kérem! <span aria-hidden="true">→</span>
+              </button>
+              <p className={styles.mikro}>{MIKROSZOVEG}</p>
+            </div>
             </div>
           </div>
         ) : sent ? (
@@ -312,8 +555,8 @@ export function EpitoiparPage() {
             <div className={styles.kesz} aria-hidden="true">✓</div>
             <h2 className={styles.kerdes}>Megkaptuk, {nev}!</h2>
             <p className={styles.al}>
-              Hamarosan felvesszük veled a kapcsolatot a megadott telefonszámon. Kérdés esetén:{' '}
-              <a href="mailto:info@nezor.hu">info@nezor.hu</a>
+              Hamarosan hívunk a <b>+36 {mobil}</b> számon, erről a számról: <b>+36 30 203 6721</b>. Vedd fel! 📞
+              <br />Kérdés esetén: <a href="mailto:info@nezor.hu">info@nezor.hu</a>
             </p>
           </div>
         ) : (
@@ -327,8 +570,8 @@ export function EpitoiparPage() {
 
             {aktualis ? (
               <form onSubmit={szovegTovabb} key={aktualis.kulcs}>
-                {aktualis.felett && <p className={styles.felett}>{sz(aktualis.felett)}</p>}
-                <h2 className={styles.kerdes}>{sz(aktualis.cim)}</h2>
+                {sz(aktualis.felett) && <p className={styles.felett}>{sz(aktualis.felett)}</p>}
+                <h2 className={styles.kerdes}>{kiemel(sz(aktualis.cim), styles.kerdesKiemelt)}</h2>
                 {aktualis.al && <p className={styles.al}>{sz(aktualis.al)}</p>}
 
                 {aktualis.tipus === 'szoveg' && (
@@ -348,6 +591,35 @@ export function EpitoiparPage() {
                   </>
                 )}
 
+                {aktualis.tipus === 'telefon' && (
+                  <>
+                    <div className={`${styles.telefonSor} ${styles.telefonSorKozep}`}>
+                      <span className={styles.elohivo}>🇭🇺 +36</span>
+                      <input
+                        ref={fokusz}
+                        className={styles.mezo}
+                        type="tel"
+                        inputMode="tel"
+                        autoComplete="tel-national"
+                        placeholder="Mobilszám (pl. 30 123 4567)"
+                        value={telefon}
+                        onChange={(e) => setTelefon(e.target.value)}
+                      />
+                    </div>
+                    <label className={styles.hozzajarulas}>
+                      <input type="checkbox" checked={hozzajarulas} onChange={(e) => setHozzajarulas(e.target.checked)} />
+                      <span>
+                        Elolvastam az <a href="/adatkezeles" target="_blank" rel="noopener">Adatkezelési tájékoztatót</a>, és
+                        hozzájárulok, hogy a megadott adataimat a kapcsolatfelvétel céljából kezeljétek.
+                      </span>
+                    </label>
+                    {error && <p className={styles.error}>{error}</p>}
+                    <button type="submit" className={`${styles.tovabb} ${ervenyes ? styles.tovabbAktiv : ''}`}>
+                      Tovább <span aria-hidden="true">→</span>
+                    </button>
+                  </>
+                )}
+
                 {aktualis.tipus === 'hosszu' && (
                   <>
                     <textarea
@@ -363,7 +635,7 @@ export function EpitoiparPage() {
 
                 {aktualis.tipus === 'egy' && (
                   <div className={styles.radiok}>
-                    {aktualis.opciok.map((o) => (
+                    {aktualis.opciok.filter((o) => !aktualis.szuro || aktualis.szuro(o, v)).map((o) => (
                       <button
                         key={o}
                         type="button"
@@ -414,7 +686,7 @@ export function EpitoiparPage() {
                 <h2 className={styles.kerdes}>
                   BUMM! 👊 Úgy tűnik, komolyan tudunk segíteni a vállalkozásodnak a bevált hirdetési rendszereinkkel — csak add meg az adataidat!
                 </h2>
-                <p className={styles.al}>Töltsd ki az alábbi mezőket, és hamarosan felvesszük veled a kapcsolatot telefonon.</p>
+                <p className={styles.al}>Már csak két adat, és hívunk a <b>+36 {mobil}</b> számon.</p>
                 <input
                   className={styles.honeypot}
                   tabIndex={-1}
@@ -432,16 +704,9 @@ export function EpitoiparPage() {
                   </div>
                   <input className={styles.mezo} type="text" autoComplete="organization" placeholder="Cégnév *" value={cegnev} onChange={(e) => setCegnev(e.target.value)} />
                 </div>
-                <label className={styles.hozzajarulas}>
-                  <input type="checkbox" checked={hozzajarulas} onChange={(e) => setHozzajarulas(e.target.checked)} />
-                  <span>
-                    Elolvastam az <a href="/adatkezeles" target="_blank" rel="noopener">Adatkezelési tájékoztatót</a>, és
-                    hozzájárulok, hogy a megadott adataimat a kapcsolatfelvétel céljából kezeljétek.
-                  </span>
-                </label>
                 {error && <p className={styles.error}>{error}</p>}
                 <button type="submit" className={`${styles.tovabb} ${vegeErvenyes ? styles.tovabbAktiv : ''}`} disabled={loading}>
-                  {loading ? 'Küldés...' : <>Kérem az ingyenes tervet <span aria-hidden="true">→</span></>}
+                  {loading ? 'Küldés...' : <>Kezdjük el a közös munkát <span aria-hidden="true">→</span></>}
                 </button>
               </form>
             )}
@@ -449,6 +714,76 @@ export function EpitoiparPage() {
             <button type="button" className={styles.vissza} onClick={vissza}>← Vissza</button>
           </div>
         )}
+
+        {/* OLDALRÓL KINYÍLÓ PANEL — mi ez, miért jó, miért velünk */}
+        <div className={`${styles.panelHatter} ${panel ? styles.panelHatterNyitva : ''}`} onClick={() => setPanel(false)} aria-hidden="true" />
+        <aside
+          className={`${styles.panel} ${panel ? styles.panelNyitva : ''}`}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="panel-cim"
+          aria-hidden={!panel}
+        >
+          <button type="button" className={styles.panelBezar} aria-label="Bezárás" onClick={() => setPanel(false)} tabIndex={panel ? 0 : -1}>×</button>
+          <p id="panel-cim" className={styles.panelCim}>NEZOR</p>
+
+          <details className={styles.panelBlokk}>
+            <summary>🤔 Mi ez?</summary>
+            <Image className={styles.panelKep} src="/epitoipari-hero-v2.webp" alt="Építőipari weboldal laptopon és telefonon, mellette egy új ajánlatkérés értesítés" width={1448} height={1086} sizes="(max-width: 480px) 86vw, 400px" />
+            <p>
+              Tegyük fel, <b>budapesti villanyszerelő vagy</b>, aki 50 km-es körzetben vállal munkát.
+            </p>
+            <p>
+              Mi kialakítunk neked egy ilyen oldalt, mint amin most vagy, és <b>képes, videós hirdetésekkel érdeklődőket
+              hozunk rá</b>.
+            </p>
+            <p>
+              Amikor beérkezik egy érdeklődő, automatikusan kapsz róla egy e-mailt, vagy egyből <b>téged hívnak fel</b>.
+            </p>
+            <p><b>Pofon egyszerű.</b></p>
+            <button type="button" className={`${styles.introCta} ${styles.panelReszCta}`} tabIndex={panel ? 0 : -1} onClick={() => { setPanel(false); indit(); }}>
+              Igen, érdekel! <span aria-hidden="true">→</span>
+            </button>
+          </details>
+
+          <details className={styles.panelBlokk}>
+            <summary>💪 Miért jó neked?</summary>
+            <Image className={styles.panelKep} src="/HIRDETES4.webp" alt="Példa hirdetés: Fűtesz vagy csak a lerakódást melegíted? — ZT Épületgépészet" width={1254} height={1254} sizes="(max-width: 480px) 86vw, 400px" />
+            <p>
+              Az emberek 90%-a a telefonját nyomja, és alapvetően <b>fel se ismeri a problémáját</b>, amíg az arcába nincs nyomva.
+            </p>
+            <p>
+              Mi felismertetjük velük a problémát, amire <b>Te leszel a megoldás</b>.
+            </p>
+            <button type="button" className={`${styles.introCta} ${styles.panelReszCta}`} tabIndex={panel ? 0 : -1} onClick={() => { setPanel(false); indit(); }}>
+              Igen, érdekel! <span aria-hidden="true">→</span>
+            </button>
+          </details>
+
+          <details className={styles.panelBlokk}>
+            <summary>🤝 Miért velünk?</summary>
+            <Image className={styles.panelKep} src="/alapitok.webp" alt="Müller Dániel és Jelencsity Miklós, a NEZOR alapítói" width={440} height={440} sizes="(max-width: 480px) 86vw, 400px" />
+            <p>
+              16 évesen kezdtük: a családi vállalkozásunkat kellett online eladnunk, különben bezár. <b>Nem volt B terv.</b>
+              Működött, a család azóta is ebből él.
+            </p>
+            <p>Ma már <b>50+ magyar vállalkozásnál</b> csináljuk ugyanezt.</p>
+            <p>
+              Ketten vagyunk, Dani és Miki. <b>Minket hívsz, mi vesszük fel</b> — nem egy call center, ahol mindig más beszél veled.
+            </p>
+            <p>
+              És mivel abból élünk, hogy nálad működjön: <b>ha neked nem éri meg, nekünk sem.</b>
+            </p>
+            <button type="button" className={`${styles.introCta} ${styles.panelReszCta}`} tabIndex={panel ? 0 : -1} onClick={() => { setPanel(false); indit(); }}>
+              Igen, érdekel! <span aria-hidden="true">→</span>
+            </button>
+          </details>
+
+          <button type="button" className={`${styles.introCta} ${styles.panelCta}`} tabIndex={panel ? 0 : -1} onClick={() => { setPanel(false); indit(); }}>
+            Oké, kezdjük el <span aria-hidden="true">→</span>
+          </button>
+          <p className={styles.mikro}>{MIKROSZOVEG}</p>
+        </aside>
 
         {/* KILÉPÉSI POPUP */}
         {kilepes && (
@@ -464,14 +799,14 @@ export function EpitoiparPage() {
               <h2 id="kilepes-cim" className={styles.kilepesCim}>Állj csak meg, mester!</h2>
               <p className={styles.kilepesSzoveg}>
                 Na, próbáljuk újra, jó? Nézd, kevesebb mint 2 perc kitölteni ezt az űrlapot… <em>*fókusz*</em>… és utána
-                kapsz egy ingyenes, személyre szabott ügyfélszerzési tervet.
+                már indulhat is a közös munka, és jöhetnek az új megrendelők.
               </p>
               <div className={styles.kilepesKep} aria-hidden="true">
                 <span className={styles.kilepesKez}>✋</span>
                 <span className={styles.kilepesVarj}>Várj!</span>
               </div>
               <button type="button" className={styles.kilepesCta} onClick={indit}>
-                Kérem az ingyenes tervet
+                Kezdjük el!
               </button>
               <p className={styles.kilepesApro}>
                 Adatkezelés: a spammereknek külön hely jár a pokolban — mi oda nem akarunk kerülni.
