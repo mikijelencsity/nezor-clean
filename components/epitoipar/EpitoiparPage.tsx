@@ -780,6 +780,15 @@ export function EpitoiparPage() {
           </div>
         )}
 
+        {/* ÁLLANDÓ CTA — a nyitóképernyőn végig a képernyő alján */}
+        {!indul && (
+          <div className={styles.allandoCta}>
+            <button type="button" className={`${styles.introCta} ${styles.allandoCtaGomb}`} onClick={indit}>
+              Kezdjük meg a munkát! <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        )}
+
         {indul && (
           <button type="button" className={styles.fooldalGomb} onClick={fooldalra}>
             <span aria-hidden="true">←</span> Vissza a főoldalra
