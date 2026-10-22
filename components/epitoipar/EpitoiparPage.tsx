@@ -216,7 +216,6 @@ export function EpitoiparPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [sent, setSent] = useState(false);
-  const [kilepes, setKilepes] = useState(false); // kilépési popup
   const [panel, setPanel] = useState(false); // oldalról kinyíló „mi ez?” panel
   const [refPanel, setRefPanel] = useState(false); // oldalról kinyíló referencia panel
   // ár-animáció: 150 000 Ft → 79 000 Ft, amikor a kártya a képernyőre ér (egyszer fut le)
@@ -236,7 +235,6 @@ export function EpitoiparPage() {
   const aktualis = aktivLepesek[lepes];
 
   const indit = () => {
-    setKilepes(false);
     setIndul(true);
     window.scrollTo({ top: 0 });
   };
@@ -269,39 +267,6 @@ export function EpitoiparPage() {
   }, [indul, lepes, sent]);
 
   useEffect(() => { elkuldve.current = sent; }, [sent]);
-
-  // Kilépési szándék: asztalin az egér kimegy az ablak tetején, mobilon gyors visszagörgetés.
-  // Munkamenetenként egyszer jelenik meg, beküldés után soha.
-  useEffect(() => {
-    let mutatva = false;
-    try { mutatva = sessionStorage.getItem('nezorKilepes') === '1'; } catch { /* nem elérhető */ }
-    const mutat = () => {
-      if (mutatva || elkuldve.current) return;
-      mutatva = true;
-      try { sessionStorage.setItem('nezorKilepes', '1'); } catch { /* nem elérhető */ }
-      setKilepes(true);
-    };
-    const onMouseOut = (e: MouseEvent) => { if (!e.relatedTarget && e.clientY <= 0) mutat(); };
-    let utolsoY = window.scrollY;
-    let utolsoT = performance.now();
-    const onScroll = () => {
-      const y = window.scrollY;
-      const t = performance.now();
-      const sebesseg = (utolsoY - y) / Math.max(t - utolsoT, 1); // px/ms, felfelé pozitív
-      if (y > 300 && sebesseg > 2.5) mutat();
-      utolsoY = y;
-      utolsoT = t;
-    };
-    const indulasKesleltetes = setTimeout(() => {
-      document.addEventListener('mouseout', onMouseOut);
-      window.addEventListener('scroll', onScroll, { passive: true });
-    }, 5000);
-    return () => {
-      clearTimeout(indulasKesleltetes);
-      document.removeEventListener('mouseout', onMouseOut);
-      window.removeEventListener('scroll', onScroll);
-    };
-  }, []);
 
   useEffect(() => {
     const el = arRef.current;
@@ -339,13 +304,6 @@ export function EpitoiparPage() {
       document.documentElement.style.overflow = regi;
     };
   }, [panel, refPanel]);
-
-  useEffect(() => {
-    if (!kilepes) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setKilepes(false); };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [kilepes]);
 
   /** Lehet-e továbblépni az aktuális lépésből */
   const ervenyes = (() => {
@@ -920,36 +878,6 @@ export function EpitoiparPage() {
           </button>
           <p className={styles.mikro}>{MIKROSZOVEG}</p>
         </aside>
-
-        {/* KILÉPÉSI POPUP */}
-        {kilepes && (
-          <div className={styles.kilepesHatter} onClick={() => setKilepes(false)}>
-            <div
-              className={styles.kilepesDoboz}
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="kilepes-cim"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button type="button" className={styles.kilepesBezar} aria-label="Bezárás" onClick={() => setKilepes(false)}>×</button>
-              <h2 id="kilepes-cim" className={styles.kilepesCim}>Állj csak meg, mester!</h2>
-              <p className={styles.kilepesSzoveg}>
-                Na, próbáljuk újra, jó? Nézd, kevesebb mint 2 perc kitölteni ezt az űrlapot… <em>*fókusz*</em>… és utána
-                már indulhat is a közös munka, és jöhetnek az új megrendelők.
-              </p>
-              <div className={styles.kilepesKep} aria-hidden="true">
-                <span className={styles.kilepesKez}>✋</span>
-                <span className={styles.kilepesVarj}>Várj!</span>
-              </div>
-              <button type="button" className={styles.kilepesCta} onClick={indit}>
-                Kezdjük el!
-              </button>
-              <p className={styles.kilepesApro}>
-                Adatkezelés: a spammereknek külön hely jár a pokolban — mi oda nem akarunk kerülni.
-              </p>
-            </div>
-          </div>
-        )}
 
         <p className={styles.foot}>
           Inkább telefonon? <a href="tel:+36302036721">+36 30 203 6721</a>
