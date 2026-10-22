@@ -859,6 +859,7 @@ export function EpitoiparPage() {
           <details className={styles.panelBlokk}>
             <summary>Miért velünk?</summary>
             <p className={styles.panelEmoji} aria-hidden="true">🤝</p>
+            <p><b>5 évvel ezelőtt kezdtük.</b></p>
             <p>
               Ma <b>50+ cégnek hozunk ügyfelet</b> minden szegmensből: az egyéni vállalkozótól a cégcsoportokig.
             </p>
