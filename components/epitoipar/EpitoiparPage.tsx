@@ -1,7 +1,9 @@
 'use client';
 import Image from 'next/image';
 import { Fragment, useEffect, useRef, useState } from 'react';
-import { trackEvent, ujEventId } from '@/components/analytics/FacebookPixel';
+import { usePathname, useRouter } from 'next/navigation';
+import { ujEventId } from '@/components/analytics/FacebookPixel';
+import { KOSZONJUK_KULCS } from './EpitoiparKoszonjuk';
 import styles from './EpitoiparPage.module.css';
 
 function sutiElfogadva(): boolean {
@@ -218,7 +220,8 @@ export function EpitoiparPage() {
   const [sent, setSent] = useState(false);
   const [panel, setPanel] = useState(false); // oldalról kinyíló „mi ez?” panel
   const [refPanel, setRefPanel] = useState(false); // oldalról kinyíló referencia panel
-  const [betoltve, setBetoltve] = useState(false); // preloader: az oldal teljes betöltése után eltűnik
+  const router = useRouter();
+  const pathname = usePathname();
   // ár-animáció: 150 000 Ft → 79 000 Ft, amikor a kártya a képernyőre ér (egyszer fut le)
   const [ar, setAr] = useState(150_000);
   const [arKesz, setArKesz] = useState(false);
@@ -283,18 +286,6 @@ export function EpitoiparPage() {
       window.removeEventListener('load', fel);
       window.removeEventListener('pageshow', onPageshow);
     };
-  }, []);
-
-  // Preloader: legalább a piros→kék átmenet végéig látszik, utána az oldal betöltésekor eltűnik
-  useEffect(() => {
-    const kezdet = performance.now();
-    let idozito = 0;
-    const kesz = () => {
-      idozito = window.setTimeout(() => setBetoltve(true), Math.max(0, 1100 - (performance.now() - kezdet)));
-    };
-    if (document.readyState === 'complete') kesz();
-    else window.addEventListener('load', kesz, { once: true });
-    return () => { window.removeEventListener('load', kesz); clearTimeout(idozito); };
   }, []);
 
   useEffect(() => {
@@ -440,10 +431,13 @@ export function EpitoiparPage() {
       });
       const data = await res.json();
       if (data.ok) {
-        if (eventId) trackEvent('Lead', {}, eventId);
         elkuldve.current = true;
         setSent(true);
-        window.scrollTo({ top: 0 });
+        // köszönőoldal saját URL-en: ott fut a Meta Lead esemény (és ott mérhető URL-alapú konverzióként is)
+        try {
+          sessionStorage.setItem(KOSZONJUK_KULCS, JSON.stringify({ nev, mobil, eventId }));
+        } catch { /* nem elérhető */ }
+        router.push(`${pathname.replace(/\/$/, '')}/koszonjuk`);
       } else setError('Hiba történt. Próbáld újra, vagy hívj: +36 30 203 6721');
     } catch {
       setError('Hiba történt. Próbáld újra, vagy hívj: +36 30 203 6721');
@@ -460,10 +454,6 @@ export function EpitoiparPage() {
 
   return (
     <div className={styles.page}>
-      {/* PRELOADER — pirosból kékbe vált, középen a logó */}
-      <div className={`${styles.preloader} ${betoltve ? styles.preloaderKesz : ''}`} aria-hidden="true">
-        <p className={styles.preloaderLogo}>NEZOR</p>
-      </div>
       <div className={styles.container}>
         {!indul ? (
           /* NYITÓKÉPERNYŐ — a form csak a gomb után jelenik meg */
@@ -616,7 +606,23 @@ export function EpitoiparPage() {
                 <svg className={styles.garanciaIkon} viewBox="0 0 24 24" aria-hidden="true">
                   <path fill="currentColor" d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4Zm-1.2 15.2-4-4 1.4-1.4 2.6 2.6 5.6-5.6 1.4 1.4-7 7Z" />
                 </svg>
-                <p className={styles.garanciaCim}>Ha nem hozunk munkát, <span>a pénzt visszaadjuk.</span></p>
+                <p className={styles.garanciaCim}>Ha nem hozunk munkát, <span>
+                  a{' '}
+                  <span className={styles.penzSzo}>
+                    {/* halvány, stilizált húszezres bankjegy a „pénzt” szó mögött */}
+                    <svg className={styles.huszezres} viewBox="0 0 220 104" aria-hidden="true">
+                      <rect x="1.5" y="1.5" width="217" height="101" rx="6" fill="#d7ead0" stroke="#5f8f55" strokeWidth="3" />
+                      <rect x="9" y="9" width="202" height="86" rx="3" fill="none" stroke="#5f8f55" strokeWidth="1.5" strokeDasharray="4 3" />
+                      <circle cx="160" cy="52" r="26" fill="#bcd9b2" stroke="#5f8f55" strokeWidth="2" />
+                      <text x="18" y="30" fontSize="17" fontWeight="700" fill="#4a7a41">20000</text>
+                      <text x="202" y="92" fontSize="17" fontWeight="700" fill="#4a7a41" textAnchor="end">20000</text>
+                      <text x="18" y="62" fontSize="13" fontWeight="700" fill="#4a7a41" letterSpacing="2">HÚSZEZER</text>
+                      <text x="18" y="80" fontSize="13" fontWeight="700" fill="#4a7a41" letterSpacing="2">FORINT</text>
+                    </svg>
+                    <span className={styles.penzSzoBetu}>pénzt</span>
+                  </span>{' '}
+                  visszaadjuk.
+                </span></p>
                 <p className={styles.garanciaSzoveg}>Ennyire biztosak vagyunk benne, hogy működik.</p>
               </div>
               <div className={styles.garanciaAlapito}>
@@ -862,7 +868,7 @@ export function EpitoiparPage() {
             <p className={styles.panelEmoji} aria-hidden="true">🤝</p>
             <p><b>5 évvel ezelőtt kezdtük.</b></p>
             <p>
-              Ma <b>50+ cégnek hozunk ügyfelet</b> minden szegmensből: az egyéni vállalkozótól a cégcsoportokig.
+              Azóta <b>50+ céggel dolgoztunk</b> minden szegmensből: az egyéni vállalkozótól a cégcsoportokig.
             </p>
             <p>
               Azoknak is, akik csak egy kis városban akarnak terjeszkedni, és azoknak is, akik egész Közép-Európát
