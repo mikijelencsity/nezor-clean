@@ -218,6 +218,7 @@ export function EpitoiparPage() {
   const [sent, setSent] = useState(false);
   const [panel, setPanel] = useState(false); // oldalról kinyíló „mi ez?” panel
   const [refPanel, setRefPanel] = useState(false); // oldalról kinyíló referencia panel
+  const [betoltve, setBetoltve] = useState(false); // preloader: az oldal teljes betöltése után eltűnik
   // ár-animáció: 150 000 Ft → 79 000 Ft, amikor a kártya a képernyőre ér (egyszer fut le)
   const [ar, setAr] = useState(150_000);
   const [arKesz, setArKesz] = useState(false);
@@ -267,6 +268,18 @@ export function EpitoiparPage() {
   }, [indul, lepes, sent]);
 
   useEffect(() => { elkuldve.current = sent; }, [sent]);
+
+  // Preloader: legalább a piros→kék átmenet végéig látszik, utána az oldal betöltésekor eltűnik
+  useEffect(() => {
+    const kezdet = performance.now();
+    let idozito = 0;
+    const kesz = () => {
+      idozito = window.setTimeout(() => setBetoltve(true), Math.max(0, 1100 - (performance.now() - kezdet)));
+    };
+    if (document.readyState === 'complete') kesz();
+    else window.addEventListener('load', kesz, { once: true });
+    return () => { window.removeEventListener('load', kesz); clearTimeout(idozito); };
+  }, []);
 
   useEffect(() => {
     const el = arRef.current;
@@ -431,6 +444,10 @@ export function EpitoiparPage() {
 
   return (
     <div className={styles.page}>
+      {/* PRELOADER — pirosból kékbe vált, középen a logó */}
+      <div className={`${styles.preloader} ${betoltve ? styles.preloaderKesz : ''}`} aria-hidden="true">
+        <p className={styles.preloaderLogo}>NEZOR</p>
+      </div>
       <div className={styles.container}>
         {!indul ? (
           /* NYITÓKÉPERNYŐ — a form csak a gomb után jelenik meg */
@@ -440,7 +457,7 @@ export function EpitoiparPage() {
             <h1 className={styles.introH1}>
               <span className={styles.introSor}>
                 <span className={styles.raketa} aria-hidden="true">
-                  <Image src="/raketa.png" alt="" width={256} height={256} sizes="90px" priority />
+                  <Image unoptimized loading="eager" src="/raketa.webp" alt="" width={256} height={256} sizes="90px" preload />
                 </span>
                 <span className={styles.introPiros}>Felturbózzuk</span>
               </span>
@@ -452,7 +469,7 @@ export function EpitoiparPage() {
             <p className={styles.introLead}>{szoveg.lead}</p>
             {/* META-LOGÓ (eredeti, Wikimedia Commons) */}
             <div className={styles.metaLogo}>
-              <Image src="/meta-logo.svg" alt="Meta" width={288} height={191} />
+              <Image unoptimized loading="eager" src="/meta-logo.svg" alt="Meta" width={288} height={191} />
             </div>
             <div className={styles.metaAppok}>
               <svg viewBox="0 0 24 24" role="img" aria-label="Facebook">
@@ -482,7 +499,7 @@ export function EpitoiparPage() {
             {/* ALAPÍTÓ a gomb mellett — a gombra mutat */}
             <div className={styles.ctaSor}>
               <div className={styles.ctaAlapito}>
-                <Image src="/alapito-bal.webp" alt="Müller Dániel, a NEZOR alapítója öltönyben, a gombra mutat" width={702} height={1000} sizes="(max-width: 700px) 36vw, 260px" />
+                <Image unoptimized loading="eager" src="/alapito-bal.webp" alt="Müller Dániel, a NEZOR alapítója öltönyben, a gombra mutat" width={702} height={1000} sizes="(max-width: 700px) 36vw, 260px" />
                 <p className={styles.ctaNevek}>Müller Dániel</p>
               </div>
               <div className={styles.ctaTartalom}>
@@ -528,7 +545,7 @@ export function EpitoiparPage() {
 
             {/* ÜGYFÉLVÉLEMÉNY — valós üzenet egy ügyfelünktől, chatként */}
             <figure className={styles.velemeny}>
-              <Image className={styles.velemenyKep} src="/ugyfel-uzenet.webp" alt="Ügyfélüzenet: Aztaku**a dekomoly 💪💪💪 Nagyon jók vagytok 💪💪🤩🤩🤩" width={1398} height={672} sizes="(max-width: 560px) 90vw, 480px" />
+              <Image unoptimized loading="eager" className={styles.velemenyKep} src="/ugyfel-uzenet.webp" alt="Ügyfélüzenet: Aztaku**a dekomoly 💪💪💪 Nagyon jók vagytok 💪💪🤩🤩🤩" width={1398} height={672} sizes="(max-width: 560px) 90vw, 480px" />
               <figcaption className={styles.velemenyNev}>Egy ügyfelünk öröme nemes egyszerűséggel megfogalmazva.</figcaption>
             </figure>
             <div className={styles.refBlokk}>
@@ -541,7 +558,7 @@ export function EpitoiparPage() {
             {/* AJÁNLAT */}
             <div className={styles.csomag}>
               <div className={styles.csomagAlapito}>
-                <Image src="/alapito-jobb.webp" alt="Jelencsity Miklós, a NEZOR alapítója öltönyben, az árra mutat" width={677} height={1000} sizes="(max-width: 700px) 38vw, 230px" />
+                <Image unoptimized loading="eager" src="/alapito-jobb.webp" alt="Jelencsity Miklós, a NEZOR alapítója öltönyben, az árra mutat" width={677} height={1000} sizes="(max-width: 700px) 38vw, 230px" />
                 <p className={styles.csomagAlapitoNev}>Jelencsity Miklós</p>
               </div>
               <div className={styles.csomagFej}>
@@ -576,7 +593,7 @@ export function EpitoiparPage() {
             {/* GARANCIA — a két alapító a dobozra mutat */}
             <div className={styles.garanciaSor}>
               <div className={styles.garanciaAlapito}>
-                <Image src="/alapito-bal.webp" alt="Müller Dániel, a NEZOR alapítója, a garanciára mutat" width={702} height={1000} sizes="(max-width: 700px) 28vw, 200px" />
+                <Image unoptimized loading="eager" src="/alapito-bal.webp" alt="Müller Dániel, a NEZOR alapítója, a garanciára mutat" width={702} height={1000} sizes="(max-width: 700px) 28vw, 200px" />
                 <p className={styles.ctaNevek}>Müller Dániel</p>
               </div>
               <div className={styles.garancia}>
@@ -587,7 +604,7 @@ export function EpitoiparPage() {
                 <p className={styles.garanciaSzoveg}>Ennyire biztosak vagyunk benne, hogy működik.</p>
               </div>
               <div className={styles.garanciaAlapito}>
-                <Image src="/alapito-jobb.webp" alt="Jelencsity Miklós, a NEZOR alapítója, a garanciára mutat" width={677} height={1000} sizes="(max-width: 700px) 28vw, 200px" />
+                <Image unoptimized loading="eager" src="/alapito-jobb.webp" alt="Jelencsity Miklós, a NEZOR alapítója, a garanciára mutat" width={677} height={1000} sizes="(max-width: 700px) 28vw, 200px" />
                 <p className={styles.ctaNevek}>Jelencsity Miklós</p>
               </div>
             </div>
@@ -783,7 +800,7 @@ export function EpitoiparPage() {
 
           <details className={styles.panelBlokk}>
             <summary>🤔 Mi ez?</summary>
-            <Image className={styles.panelKep} src="/epitoipari-hero-v2.webp" alt="Építőipari weboldal laptopon és telefonon, mellette egy új ajánlatkérés értesítés" width={1448} height={1086} sizes="(max-width: 480px) 86vw, 400px" />
+            <Image unoptimized loading="eager" className={styles.panelKep} src="/epitoipari-hero-v2-800.webp" alt="Építőipari weboldal laptopon és telefonon, mellette egy új ajánlatkérés értesítés" width={800} height={600} sizes="(max-width: 480px) 86vw, 400px" />
             <p>
               Tegyük fel, <b>budapesti villanyszerelő vagy</b>, aki 50 km-es körzetben vállal munkát.
             </p>
@@ -802,7 +819,7 @@ export function EpitoiparPage() {
 
           <details className={styles.panelBlokk}>
             <summary>💪 Miért jó neked?</summary>
-            <Image className={styles.panelKep} src="/HIRDETES4.webp" alt="Példa hirdetés: Fűtesz vagy csak a lerakódást melegíted? — ZT Épületgépészet" width={1254} height={1254} sizes="(max-width: 480px) 86vw, 400px" />
+            <Image unoptimized loading="eager" className={styles.panelKep} src="/HIRDETES4-800.webp" alt="Példa hirdetés: Fűtesz vagy csak a lerakódást melegíted? — ZT Épületgépészet" width={800} height={800} sizes="(max-width: 480px) 86vw, 400px" />
             <p>
               Az emberek 90%-a a telefonját nyomja, és alapvetően <b>fel se ismeri a problémáját</b>, amíg az arcába nincs nyomva.
             </p>
@@ -816,7 +833,7 @@ export function EpitoiparPage() {
 
           <details className={styles.panelBlokk}>
             <summary>🤝 Miért velünk?</summary>
-            <Image className={styles.panelKep} src="/alapitok.webp" alt="Müller Dániel és Jelencsity Miklós, a NEZOR alapítói" width={440} height={440} sizes="(max-width: 480px) 86vw, 400px" />
+            <Image unoptimized loading="eager" className={styles.panelKep} src="/alapitok.webp" alt="Müller Dániel és Jelencsity Miklós, a NEZOR alapítói" width={440} height={440} sizes="(max-width: 480px) 86vw, 400px" />
             <p>
               16 évesen kezdtük: a családi vállalkozásunkat kellett online eladnunk, különben bezár. <b>Nem volt B terv.</b>
               Működött, a család azóta is ebből él.
@@ -857,7 +874,7 @@ export function EpitoiparPage() {
                 {r.szegmens}
                 <span className={`${styles.refAllapot} ${r.aktiv ? styles.refAktiv : ''}`}>{r.aktiv ? 'Aktív' : 'Szünetel'}</span>
               </summary>
-              <Image className={styles.refKep} src={r.kep} alt={`${r.szegmens}: kép a munkáról`} width={r.kepW} height={r.kepH} sizes="(max-width: 480px) 86vw, 400px" />
+              <Image unoptimized loading="eager" className={styles.refKep} src={r.kep} alt={`${r.szegmens}: kép a munkáról`} width={r.kepW} height={r.kepH} sizes="(max-width: 480px) 86vw, 400px" />
               <p>{r.leiras}</p>
               <div className={styles.refStatok}>
                 <p><b>{r.lead}</b><span>érdeklődő</span></p>

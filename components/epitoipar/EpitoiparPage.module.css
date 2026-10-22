@@ -130,8 +130,13 @@
 }
 .ctaCim strong { color: #0064e0; font-weight: 400; }
 .ctaCim span, .ctaCim strong { display: block; }
-.ketSor { display: flex; flex-direction: column; align-items: center; }
+/* kétsoros gombfelirat: nagyobb betű, a két sor jól elválik */
+.introCta .ketSor {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  font-size: clamp(25px, 7.6vw, 34px); line-height: 1.15;
+}
 .introCta .ketSor > span { white-space: nowrap; font-size: inherit; line-height: inherit; }
+.introCta .ketSor > span > span { font-size: inherit; }
 .ctaTartalom .introCta {
   margin: 6px 0; padding: 22px 14px; font-family: var(--font-robusztus), sans-serif; font-weight: 400;
   font-size: clamp(21px, 6.4vw, 26px); line-height: 1.4; text-transform: uppercase; letter-spacing: .06em;
@@ -461,6 +466,24 @@
 .panelBlokk li::before { content: '✓'; position: absolute; left: 0; top: 0; font-weight: 900; color: #0064e0; }
 .panelCta { width: 100%; max-width: none; margin-top: 10px; }
 @media (prefers-reduced-motion: reduce) { .panel, .panelHatter { transition: none; } }
+
+/* ── PRELOADER: piros → kék színátmenet, középen a logó ── */
+.preloader {
+  position: fixed; inset: 0; z-index: 2000; display: flex; align-items: center; justify-content: center;
+  background: #e41e26; animation: preloaderSzin 1.1s ease-in-out forwards, preloaderVeszhelyzet .4s ease 5s forwards;
+  transition: opacity .45s ease, visibility .45s ease;
+}
+/* betöltés után elhalványul */
+.preloaderKesz { opacity: 0; visibility: hidden; pointer-events: none; }
+.preloaderLogo {
+  font-family: var(--font-robusztus), sans-serif; font-size: clamp(42px, 13vw, 72px);
+  letter-spacing: .14em; color: #fff; animation: preloaderLogo 1.1s ease-out both;
+}
+@keyframes preloaderSzin { from { background: #e41e26; } to { background: #0064e0; } }
+@keyframes preloaderLogo { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: scale(1); } }
+/* ha a JS nem fut le, 5 mp után akkor is eltűnik */
+@keyframes preloaderVeszhelyzet { to { opacity: 0; visibility: hidden; } }
+@media (prefers-reduced-motion: reduce) { .preloader, .preloaderLogo { animation-duration: .01s; } }
 
 @keyframes beuszik { from { opacity: 0; } to { opacity: 1; } }
 
