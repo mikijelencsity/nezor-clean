@@ -269,6 +269,22 @@ export function EpitoiparPage() {
 
   useEffect(() => { elkuldve.current = sent; }, [sent]);
 
+  // Megnyitáskor mindig a hero tetejéről induljon az oldal: a böngésző (pl. a Facebook beépített
+  // böngészője) ne állítsa vissza a korábbi görgetést, és horgony se ugorjon lejjebb
+  useEffect(() => {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+    const fel = () => window.scrollTo(0, 0);
+    fel();
+    const onPageshow = (e: PageTransitionEvent) => { if (e.persisted) fel(); };
+    window.addEventListener('load', fel, { once: true });
+    window.addEventListener('pageshow', onPageshow);
+    return () => {
+      window.removeEventListener('load', fel);
+      window.removeEventListener('pageshow', onPageshow);
+    };
+  }, []);
+
   // Preloader: legalább a piros→kék átmenet végéig látszik, utána az oldal betöltésekor eltűnik
   useEffect(() => {
     const kezdet = performance.now();
@@ -814,8 +830,8 @@ export function EpitoiparPage() {
               Tegyük fel, <b>budapesti villanyszerelő vagy</b>, aki 50 km-es körzetben vállal munkát.
             </p>
             <p>
-              Mi kialakítunk neked egy ilyen oldalt, mint amin most vagy, és <b>képes, videós hirdetésekkel érdeklődőket
-              hozunk rá</b>.
+              Mi kialakítunk neked egy ilyen oldalt, mint amin most vagy, és <b>hirdetésekkel érdeklődőket hozunk
+              ebből a megadott körből</b>.
             </p>
             <p>
               Amikor beérkezik egy érdeklődő, automatikusan kapsz róla egy e-mailt, vagy egyből <b>téged hívnak fel</b>.
