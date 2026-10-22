@@ -8,6 +8,14 @@ export const KOSZONJUK_KULCS = 'nezorEpitoiparKoszonjuk';
 
 type Bekuldes = { nev: string; mobil: string; eventId?: string; leadKuldve?: boolean };
 
+function sutiElfogadva(): boolean {
+  try {
+    return localStorage.getItem('nezorCookieConsent') === 'accepted';
+  } catch {
+    return false;
+  }
+}
+
 function olvas(): Bekuldes | null {
   try {
     const nyers = sessionStorage.getItem(KOSZONJUK_KULCS);
@@ -19,8 +27,8 @@ function olvas(): Bekuldes | null {
 
 /**
  * Köszönőoldal az építőipari landing után (/epitoipar/koszonjuk, /landing100/koszonjuk).
- * Csak végleges beküldés után jutnak ide: ekkor fut le a Meta Lead esemény
- * (ugyanazzal az eventId-vel, mint a szerveroldali CAPI, így a Meta nem számolja kétszer).
+ * Csak végleges beküldés után jutnak ide. A Meta Lead eseményt a szerver (CAPI) minden beküldésnél elküldi;
+ * itt a böngészős pixel csak süti-elfogadásnál fut, ugyanazzal az eventId-vel, így a Meta egynek számolja.
  * Frissítéskor nem tüzel újra. Az oldal saját URL-je miatt a Metában URL-alapú konverzió is beállítható.
  */
 export function EpitoiparKoszonjuk() {
@@ -29,7 +37,7 @@ export function EpitoiparKoszonjuk() {
   useEffect(() => {
     const b = olvas();
     setAdat(b);
-    if (!b?.eventId || b.leadKuldve) return;
+    if (!b?.eventId || b.leadKuldve || !sutiElfogadva()) return;
     // a pixel inicializálása (FacebookPixel) ugyanebben a körben fut, ezért várunk egy kicsit
     const t = setTimeout(() => {
       trackEvent('Lead', {}, b.eventId);

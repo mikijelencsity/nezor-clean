@@ -6,14 +6,6 @@ import { ujEventId } from '@/components/analytics/FacebookPixel';
 import { KOSZONJUK_KULCS } from './EpitoiparKoszonjuk';
 import styles from './EpitoiparPage.module.css';
 
-function sutiElfogadva(): boolean {
-  try {
-    return localStorage.getItem('nezorCookieConsent') === 'accepted';
-  } catch {
-    return false;
-  }
-}
-
 // Magyar mobilszám a +36 előhívó UTÁN: 20/30/31/50/70 + 7 számjegy
 const MOBIL_RE = /^(20|30|31|50|70)\d{7}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -415,8 +407,9 @@ export function EpitoiparPage() {
     setLoading(true);
     setError('');
     try {
-      // Meta Lead esemény (Pixel + CAPI) csak süti-hozzájárulás esetén
-      const eventId = sutiElfogadva() ? ujEventId() : undefined;
+      // Meta Lead: a szerver (CAPI) minden végleges beküldésnél küldi az űrlapon adott hozzájárulás alapján;
+      // a böngészős pixel ugyanezzel az eventId-vel (csak süti-elfogadásnál) fut, így a Meta egynek számolja
+      const eventId = ujEventId();
       const valaszok = valaszokOsszeallit();
       const res = await fetch('/api/epitoipar-lead', {
         method: 'POST',
@@ -445,6 +438,18 @@ export function EpitoiparPage() {
       setLoading(false);
     }
   };
+
+  // Kötelező adatkezelési hozzájárulás: a telefonos lépésben és a végleges küldés előtt is látszik (közös állapot)
+  const hozzajarulasMezo = (
+    <label className={styles.hozzajarulas}>
+      <input type="checkbox" checked={hozzajarulas} onChange={(e) => setHozzajarulas(e.target.checked)} />
+      <span>
+        Elolvastam és elfogadom az <a href="/adatkezeles" target="_blank" rel="noopener">Adatkezelési tájékoztatót</a>, és
+        hozzájárulok, hogy a megadott adataimat a kapcsolatfelvétel céljából kezeljétek, valamint hirdetéseitek
+        mérése céljából titkosítva a Meta részére továbbítsátok. *
+      </span>
+    </label>
+  );
 
   const tovabbGomb = (aktiv: boolean) => (
     <button type="submit" className={`${styles.tovabb} ${aktiv ? styles.tovabbAktiv : ''}`} disabled={!aktiv}>
@@ -692,13 +697,7 @@ export function EpitoiparPage() {
                         onChange={(e) => setTelefon(e.target.value)}
                       />
                     </div>
-                    <label className={styles.hozzajarulas}>
-                      <input type="checkbox" checked={hozzajarulas} onChange={(e) => setHozzajarulas(e.target.checked)} />
-                      <span>
-                        Elolvastam az <a href="/adatkezeles" target="_blank" rel="noopener">Adatkezelési tájékoztatót</a>, és
-                        hozzájárulok, hogy a megadott adataimat a kapcsolatfelvétel céljából kezeljétek.
-                      </span>
-                    </label>
+                    {hozzajarulasMezo}
                     {error && <p className={styles.error}>{error}</p>}
                     <button type="submit" className={`${styles.tovabb} ${ervenyes ? styles.tovabbAktiv : ''}`}>
                       Tovább <span aria-hidden="true">→</span>
@@ -791,6 +790,7 @@ export function EpitoiparPage() {
                   <input className={styles.mezo} type="text" autoComplete="organization" placeholder="Cégnév *" value={cegnev} onChange={(e) => setCegnev(e.target.value)} />
                   <input className={styles.mezo} type="email" inputMode="email" autoComplete="email" placeholder="E-mail-cím *" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
+                {hozzajarulasMezo}
                 {error && <p className={styles.error}>{error}</p>}
                 <button type="submit" className={`${styles.tovabb} ${vegeErvenyes ? styles.tovabbAktiv : ''}`} disabled={loading}>
                   {loading ? 'Küldés...' : <>Kezdjük el a közös munkát <span aria-hidden="true">→</span></>}

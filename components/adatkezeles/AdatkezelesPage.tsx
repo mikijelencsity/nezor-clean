@@ -113,8 +113,9 @@ export function AdatkezelesPage() {
               szervernaplókban IP-címet és technikai adatokat kezel.
             </li>
             <li>
-              <strong>Meta (Meta Platforms Ireland Ltd.)</strong> — ha a sütiket elfogadta: a Meta Pixel a látogatást
-              és az űrlapküldést méri; a Conversions API az űrlap beküldésekor a megadott e-mail címet, telefonszámot és
+              <strong>Meta (Meta Platforms Ireland Ltd.)</strong> — a Meta Pixel csak akkor méri a látogatást és az
+              űrlapküldést, ha a sütiket elfogadta. Ha a kapcsolatfelvételi űrlapon a jelölőnégyzet bepipálásával ehhez
+              hozzájárult, az űrlap végleges elküldésekor a Conversions API a megadott e-mail címet, telefonszámot és
               nevet <strong>visszafejthetetlen (SHA-256) titkosított formában</strong>, valamint IP-címet és böngészőadatokat
               továbbít a Meta részére hirdetéseink mérése céljából. A Meta adatkezeléséről:{' '}
               <a href="https://www.facebook.com/privacy/policy" target="_blank" rel="noopener">facebook.com/privacy/policy</a>.
