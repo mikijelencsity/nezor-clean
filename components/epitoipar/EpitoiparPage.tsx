@@ -868,7 +868,7 @@ export function EpitoiparPage() {
         {/* OLDALRÓL KINYÍLÓ REFERENCIA PANEL — építőipari eredmények a Meta hirdetéskezelőből */}
         <div className={`${styles.panelHatter} ${refPanel ? styles.panelHatterNyitva : ''}`} onClick={() => setRefPanel(false)} aria-hidden="true" />
         <aside
-          className={`${styles.panel} ${refPanel ? styles.panelNyitva : ''}`}
+          className={`${styles.panel} ${styles.refPanel} ${refPanel ? styles.panelNyitva : ''}`}
           role="dialog"
           aria-modal="true"
           aria-labelledby="ref-panel-cim"
