@@ -91,7 +91,7 @@
 
 /* a headline utáni tartalom */
 .tartalom { padding-top: 10px; }
-.mikro { margin-top: 10px; font-size: 13px; font-weight: 700; color: #5a6079; }
+.mikro { margin-top: 10px; font-size: 14px; font-weight: 700; color: #000; }
 .mikroBal { text-align: left; }
 /* az első lépés második mezője (e-mail) a név alatt */
 .mezo.mezoMasodik { margin-top: 10px; }

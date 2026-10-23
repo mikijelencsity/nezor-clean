@@ -93,7 +93,7 @@ const lepesek: Lepes[] = [
   },
 ];
 
-const MIKROSZOVEG = 'Pár gyors kérdés · kb. 1 perc · utána hívunk és indulunk';
+const MIKROSZOVEG = 'Miért éri meg ez mindenkinek?';
 
 const UTVONAL_CIMKE: Record<string, string> = {
   kezdo: 'Még sosem hirdetett',
