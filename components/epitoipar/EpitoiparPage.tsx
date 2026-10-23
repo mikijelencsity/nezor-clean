@@ -218,6 +218,7 @@ export function EpitoiparPage() {
   const [ar, setAr] = useState(150_000);
   const [arKesz, setArKesz] = useState(false);
   const arRef = useRef<HTMLParagraphElement>(null);
+  const magyarazoRef = useRef<HTMLParagraphElement>(null); // „Így termel pénzt…” magyarázó rész
   const arLefutott = useRef(false);
   const elkuldve = useRef(false);
   const reszlegesKuldve = useRef(false);
@@ -502,11 +503,16 @@ export function EpitoiparPage() {
                 <circle cx="16.2" cy="7.8" r="1.05" fill="#fff" />
               </svg>
             </div>
-            <button type="button" className={`${styles.introCta} ${styles.nagyCta}`} onClick={indit}>
+            <button
+              type="button"
+              className={`${styles.introCta} ${styles.nagyCta}`}
+              onClick={() => magyarazoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+            >
               Igen, érdekel! <span aria-hidden="true">→</span>
             </button>
             <p className={`${styles.mikro} ${styles.mikroFelso}`}>{MIKROSZOVEG}</p>
-            <p className={styles.ctaCim}>{szoveg.ajanlat}</p>
+            {/* a hero „Igen, érdekel!” gombja ide görget */}
+            <p ref={magyarazoRef} className={styles.ctaCim}>{szoveg.ajanlat}</p>
             {/* ALAPÍTÓ a gomb mellett — a gombra mutat */}
             <div className={styles.ctaSor}>
               <div className={styles.ctaAlapito}>

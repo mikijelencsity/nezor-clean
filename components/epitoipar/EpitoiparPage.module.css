@@ -124,6 +124,7 @@
   mask-image: linear-gradient(to bottom, #000 68%, transparent 98%);
 }
 .ctaCim {
+  scroll-margin-top: 16px;
   max-width: 760px; margin: 40px auto 18px; text-align: center;
   font-family: var(--font-robusztus), sans-serif; font-size: clamp(38px, 12vw, 52px); line-height: 1.15;
   text-transform: uppercase; letter-spacing: .01em; color: #000;
