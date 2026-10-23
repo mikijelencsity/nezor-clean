@@ -151,17 +151,6 @@ const gyik: { kerdes: string; valasz: React.ReactNode }[] = [
   },
 ];
 
-const HAVI_DIJ = 79_000;
-const MIN_KERET = 60_000;
-// gyors választás a kalkulátorban: tipikus munkaértékek (becslés)
-const kalkMintak = [
-  { cimke: 'Térkövezés', ertek: 1_200_000 },
-  { cimke: 'Fürdőszoba', ertek: 4_000_000 },
-  { cimke: 'Hőszigetelés', ertek: 3_000_000 },
-  { cimke: 'Mobilház', ertek: 6_200_000 },
-];
-const ftFormat = (n: number) => `${new Intl.NumberFormat('hu-HU').format(Math.round(n))} Ft`;
-
 // Építőipari referenciák a referencia panelhez (Meta hirdetéskezelő, 2026.10.22-i állapot).
 // koltes: eddigi teljes költés, napi: jelenlegi napi keret, aktiv: fut-e most a kampány
 // lezaras, munkaErtek: becsült értékek (nem a Metából)
@@ -225,7 +214,6 @@ export function EpitoiparPage() {
   const [sent, setSent] = useState(false);
   const [panel, setPanel] = useState(false); // oldalról kinyíló „mi ez?” panel
   const [refPanel, setRefPanel] = useState(false); // oldalról kinyíló referencia panel
-  const [munkaErtek, setMunkaErtek] = useState(1_200_000); // „Mennyit hozhat neked?” kalkulátor
   const [adatPanel, setAdatPanel] = useState(false); // oldalról kinyíló, erre a landingre szabott adatkezelési tájékoztató
   const router = useRouter();
   const pathname = usePathname();
@@ -631,42 +619,6 @@ export function EpitoiparPage() {
               </button>
               <p className={styles.mikro}>{MIKROSZOVEG}</p>
             </div>
-
-            {/* „MENNYIT HOZHAT NEKED?” MINI KALKULÁCIÓ */}
-            <section className={styles.kalk}>
-              <h2 className={styles.kalkCim}>Mennyit hozhat <span>neked?</span></h2>
-              <label className={styles.kalkCimke} htmlFor="kalk-ertek">Egy átlagos munkád értéke</label>
-              <div className={styles.kalkMezoSor}>
-                <input
-                  id="kalk-ertek"
-                  className={styles.mezo}
-                  type="text"
-                  inputMode="numeric"
-                  value={new Intl.NumberFormat('hu-HU').format(munkaErtek)}
-                  onChange={(e) => setMunkaErtek(Number(e.target.value.replace(/\D/g, '')) || 0)}
-                />
-                <span className={styles.kalkFt}>Ft</span>
-              </div>
-              <div className={styles.kalkMintak}>
-                {kalkMintak.map((m) => (
-                  <button
-                    key={m.cimke}
-                    type="button"
-                    className={`${styles.kalkMinta} ${munkaErtek === m.ertek ? styles.kalkMintaAktiv : ''}`}
-                    onClick={() => setMunkaErtek(m.ertek)}
-                  >
-                    {m.cimke}
-                  </button>
-                ))}
-              </div>
-              <p className={styles.kalkEredmeny}>
-                Egyetlen elnyert munka <b>{Math.max(0, Math.floor(munkaErtek / HAVI_DIJ))}×</b> visszahozza a havi díjunkat.
-              </p>
-              <p className={styles.kalkAl}>
-                A díjunkkal és a minimális hirdetési kerettel együtt ({ftFormat(HAVI_DIJ + MIN_KERET)}/hó) is{' '}
-                <b>{Math.max(0, Math.floor(munkaErtek / (HAVI_DIJ + MIN_KERET)))}×</b> megtérül.
-              </p>
-            </section>
 
             {/* GARANCIA — a két alapító a dobozra mutat */}
             <div className={styles.garanciaSor}>
