@@ -158,7 +158,7 @@ const epitoipariReferenciak = [
     leiras: 'Mobilházakra kerestünk vevőket Facebookon és Instagramon. Eddig ez hozta a legolcsóbb ajánlatkéréseket.',
     lead: '1 125', arPerLead: '339 Ft', idotartam: '5 hét',
     koltes: '381 046 Ft', napi: '10 000 Ft', aktiv: true,
-    lezaras: '10%', munkaErtek: '3,5 M Ft',
+    lezaras: '10%', munkaErtek: '6,2 M Ft',
   },
   {
     szegmens: 'Generálkivitelezés',
