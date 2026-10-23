@@ -6,6 +6,11 @@ import styles from './EpitoiparPage.module.css';
 /** sessionStorage kulcs: az űrlap végleges elküldése után ide kerül a név, a szám és a Meta eventId */
 export const KOSZONJUK_KULCS = 'nezorEpitoiparKoszonjuk';
 
+/** 9 számjegyű mobilszám olvasható formában: 301234567 → 30 123 4567 */
+export function formazMobil(m: string) {
+  return /^\d{9}$/.test(m) ? `${m.slice(0, 2)} ${m.slice(2, 5)} ${m.slice(5)}` : m;
+}
+
 type Bekuldes = { nev: string; mobil: string; eventId?: string; leadKuldve?: boolean };
 
 function sutiElfogadva(): boolean {
@@ -56,7 +61,7 @@ export function EpitoiparKoszonjuk() {
           <h1 className={styles.kerdes}>Megkaptuk{adat?.nev ? `, ${adat.nev}` : ''}!</h1>
           <p className={styles.al}>
             {adat?.mobil
-              ? <>Hamarosan hívunk a <b>+36 {adat.mobil}</b> számon, erről a számról: <b>+36 30 203 6721</b>. Vedd fel! 📞</>
+              ? <>Hamarosan hívunk a <b>+36 {formazMobil(adat.mobil)}</b> számon, erről a számról: <b>+36 30 203 6721</b>. Vedd fel! 📞</>
               : <>Hamarosan hívunk erről a számról: <b>+36 30 203 6721</b>. Vedd fel! 📞</>}
             <br />Kérdés esetén: <a href="mailto:info@nezor.hu">info@nezor.hu</a>
           </p>

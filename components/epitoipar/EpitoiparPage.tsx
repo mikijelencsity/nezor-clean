@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { ujEventId } from '@/components/analytics/FacebookPixel';
-import { KOSZONJUK_KULCS } from './EpitoiparKoszonjuk';
+import { KOSZONJUK_KULCS, formazMobil } from './EpitoiparKoszonjuk';
 import styles from './EpitoiparPage.module.css';
 
 // Magyar mobilszám a +36 előhívó UTÁN: 20/30/31/50/70 + 7 számjegy
@@ -714,7 +714,7 @@ export function EpitoiparPage() {
             <div className={styles.kesz} aria-hidden="true">✓</div>
             <h2 className={styles.kerdes}>Megkaptuk, {nev}!</h2>
             <p className={styles.al}>
-              Hamarosan hívunk a <b>+36 {mobil}</b> számon, erről a számról: <b>+36 30 203 6721</b>. Vedd fel! 📞
+              Hamarosan hívunk a <b>+36 {formazMobil(mobil)}</b> számon, erről a számról: <b>+36 30 203 6721</b>. Vedd fel! 📞
               <br />Kérdés esetén: <a href="mailto:info@nezor.hu">info@nezor.hu</a>
             </p>
           </div>
@@ -850,7 +850,7 @@ export function EpitoiparPage() {
                 <h2 className={styles.kerdes}>
                   BUMM! 👊 Úgy tűnik, komolyan tudunk segíteni a vállalkozásodnak a bevált hirdetési rendszereinkkel — csak add meg az adataidat!
                 </h2>
-                <p className={styles.al}>Már csak pár adat, és hívunk a <b>+36 {mobil}</b> számon.</p>
+                <p className={styles.al}>Már csak pár adat, és hívunk a <b>+36 {formazMobil(mobil)}</b> számon.</p>
                 <input
                   className={styles.honeypot}
                   tabIndex={-1}
