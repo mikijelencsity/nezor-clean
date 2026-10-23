@@ -179,14 +179,14 @@ const epitoipariReferenciak = [
     leiras: 'Egy helyi kivitelezőnek hozunk ajánlatkéréseket térkövezésre, betonozásra és kertépítésre.',
     lead: '200', arPerLead: '741 Ft', idotartam: '3 hónap',
     koltes: '148 299 Ft', napi: '2 000 Ft', aktiv: true,
-    lezaras: '20%', munkaErtek: '1,2 M Ft',
+    lezaras: '16%', munkaErtek: '1,2 M Ft',
   },
   {
     szegmens: 'Laminált parketta',
     leiras: 'Laminált parkettára gyűjtöttünk ajánlatkéréseket egy hónapon át.',
     lead: '46', arPerLead: '1 290 Ft', idotartam: '4 hét',
     koltes: '59 339 Ft', napi: '2 000 Ft', aktiv: false,
-    lezaras: '18%', munkaErtek: '600 E Ft',
+    lezaras: '12%', munkaErtek: '600 E Ft',
   },
   {
     szegmens: 'Hőszigetelés',
