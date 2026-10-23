@@ -5,7 +5,7 @@ import { utemezSorozat, lemondSorozat } from '@/lib/epitoipar-emlekezteto';
 
 export async function POST(request: Request) {
   try {
-    const { valaszok, nev, keresztnev, telefon, email, oldal, emlekeztetoId, hozzajarulas, eventId, website, reszleges, elonezet } = await request.json() as {
+    const { valaszok, nev, keresztnev, telefon, email, oldal, emlekeztetoId, hozzajarulas, eventId, website, reszleges, elonezet, elonezetSorszam } = await request.json() as {
       valaszok: Record<string, string>;
       nev: string;
       /** megszólításhoz az emlékeztetőben */
@@ -23,6 +23,8 @@ export async function POST(request: Request) {
       reszleges?: boolean;
       /** a levélsorozat azonnali előnézete — csak a saját címeinkre */
       elonezet?: boolean;
+      /** előnézetnél csak ez a levél (1–4) */
+      elonezetSorszam?: number;
     };
 
     // honeypot – bot csendben "sikeres"
@@ -48,7 +50,7 @@ export async function POST(request: Request) {
       const tisztaNev = (keresztnev ?? '').replace(/[^\p{L} .'-]/gu, '').trim().slice(0, 30);
       // előnézet: minden levél azonnal, de kizárólag a saját címeinkre
       const sajatCim = [NOTIFY_EMAIL, 'mullerdanielev@gmail.com'].includes(email.toLowerCase());
-      ujEmlekeztetoId = await utemezSorozat({ email, nev: tisztaNev, utvonal, azonnal: elonezet === true && sajatCim });
+      ujEmlekeztetoId = await utemezSorozat({ email, nev: tisztaNev, utvonal, azonnal: elonezet === true && sajatCim, csakSorszam: elonezetSorszam });
     }
 
     // félbehagyott kitöltés telefonszám nélkül: nincs kit visszahívni, nekünk nem küldünk értesítőt

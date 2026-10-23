@@ -36,19 +36,16 @@ const levelek: Level[] = [
   },
   {
     kesleltetes: NAP,
-    targy: (n) => nevvel(n, 'ezt kapod havi 79 000 Ft-ért'),
+    // személyes, „kézzel írt” hangvétel: ár, lista és gomb nélkül, hogy a Gmail ne a Promóciók közé tegye
+    targy: (n) => nevvel(n, 'ezt csinálnánk a vállalkozásoddal'),
     tartalom: (n, link) => `
       <p>${szia(n)}</p>
-      <p>Tegnap elkezdted a jelentkezést, ezért röviden leírjuk, mit kapsz tőlünk <b>havi 79 000 Ft-ért</b>:</p>
-      <ul style="padding-left:18px">
-        <li>Egész hónapban közös munka</li>
-        <li>Éjjel-nappal működő ügyfélszerzés Facebookon és Instagramon</li>
-        <li>Egy saját oldal, mint amin a jelentkezést kezdted</li>
-        <li>A leendő ügyfeleid elérhetőségei, azonnal</li>
-        <li>Heti beszámolók, és minket hívsz, mi vesszük fel</li>
-      </ul>
-      <p><b>Nincs hűségidő</b>, havonta felmondható. A hirdetési keretet közvetlenül a Metának fizeted.</p>
-      ${gomb(link, 'Kérem az ügyfélszerzési tervet →')}`,
+      <p>Tegnap elkezdted nálunk a jelentkezést, ezért röviden leírom, mit csinálnánk.</p>
+      <p>Készítünk neked egy saját oldalt, és Facebook- meg Instagram-hirdetésekkel odahozzuk azokat, akiknek
+      a környékeden pont rád van szükségük. Az ajánlatkérések azonnal megjönnek hozzád, neked csak fel kell venned
+      a telefont.</p>
+      <p>Nincs hűségidő, bármelyik hónapban leállíthatod.</p>
+      <p>Ha érdekel, itt be tudod fejezni a jelentkezést, kb. 1 perc: <a href="${link}">${link.replace('https://', '')}</a></p>`,
   },
   {
     kesleltetes: 3 * NAP,
@@ -84,7 +81,7 @@ const keret = (belso: string, leiratkozasLink: string | null) => `
   <div style="font-family:Arial,sans-serif;font-size:16px;line-height:1.55;color:#111;max-width:520px">
     ${belso}
     <p>Ha inkább beszélnél velünk, hívj nyugodtan: <b>+36 30 203 6721</b>.</p>
-    <p>Üdv,<br>Dani és Miki<br>NEZOR</p>
+    <p>Üdv,<br>Dániel és Miklós<br>NEZOR</p>
     <p style="margin-top:28px;font-size:12px;color:#777">
       Ezt a levelet azért kaptad, mert a nezor.hu oldalon megadtad az e-mail-címed, és hozzájárultál, hogy
       félbehagyott jelentkezés esetén legfeljebb 4 levélben emlékeztessünk.
@@ -93,13 +90,14 @@ const keret = (belso: string, leiratkozasLink: string | null) => `
   </div>`;
 
 /** Időzíti a teljes sorozatot; visszaadja a levelek azonosítóit (vesszővel elválasztva), vagy undefined-ot. */
-export async function utemezSorozat(o: { email: string; nev: string; utvonal: '/landing100' | '/epitoipar'; azonnal?: boolean }) {
+export async function utemezSorozat(o: { email: string; nev: string; utvonal: '/landing100' | '/epitoipar'; azonnal?: boolean; csakSorszam?: number }) {
   const link = `https://www.nezor.hu${o.utvonal}`;
   const most = Date.now();
   const azonositok: string[] = [];
   // fordított sorrendben: a 7 napos levél először, így a korábbiak leiratkozó linkje már ismeri a későbbieket
   // (előnézetnél a valós sorrendben küldjük, hogy a postafiókban is egymás után jöjjenek)
   for (const l of o.azonnal ? levelek : [...levelek].reverse()) {
+    if (o.azonnal && o.csakSorszam && levelek.indexOf(l) !== o.csakSorszam - 1) continue;
     // az utolsó levélben nincs leiratkozó link (utána úgysem jön több); a többiben a később időzítettek azonosítói
     const utolso = l === levelek[levelek.length - 1];
     const kesobbiek = o.azonnal ? [] : [...azonositok];
@@ -112,6 +110,7 @@ export async function utemezSorozat(o: { email: string; nev: string; utvonal: '/
       // előnézetnél (csak a saját címeinkre) azonnal megy ki minden levél
       ...(o.azonnal ? {} : { scheduledAt: new Date(most + l.kesleltetes).toISOString() }),
       html: keret(l.tartalom(o.nev, link), leiratkozasLink),
+      text: szovegge(keret(l.tartalom(o.nev, link), leiratkozasLink)),
     });
     if (error || !data?.id) {
       console.error('[epitoipar-emlekezteto] időzítés sikertelen', error);
@@ -120,6 +119,20 @@ export async function utemezSorozat(o: { email: string; nev: string; utvonal: '/
     azonositok.push(data.id);
   }
   return azonositok.length ? azonositok.join(',') : undefined;
+}
+
+/** HTML → egyszerű szöveg (a levelek text/plain változatához) */
+function szovegge(html: string) {
+  return html
+    .replace(/<a [^>]*href="([^"]+)"[^>]*>([^<]*)<\/a>/g, (_m, href: string, txt: string) => (txt.includes(href.replace('https://', '')) ? href : `${txt}: ${href}`))
+    .replace(/<li[^>]*>/g, '- ')
+    .replace(/<br\s*\/?>\s*/g, '\n')
+    .replace(/<\/(p|li|ul|div)>/g, '\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#x27;/g, "'")
+    .replace(/[ \t]+/g, ' ')
+    .replace(/\n\s*\n\s*/g, '\n\n')
+    .trim();
 }
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
