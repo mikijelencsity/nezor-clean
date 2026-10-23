@@ -146,8 +146,8 @@ const gyik: { kerdes: string; valasz: React.ReactNode }[] = [
     valasz: <>Általában <b>pár napon belül</b> a hirdetés indulása után.</>,
   },
   {
-    kerdes: 'Csak a környékemről jönnek az érdeklődők?',
-    valasz: <>Igen. A hirdetést <b>csak abban a körzetben mutatjuk</b>, ahol vállalsz munkát, például 50 km-en belül vagy a megadott megyékben.</>,
+    kerdes: 'Honnan jönnek az érdeklődők?',
+    valasz: <>Onnan, <b>ahonnan te szeretnéd</b>: egy városból, egy vagy több megyéből, egész Magyarországról, vagy akár külföldről, például Németországból. A hirdetést csak ott mutatjuk, ahol vállalsz munkát.</>,
   },
 ];
 
