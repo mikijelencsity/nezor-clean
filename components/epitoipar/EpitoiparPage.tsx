@@ -114,7 +114,7 @@ const UTVONAL_CIMKE: Record<string, string> = {
 
 /** A nyitóképernyő szövegei */
 const szoveg = {
-  lead: <>Egy gyönyörű családi ház árát már elhirdettük, hogy <strong>neked ne kelljen 7200+ órát rászánnod
+  lead: <>Egy gyönyörű családi ház árát már elhirdettük, hogy <strong>neked ne kelljen 12 000+ órát rászánnod
     olyan dologra, ami roha*tul nem érdekel</strong> :)</>,
   ajanlat: <><span>Így termel pénzt</span><strong>ez cégednek</strong></>,
   fbCim: 'Te is a Facebookot nyomod, és egy hirdetés szövegét olvasod…',
