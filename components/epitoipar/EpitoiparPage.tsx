@@ -611,23 +611,7 @@ export function EpitoiparPage() {
                 <svg className={styles.garanciaIkon} viewBox="0 0 24 24" aria-hidden="true">
                   <path fill="currentColor" d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4Zm-1.2 15.2-4-4 1.4-1.4 2.6 2.6 5.6-5.6 1.4 1.4-7 7Z" />
                 </svg>
-                <p className={styles.garanciaCim}>Ha nem hozunk munkát, <span>
-                  a{' '}
-                  <span className={styles.penzSzo}>
-                    {/* halvány, stilizált húszezres bankjegy a „pénzt” szó mögött */}
-                    <svg className={styles.huszezres} viewBox="0 0 220 104" aria-hidden="true">
-                      <rect x="1.5" y="1.5" width="217" height="101" rx="6" fill="#d7ead0" stroke="#5f8f55" strokeWidth="3" />
-                      <rect x="9" y="9" width="202" height="86" rx="3" fill="none" stroke="#5f8f55" strokeWidth="1.5" strokeDasharray="4 3" />
-                      <circle cx="160" cy="52" r="26" fill="#bcd9b2" stroke="#5f8f55" strokeWidth="2" />
-                      <text x="18" y="30" fontSize="17" fontWeight="700" fill="#4a7a41">20000</text>
-                      <text x="202" y="92" fontSize="17" fontWeight="700" fill="#4a7a41" textAnchor="end">20000</text>
-                      <text x="18" y="62" fontSize="13" fontWeight="700" fill="#4a7a41" letterSpacing="2">HÚSZEZER</text>
-                      <text x="18" y="80" fontSize="13" fontWeight="700" fill="#4a7a41" letterSpacing="2">FORINT</text>
-                    </svg>
-                    <span className={styles.penzSzoBetu}>pénzt</span>
-                  </span>{' '}
-                  visszaadjuk.
-                </span></p>
+                <p className={styles.garanciaCim}>Ha nem hozunk munkát, <span>a pénzt visszaadjuk.</span></p>
                 <p className={styles.garanciaSzoveg}>Ennyire biztosak vagyunk benne, hogy működik.</p>
               </div>
               <div className={styles.garanciaAlapito}>

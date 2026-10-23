@@ -238,19 +238,6 @@
   font-size: 1.35em; line-height: 1.2;
   box-shadow: 0 6px 16px rgba(0,0,0,.18);
 }
-/* a „pénzt” szó mögött halvány húszezres */
-.garanciaCim .penzSzo {
-  position: relative; display: inline-block; margin: 0; padding: 0; background: none; box-shadow: none;
-  font-size: inherit; line-height: inherit; color: inherit;
-}
-.huszezres {
-  position: absolute; left: 50%; top: 50%; z-index: 0; width: 2.9em; height: auto;
-  transform: translate(-50%, -50%) rotate(-7deg); opacity: .45; pointer-events: none;
-}
-.garanciaCim .penzSzoBetu {
-  position: relative; z-index: 1; display: inline; margin: 0; padding: 0; background: none; box-shadow: none;
-  font-size: inherit; line-height: inherit; color: inherit;
-}
 .garanciaSzoveg { margin-top: 8px; font-size: clamp(12px, 3.4vw, 15px); line-height: 1.35; color: #dbe8ff; }
 .garanciaCtaCim {
   margin: 28px 0 14px; font-family: var(--font-robusztus), sans-serif;
