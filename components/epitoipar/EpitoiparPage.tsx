@@ -191,9 +191,9 @@ const epitoipariReferenciak = [
   {
     szegmens: 'Hőszigetelés',
     kep: '/referencia-hirdetesek/hoszigeteles.webp', kepW: 900, kepH: 900,
-    leiras: 'Frissen indult kampány, ezek az első napok számai.',
-    lead: '2', arPerLead: '4 206 Ft', idotartam: '8 nap',
-    koltes: '8 439 Ft', napi: '1 000 Ft', aktiv: true,
+    leiras: 'Rezsicsökkentésre építő hirdetésekkel hoztunk érdeklődőket hőszigetelésre.',
+    lead: '72', arPerLead: '846 Ft', idotartam: '',
+    koltes: '60 942 Ft', napi: '1 000 Ft', aktiv: false,
   },
 ];
 
@@ -892,10 +892,10 @@ export function EpitoiparPage() {
               </summary>
               <Image unoptimized loading="eager" className={styles.refKep} src={r.kep} alt={`${r.szegmens}: kép a munkáról`} width={r.kepW} height={r.kepH} sizes="(max-width: 480px) 86vw, 400px" />
               <p>{r.leiras}</p>
-              <div className={styles.refStatok}>
+              <div className={`${styles.refStatok} ${r.idotartam ? '' : styles.refStatokNegy}`}>
                 <p><b>{r.lead}</b><span>érdeklődő</span></p>
                 <p><b>{r.arPerLead}</b><span>/ érdeklődő</span></p>
-                <p><b>{r.idotartam}</b><span>alatt</span></p>
+                {r.idotartam && <p><b>{r.idotartam}</b><span>alatt</span></p>}
                 <p><b>{r.koltes}</b><span>eddigi költés</span></p>
                 <p><b>{r.napi}</b><span>napi költés</span></p>
               </div>
