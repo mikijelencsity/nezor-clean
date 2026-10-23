@@ -397,6 +397,28 @@
   font: inherit; font-size: 15px; font-weight: 700; color: #8a90a6;
 }
 
+/* köszönőoldal: „Mi történik most?” lépései (telefonra optimalizálva: egymás alatt, nagy érintési felület) */
+.mostCim {
+  margin: 30px 0 14px; font-family: var(--font-robusztus), sans-serif; font-weight: 400;
+  font-size: clamp(28px, 8.5vw, 38px); text-transform: uppercase; color: #000;
+}
+.mostLepesek {
+  display: flex; flex-direction: column; gap: 10px; max-width: 480px; margin: 0 auto; padding: 0;
+  list-style: none; text-align: left;
+}
+.mostLepesek li {
+  display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 14px;
+  background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,.07);
+}
+.mostLepesek p { margin: 0; font-size: 16.5px; line-height: 1.4; color: #222; }
+.mostLepesek b { color: #000; }
+.mostLepesek a { color: #0064e0; font-weight: 800; white-space: nowrap; text-decoration: none; }
+.mostSzam {
+  display: flex; align-items: center; justify-content: center; flex: none; width: 40px; height: 40px;
+  border-radius: 50%; background: #0064e0; color: #fff;
+  font-family: var(--font-robusztus), sans-serif; font-size: 22px;
+}
+
 .kesz {
   display: flex; align-items: center; justify-content: center; width: 84px; height: 84px; margin: 10px auto 20px;
   border-radius: 50%; background: #0064e0; color: #fff; font-size: 44px; font-weight: 900;

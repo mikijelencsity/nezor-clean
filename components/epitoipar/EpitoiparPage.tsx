@@ -224,7 +224,8 @@ export function EpitoiparPage() {
   const magyarazoRef = useRef<HTMLParagraphElement>(null); // „Így termel pénzt…” magyarázó rész
   const arLefutott = useRef(false);
   const elkuldve = useRef(false);
-  const reszlegesKuldve = useRef(false);
+  const reszlegesKuldve = useRef<string | null>(null);
+  const emlekeztetoId = useRef<string | null>(null); // az időzített emlékeztető levél azonosítója
   const reszlegesAdat = useRef<string | null>(null);
   const fokusz = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
 
@@ -335,7 +336,8 @@ export function EpitoiparPage() {
     switch (aktualis.tipus) {
       case 'szoveg':
         // az első lépésben a név mellett az e-mail-címet is kérjük
-        return typeof e === 'string' && e.trim().length > 0 && (aktualis.kulcs !== 'keresztnev' || EMAIL_RE.test(email.trim()));
+        return typeof e === 'string' && e.trim().length > 0
+          && (aktualis.kulcs !== 'keresztnev' || (EMAIL_RE.test(email.trim()) && hozzajarulas));
       case 'hosszu':
         return typeof e === 'string' && e.trim().length > 0;
       case 'tobb':
@@ -356,6 +358,9 @@ export function EpitoiparPage() {
     }
     if (aktualis.kulcs === 'keresztnev' && !EMAIL_RE.test(email.trim())) {
       setError('Érvénytelen e-mail-cím. Pl. nev@ceged.hu'); return;
+    }
+    if (aktualis.kulcs === 'keresztnev' && !hozzajarulas) {
+      setError('A továbblépéshez fogadd el az adatkezelési tájékoztatót!'); return;
     }
     if (aktualis.tipus === 'szoveg' && aktualis.ellenoriz) {
       const hiba = aktualis.ellenoriz(String(v[aktualis.kulcs]).trim());
@@ -380,16 +385,22 @@ export function EpitoiparPage() {
     return valaszok;
   };
 
-  // Félbehagyott jelentkezés: ha a telefonszám már megvan, de a látogató elhagyja az oldalt,
-  // az eddigi válaszokkal emailt kapunk róla (egyszer, beküldés esetén nem).
+  // Félbehagyott jelentkezés (csak hozzájárulással): ha a látogató elhagyja az oldalt,
+  // - telefonszám esetén az eddigi válaszokkal értesítő e-mailt kapunk, hogy visszahívhassuk;
+  // - e-mail-cím esetén a szerver 1 órára időzít neki egy emlékeztető levelet.
+  // Ha később mégis befejezi, a végleges küldés lemondja az időzített emlékeztetőt.
   useEffect(() => {
-    reszlegesAdat.current = indul && !sent && MOBIL_RE.test(mobil) && hozzajarulas && lepes > 1
+    const vanTelefon = MOBIL_RE.test(mobil);
+    const vanEmail = EMAIL_RE.test(email.trim());
+    reszlegesAdat.current = indul && !sent && hozzajarulas && nev !== '' && (vanTelefon || vanEmail)
       ? JSON.stringify({
           reszleges: true,
           valaszok: valaszokOsszeallit(),
           nev: [vezeteknev.trim(), nev].filter(Boolean).join(' '),
-          telefon: `+36 ${mobil}`,
-          email: EMAIL_RE.test(email.trim()) ? email.trim() : undefined,
+          keresztnev: nev,
+          telefon: vanTelefon ? `+36 ${mobil}` : undefined,
+          email: vanEmail ? email.trim() : undefined,
+          oldal: window.location.pathname,
           hozzajarulas,
           website,
         })
@@ -398,11 +409,22 @@ export function EpitoiparPage() {
 
   useEffect(() => {
     const kuld = () => {
-      if (reszlegesKuldve.current || elkuldve.current || !reszlegesAdat.current) return;
-      reszlegesKuldve.current = true;
-      try {
-        navigator.sendBeacon('/api/epitoipar-lead', new Blob([reszlegesAdat.current], { type: 'application/json' }));
-      } catch { /* nem elérhető */ }
+      // ugyanazt az adatot nem küldjük kétszer; új adat (pl. közben megadott telefonszám) esetén igen
+      if (elkuldve.current || !reszlegesAdat.current || reszlegesKuldve.current === reszlegesAdat.current) return;
+      reszlegesKuldve.current = reszlegesAdat.current;
+      // a már időzített emlékeztető azonosítóját is visszaküldjük, hogy a szerver ne időzítsen újat
+      const torzs = JSON.stringify({ ...JSON.parse(reszlegesAdat.current), emlekeztetoId: emlekeztetoId.current ?? undefined });
+      // keepalive: az oldal bezárása után is elmegy; ha az oldal nyitva marad (pl. fülváltás),
+      // megkapjuk az időzített emlékeztető azonosítóját, hogy befejezéskor lemondhassuk
+      fetch('/api/epitoipar-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: torzs,
+        keepalive: true,
+      })
+        .then((r) => r.json())
+        .then((d: { emlekeztetoId?: string }) => { if (d.emlekeztetoId) emlekeztetoId.current = d.emlekeztetoId; })
+        .catch(() => { /* az oldal közben bezárult */ });
     };
     const onRejtve = () => { if (document.visibilityState === 'hidden') kuld(); };
     document.addEventListener('visibilitychange', onRejtve);
@@ -436,6 +458,7 @@ export function EpitoiparPage() {
           nev: `${vezeteknev.trim()} ${nev}`,
           telefon: `+36 ${mobil}`,
           email: email.trim(),
+          emlekeztetoId: emlekeztetoId.current ?? undefined,
           hozzajarulas, eventId, website,
         }),
       });
@@ -465,8 +488,9 @@ export function EpitoiparPage() {
         <button type="button" className={styles.linkGomb} onClick={(e) => { e.preventDefault(); setAdatPanel(true); }}>
           Adatkezelési tájékoztatót
         </button>, és
-        hozzájárulok, hogy a megadott adataimat a kapcsolatfelvétel céljából kezeljétek, valamint hirdetéseitek
-        mérése céljából titkosítva a Meta részére továbbítsátok. *
+        hozzájárulok, hogy a megadott adataimat a kapcsolatfelvétel céljából kezeljétek, félbehagyott kitöltés
+        esetén e-mailben emlékeztessetek, valamint hirdetéseitek mérése céljából titkosítva a Meta részére
+        továbbítsátok. *
       </span>
     </label>
   );
@@ -708,6 +732,7 @@ export function EpitoiparPage() {
                         onChange={(e) => setEmail(e.target.value)}
                       />
                     )}
+                    {aktualis.kulcs === 'keresztnev' && hozzajarulasMezo}
                     {error && <p className={styles.error}>{error}</p>}
                     {tovabbGomb(ervenyes)}
                   </>
@@ -728,7 +753,6 @@ export function EpitoiparPage() {
                         onChange={(e) => setTelefon(e.target.value)}
                       />
                     </div>
-                    {hozzajarulasMezo}
                     {error && <p className={styles.error}>{error}</p>}
                     <button type="submit" className={`${styles.tovabb} ${ervenyes ? styles.tovabbAktiv : ''}`}>
                       Tovább <span aria-hidden="true">→</span>
@@ -945,8 +969,9 @@ export function EpitoiparPage() {
             <li>A látogatás technikai adatait (IP-cím, böngésző), amelyeket a tárhelyszolgáltató automatikusan rögzít.</li>
           </ul>
           <p>
-            <b>Félbehagyott kitöltés:</b> ha a telefonszámod megadtad és a jelölőnégyzetet bepipáltad, de nem küldöd el
-            az űrlapot, az addig megadott adataidról e-mailt kapunk, hogy visszahívhassunk.
+            <b>Félbehagyott kitöltés:</b> ha a jelölőnégyzetet bepipáltad, de nem küldöd el az űrlapot, kb. 1 óra múlva
+            egy emlékeztető e-mailt küldünk a megadott címre (egyetlen levelet). Ha a telefonszámod is megadtad, az
+            addig megadott adataidról mi is e-mailt kapunk, hogy visszahívhassunk.
           </p>
 
           <h3>Mire használjuk?</h3>

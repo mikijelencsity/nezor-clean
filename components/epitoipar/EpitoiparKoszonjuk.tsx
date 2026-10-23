@@ -60,6 +60,23 @@ export function EpitoiparKoszonjuk() {
               : <>Hamarosan hívunk erről a számról: <b>+36 30 203 6721</b>. Vedd fel! 📞</>}
             <br />Kérdés esetén: <a href="mailto:info@nezor.hu">info@nezor.hu</a>
           </p>
+
+          {/* MI TÖRTÉNIK MOST? — 3 lépés */}
+          <h2 className={styles.mostCim}>Mi történik most?</h2>
+          <ol className={styles.mostLepesek}>
+            <li>
+              <span className={styles.mostSzam} aria-hidden="true">1</span>
+              <p><b>Átnézzük a válaszaidat.</b></p>
+            </li>
+            <li>
+              <span className={styles.mostSzam} aria-hidden="true">2</span>
+              <p><b>24 órán belül hívunk</b> a <a href="tel:+36302036721">+36 30 203 6721</a>-ről.</p>
+            </li>
+            <li>
+              <span className={styles.mostSzam} aria-hidden="true">3</span>
+              <p><b>Rövid, lényegre törő beszélgetés</b>, és a válaszaid alapján <b>ügyfélszerzési tervet</b> állítunk össze.</p>
+            </li>
+          </ol>
         </div>
       </div>
     </div>
