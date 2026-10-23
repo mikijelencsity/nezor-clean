@@ -172,7 +172,7 @@ const epitoipariReferenciak = [
     leiras: 'Acélvázas, könnyűszerkezetes házakra gyűjtöttünk ajánlatkéréseket. A kampány már az első hetekben beindult.',
     lead: '204', arPerLead: '867 Ft', idotartam: '2,5 hét',
     koltes: '177 009 Ft', napi: '10 000 Ft', aktiv: true,
-    lezaras: '10%', munkaErtek: '45 M Ft',
+    lezaras: '7,5%', munkaErtek: '70 M+ Ft',
   },
   {
     szegmens: 'Térkövezés, betonozás, kertépítés',
