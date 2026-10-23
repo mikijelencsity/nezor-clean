@@ -77,15 +77,13 @@ const levelek: Level[] = [
   },
 ];
 
-const keret = (belso: string, leiratkozasLink: string | null) => `
+const keret = (belso: string, leiratkozasLink: string) => `
   <div style="font-family:Arial,sans-serif;font-size:16px;line-height:1.55;color:#111;max-width:520px">
     ${belso}
     <p>Ha inkább beszélnél velünk, hívj nyugodtan: <b>+36 30 203 6721</b>.</p>
     <p>Üdv,<br>Dániel és Miklós<br>NEZOR</p>
-    <p style="margin-top:28px;font-size:12px;color:#777">
-      Ezt a levelet azért kaptad, mert a nezor.hu oldalon megadtad az e-mail-címed, és hozzájárultál, hogy
-      félbehagyott jelentkezés esetén legfeljebb 4 levélben emlékeztessünk.
-      ${leiratkozasLink ? `<a href="${leiratkozasLink}" style="color:#777">Nem kérek több levelet</a>.` : 'Ez volt az utolsó levelünk.'}
+    <p style="margin-top:30px">
+      <a href="${leiratkozasLink}" style="display:inline-block;padding:8px 14px;border:1px solid #ccc;border-radius:8px;color:#777;font-size:12px;text-decoration:none">Leiratkozás</a>
     </p>
   </div>`;
 
@@ -99,9 +97,9 @@ export async function utemezSorozat(o: { email: string; nev: string; utvonal: '/
   for (const l of o.azonnal ? levelek : [...levelek].reverse()) {
     if (o.azonnal && o.csakSorszam && levelek.indexOf(l) !== o.csakSorszam - 1) continue;
     // az utolsó levélben nincs leiratkozó link (utána úgysem jön több); a többiben a később időzítettek azonosítói
-    const utolso = l === levelek[levelek.length - 1];
+    // minden levélben van leiratkozás gomb: a nála később időzített levelek azonosítóit mondja le
     const kesobbiek = o.azonnal ? [] : [...azonositok];
-    const leiratkozasLink = utolso ? null : `https://www.nezor.hu/api/epitoipar-lead/leiratkozas?ids=${kesobbiek.join(',')}`;
+    const leiratkozasLink = `https://www.nezor.hu/api/epitoipar-lead/leiratkozas?ids=${kesobbiek.join(',')}`;
     const { data, error } = await resend.emails.send({
       from: FROM_EMAIL,
       to: o.email,
@@ -111,6 +109,8 @@ export async function utemezSorozat(o: { email: string; nev: string; utvonal: '/
       ...(o.azonnal ? {} : { scheduledAt: new Date(most + l.kesleltetes).toISOString() }),
       html: keret(l.tartalom(o.nev, link), leiratkozasLink),
       text: szovegge(keret(l.tartalom(o.nev, link), leiratkozasLink)),
+      // a Gmail és más levelezők saját „Leiratkozás” gombja is ezt használja
+      headers: { 'List-Unsubscribe': `<${leiratkozasLink}>` },
     });
     if (error || !data?.id) {
       console.error('[epitoipar-emlekezteto] időzítés sikertelen', error);
