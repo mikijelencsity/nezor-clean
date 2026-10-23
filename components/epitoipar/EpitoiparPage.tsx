@@ -151,42 +151,49 @@ const referenciak = [
 
 // Építőipari referenciák a referencia panelhez (Meta hirdetéskezelő, 2026.10.22-i állapot).
 // koltes: eddigi teljes költés, napi: jelenlegi napi keret, aktiv: fut-e most a kampány
+// lezaras, munkaErtek: becsült értékek (nem a Metából)
 const epitoipariReferenciak = [
   {
     szegmens: 'Mobilház-gyártás',
-    leiras: 'Mobilházakra kerestünk vevőket Facebookon és Instagramon. Eddig ez hozta a legolcsóbb érdeklődőket.',
+    leiras: 'Mobilházakra kerestünk vevőket Facebookon és Instagramon. Eddig ez hozta a legolcsóbb ajánlatkéréseket.',
     lead: '1 125', arPerLead: '339 Ft', idotartam: '5 hét',
     koltes: '381 046 Ft', napi: '10 000 Ft', aktiv: true,
+    lezaras: '10%', munkaErtek: '3,5 M Ft',
   },
   {
     szegmens: 'Generálkivitelezés',
-    leiras: 'Építkezni, felújítani készülő érdeklődőket hoztunk egy generálkivitelezőnek képes, videós hirdetésekkel.',
+    leiras: 'Építkezni, felújítani készülőktől hoztunk ajánlatkéréseket egy generálkivitelezőnek.',
     lead: '242', arPerLead: '1 355 Ft', idotartam: '5 hét',
     koltes: '327 976 Ft', napi: '10 000 Ft', aktiv: true,
+    lezaras: '12%', munkaErtek: '4 M Ft',
   },
   {
     szegmens: 'Könnyűszerkezetes házak',
-    leiras: 'Acélvázas, könnyűszerkezetes házakra gyűjtöttünk érdeklődőket. A kampány már az első hetekben beindult.',
+    leiras: 'Acélvázas, könnyűszerkezetes házakra gyűjtöttünk ajánlatkéréseket. A kampány már az első hetekben beindult.',
     lead: '204', arPerLead: '867 Ft', idotartam: '2,5 hét',
     koltes: '177 009 Ft', napi: '10 000 Ft', aktiv: true,
+    lezaras: '10%', munkaErtek: '45 M Ft',
   },
   {
     szegmens: 'Térkövezés, betonozás, kertépítés',
     leiras: 'Egy helyi kivitelezőnek hozunk ajánlatkéréseket térkövezésre, betonozásra és kertépítésre.',
     lead: '200', arPerLead: '741 Ft', idotartam: '3 hónap',
     koltes: '148 299 Ft', napi: '2 000 Ft', aktiv: true,
+    lezaras: '20%', munkaErtek: '1,2 M Ft',
   },
   {
     szegmens: 'Laminált parketta',
-    leiras: 'Laminált parkettára gyűjtöttünk érdeklődőket egy hónapon át.',
+    leiras: 'Laminált parkettára gyűjtöttünk ajánlatkéréseket egy hónapon át.',
     lead: '46', arPerLead: '1 290 Ft', idotartam: '4 hét',
-    koltes: '59 339 Ft', napi: '2 200 Ft', aktiv: false,
+    koltes: '59 339 Ft', napi: '2 000 Ft', aktiv: false,
+    lezaras: '18%', munkaErtek: '600 E Ft',
   },
   {
     szegmens: 'Hőszigetelés',
-    leiras: 'Rezsicsökkentésre építő hirdetésekkel hoztunk érdeklődőket hőszigetelésre.',
+    leiras: 'Rezsicsökkentésre építő hirdetésekkel hoztunk ajánlatkéréseket hőszigetelésre.',
     lead: '72', arPerLead: '846 Ft', idotartam: '',
     koltes: '60 942 Ft', napi: '2 000 Ft', aktiv: false,
+    lezaras: '15%', munkaErtek: '3 M Ft',
   },
 ];
 
@@ -813,7 +820,7 @@ export function EpitoiparPage() {
               Tegyük fel, <b>budapesti villanyszerelő vagy</b>, és 50 km-en belül vállalsz munkát.
             </p>
             <p>
-              Mi elkészítjük <b>a saját oldaladat</b> (olyat, mint ez), és <b>Facebook- és Instagram-hirdetésekkel</b>
+              Mi elkészítjük <b>a saját oldaladat</b> (olyat, mint ez), és <b>Facebook- és Instagram-hirdetésekkel</b>{' '}
               odahozzuk azokat, akiknek 50 km-en belül villanyszerelő kell.
             </p>
             <p>
@@ -884,12 +891,14 @@ export function EpitoiparPage() {
                 <span className={`${styles.refAllapot} ${r.aktiv ? styles.refAktiv : ''}`}>{r.aktiv ? 'Aktív' : 'Szünetel'}</span>
               </summary>
               <p>{r.leiras}</p>
-              <div className={`${styles.refStatok} ${r.idotartam ? '' : styles.refStatokNegy}`}>
-                <p><b>{r.lead}</b><span>érdeklődő</span></p>
-                <p><b>{r.arPerLead}</b><span>/ érdeklődő</span></p>
-                {r.idotartam && <p><b>{r.idotartam}</b><span>alatt</span></p>}
+              <div className={styles.refStatok}>
+                <p><b>{r.lead}</b><span>ajánlatkérés</span></p>
+                <p><b>{r.arPerLead}</b><span>/ ajánlatkérés</span></p>
+                <p><b>{r.lezaras}</b><span>becsült lezárás</span></p>
+                <p><b>{r.munkaErtek}</b><span>átlagos munka értéke*</span></p>
                 <p><b>{r.koltes}</b><span>eddigi költés</span></p>
                 <p><b>{r.napi}</b><span>napi költés</span></p>
+                {r.idotartam && <p><b>{r.idotartam}</b><span>alatt</span></p>}
               </div>
               <button type="button" className={`${styles.introCta} ${styles.panelReszCta}`} tabIndex={refPanel ? 0 : -1} onClick={() => { setRefPanel(false); indit(); }}>
                 Nekem is ilyet! <span aria-hidden="true">→</span>
@@ -897,7 +906,10 @@ export function EpitoiparPage() {
             </details>
           ))}
 
-          <p className={styles.refForras}>Valós adatok a Meta hirdetéskezelőből, 2026. október.</p>
+          <p className={styles.refForras}>
+            Ajánlatkérések és költések: valós adatok a Meta hirdetéskezelőből, 2026. október.
+            <br />* A lezárási arány és az átlagos munkaérték becslés.
+          </p>
           <button type="button" className={`${styles.introCta} ${styles.panelCta}`} tabIndex={refPanel ? 0 : -1} onClick={() => { setRefPanel(false); indit(); }}>
             Oké, kezdjük el <span aria-hidden="true">→</span>
           </button>

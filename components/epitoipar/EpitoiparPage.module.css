@@ -451,11 +451,9 @@
 .panelBlokk b { color: #000; }
 .panelBlokk p + p { margin-top: 10px; }
 /* referencia panel: számok egymás mellett */
-.refStatok { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin: 12px 0 4px; }
-.refStatok p { grid-column: span 2; }
-.refStatok p:nth-child(n+4) { grid-column: span 3; }
-/* időtartam nélkül 4 doboz: kettő-kettő egy sorban */
-.refStatokNegy p, .refStatokNegy p:nth-child(n+4) { grid-column: span 3; }
+.refStatok { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 12px 0 4px; }
+/* páratlan számú doboznál az utolsó kitölti a sort */
+.refStatok p:last-child:nth-child(odd) { grid-column: span 2; }
 /* aktív / szünetel jelölés a referencia címe mellett */
 .refAllapot {
   flex: none; margin-left: auto; padding: 4px 9px; border-radius: 999px; background: #eceef3;
