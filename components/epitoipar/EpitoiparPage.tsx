@@ -186,7 +186,7 @@ const epitoipariReferenciak = [
     szegmens: 'Hőszigetelés',
     leiras: 'Rezsicsökkentésre építő hirdetésekkel hoztunk érdeklődőket hőszigetelésre.',
     lead: '72', arPerLead: '846 Ft', idotartam: '',
-    koltes: '60 942 Ft', napi: '1 000 Ft', aktiv: false,
+    koltes: '60 942 Ft', napi: '2 000 Ft', aktiv: false,
   },
 ];
 
