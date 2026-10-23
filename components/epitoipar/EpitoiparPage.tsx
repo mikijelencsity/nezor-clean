@@ -307,6 +307,13 @@ export function EpitoiparPage() {
     return () => { obs.disconnect(); cancelAnimationFrame(raf); };
   }, [indul]);
 
+  // a süti-sáv „Adatkezelési tájékoztató” linkje is ezt a panelt nyitja (nem visz el az oldalról)
+  useEffect(() => {
+    const nyit = (e: Event) => { e.preventDefault(); setAdatPanel(true); };
+    window.addEventListener('nezor_adatkezeles_open', nyit);
+    return () => window.removeEventListener('nezor_adatkezeles_open', nyit);
+  }, []);
+
   useEffect(() => {
     if (!panel && !refPanel && !adatPanel) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setPanel(false); setRefPanel(false); setAdatPanel(false); } };
@@ -883,7 +890,7 @@ export function EpitoiparPage() {
         </aside>
 
         {/* OLDALRÓL KINYÍLÓ ADATKEZELÉSI TÁJÉKOZTATÓ — erre a landingre szabva, nem visz el az oldalról */}
-        <div className={`${styles.panelHatter} ${adatPanel ? styles.panelHatterNyitva : ''}`} onClick={() => setAdatPanel(false)} aria-hidden="true" />
+        <div className={`${styles.panelHatter} ${styles.adatPanelHatter} ${adatPanel ? styles.panelHatterNyitva : ''}`} onClick={() => setAdatPanel(false)} aria-hidden="true" />
         <aside
           className={`${styles.panel} ${styles.adatPanel} ${adatPanel ? styles.panelNyitva : ''}`}
           role="dialog"

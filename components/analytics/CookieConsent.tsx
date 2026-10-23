@@ -44,7 +44,16 @@ export function CookieConsent() {
     <div className={`${styles.bar} ${show ? styles.barShow : ''} ${isLanding ? styles.landing : ''} ${isEpitoipar ? styles.epitoipar : ''}`}>
       <p className={styles.text}>
         Ez a weboldal sütiket használ a működéshez és a felhasználói élmény javításához. Részletek az{' '}
-        <a href="/adatkezeles">Adatkezelési tájékoztatóban</a>.
+        <a
+          href="/adatkezeles"
+          onClick={(e) => {
+            // ha az oldalnak saját adatkezelési panelje van (pl. építőipari landing), azt nyitja meg átirányítás helyett
+            const ev = new Event('nezor_adatkezeles_open', { cancelable: true });
+            if (!window.dispatchEvent(ev)) e.preventDefault();
+          }}
+        >
+          Adatkezelési tájékoztatóban
+        </a>.
       </p>
       <div className={styles.actions}>
         <button type="button" className={`${styles.btn} ${styles.reject}`} onClick={() => decide('rejected')}>

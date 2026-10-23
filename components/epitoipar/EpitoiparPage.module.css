@@ -473,7 +473,11 @@
 }
 .refStatok b { display: block; font-size: 20px; color: #0064e0; }
 /* adatkezelési tájékoztató panel */
-.adatAlcim { margin: -10px 0 14px; font-size: 13px; font-weight: 700; color: #5a6079; }
+/* a süti-sáv (z-index 9500) fölött nyílik, mert onnan is megnyitható */
+.adatPanel { z-index: 9610; }
+.adatPanelHatter { z-index: 9600; }
+.adatPanel .panelCim { font-size: 36px; line-height: 1.1; color: #000; }
+.adatPanel .adatAlcim { margin: -10px 0 14px; font-size: 13px; font-weight: 700; color: #5a6079; }
 .adatPanel h3 {
   margin: 20px 0 8px; padding-top: 14px; border-top: 2px solid #eee;
   font-family: var(--font-robusztus), sans-serif; font-weight: 400; font-size: 21px; text-transform: uppercase; color: #000;
