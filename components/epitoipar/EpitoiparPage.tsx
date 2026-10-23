@@ -489,7 +489,7 @@ export function EpitoiparPage() {
           Adatkezelési tájékoztatót
         </button>, és
         hozzájárulok, hogy a megadott adataimat a kapcsolatfelvétel céljából kezeljétek, félbehagyott kitöltés
-        esetén e-mailben emlékeztessetek, valamint hirdetéseitek mérése céljából titkosítva a Meta részére
+        esetén legfeljebb 4 e-mailben emlékeztessetek és ajánlatot küldjetek, valamint hirdetéseitek mérése céljából titkosítva a Meta részére
         továbbítsátok. *
       </span>
     </label>
@@ -969,8 +969,10 @@ export function EpitoiparPage() {
             <li>A látogatás technikai adatait (IP-cím, böngésző), amelyeket a tárhelyszolgáltató automatikusan rögzít.</li>
           </ul>
           <p>
-            <b>Félbehagyott kitöltés:</b> ha a jelölőnégyzetet bepipáltad, de nem küldöd el az űrlapot, kb. 1 óra múlva
-            egy emlékeztető e-mailt küldünk a megadott címre (egyetlen levelet). Ha a telefonszámod is megadtad, az
+            <b>Félbehagyott kitöltés:</b> ha a jelölőnégyzetet bepipáltad, de nem küldöd el az űrlapot, legfeljebb 4 e-mailt
+            küldünk a megadott címre: 1 óra múlva egy emlékeztetőt, 1 nap múlva az ajánlatunkat, 3 nap múlva
+            referenciákat, 7 nap múlva egy utolsó ajánlatot. Ha közben befejezed a jelentkezést, vagy a levélben a
+            leiratkozásra kattintasz, a hátralévőket töröljük. Ha a telefonszámod is megadtad, az
             addig megadott adataidról mi is e-mailt kapunk, hogy visszahívhassunk.
           </p>
 
