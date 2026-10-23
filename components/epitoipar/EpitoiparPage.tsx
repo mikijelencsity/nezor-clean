@@ -188,7 +188,7 @@ const epitoipariReferenciak = [
     leiras: 'Laminált parkettára gyűjtöttünk ajánlatkéréseket egy hónapon át.',
     lead: '46', arPerLead: '1 290 Ft', idotartam: '4 hét',
     koltes: '59 339 Ft', napi: '2 000 Ft', aktiv: false,
-    lezaras: '12%', munkaErtek: '600 E Ft',
+    lezaras: '12%', munkaErtek: '200 E Ft',
   },
   {
     szegmens: 'Hőszigetelés',
