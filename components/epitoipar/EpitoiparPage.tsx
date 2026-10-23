@@ -45,7 +45,7 @@ const lepesek: Lepes[] = [
   {
     tipus: 'szoveg', kulcs: 'keresztnev', cimke: 'Keresztnév',
     felett: 'Rendben, nem húzzuk az időd. De mielőtt belevágunk — nem akarunk udvariatlanok lenni…',
-    cim: '**Hogy hívnak?**',
+    cim: '**Hogy hívnak**, és hova írhatunk?',
     placeholder: 'Keresztneved',
   },
   {
@@ -334,6 +334,8 @@ export function EpitoiparPage() {
     const e = v[aktualis.kulcs];
     switch (aktualis.tipus) {
       case 'szoveg':
+        // az első lépésben a név mellett az e-mail-címet is kérjük
+        return typeof e === 'string' && e.trim().length > 0 && (aktualis.kulcs !== 'keresztnev' || EMAIL_RE.test(email.trim()));
       case 'hosszu':
         return typeof e === 'string' && e.trim().length > 0;
       case 'tobb':
@@ -351,6 +353,9 @@ export function EpitoiparPage() {
     if (aktualis.tipus === 'telefon') {
       if (!MOBIL_RE.test(mobil)) { setError('Érvénytelen mobilszám. Pl. 30 123 4567'); return; }
       if (!hozzajarulas) { setError('A továbblépéshez fogadd el az adatkezelési tájékoztatót!'); return; }
+    }
+    if (aktualis.kulcs === 'keresztnev' && !EMAIL_RE.test(email.trim())) {
+      setError('Érvénytelen e-mail-cím. Pl. nev@ceged.hu'); return;
     }
     if (aktualis.tipus === 'szoveg' && aktualis.ellenoriz) {
       const hiba = aktualis.ellenoriz(String(v[aktualis.kulcs]).trim());
@@ -384,6 +389,7 @@ export function EpitoiparPage() {
           valaszok: valaszokOsszeallit(),
           nev: [vezeteknev.trim(), nev].filter(Boolean).join(' '),
           telefon: `+36 ${mobil}`,
+          email: EMAIL_RE.test(email.trim()) ? email.trim() : undefined,
           hozzajarulas,
           website,
         })
@@ -691,6 +697,17 @@ export function EpitoiparPage() {
                       value={String(v[aktualis.kulcs] ?? '')}
                       onChange={(e) => beallit(aktualis.kulcs, e.target.value)}
                     />
+                    {aktualis.kulcs === 'keresztnev' && (
+                      <input
+                        className={`${styles.mezo} ${styles.mezoMasodik}`}
+                        type="email"
+                        inputMode="email"
+                        autoComplete="email"
+                        placeholder="E-mail-címed"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    )}
                     {error && <p className={styles.error}>{error}</p>}
                     {tovabbGomb(ervenyes)}
                   </>
@@ -802,7 +819,6 @@ export function EpitoiparPage() {
                     <input className={styles.mezo} type="tel" inputMode="tel" autoComplete="tel-national" placeholder="Mobilszám * (pl. 30 123 4567)" value={telefon} onChange={(e) => setTelefon(e.target.value)} />
                   </div>
                   <input className={styles.mezo} type="text" autoComplete="organization" placeholder="Cégnév *" value={cegnev} onChange={(e) => setCegnev(e.target.value)} />
-                  <input className={styles.mezo} type="email" inputMode="email" autoComplete="email" placeholder="E-mail-cím *" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 {hozzajarulasMezo}
                 {error && <p className={styles.error}>{error}</p>}

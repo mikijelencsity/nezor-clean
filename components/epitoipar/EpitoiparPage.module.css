@@ -93,6 +93,8 @@
 .tartalom { padding-top: 10px; }
 .mikro { margin-top: 10px; font-size: 13px; font-weight: 700; color: #5a6079; }
 .mikroBal { text-align: left; }
+/* az első lépés második mezője (e-mail) a név alatt */
+.mezo.mezoMasodik { margin-top: 10px; }
 /* a „Nagy, kék gomb” alatt, középre igazítva, sima fekete */
 .gyorstalpalo { margin-top: 10px; text-align: center; font-size: 16px; font-weight: 700; color: #000; }
 .mikroFelso { margin-bottom: 40px; }
