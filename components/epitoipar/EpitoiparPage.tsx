@@ -151,46 +151,39 @@ const referenciak = [
 
 // Építőipari referenciák a referencia panelhez (Meta hirdetéskezelő, 2026.10.22-i állapot).
 // koltes: eddigi teljes költés, napi: jelenlegi napi keret, aktiv: fut-e most a kampány
-// kep: a szegmens legtöbb érdeklődőt hozó hirdetésének képe
 const epitoipariReferenciak = [
   {
     szegmens: 'Mobilház-gyártás',
-    kep: '/referencia-hirdetesek/mobilhaz.webp', kepW: 900, kepH: 900,
     leiras: 'Mobilházakra kerestünk vevőket Facebookon és Instagramon. Eddig ez hozta a legolcsóbb érdeklődőket.',
     lead: '1 125', arPerLead: '339 Ft', idotartam: '5 hét',
     koltes: '381 046 Ft', napi: '10 000 Ft', aktiv: true,
   },
   {
     szegmens: 'Generálkivitelezés',
-    kep: '/referencia-hirdetesek/generalkivitelezes.webp', kepW: 900, kepH: 882,
     leiras: 'Építkezni, felújítani készülő érdeklődőket hoztunk egy generálkivitelezőnek képes, videós hirdetésekkel.',
     lead: '242', arPerLead: '1 355 Ft', idotartam: '5 hét',
     koltes: '327 976 Ft', napi: '10 000 Ft', aktiv: true,
   },
   {
     szegmens: 'Könnyűszerkezetes házak',
-    kep: '/referencia-hirdetesek/konnyuszerkezetes.webp', kepW: 900, kepH: 1066,
     leiras: 'Acélvázas, könnyűszerkezetes házakra gyűjtöttünk érdeklődőket. A kampány már az első hetekben beindult.',
     lead: '204', arPerLead: '867 Ft', idotartam: '2,5 hét',
     koltes: '177 009 Ft', napi: '10 000 Ft', aktiv: true,
   },
   {
     szegmens: 'Térkövezés, betonozás, kertépítés',
-    kep: '/referencia-hirdetesek/terkovezes.webp', kepW: 900, kepH: 1073,
     leiras: 'Egy helyi kivitelezőnek hozunk ajánlatkéréseket térkövezésre, betonozásra és kertépítésre.',
     lead: '200', arPerLead: '741 Ft', idotartam: '3 hónap',
     koltes: '148 299 Ft', napi: '2 000 Ft', aktiv: true,
   },
   {
     szegmens: 'Laminált parketta',
-    kep: '/referencia-hirdetesek/laminalt.webp', kepW: 900, kepH: 1600,
     leiras: 'Laminált parkettára gyűjtöttünk érdeklődőket egy hónapon át.',
     lead: '46', arPerLead: '1 290 Ft', idotartam: '4 hét',
     koltes: '59 339 Ft', napi: '2 200 Ft', aktiv: false,
   },
   {
     szegmens: 'Hőszigetelés',
-    kep: '/referencia-hirdetesek/hoszigeteles.webp', kepW: 900, kepH: 900,
     leiras: 'Rezsicsökkentésre építő hirdetésekkel hoztunk érdeklődőket hőszigetelésre.',
     lead: '72', arPerLead: '846 Ft', idotartam: '',
     koltes: '60 942 Ft', napi: '1 000 Ft', aktiv: false,
@@ -890,7 +883,6 @@ export function EpitoiparPage() {
                 {r.szegmens}
                 <span className={`${styles.refAllapot} ${r.aktiv ? styles.refAktiv : ''}`}>{r.aktiv ? 'Aktív' : 'Szünetel'}</span>
               </summary>
-              <Image unoptimized loading="eager" className={styles.refKep} src={r.kep} alt={`${r.szegmens}: kép a munkáról`} width={r.kepW} height={r.kepH} sizes="(max-width: 480px) 86vw, 400px" />
               <p>{r.leiras}</p>
               <div className={`${styles.refStatok} ${r.idotartam ? '' : styles.refStatokNegy}`}>
                 <p><b>{r.lead}</b><span>érdeklődő</span></p>
