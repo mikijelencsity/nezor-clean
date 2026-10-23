@@ -517,7 +517,7 @@ export function EpitoiparPage() {
                     <span>nyomj rá! <span aria-hidden="true">→</span></span>
                   </span>
                 </button>
-                <p className={`${styles.mikro} ${styles.mikroBal}`}>Gyorstalpaló: mi ez, miért jó, miért mi.</p>
+                <p className={styles.gyorstalpalo}>Gyorstalpaló: mi ez, miért jó, miért mi.</p>
               </div>
             </div>
             <p className={styles.introBizalom}>
