@@ -472,6 +472,30 @@
   font-size: 13.5px; font-weight: 700; line-height: 1.3; color: #000;
 }
 .refStatok b { display: block; font-size: 20px; color: #0064e0; }
+/* neonos „Garanciánk neked!” gomb az ajánlat-kártyában */
+.neonGomb {
+  display: block; margin: 18px 0 6px; padding: 14px 18px; cursor: pointer;
+  border: 3px solid #39b0ff; border-radius: 14px; background: #04122b;
+  font-family: var(--font-robusztus), sans-serif; font-size: clamp(22px, 6.4vw, 30px); line-height: 1.1;
+  text-transform: uppercase; letter-spacing: .04em; color: #e9f6ff;
+  text-shadow: 0 0 6px #39b0ff, 0 0 14px #39b0ff, 0 0 28px #0064e0;
+  box-shadow: 0 0 8px #39b0ff, 0 0 22px rgba(57,176,255,.75), inset 0 0 14px rgba(57,176,255,.55);
+  animation: neonVillan 2.4s ease-in-out infinite;
+  -webkit-tap-highlight-color: transparent;
+}
+.neonGomb:active { transform: scale(.98); }
+@keyframes neonVillan {
+  0%, 100% { box-shadow: 0 0 8px #39b0ff, 0 0 22px rgba(57,176,255,.75), inset 0 0 14px rgba(57,176,255,.55); }
+  50% { box-shadow: 0 0 12px #39b0ff, 0 0 36px rgba(57,176,255,.95), inset 0 0 20px rgba(57,176,255,.7); }
+}
+@media (prefers-reduced-motion: reduce) { .neonGomb { animation: none; } }
+/* garancia panel kiemelt mondata */
+.adatPanel .garPanelFo {
+  margin: -6px 0 6px; padding: 16px 14px; border-radius: 14px; background: #0064e0; text-align: center;
+  font-family: var(--font-robusztus), sans-serif; font-size: 26px; line-height: 1.15; text-transform: uppercase; color: #fff;
+}
+.adatPanel .garPanelFo span { display: block; color: #fff; }
+
 /* adatkezelési tájékoztató panel */
 /* a süti-sáv (z-index 9500) fölött nyílik, mert onnan is megnyitható */
 .adatPanel { z-index: 9610; }

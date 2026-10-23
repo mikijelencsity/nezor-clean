@@ -49,34 +49,12 @@ const lepesek: Lepes[] = [
     placeholder: 'Keresztneved',
   },
   {
-    // a telefonszámot korán kérjük: ha valaki félúton kilép, így is vissza tudjuk hívni
-    tipus: 'telefon', kulcs: 'telefon', cimke: 'Telefon',
-    cim: (n) => `Szia ${n}! **Hova hívhatunk**, hogy elindítsuk a közös munkát?`,
-    al: 'Csak ezért kérjük: telefonon mondjuk el, mit javaslunk. Spam nincs.',
-  },
-  {
     tipus: 'egy', kulcs: 'fb', cimke: 'Facebook-hirdetés',
-    felett: (n) => `Köszi, ${n}! Hogy kiderüljön, tényleg tudunk-e segíteni a vállalkozásodnak… van pár kérdésünk.`,
+    felett: (n) => `Szia ${n}! Hogy kiderüljön, tényleg tudunk-e segíteni a vállalkozásodnak… van pár kérdésünk.`,
     cim: 'Először: próbáltál már **fizetett Facebook-hirdetést**?',
     opciok: ['Igen, most is hirdetek', 'Próbáltam, de abbahagytam', 'Még nem próbáltam'],
     mikor: (v) => v.utvonal !== 'kezdo',
     szuro: (o, v) => !(v.utvonal === 'valto' && o === 'Még nem próbáltam'),
-  },
-  {
-    // csak annak, aki már hirdetett: ez a váltók legfontosabb kérdése
-    tipus: 'tobb', kulcs: 'gond', cimke: 'Mi volt a gond a hirdetéssel',
-    mikor: (v) => v.utvonal === 'valto' || (typeof v.fb === 'string' && v.fb !== 'Még nem próbáltam'),
-    felett: (n) => `Értem, ${n}. Akkor nézzük, min kell változtatni.`,
-    cim: 'Mi volt vele **a gond** eddig?',
-    al: '(Többet is választhatsz)',
-    opciok: [
-      { cimke: 'Drága volt, nem érte meg', ikon: '💸', szin: '#0064e0' },
-      { cimke: 'Nem jött belőle hívás', ikon: '📵', szin: '#555' },
-      { cimke: 'Nincs rá időm', ikon: '⏰', szin: '#f39c12' },
-      { cimke: 'Az ügynökség nem csinált semmit', ikon: '😴', szin: '#8e44ad' },
-      { cimke: 'Nem értek hozzá', ikon: '🤷', szin: '#1565c0' },
-      { cimke: 'Egyéb', ikon: '🔔', szin: '#f1c40f' },
-    ],
   },
   {
     tipus: 'tobb', kulcs: 'csatornak', cimke: 'Jelenlegi ügyfélszerzés',
@@ -108,10 +86,10 @@ const lepesek: Lepes[] = [
     opciok: ['50 000 Ft alatt', '50–100 ezer Ft', '100–200 ezer Ft', '200–500 ezer Ft', '500 ezer Ft felett', 'Még nem tudom'],
   },
   {
-    tipus: 'szoveg', kulcs: 'ugyfelszam', cimke: 'Havi új ügyfél', inputMode: 'numeric',
-    cim: 'Hány **új ügyfelet** szeretnél havonta?',
-    al: 'Ehhez mérten javasoljuk a hirdetési keretet.',
-    placeholder: 'Pl. 5',
+    // utolsó előtti lépés: a telefonszám (utána már csak az elérhetőségi adatok jönnek)
+    tipus: 'telefon', kulcs: 'telefon', cimke: 'Telefon',
+    cim: (n) => `Köszi, ${n}! **Hova hívhatunk**, hogy elindítsuk a közös munkát?`,
+    al: 'Csak ezért kérjük: telefonon mondjuk el, mit javaslunk. Spam nincs.',
   },
 ];
 
@@ -212,6 +190,7 @@ export function EpitoiparPage() {
   const [sent, setSent] = useState(false);
   const [panel, setPanel] = useState(false); // oldalról kinyíló „mi ez?” panel
   const [refPanel, setRefPanel] = useState(false); // oldalról kinyíló referencia panel
+  const [garPanel, setGarPanel] = useState(false); // oldalról kinyíló garancia panel
   const [adatPanel, setAdatPanel] = useState(false); // oldalról kinyíló, erre a landingre szabott adatkezelési tájékoztató
   const router = useRouter();
   const pathname = usePathname();
@@ -315,8 +294,8 @@ export function EpitoiparPage() {
   }, []);
 
   useEffect(() => {
-    if (!panel && !refPanel && !adatPanel) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setPanel(false); setRefPanel(false); setAdatPanel(false); } };
+    if (!panel && !refPanel && !adatPanel && !garPanel) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setPanel(false); setRefPanel(false); setAdatPanel(false); setGarPanel(false); } };
     document.addEventListener('keydown', onKey);
     const regi = document.documentElement.style.overflow;
     document.documentElement.style.overflow = 'hidden';
@@ -324,7 +303,7 @@ export function EpitoiparPage() {
       document.removeEventListener('keydown', onKey);
       document.documentElement.style.overflow = regi;
     };
-  }, [panel, refPanel, adatPanel]);
+  }, [panel, refPanel, adatPanel, garPanel]);
 
   /** Lehet-e továbblépni az aktuális lépésből */
   const ervenyes = (() => {
@@ -605,6 +584,9 @@ export function EpitoiparPage() {
                   <span className={styles.arHo} aria-hidden="true">/hó</span>
                 </p>
                 <p className={styles.csomagAl}>Ennyi a mi díjunk — és ezért mindent mi csinálunk.</p>
+                <button type="button" className={styles.neonGomb} onClick={() => setGarPanel(true)} aria-haspopup="dialog" aria-expanded={garPanel}>
+                  Garanciánk neked!
+                </button>
               </div>
               <ul className={styles.csomagLista}>
                 {szoveg.csomag.map((t) => <li key={t}>{t}</li>)}
@@ -885,6 +867,51 @@ export function EpitoiparPage() {
 
           <button type="button" className={`${styles.introCta} ${styles.panelCta}`} tabIndex={panel ? 0 : -1} onClick={() => { setPanel(false); indit(); }}>
             Oké, kezdjük el <span aria-hidden="true">→</span>
+          </button>
+          <p className={styles.mikro}>{MIKROSZOVEG}</p>
+        </aside>
+
+        {/* OLDALRÓL KINYÍLÓ GARANCIA PANEL */}
+        <div className={`${styles.panelHatter} ${garPanel ? styles.panelHatterNyitva : ''}`} onClick={() => setGarPanel(false)} aria-hidden="true" />
+        <aside
+          className={`${styles.panel} ${styles.adatPanel} ${garPanel ? styles.panelNyitva : ''}`}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="gar-panel-cim"
+          aria-hidden={!garPanel}
+        >
+          <button type="button" className={styles.panelBezar} aria-label="Bezárás" onClick={() => setGarPanel(false)} tabIndex={garPanel ? 0 : -1}>×</button>
+          <p id="gar-panel-cim" className={styles.panelCim}>Garancia</p>
+          <p className={styles.garPanelFo}>Ha nem hozunk munkát, <span>a pénzt visszaadjuk.</span></p>
+
+          <h3>Mit jelent ez pontosan?</h3>
+          <p>
+            Ha egy hónap alatt <b>egyetlen ajánlatkérés sem érkezik</b> a hirdetéseinkből, a havi díjunkat
+            (79 000 Ft) <b>visszautaljuk</b>. Kérdezősködés és apró betű nélkül.
+          </p>
+
+          <h3>Mire vonatkozik?</h3>
+          <ul>
+            <li>A <b>mi díjunkra</b>, vagyis arra, amit nekünk fizetsz.</li>
+            <li>
+              A hirdetési keretet közvetlenül a Metának fizeted, az nem hozzánk kerül, ezért azt nem tudjuk
+              visszaadni. Cserébe minden forintja átlátható.
+            </li>
+          </ul>
+
+          <h3>Mi kell hozzá tőled?</h3>
+          <ul>
+            <li>Fusson a közösen egyeztetett hirdetési keret.</li>
+            <li>Legyél elérhető telefonon vagy e-mailben, amikor jönnek az érdeklődők.</li>
+          </ul>
+
+          <h3>Miért vállaljuk?</h3>
+          <p>
+            Mert abból élünk, hogy nálad működjön. <b>Ha neked nem éri meg, nekünk sem.</b>
+          </p>
+
+          <button type="button" className={`${styles.introCta} ${styles.panelCta}`} tabIndex={garPanel ? 0 : -1} onClick={() => { setGarPanel(false); indit(); }}>
+            Kezdjük el! <span aria-hidden="true">→</span>
           </button>
           <p className={styles.mikro}>{MIKROSZOVEG}</p>
         </aside>
