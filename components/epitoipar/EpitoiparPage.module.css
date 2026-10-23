@@ -394,6 +394,11 @@
 }
 .hozzajarulas input { flex: none; width: 20px; height: 20px; margin-top: 1px; accent-color: #000; }
 .hozzajarulas a { color: #000; font-weight: 700; }
+/* link kinézetű gomb: az adatkezelési tájékoztató panelt nyitja (nem pipálja a jelölőnégyzetet) */
+.linkGomb {
+  display: inline; padding: 0; border: none; background: none; cursor: pointer;
+  font: inherit; font-weight: 700; color: #000; text-decoration: underline;
+}
 
 .foot { margin-top: 10px; font-size: 15px; color: #5a6079; }
 .foot a { color: #000; font-weight: 800; text-decoration: none; }
@@ -467,6 +472,17 @@
   font-size: 13.5px; font-weight: 700; line-height: 1.3; color: #000;
 }
 .refStatok b { display: block; font-size: 20px; color: #0064e0; }
+/* adatkezelési tájékoztató panel */
+.adatAlcim { margin: -10px 0 14px; font-size: 13px; font-weight: 700; color: #5a6079; }
+.adatPanel h3 {
+  margin: 20px 0 8px; padding-top: 14px; border-top: 2px solid #eee;
+  font-family: var(--font-robusztus), sans-serif; font-weight: 400; font-size: 21px; text-transform: uppercase; color: #000;
+}
+.adatPanel p, .adatPanel li { font-size: 15px; line-height: 1.55; color: #222; }
+.adatPanel p + p { margin-top: 8px; }
+.adatPanel ul { margin: 6px 0 0; padding-left: 18px; }
+.adatPanel li + li { margin-top: 6px; }
+.adatPanel a { color: #0064e0; font-weight: 700; }
 /* referencia panel: a blokkcímek feketék */
 .refPanel .panelBlokk summary { color: #000; }
 .refForras { margin-top: 14px; font-size: 14px; color: #000; }

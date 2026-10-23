@@ -212,6 +212,7 @@ export function EpitoiparPage() {
   const [sent, setSent] = useState(false);
   const [panel, setPanel] = useState(false); // oldalról kinyíló „mi ez?” panel
   const [refPanel, setRefPanel] = useState(false); // oldalról kinyíló referencia panel
+  const [adatPanel, setAdatPanel] = useState(false); // oldalról kinyíló, erre a landingre szabott adatkezelési tájékoztató
   const router = useRouter();
   const pathname = usePathname();
   // ár-animáció: 150 000 Ft → 79 000 Ft, amikor a kártya a képernyőre ér (egyszer fut le)
@@ -307,8 +308,8 @@ export function EpitoiparPage() {
   }, [indul]);
 
   useEffect(() => {
-    if (!panel && !refPanel) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setPanel(false); setRefPanel(false); } };
+    if (!panel && !refPanel && !adatPanel) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setPanel(false); setRefPanel(false); setAdatPanel(false); } };
     document.addEventListener('keydown', onKey);
     const regi = document.documentElement.style.overflow;
     document.documentElement.style.overflow = 'hidden';
@@ -316,7 +317,7 @@ export function EpitoiparPage() {
       document.removeEventListener('keydown', onKey);
       document.documentElement.style.overflow = regi;
     };
-  }, [panel, refPanel]);
+  }, [panel, refPanel, adatPanel]);
 
   /** Lehet-e továbblépni az aktuális lépésből */
   const ervenyes = (() => {
@@ -445,7 +446,10 @@ export function EpitoiparPage() {
     <label className={styles.hozzajarulas}>
       <input type="checkbox" checked={hozzajarulas} onChange={(e) => setHozzajarulas(e.target.checked)} />
       <span>
-        Elolvastam és elfogadom az <a href="/adatkezeles" target="_blank" rel="noopener">Adatkezelési tájékoztatót</a>, és
+        Elolvastam és elfogadom az{' '}
+        <button type="button" className={styles.linkGomb} onClick={(e) => { e.preventDefault(); setAdatPanel(true); }}>
+          Adatkezelési tájékoztatót
+        </button>, és
         hozzájárulok, hogy a megadott adataimat a kapcsolatfelvétel céljából kezeljétek, valamint hirdetéseitek
         mérése céljából titkosítva a Meta részére továbbítsátok. *
       </span>
@@ -878,6 +882,94 @@ export function EpitoiparPage() {
           <p className={styles.mikro}>{MIKROSZOVEG}</p>
         </aside>
 
+        {/* OLDALRÓL KINYÍLÓ ADATKEZELÉSI TÁJÉKOZTATÓ — erre a landingre szabva, nem visz el az oldalról */}
+        <div className={`${styles.panelHatter} ${adatPanel ? styles.panelHatterNyitva : ''}`} onClick={() => setAdatPanel(false)} aria-hidden="true" />
+        <aside
+          className={`${styles.panel} ${styles.adatPanel} ${adatPanel ? styles.panelNyitva : ''}`}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="adat-panel-cim"
+          aria-hidden={!adatPanel}
+        >
+          <button type="button" className={styles.panelBezar} aria-label="Bezárás" onClick={() => setAdatPanel(false)} tabIndex={adatPanel ? 0 : -1}>×</button>
+          <p id="adat-panel-cim" className={styles.panelCim}>Adatkezelés</p>
+          <p className={styles.adatAlcim}>Építőipari ajánlatkérés · hatályos: 2026. október 23-tól</p>
+
+          <h3>Ki kezeli az adataidat?</h3>
+          <p>
+            <b>Müller Dániel E.V.</b> (NEZOR) · adószám: 91037491-1-23 · 6500 Baja, Budai Nagy Antal u. 36. ·{' '}
+            <a href="mailto:info@nezor.hu">info@nezor.hu</a>
+          </p>
+
+          <h3>Milyen adatokat kérünk ezen az oldalon?</h3>
+          <ul>
+            <li>A kérdőívre adott válaszaid (pl. hirdettél-e már, mivel foglalkozol, mekkora a havi keret, hány új ügyfelet szeretnél).</li>
+            <li>A neved, mobilszámod, e-mail-címed és a cégneved.</li>
+            <li>A hozzájárulásod időpontját.</li>
+            <li>A látogatás technikai adatait (IP-cím, böngésző), amelyeket a tárhelyszolgáltató automatikusan rögzít.</li>
+          </ul>
+          <p>
+            <b>Félbehagyott kitöltés:</b> ha a telefonszámod megadtad és a jelölőnégyzetet bepipáltad, de nem küldöd el
+            az űrlapot, az addig megadott adataidról e-mailt kapunk, hogy visszahívhassunk.
+          </p>
+
+          <h3>Mire használjuk?</h3>
+          <ul>
+            <li>Hogy telefonon vagy e-mailben felvegyük veled a kapcsolatot, és a válaszaid alapján ajánlatot adjunk.</li>
+            <li>Hogy mérjük, mennyire hatékonyak a hirdetéseink.</li>
+          </ul>
+
+          <h3>Milyen jogalapon?</h3>
+          <p>
+            A <b>hozzájárulásod</b> alapján (GDPR 6. cikk (1) a) pont), amelyet a jelölőnégyzet bepipálásával adsz meg.
+            Bármikor visszavonhatod egy e-maillel az <a href="mailto:info@nezor.hu">info@nezor.hu</a> címre; ez nem
+            érinti a visszavonás előtti adatkezelést.
+          </p>
+
+          <h3>Kinek adjuk át?</h3>
+          <p>Az adataidat nem adjuk el. Ezeket a szolgáltatókat használjuk:</p>
+          <ul>
+            <li><b>Resend</b> (USA): az űrlapról érkező értesítő e-mailek kézbesítése.</li>
+            <li><b>Vercel</b> (USA): a weboldal tárhelye.</li>
+            <li>
+              <b>Meta</b> (Írország): az űrlap végleges elküldésekor a neved, telefonszámod és e-mail-címed{' '}
+              <b>visszafejthetetlen, titkosított formában</b> (SHA-256), valamint az IP-címed és böngészőadataid a
+              hirdetéseink méréséhez (Conversions API). A Meta Pixel sütijei csak akkor működnek, ha a süti-sávban
+              elfogadtad őket.
+            </li>
+            <li><b>Google</b> (Írország): látogatottsági statisztika, sütikkel csak a süti-sávban adott hozzájárulás esetén.</li>
+          </ul>
+          <p>
+            Az USA-ba történő adattovábbítás az EU–USA adatvédelmi keretrendszer, illetve az Európai Bizottság általános
+            szerződési feltételei alapján történik.
+          </p>
+
+          <h3>Meddig őrizzük?</h3>
+          <p>
+            Ha nem jön létre közöttünk szerződés, legfeljebb <b>1 évig</b>, vagy amíg nem kéred a törlést. Szerződés
+            esetén a számviteli jogszabályokban előírt ideig.
+          </p>
+
+          <h3>Milyen jogaid vannak?</h3>
+          <p>
+            Kérhetsz tájékoztatást az adataidról, kérheted a kijavításukat, a törlésüket és a kezelésük korlátozását,
+            tiltakozhatsz, és kérheted, hogy géppel olvasható formában kiadjuk őket. Írj az{' '}
+            <a href="mailto:info@nezor.hu">info@nezor.hu</a> címre, <b>30 napon belül</b> válaszolunk.
+          </p>
+
+          <h3>Panasz</h3>
+          <p>
+            Ha úgy érzed, jogsértően kezeljük az adataidat, a Nemzeti Adatvédelmi és Információszabadság Hatósághoz
+            (NAIH) fordulhatsz: 1055 Budapest, Falk Miksa utca 9–11. ·{' '}
+            <a href="https://naih.hu" target="_blank" rel="noopener">naih.hu</a> ·{' '}
+            <a href="mailto:ugyfelszolgalat@naih.hu">ugyfelszolgalat@naih.hu</a>
+          </p>
+
+          <button type="button" className={`${styles.introCta} ${styles.panelCta}`} tabIndex={adatPanel ? 0 : -1} onClick={() => setAdatPanel(false)}>
+            Rendben, értem
+          </button>
+        </aside>
+
         {/* OLDALRÓL KINYÍLÓ REFERENCIA PANEL — építőipari eredmények a Meta hirdetéskezelőből */}
         <div className={`${styles.panelHatter} ${refPanel ? styles.panelHatterNyitva : ''}`} onClick={() => setRefPanel(false)} aria-hidden="true" />
         <aside
@@ -929,7 +1021,7 @@ export function EpitoiparPage() {
         {/* JOGI LÁBLÉC */}
         <footer className={styles.jogi}>
           <p className={styles.jogiLinkek}>
-            <a href="/adatkezeles">Adatkezelési tájékoztató</a>
+            <button type="button" onClick={() => setAdatPanel(true)}>Adatkezelési tájékoztató</button>
             <button type="button" onClick={() => window.dispatchEvent(new Event('nezor_cookie_open'))}>
               Süti-beállítások
             </button>
