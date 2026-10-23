@@ -190,7 +190,6 @@ export function EpitoiparPage() {
   const [sent, setSent] = useState(false);
   const [panel, setPanel] = useState(false); // oldalról kinyíló „mi ez?” panel
   const [refPanel, setRefPanel] = useState(false); // oldalról kinyíló referencia panel
-  const [garPanel, setGarPanel] = useState(false); // oldalról kinyíló garancia panel
   const [adatPanel, setAdatPanel] = useState(false); // oldalról kinyíló, erre a landingre szabott adatkezelési tájékoztató
   const router = useRouter();
   const pathname = usePathname();
@@ -294,8 +293,8 @@ export function EpitoiparPage() {
   }, []);
 
   useEffect(() => {
-    if (!panel && !refPanel && !adatPanel && !garPanel) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setPanel(false); setRefPanel(false); setAdatPanel(false); setGarPanel(false); } };
+    if (!panel && !refPanel && !adatPanel) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setPanel(false); setRefPanel(false); setAdatPanel(false); } };
     document.addEventListener('keydown', onKey);
     const regi = document.documentElement.style.overflow;
     document.documentElement.style.overflow = 'hidden';
@@ -303,7 +302,7 @@ export function EpitoiparPage() {
       document.removeEventListener('keydown', onKey);
       document.documentElement.style.overflow = regi;
     };
-  }, [panel, refPanel, adatPanel, garPanel]);
+  }, [panel, refPanel, adatPanel]);
 
   /** Lehet-e továbblépni az aktuális lépésből */
   const ervenyes = (() => {
@@ -584,9 +583,6 @@ export function EpitoiparPage() {
                   <span className={styles.arHo} aria-hidden="true">/hó</span>
                 </p>
                 <p className={styles.csomagAl}>Ennyi a mi díjunk — és ezért mindent mi csinálunk.</p>
-                <button type="button" className={styles.neonGomb} onClick={() => setGarPanel(true)} aria-haspopup="dialog" aria-expanded={garPanel}>
-                  Garanciánk neked!
-                </button>
               </div>
               <ul className={styles.csomagLista}>
                 {szoveg.csomag.map((t) => <li key={t}>{t}</li>)}
@@ -867,51 +863,6 @@ export function EpitoiparPage() {
 
           <button type="button" className={`${styles.introCta} ${styles.panelCta}`} tabIndex={panel ? 0 : -1} onClick={() => { setPanel(false); indit(); }}>
             Oké, kezdjük el <span aria-hidden="true">→</span>
-          </button>
-          <p className={styles.mikro}>{MIKROSZOVEG}</p>
-        </aside>
-
-        {/* OLDALRÓL KINYÍLÓ GARANCIA PANEL */}
-        <div className={`${styles.panelHatter} ${garPanel ? styles.panelHatterNyitva : ''}`} onClick={() => setGarPanel(false)} aria-hidden="true" />
-        <aside
-          className={`${styles.panel} ${styles.adatPanel} ${garPanel ? styles.panelNyitva : ''}`}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="gar-panel-cim"
-          aria-hidden={!garPanel}
-        >
-          <button type="button" className={styles.panelBezar} aria-label="Bezárás" onClick={() => setGarPanel(false)} tabIndex={garPanel ? 0 : -1}>×</button>
-          <p id="gar-panel-cim" className={styles.panelCim}>Garancia</p>
-          <p className={styles.garPanelFo}>Ha nem hozunk munkát, <span>a pénzt visszaadjuk.</span></p>
-
-          <h3>Mit jelent ez pontosan?</h3>
-          <p>
-            Ha egy hónap alatt <b>egyetlen ajánlatkérés sem érkezik</b> a hirdetéseinkből, a havi díjunkat
-            (79 000 Ft) <b>visszautaljuk</b>. Kérdezősködés és apró betű nélkül.
-          </p>
-
-          <h3>Mire vonatkozik?</h3>
-          <ul>
-            <li>A <b>mi díjunkra</b>, vagyis arra, amit nekünk fizetsz.</li>
-            <li>
-              A hirdetési keretet közvetlenül a Metának fizeted, az nem hozzánk kerül, ezért azt nem tudjuk
-              visszaadni. Cserébe minden forintja átlátható.
-            </li>
-          </ul>
-
-          <h3>Mi kell hozzá tőled?</h3>
-          <ul>
-            <li>Fusson a közösen egyeztetett hirdetési keret.</li>
-            <li>Legyél elérhető telefonon vagy e-mailben, amikor jönnek az érdeklődők.</li>
-          </ul>
-
-          <h3>Miért vállaljuk?</h3>
-          <p>
-            Mert abból élünk, hogy nálad működjön. <b>Ha neked nem éri meg, nekünk sem.</b>
-          </p>
-
-          <button type="button" className={`${styles.introCta} ${styles.panelCta}`} tabIndex={garPanel ? 0 : -1} onClick={() => { setGarPanel(false); indit(); }}>
-            Kezdjük el! <span aria-hidden="true">→</span>
           </button>
           <p className={styles.mikro}>{MIKROSZOVEG}</p>
         </aside>
