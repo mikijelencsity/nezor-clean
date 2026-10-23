@@ -999,7 +999,7 @@ export function EpitoiparPage() {
               <div className={styles.refStatok}>
                 <p><b>{r.lead}</b><span>ajánlatkérés</span></p>
                 <p><b>{r.arPerLead}</b><span>/ ajánlatkérés</span></p>
-                <p><b>{r.lezaras}</b><span>becsült lezárás</span></p>
+                <p><b>{r.lezaras}</b><span>munka megvalósulása</span></p>
                 <p><b>{r.munkaErtek}</b><span>átlagos munka értéke*</span></p>
                 <p><b>{r.koltes}</b><span>eddigi költés</span></p>
                 <p><b>{r.napi}</b><span>napi költés</span></p>
@@ -1013,7 +1013,7 @@ export function EpitoiparPage() {
 
           <p className={styles.refForras}>
             Ajánlatkérések és költések: valós adatok a Meta hirdetéskezelőből, 2026. október.
-            <br />* A lezárási arány és az átlagos munkaérték becslés.
+            <br />* A munka megvalósulása és az átlagos munkaérték becslés.
           </p>
           <button type="button" className={`${styles.introCta} ${styles.panelCta}`} tabIndex={refPanel ? 0 : -1} onClick={() => { setRefPanel(false); indit(); }}>
             Oké, kezdjük el <span aria-hidden="true">→</span>
