@@ -8,6 +8,18 @@ import styles from './EpitoiparPage.module.css';
 
 // Magyar mobilszám a +36 előhívó UTÁN: 20/30/31/50/70 + 7 számjegy
 const MOBIL_RE = /^(20|30|31|50|70)\d{7}$/;
+
+/** A megérkezéskor elmentett fbclid (ha a látogató hirdetésből jött) */
+function fbclidAdat(): { fbclid?: string; fbclidIdo?: number } {
+  try {
+    const nyers = sessionStorage.getItem('nezorFbclid');
+    if (!nyers) return {};
+    const { fbclid, ido } = JSON.parse(nyers) as { fbclid: string; ido: number };
+    return { fbclid, fbclidIdo: ido };
+  } catch {
+    return {};
+  }
+}
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** A beírt telefonszámból a +36 utáni rész (06/36/+36 előtagot levágjuk) */
@@ -269,6 +281,17 @@ export function EpitoiparPage() {
 
   useEffect(() => { elkuldve.current = sent; }, [sent]);
 
+  // Hirdetésre kattintás azonosítója (fbclid): az első megérkezéskor elmentjük (a munkamenet végéig),
+  // és a végleges küldéskor a szerver átadja a Metának — süti-elfogadás nélkül is működik az attribúció
+  useEffect(() => {
+    try {
+      const fbclid = new URLSearchParams(window.location.search).get('fbclid');
+      if (fbclid && !sessionStorage.getItem('nezorFbclid')) {
+        sessionStorage.setItem('nezorFbclid', JSON.stringify({ fbclid, ido: Date.now() }));
+      }
+    } catch { /* nem elérhető */ }
+  }, []);
+
   // Megnyitáskor mindig a hero tetejéről induljon az oldal: a böngésző (pl. a Facebook beépített
   // böngészője) ne állítsa vissza a korábbi görgetést, és horgony se ugorjon lejjebb
   useEffect(() => {
@@ -459,6 +482,7 @@ export function EpitoiparPage() {
           telefon: `+36 ${mobil}`,
           email: email.trim(),
           emlekeztetoId: emlekeztetoId.current ?? undefined,
+          ...fbclidAdat(),
           hozzajarulas, eventId, website,
         }),
       });

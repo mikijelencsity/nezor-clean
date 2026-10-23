@@ -5,7 +5,7 @@ import { utemezSorozat, lemondSorozat } from '@/lib/epitoipar-emlekezteto';
 
 export async function POST(request: Request) {
   try {
-    const { valaszok, nev, keresztnev, telefon, email, oldal, emlekeztetoId, hozzajarulas, eventId, website, reszleges, elonezet, elonezetSorszam } = await request.json() as {
+    const { valaszok, nev, keresztnev, telefon, email, oldal, emlekeztetoId, hozzajarulas, eventId, website, reszleges, elonezet, elonezetSorszam, fbclid, fbclidIdo } = await request.json() as {
       valaszok: Record<string, string>;
       nev: string;
       /** megszólításhoz az emlékeztetőben */
@@ -25,6 +25,9 @@ export async function POST(request: Request) {
       elonezet?: boolean;
       /** előnézetnél csak ez a levél (1–4) */
       elonezetSorszam?: number;
+      /** a hirdetésre kattintás azonosítója a landing URL-jéből (Meta attribúcióhoz) */
+      fbclid?: string;
+      fbclidIdo?: number;
     };
 
     // honeypot – bot csendben "sikeres"
@@ -97,6 +100,8 @@ export async function POST(request: Request) {
         clientUserAgent: ctx.clientUserAgent,
         fbp: ctx.fbp,
         fbc: ctx.fbc,
+        fbclid,
+        fbclidIdo,
       });
     }
 

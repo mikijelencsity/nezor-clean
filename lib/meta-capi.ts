@@ -2,7 +2,7 @@ import crypto from 'crypto';
 
 const PIXEL_ID = process.env.NEXT_PUBLIC_FB_PIXEL_ID;
 const CAPI_TOKEN = process.env.META_CAPI_TOKEN;
-const CAPI_URL = `https://graph.facebook.com/v19.0/${PIXEL_ID}/events`;
+const CAPI_URL = `https://graph.facebook.com/v26.0/${PIXEL_ID}/events`;
 
 /**
  * Ha be van állítva, a szerver oldali események megjelennek a Meta
@@ -39,6 +39,13 @@ interface CapiOptions {
   /** _fbp és _fbc cookie — jelentősen javítja a párosítást és az attribúciót */
   fbp?: string;
   fbc?: string;
+  /**
+   * A hirdetésre kattintás azonosítója (fbclid) és első megjelenésének ideje (ms) — ha nincs _fbc süti
+   * (pl. a látogató nem fogadta el a sütiket), ebből állítjuk elő az fbc-t, hogy a Meta össze tudja kötni
+   * az eseményt a hirdetéssel.
+   */
+  fbclid?: string;
+  fbclidIdo?: number;
   testEventCode?: string;
 }
 
@@ -53,6 +60,8 @@ export async function sendCapiEvent({
   clientUserAgent,
   fbp,
   fbc,
+  fbclid,
+  fbclidIdo,
   testEventCode,
 }: CapiOptions): Promise<void> {
   if (!PIXEL_ID || !CAPI_TOKEN) return; // silent skip ha nincs konfigurálva
@@ -72,6 +81,13 @@ export async function sendCapiEvent({
     }
   }
 
+  // fbc: a süti az elsődleges; ha nincs, a fbclid-ből a Meta formátuma szerint: fb.1.<ms>.<fbclid>
+  const tisztaFbclid = fbclid && /^[A-Za-z0-9_-]{1,500}$/.test(fbclid) ? fbclid : undefined;
+  const fbcVegso = fbc ?? (tisztaFbclid ? `fb.1.${fbclidIdo && fbclidIdo > 0 ? Math.floor(fbclidIdo) : Date.now()}.${tisztaFbclid}` : undefined);
+
+  // external_id: stabil, titkosított felhasználó-azonosító (e-mail, ennek hiányában telefon) a jobb párosításhoz
+  const kulsoAzonosito = email ? hashSha256(email) : tel ? hashSha256(tel) : undefined;
+
   const user_data: Record<string, unknown> = {
     ...(email && { em: hashSha256(email) }),
     ...(tel && { ph: hashSha256(tel) }),
@@ -80,7 +96,8 @@ export async function sendCapiEvent({
     ...(clientIp && { client_ip_address: clientIp }),
     ...(clientUserAgent && { client_user_agent: clientUserAgent }),
     ...(fbp && { fbp }),
-    ...(fbc && { fbc }),
+    ...(fbcVegso && { fbc: fbcVegso }),
+    ...(kulsoAzonosito && { external_id: kulsoAzonosito }),
   };
 
   const payload = {
