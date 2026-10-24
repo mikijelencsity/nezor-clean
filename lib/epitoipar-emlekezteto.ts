@@ -55,7 +55,7 @@ const levelek: Level[] = [
       <p>Pár valós szám a Meta hirdetéskezelőből, más építőipari ügyfeleinktől:</p>
       <ul style="padding-left:18px">
         <li><b>Mobilház-gyártás:</b> 1 125 ajánlatkérés, 339 Ft / ajánlatkérés</li>
-        <li><b>Generálkivitelezés:</b> 242 ajánlatkérés, 1 355 Ft / ajánlatkérés</li>
+        <li><b>Generálkivitelezés:</b> 262 ajánlatkérés, 1 328 Ft / ajánlatkérés</li>
         <li><b>Könnyűszerkezetes házak:</b> 204 ajánlatkérés, 867 Ft / ajánlatkérés</li>
         <li><b>Térkövezés, betonozás:</b> 200 ajánlatkérés, 741 Ft / ajánlatkérés</li>
       </ul>

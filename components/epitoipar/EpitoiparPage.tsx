@@ -177,8 +177,8 @@ const epitoipariReferenciak = [
   {
     szegmens: 'Generálkivitelezés',
     leiras: 'Építkezni, felújítani készülőktől hoztunk ajánlatkéréseket egy generálkivitelezőnek.',
-    lead: '242', arPerLead: '1 355 Ft', idotartam: '5 hét',
-    koltes: '327 976 Ft', napi: '10 000 Ft', aktiv: true,
+    lead: '262', arPerLead: '1 328 Ft', idotartam: '5 hét',
+    koltes: '347 911 Ft', napi: '10 000 Ft', aktiv: true,
     lezaras: '12%', munkaErtek: '4 M Ft',
   },
   {
