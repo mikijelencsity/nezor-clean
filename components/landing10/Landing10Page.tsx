@@ -116,9 +116,6 @@ const UTVONAL_CIMKE: Record<string, string> = {
 const szoveg = {
   lead: <>Egy gyönyörű családi ház árát már elhirdettük, hogy <strong>neked ne kelljen 12 000+ órát rászánnod
     olyan dologra, ami roha*tul nem érdekel</strong> :)</>,
-  ajanlat: <><span>Így termel pénzt</span><strong>ez cégednek</strong></>,
-  fbCim: 'Te is a Facebookot nyomod, és egy hirdetés szövegét olvasod…',
-  fbPiros: 'Működik a téma. Nem atomfizika.',
   csomag: [
     'Egész hónapban közös munka',
     'Éjjel-nappal működő ügyfélszerzés',
@@ -234,7 +231,7 @@ export function Landing10Page() {
   const [ar, setAr] = useState(150_000);
   const [arKesz, setArKesz] = useState(false);
   const arRef = useRef<HTMLParagraphElement>(null);
-  const magyarazoRef = useRef<HTMLParagraphElement>(null); // „Így termel pénzt…” magyarázó rész
+  const magyarazoRef = useRef<HTMLDivElement>(null); // a „Nagy, kék gomb” magyarázó rész
   const arLefutott = useRef(false);
   const elkuldve = useRef(false);
   const reszlegesKuldve = useRef<string | null>(null);
@@ -578,9 +575,8 @@ export function Landing10Page() {
             </button>
             <p className={`${styles.mikro} ${styles.mikroFelso}`}>{MIKROSZOVEG}</p>
             {/* a hero „Igen, érdekel!” gombja ide görget */}
-            <p ref={magyarazoRef} className={styles.ctaCim}>{szoveg.ajanlat}</p>
             {/* ALAPÍTÓ a gomb mellett — a gombra mutat */}
-            <div className={styles.ctaSor}>
+            <div ref={magyarazoRef} className={`${styles.ctaSor} ${styles.ctaSorCel}`}>
               <div className={styles.ctaAlapito}>
                 <Image unoptimized loading="eager" src="/alapito-bal.webp" alt="Müller Dániel, a NEZOR alapítója öltönyben, a gombra mutat" width={702} height={1000} sizes="(max-width: 700px) 36vw, 260px" />
                 <p className={styles.ctaNevek}>Müller Dániel</p>
@@ -600,14 +596,6 @@ export function Landing10Page() {
               <span className={styles.csillagok} aria-hidden="true">★★★★★</span>
               50+ magyar vállalkozás bízik bennünk
             </p>
-            {/* „NEM ATOMFIZIKA” — teljes szélességű fekete sáv */}
-            <section className={styles.fb}>
-              <svg className={styles.fbIkon} viewBox="0 0 24 24" aria-hidden="true">
-                <path fill="currentColor" d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07" />
-              </svg>
-              <h2 className={styles.fbCim}>{szoveg.fbCim}</h2>
-              <p className={styles.fbCimPiros}>{szoveg.fbPiros}</p>
-            </section>
 
             {/* REFERENCIA SOR */}
             <div className={styles.referenciak}>
