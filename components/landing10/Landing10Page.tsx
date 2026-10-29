@@ -673,29 +673,6 @@ export function Landing10Page() {
               <p className={styles.mikro}>{MIKROSZOVEG}</p>
             </div>
 
-            {/* GARANCIA — a két alapító a dobozra mutat */}
-            <div className={styles.garanciaSor}>
-              <div className={styles.garanciaAlapito}>
-                <Image unoptimized loading="eager" src="/alapito-bal.webp" alt="Müller Dániel, a NEZOR alapítója, a garanciára mutat" width={702} height={1000} sizes="(max-width: 700px) 28vw, 200px" />
-                <p className={styles.ctaNevek}>Müller Dániel</p>
-              </div>
-              <div className={styles.garancia}>
-                <svg className={styles.garanciaIkon} viewBox="0 0 24 24" aria-hidden="true">
-                  <path fill="currentColor" d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4Zm-1.2 15.2-4-4 1.4-1.4 2.6 2.6 5.6-5.6 1.4 1.4-7 7Z" />
-                </svg>
-                <p className={styles.garanciaCim}>Ha nem hozunk munkát, <span>a pénzt visszaadjuk.</span></p>
-                <p className={styles.garanciaSzoveg}>Ennyire biztosak vagyunk benne, hogy működik.</p>
-              </div>
-              <div className={styles.garanciaAlapito}>
-                <Image unoptimized loading="eager" src="/alapito-jobb.webp" alt="Jelencsity Miklós, a NEZOR alapítója, a garanciára mutat" width={677} height={1000} sizes="(max-width: 700px) 28vw, 200px" />
-                <p className={styles.ctaNevek}>Jelencsity Miklós</p>
-              </div>
-            </div>
-            <p className={styles.garanciaCtaCim}>Így már más?</p>
-            <button type="button" className={`${styles.introCta} ${styles.nagyCta}`} onClick={indit}>
-              Kezdjünk el dolgozni! <span aria-hidden="true">→</span>
-            </button>
-
             {/* GYAKORI KÉRDÉSEK — ugyanaz a lenyíló dizájn, mint a „Mi ez?” panelben */}
             <section className={styles.gyik}>
               <h2 className={styles.gyikCim}>Gyakori kérdések</h2>
