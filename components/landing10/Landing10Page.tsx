@@ -89,7 +89,7 @@ const lepesek: Lepes[] = [
   {
     tipus: 'hosszu', kulcs: 'leiras', cimke: 'Tevékenység',
     cim: 'Röviden: **mivel foglalkozol**, kiknek, és milyen árszinten?',
-    placeholder: 'Pl. tetőfedés és tetőfelújítás családi házakra, átlagosan 2–5 millió Ft-os munkák',
+    placeholder: 'Pl. szépségszalon Budapesten, átlagosan 25 000 Ft-os kezelésekkel',
   },
   {
     tipus: 'egy', kulcs: 'keret', cimke: 'Havi hirdetési keret',
@@ -483,6 +483,7 @@ export function Landing10Page() {
           telefon: `+36 ${mobil}`,
           email: email.trim(),
           emlekeztetoId: emlekeztetoId.current ?? undefined,
+          oldal: window.location.pathname,
           ...fbclidAdat(),
           hozzajarulas, eventId, website,
         }),
@@ -533,7 +534,7 @@ export function Landing10Page() {
           /* NYITÓKÉPERNYŐ — a form csak a gomb után jelenik meg */
           <div className={styles.intro}>
             <p className={styles.introLogo}>NEZOR</p>
-            <p className={styles.introCimke}>Építőipari vállalkozóknak</p>
+            <p className={styles.introCimke}>Vállalkozóknak, akik hirdetnek</p>
             <h1 className={styles.introH1}>
               <span className={styles.introSor}>
                 <span className={styles.raketa} aria-hidden="true">
@@ -912,11 +913,11 @@ export function Landing10Page() {
             <summary>Mi ez?</summary>
             <p className={styles.panelEmoji} aria-hidden="true">🤔</p>
             <p>
-              Tegyük fel, <b>budapesti villanyszerelő vagy</b>, és 50 km-en belül vállalsz munkát.
+              Tegyük fel, <b>szépségszalonod van Budapesten</b>, és a környékről várod a vendégeket.
             </p>
             <p>
               Mi elkészítjük <b>a saját oldaladat</b> (olyat, mint ez), és <b>Facebook- és Instagram-hirdetésekkel</b>{' '}
-              odahozzuk azokat, akiknek 50 km-en belül villanyszerelő kell.
+              odahozzuk azokat, akiket érdekel, amit kínálsz.
             </p>
             <p>
               Aki ajánlatot kér, annak az adatai <b>bekerülnek a saját Excel-táblázatodba</b>, vagy <b>elküldjük neked
@@ -1058,7 +1059,7 @@ export function Landing10Page() {
           </button>
         </aside>
 
-        {/* OLDALRÓL KINYÍLÓ REFERENCIA PANEL — építőipari eredmények a Meta hirdetéskezelőből */}
+        {/* OLDALRÓL KINYÍLÓ REFERENCIA PANEL — valós eredmények a Meta hirdetéskezelőből */}
         <div className={`${styles.panelHatter} ${refPanel ? styles.panelHatterNyitva : ''}`} onClick={() => setRefPanel(false)} aria-hidden="true" />
         <aside
           className={`${styles.panel} ${styles.refPanel} ${refPanel ? styles.panelNyitva : ''}`}

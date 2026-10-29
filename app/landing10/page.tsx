@@ -15,8 +15,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Építőipari vállalkozóknak | NEZOR',
-  description: 'Több megrendelés építőipari vállalkozóknak. Pár gyors kérdés, és felvesszük veled a kapcsolatot.',
+  title: 'Hirdetés, ami megrendelést hoz | NEZOR',
+  description: 'Elég a pénzégetésből: Facebook- és Instagram-hirdetés, ami ügyfeleket hoz. Pár gyors kérdés, és felvesszük veled a kapcsolatot.',
   robots: {
     index: false,
     follow: false,

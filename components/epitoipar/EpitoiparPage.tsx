@@ -482,6 +482,7 @@ export function EpitoiparPage() {
           telefon: `+36 ${mobil}`,
           email: email.trim(),
           emlekeztetoId: emlekeztetoId.current ?? undefined,
+          oldal: window.location.pathname,
           ...fbclidAdat(),
           hozzajarulas, eventId, website,
         }),

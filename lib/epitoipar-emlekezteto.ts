@@ -14,7 +14,11 @@ import { resend, FROM_EMAIL, esc } from '@/lib/resend';
 const ORA = 60 * 60 * 1000;
 const NAP = 24 * ORA;
 
-type Level = { kesleltetes: number; targy: (nev: string) => string; tartalom: (nev: string, link: string) => string };
+type Level = {
+  kesleltetes: number;
+  targy: (nev: string, altalanos: boolean) => string;
+  tartalom: (nev: string, link: string, altalanos: boolean) => string;
+};
 
 const gomb = (link: string, szoveg: string) => `
   <p style="margin:26px 0">
@@ -49,17 +53,17 @@ const levelek: Level[] = [
   },
   {
     kesleltetes: 3 * NAP,
-    targy: (n) => nevvel(n, 'így hozunk ajánlatkéréseket más építőipari cégeknek'),
-    tartalom: (n, link) => `
+    targy: (n, alt) => nevvel(n, `így hozunk ajánlatkéréseket más ${alt ? 'vállalkozásoknak' : 'építőipari cégeknek'}`),
+    tartalom: (n, link, alt) => `
       <p>${szia(n)}</p>
-      <p>Pár valós szám a Meta hirdetéskezelőből, más építőipari ügyfeleinktől:</p>
+      <p>Pár valós szám a Meta hirdetéskezelőből, más ${alt ? '' : 'építőipari '}ügyfeleinktől:</p>
       <ul style="padding-left:18px">
         <li><b>Mobilház-gyártás:</b> 1 125 ajánlatkérés, 339 Ft / ajánlatkérés</li>
         <li><b>Generálkivitelezés:</b> 262 ajánlatkérés, 1 328 Ft / ajánlatkérés</li>
         <li><b>Könnyűszerkezetes házak:</b> 204 ajánlatkérés, 867 Ft / ajánlatkérés</li>
         <li><b>Térkövezés, betonozás:</b> 200 ajánlatkérés, 741 Ft / ajánlatkérés</li>
       </ul>
-      <p>Ugyanezt a rendszert építjük fel neked is, a te szakmádra és a te körzetedre.</p>
+      <p>Ugyanezt a rendszert építjük fel neked is, a te ${alt ? 'vállalkozásodra' : 'szakmádra és a te körzetedre'}.</p>
       ${gomb(link, 'Nekem is ilyet kérek →')}`,
   },
   {
@@ -90,6 +94,8 @@ const keret = (belso: string, leiratkozasLink: string) => `
 /** Időzíti a teljes sorozatot; visszaadja a levelek azonosítóit (vesszővel elválasztva), vagy undefined-ot. */
 export async function utemezSorozat(o: { email: string; nev: string; utvonal: '/landing100' | '/landing10' | '/epitoipar'; azonnal?: boolean; csakSorszam?: number }) {
   const link = `https://www.nezor.hu${o.utvonal}`;
+  // a /landing10 általános (nem építőipari) közönségnek szól
+  const altalanos = o.utvonal === '/landing10';
   const most = Date.now();
   const azonositok: string[] = [];
   // fordított sorrendben: a 7 napos levél először, így a korábbiak leiratkozó linkje már ismeri a későbbieket
@@ -104,11 +110,11 @@ export async function utemezSorozat(o: { email: string; nev: string; utvonal: '/
       from: FROM_EMAIL,
       to: o.email,
       replyTo: 'info@nezor.hu',
-      subject: l.targy(o.nev),
+      subject: l.targy(o.nev, altalanos),
       // előnézetnél (csak a saját címeinkre) azonnal megy ki minden levél
       ...(o.azonnal ? {} : { scheduledAt: new Date(most + l.kesleltetes).toISOString() }),
-      html: keret(l.tartalom(o.nev, link), leiratkozasLink),
-      text: szovegge(keret(l.tartalom(o.nev, link), leiratkozasLink)),
+      html: keret(l.tartalom(o.nev, link, altalanos), leiratkozasLink),
+      text: szovegge(keret(l.tartalom(o.nev, link, altalanos), leiratkozasLink)),
       // a Gmail és más levelezők saját „Leiratkozás” gombja is ezt használja
       headers: { 'List-Unsubscribe': `<${leiratkozasLink}>` },
     });

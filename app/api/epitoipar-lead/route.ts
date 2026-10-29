@@ -60,6 +60,8 @@ export async function POST(request: Request) {
     if (reszleges && !telefon) return NextResponse.json({ ok: true, emlekeztetoId: ujEmlekeztetoId });
 
     const ertesitok = [...new Set([NOTIFY_EMAIL, 'mullerdanielev@gmail.com'])];
+    // forrás a tárgyban: az általános (/landing10) és az építőipari landing leadjei megkülönböztethetők
+    const forras = oldal === '/landing10' ? 'Általános (landing10)' : 'Építőipar';
     const valaszSorok = Object.entries(valaszok ?? {})
       .map(([k, v]) => `<p><strong>${esc(k)}</strong> ${esc(v)}</p>`)
       .join('');
@@ -68,8 +70,8 @@ export async function POST(request: Request) {
       from: FROM_EMAIL,
       to: ertesitok,
       subject: reszleges
-        ? `[NEZOR] Építőipar — FÉLBEHAGYOTT kitöltés — ${esc(nev)}`
-        : `[NEZOR] Építőipar lead — ${esc(nev)}`,
+        ? `[NEZOR] ${forras} — FÉLBEHAGYOTT kitöltés — ${esc(nev)}`
+        : `[NEZOR] ${forras} lead — ${esc(nev)}`,
       html: `
         <h2>${reszleges ? 'Félbehagyott kitöltés az építőipar landingről (a telefonszám megvan, hívd vissza!)' : 'Új lead az építőipar landingről'}</h2>
         <p><strong>Név:</strong> ${esc(nev)}</p>
