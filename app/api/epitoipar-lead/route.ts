@@ -48,7 +48,7 @@ export async function POST(request: Request) {
     // 1 óra emlékeztető · 1 nap ajánlat · 3 nap referenciák · 7 nap végső garanciás ajánlat
     let ujEmlekeztetoId: string | undefined;
     if (reszleges && email && !emlekeztetoId) {
-      const utvonal = oldal === '/epitoipar' ? '/epitoipar' : '/landing100';
+      const utvonal = oldal === '/epitoipar' || oldal === '/landing10' ? oldal : '/landing100';
       // a megszólítás felhasználói adat: csak betű, szóköz, kötőjel; legfeljebb 30 karakter
       const tisztaNev = (keresztnev ?? '').replace(/[^\p{L} .'-]/gu, '').trim().slice(0, 30);
       // előnézet: minden levél azonnal, de kizárólag a saját címeinkre

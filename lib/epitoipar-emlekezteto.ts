@@ -88,7 +88,7 @@ const keret = (belso: string, leiratkozasLink: string) => `
   </div>`;
 
 /** Időzíti a teljes sorozatot; visszaadja a levelek azonosítóit (vesszővel elválasztva), vagy undefined-ot. */
-export async function utemezSorozat(o: { email: string; nev: string; utvonal: '/landing100' | '/epitoipar'; azonnal?: boolean; csakSorszam?: number }) {
+export async function utemezSorozat(o: { email: string; nev: string; utvonal: '/landing100' | '/landing10' | '/epitoipar'; azonnal?: boolean; csakSorszam?: number }) {
   const link = `https://www.nezor.hu${o.utvonal}`;
   const most = Date.now();
   const azonositok: string[] = [];

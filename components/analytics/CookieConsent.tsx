@@ -7,7 +7,7 @@ export function CookieConsent() {
   const [show, setShow] = useState(false);
   const pathname = usePathname();
   const isLanding = pathname === '/landing';
-  const isEpitoipar = pathname === '/epitoipar' || pathname === '/landing100';
+  const isEpitoipar = pathname === '/epitoipar' || pathname === '/landing100' || pathname === '/landing10';
 
   useEffect(() => {
     let stored: string | null = null;
