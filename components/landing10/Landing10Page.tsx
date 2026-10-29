@@ -518,6 +518,19 @@ export function Landing10Page() {
     </label>
   );
 
+  // a headline alatti első kérdés: érvényes adatokkal a kérdőív 2. lépésével folytatódik
+  const elsoLepesErvenyes = nev !== '' && EMAIL_RE.test(email.trim()) && hozzajarulas;
+  const elsoLepesKesz = (ev: React.FormEvent) => {
+    ev.preventDefault();
+    if (!nev) { setError('Add meg a keresztneved!'); return; }
+    if (!EMAIL_RE.test(email.trim())) { setError('Érvénytelen e-mail-cím. Pl. nev@ceged.hu'); return; }
+    if (!hozzajarulas) { setError('A továbblépéshez fogadd el az adatkezelési tájékoztatót!'); return; }
+    setError('');
+    setLepes(1);
+    setIndul(true);
+    window.scrollTo({ top: 0 });
+  };
+
   const tovabbGomb = (aktiv: boolean) => (
     <button type="submit" className={`${styles.tovabb} ${aktiv ? styles.tovabbAktiv : ''}`} disabled={!aktiv}>
       Tovább <span aria-hidden="true">→</span>
@@ -540,6 +553,35 @@ export function Landing10Page() {
               <span className={`${styles.introSor} ${styles.introSorVekony}`}>Mostantól</span>
               <span className={styles.introSor}><span className={styles.alahuzas}><span className={styles.introPiros}>te</span> fogsz.</span></span>
             </h1>
+
+            {/* ELSŐ KÉRDÉS A HEADLINE ALATT — ugyanaz az állapot, mint a kérdőív első lépése */}
+            <form className={styles.heroUrlap} onSubmit={elsoLepesKesz} noValidate>
+              <p className={styles.felett}>Rendben, nem húzzuk az időd. De mielőtt belevágunk, nem akarunk udvariatlanok lenni…</p>
+              <h2 className={styles.kerdes}><span className={styles.kerdesKiemelt}>Hogy hívnak</span>, és hova írhatunk?</h2>
+              <input
+                className={styles.mezo}
+                type="text"
+                autoComplete="given-name"
+                placeholder="Keresztneved"
+                value={String(v.keresztnev ?? '')}
+                onChange={(e) => beallit('keresztnev', e.target.value)}
+              />
+              <input
+                className={`${styles.mezo} ${styles.mezoMasodik}`}
+                type="email"
+                inputMode="email"
+                autoComplete="email"
+                placeholder="E-mail-címed"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              {hozzajarulasMezo}
+              {!indul && error && <p className={styles.error}>{error}</p>}
+              <button type="submit" className={`${styles.tovabb} ${elsoLepesErvenyes ? styles.tovabbAktiv : ''}`}>
+                Tovább <span aria-hidden="true">→</span>
+              </button>
+            </form>
+
             <div className={styles.tartalom}>
             <p className={styles.introLead}>{szoveg.lead}</p>
             {/* META-LOGÓ (eredeti, Wikimedia Commons) */}
