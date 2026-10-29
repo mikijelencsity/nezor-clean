@@ -1,9 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { Fragment, useEffect, useRef, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import { ujEventId } from '@/components/analytics/FacebookPixel';
-import { KOSZONJUK_KULCS, formazMobil } from './Landing10Koszonjuk';
+import { trackEvent, ujEventId } from '@/components/analytics/FacebookPixel';
 import styles from './Landing10Page.module.css';
 
 // Magyar mobilszám a +36 előhívó UTÁN: 20/30/31/50/70 + 7 számjegy
@@ -21,6 +19,19 @@ function fbclidAdat(): { fbclid?: string; fbclidIdo?: number } {
   }
 }
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/** 9 számjegyű mobilszám olvasható formában: 301234567 → 30 123 4567 */
+function formazMobil(m: string) {
+  return /^\d{9}$/.test(m) ? `${m.slice(0, 2)} ${m.slice(2, 5)} ${m.slice(5)}` : m;
+}
+
+function sutiElfogadva(): boolean {
+  try {
+    return localStorage.getItem('nezorCookieConsent') === 'accepted';
+  } catch {
+    return false;
+  }
+}
 
 /** A beírt telefonszámból a +36 utáni rész (06/36/+36 előtagot levágjuk) */
 function mobilSzamjegyek(raw: string): string {
@@ -210,7 +221,9 @@ const epitoipariReferenciak = [
 
 /** /landing10 — a /landing100 önálló másolata, a „Bízd ránk vagy pénzeld tovább Zuckerberget” kreatívokhoz */
 export function Landing10Page() {
-  const [indul, setIndul] = useState(false); // nyitóképernyő → űrlap
+  const [indul, setIndul] = useState(false); // elkezdte-e a kitöltést (az első „Tovább” után)
+  const kerdoivRef = useRef<HTMLDivElement>(null); // a headline alatti, beágyazott kérdőív
+  const [urlapLathato, setUrlapLathato] = useState(true); // az állandó CTA csak akkor kell, ha a kérdőív nem látszik
   const [lepes, setLepes] = useState(0);
   const [v, setV] = useState<Valaszok>({});
   const [vezeteknev, setVezeteknev] = useState('');
@@ -222,16 +235,12 @@ export function Landing10Page() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [sent, setSent] = useState(false);
-  const [panel, setPanel] = useState(false); // oldalról kinyíló „mi ez?” panel
   const [refPanel, setRefPanel] = useState(false); // oldalról kinyíló referencia panel
   const [adatPanel, setAdatPanel] = useState(false); // oldalról kinyíló, erre a landingre szabott adatkezelési tájékoztató
-  const router = useRouter();
-  const pathname = usePathname();
   // ár-animáció: 150 000 Ft → 79 000 Ft, amikor a kártya a képernyőre ér (egyszer fut le)
   const [ar, setAr] = useState(150_000);
   const [arKesz, setArKesz] = useState(false);
   const arRef = useRef<HTMLParagraphElement>(null);
-  const magyarazoRef = useRef<HTMLDivElement>(null); // a „Nagy, kék gomb” magyarázó rész
   const arLefutott = useRef(false);
   const elkuldve = useRef(false);
   const reszlegesKuldve = useRef<string | null>(null);
@@ -245,32 +254,34 @@ export function Landing10Page() {
   const VEGE = aktivLepesek.length; // utolsó lépés: elérhetőség
   const aktualis = aktivLepesek[lepes];
 
+  // minden „kezdjük” gomb a headline alatti kérdőívhez görget (nem nyit új oldalt)
   const indit = () => {
-    setIndul(true);
-    window.scrollTo({ top: 0 });
+    kerdoivRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-
-  // állandó „vissza a főoldalra” gomb: a kérdőívből a nyitóképernyőre (a válaszok megmaradnak)
-  const fooldalra = () => {
-    setError('');
-    setIndul(false);
-    window.scrollTo({ top: 0 });
-  };
 
   const tovabb = () => {
     setError('');
+    setIndul(true); // elkezdte a kitöltést (a félbehagyott jelentkezés ehhez kötött)
     setLepes((l) => l + 1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    kerdoivRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   const vissza = () => {
     setError('');
-    if (lepes === 0) setIndul(false); // első kérdésről vissza a nyitóképernyőre
-    else setLepes(lepes - 1);
+    if (lepes > 0) setLepes(lepes - 1);
   };
 
   const beallit = (kulcs: string, ertek: Ertek) => setV((elozo) => ({ ...elozo, [kulcs]: ertek }));
+
+  // figyeljük, látszik-e a kérdőív (ha igen, az alsó állandó CTA eltűnik)
+  useEffect(() => {
+    const el = kerdoivRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => setUrlapLathato(e.isIntersecting), { threshold: 0.15 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   // Szöveges lépésnél a mező kapja a fókuszt
   useEffect(() => {
@@ -339,8 +350,8 @@ export function Landing10Page() {
   }, []);
 
   useEffect(() => {
-    if (!panel && !refPanel && !adatPanel) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setPanel(false); setRefPanel(false); setAdatPanel(false); } };
+    if (!refPanel && !adatPanel) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setRefPanel(false); setAdatPanel(false); } };
     document.addEventListener('keydown', onKey);
     const regi = document.documentElement.style.overflow;
     document.documentElement.style.overflow = 'hidden';
@@ -348,7 +359,7 @@ export function Landing10Page() {
       document.removeEventListener('keydown', onKey);
       document.documentElement.style.overflow = regi;
     };
-  }, [panel, refPanel, adatPanel]);
+  }, [refPanel, adatPanel]);
 
   /** Lehet-e továbblépni az aktuális lépésből */
   const ervenyes = (() => {
@@ -489,11 +500,10 @@ export function Landing10Page() {
       if (data.ok) {
         elkuldve.current = true;
         setSent(true);
-        // köszönőoldal saját URL-en: ott fut a Meta Lead esemény (és ott mérhető URL-alapú konverzióként is)
-        try {
-          sessionStorage.setItem(KOSZONJUK_KULCS, JSON.stringify({ nev, mobil, eventId }));
-        } catch { /* nem elérhető */ }
-        router.push(`${pathname.replace(/\/$/, '')}/koszonjuk`);
+        // a köszönet a landingen jelenik meg; a böngészős Lead (csak süti-elfogadásnál) ugyanazzal az
+        // eventId-vel megy, mint a szerveroldali (CAPI), így a Meta egynek számolja
+        if (sutiElfogadva()) trackEvent('Lead', {}, eventId);
+        kerdoivRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else setError('Hiba történt. Próbáld újra, vagy hívj: +36 30 203 6721');
     } catch {
       setError('Hiba történt. Próbáld újra, vagy hívj: +36 30 203 6721');
@@ -518,19 +528,6 @@ export function Landing10Page() {
     </label>
   );
 
-  // a headline alatti első kérdés: érvényes adatokkal a kérdőív 2. lépésével folytatódik
-  const elsoLepesErvenyes = nev !== '' && EMAIL_RE.test(email.trim()) && hozzajarulas;
-  const elsoLepesKesz = (ev: React.FormEvent) => {
-    ev.preventDefault();
-    if (!nev) { setError('Add meg a keresztneved!'); return; }
-    if (!EMAIL_RE.test(email.trim())) { setError('Érvénytelen e-mail-cím. Pl. nev@ceged.hu'); return; }
-    if (!hozzajarulas) { setError('A továbblépéshez fogadd el az adatkezelési tájékoztatót!'); return; }
-    setError('');
-    setLepes(1);
-    setIndul(true);
-    window.scrollTo({ top: 0 });
-  };
-
   const tovabbGomb = (aktiv: boolean) => (
     <button type="submit" className={`${styles.tovabb} ${aktiv ? styles.tovabbAktiv : ''}`} disabled={!aktiv}>
       Tovább <span aria-hidden="true">→</span>
@@ -540,8 +537,8 @@ export function Landing10Page() {
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        {!indul ? (
-          /* NYITÓKÉPERNYŐ — a form csak a gomb után jelenik meg */
+        {(
+          /* A LANDING — a kérdőív a headline alatt, az oldalon belül lépked végig */
           <div className={styles.intro}>
             <p className={styles.introLogo}>NEZOR</p>
             <p className={styles.introCimke}>Vállalkozóknak, akik hirdetnek</p>
@@ -554,33 +551,193 @@ export function Landing10Page() {
               <span className={styles.introSor}><span className={styles.alahuzas}><span className={styles.introPiros}>te</span> fogsz.</span></span>
             </h1>
 
-            {/* ELSŐ KÉRDÉS A HEADLINE ALATT — ugyanaz az állapot, mint a kérdőív első lépése */}
-            <form className={styles.heroUrlap} onSubmit={elsoLepesKesz} noValidate>
-              <p className={styles.felett}>Rendben, nem húzzuk az időd. De mielőtt belevágunk, nem akarunk udvariatlanok lenni…</p>
-              <h2 className={styles.kerdes}><span className={styles.kerdesKiemelt}>Hogy hívnak</span>, és hova írhatunk?</h2>
-              <input
-                className={styles.mezo}
-                type="text"
-                autoComplete="given-name"
-                placeholder="Keresztneved"
-                value={String(v.keresztnev ?? '')}
-                onChange={(e) => beallit('keresztnev', e.target.value)}
-              />
-              <input
-                className={`${styles.mezo} ${styles.mezoMasodik}`}
-                type="email"
-                inputMode="email"
-                autoComplete="email"
-                placeholder="E-mail-címed"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              {hozzajarulasMezo}
-              {!indul && error && <p className={styles.error}>{error}</p>}
-              <button type="submit" className={`${styles.tovabb} ${elsoLepesErvenyes ? styles.tovabbAktiv : ''}`}>
-                Tovább <span aria-hidden="true">→</span>
-              </button>
-            </form>
+            {/* BEÁGYAZOTT KÉRDŐÍV — nem visz át másik oldalra; beküldés után itt jelenik meg a köszönet */}
+            <div ref={kerdoivRef} className={styles.heroUrlap}>
+              {sent ? (
+                <div className={styles.lepes}>
+                  <div className={styles.kesz} aria-hidden="true">✓</div>
+                  <h2 className={styles.kerdes}>Megkaptuk, {nev}!</h2>
+                  <p className={styles.al}>
+                    Hamarosan hívunk a <b>+36 {formazMobil(mobil)}</b> számon, erről a számról: <b>+36 30 203 6721</b>. Vedd fel! 📞
+                    <br />Kérdés esetén: <a href="mailto:info@nezor.hu">info@nezor.hu</a>
+                  </p>
+                  <h2 className={styles.mostCim}>Mi történik most?</h2>
+                  <ol className={styles.mostLepesek}>
+                    <li>
+                      <span className={styles.mostSzam} aria-hidden="true">1</span>
+                      <p><b>Átnézzük a válaszaidat.</b></p>
+                    </li>
+                    <li>
+                      <span className={styles.mostSzam} aria-hidden="true">2</span>
+                      <p><b>24 órán belül hívunk</b> a <a href="tel:+36302036721">+36 30 203 6721</a>-ről.</p>
+                    </li>
+                    <li>
+                      <span className={styles.mostSzam} aria-hidden="true">3</span>
+                      <p><b>Rövid, lényegre törő beszélgetés</b>, és a válaszaid alapján <b>ügyfélszerzési tervet</b> állítunk össze.</p>
+                    </li>
+                  </ol>
+                </div>
+              ) : (
+                <div className={styles.lepes}>
+              {/* HALADÁSJELZŐ */}
+              <div className={styles.pottyok} role="progressbar" aria-valuemin={1} aria-valuemax={VEGE + 1} aria-valuenow={lepes + 1}>
+                {Array.from({ length: VEGE + 1 }, (_, i) => (
+                  <span key={i} className={`${styles.potty} ${i <= lepes ? styles.pottyKesz : ''}`} />
+                ))}
+              </div>
+
+              {aktualis ? (
+                <form onSubmit={szovegTovabb} key={aktualis.kulcs}>
+                  {sz(aktualis.felett) && <p className={styles.felett}>{sz(aktualis.felett)}</p>}
+                  <h2 className={styles.kerdes}>{kiemel(sz(aktualis.cim), styles.kerdesKiemelt)}</h2>
+                  {aktualis.al && <p className={styles.al}>{sz(aktualis.al)}</p>}
+
+                  {aktualis.tipus === 'szoveg' && (
+                    <>
+                      <input
+                        ref={fokusz}
+                        className={styles.mezo}
+                        type={aktualis.inputMode === 'email' ? 'email' : 'text'}
+                        inputMode={aktualis.inputMode}
+                        autoComplete={aktualis.kulcs === 'keresztnev' ? 'given-name' : 'off'}
+                        placeholder={aktualis.placeholder}
+                        value={String(v[aktualis.kulcs] ?? '')}
+                        onChange={(e) => beallit(aktualis.kulcs, e.target.value)}
+                      />
+                      {aktualis.kulcs === 'keresztnev' && (
+                        <input
+                          className={`${styles.mezo} ${styles.mezoMasodik}`}
+                          type="email"
+                          inputMode="email"
+                          autoComplete="email"
+                          placeholder="E-mail-címed"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                      )}
+                      {aktualis.kulcs === 'keresztnev' && hozzajarulasMezo}
+                      {error && <p className={styles.error}>{error}</p>}
+                      {tovabbGomb(ervenyes)}
+                    </>
+                  )}
+
+                  {aktualis.tipus === 'telefon' && (
+                    <>
+                      <div className={`${styles.telefonSor} ${styles.telefonSorKozep}`}>
+                        <span className={styles.elohivo}>🇭🇺 +36</span>
+                        <input
+                          ref={fokusz}
+                          className={styles.mezo}
+                          type="tel"
+                          inputMode="tel"
+                          autoComplete="tel-national"
+                          placeholder="Mobilszám (pl. 30 123 4567)"
+                          value={telefon}
+                          onChange={(e) => setTelefon(e.target.value)}
+                        />
+                      </div>
+                      {error && <p className={styles.error}>{error}</p>}
+                      <button type="submit" className={`${styles.tovabb} ${ervenyes ? styles.tovabbAktiv : ''}`}>
+                        Tovább <span aria-hidden="true">→</span>
+                      </button>
+                    </>
+                  )}
+
+                  {aktualis.tipus === 'hosszu' && (
+                    <>
+                      <textarea
+                        ref={fokusz}
+                        className={`${styles.mezo} ${styles.mezoHosszu}`}
+                        placeholder={aktualis.placeholder}
+                        value={String(v[aktualis.kulcs] ?? '')}
+                        onChange={(e) => beallit(aktualis.kulcs, e.target.value)}
+                      />
+                      {tovabbGomb(ervenyes)}
+                    </>
+                  )}
+
+                  {aktualis.tipus === 'egy' && (
+                    <div className={styles.radiok}>
+                      {aktualis.opciok.filter((o) => !aktualis.szuro || aktualis.szuro(o, v)).map((o) => (
+                        <button
+                          key={o}
+                          type="button"
+                          className={`${styles.radio} ${v[aktualis.kulcs] === o ? styles.radioAktiv : ''}`}
+                          onClick={() => { beallit(aktualis.kulcs, o); tovabb(); }}
+                        >
+                          <span className={styles.radioKor} aria-hidden="true" />
+                          {o}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {aktualis.tipus === 'tobb' && (
+                    <>
+                      <div className={styles.ikonok}>
+                        {aktualis.opciok.map((o) => {
+                          const lista = (v[aktualis.kulcs] as string[] | undefined) ?? [];
+                          const be = lista.includes(o.cimke);
+                          return (
+                            <button
+                              key={o.cimke}
+                              type="button"
+                              aria-pressed={be}
+                              className={`${styles.ikonGomb} ${be ? styles.ikonGombAktiv : ''}`}
+                              onClick={() => {
+                                // „Semmi” kizárja a többit
+                                const uj = o.cimke === 'Semmi'
+                                  ? (be ? [] : ['Semmi'])
+                                  : be ? lista.filter((x) => x !== o.cimke) : [...lista.filter((x) => x !== 'Semmi'), o.cimke];
+                                beallit(aktualis.kulcs, uj);
+                              }}
+                            >
+                              <span className={styles.ikonKor} style={{ color: o.szin }} aria-hidden="true">{o.ikon}</span>
+                              {o.cimke}
+                            </button>
+                          );
+                        })}
+                      </div>
+                      {tovabbGomb(ervenyes)}
+                    </>
+                  )}
+
+                </form>
+              ) : (
+                /* UTOLSÓ LÉPÉS — elérhetőség */
+                <form onSubmit={handleSubmit}>
+                  <h2 className={styles.kerdes}>
+                    BUMM! 👊 Úgy tűnik, komolyan tudunk segíteni a vállalkozásodnak a bevált hirdetési rendszereinkkel — csak add meg az adataidat!
+                  </h2>
+                  <p className={styles.al}>Már csak pár adat, és hívunk a <b>+36 {formazMobil(mobil)}</b> számon.</p>
+                  <input
+                    className={styles.honeypot}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                    aria-hidden="true"
+                  />
+                  <div className={styles.mezok}>
+                    <input className={styles.mezo} type="text" autoComplete="given-name" placeholder="Keresztnév *" value={String(v.keresztnev ?? '')} onChange={(e) => beallit('keresztnev', e.target.value)} />
+                    <input className={styles.mezo} type="text" autoComplete="family-name" placeholder="Vezetéknév *" value={vezeteknev} onChange={(e) => setVezeteknev(e.target.value)} />
+                    <div className={styles.telefonSor}>
+                      <span className={styles.elohivo}>🇭🇺 +36</span>
+                      <input className={styles.mezo} type="tel" inputMode="tel" autoComplete="tel-national" placeholder="Mobilszám * (pl. 30 123 4567)" value={telefon} onChange={(e) => setTelefon(e.target.value)} />
+                    </div>
+                    <input className={styles.mezo} type="text" autoComplete="organization" placeholder="Cégnév *" value={cegnev} onChange={(e) => setCegnev(e.target.value)} />
+                  </div>
+                  {hozzajarulasMezo}
+                  {error && <p className={styles.error}>{error}</p>}
+                  <button type="submit" className={`${styles.tovabb} ${vegeErvenyes ? styles.tovabbAktiv : ''}`} disabled={loading}>
+                    {loading ? 'Küldés...' : <>Kezdjük el a közös munkát <span aria-hidden="true">→</span></>}
+                  </button>
+                </form>
+              )}
+                  {lepes > 0 && <button type="button" className={styles.vissza} onClick={vissza}>← Vissza</button>}
+                </div>
+              )}
+            </div>
 
             <div className={styles.tartalom}>
             <p className={styles.introLead}>{szoveg.lead}</p>
@@ -607,32 +764,6 @@ export function Landing10Page() {
                 <circle cx="12" cy="12" r="3.3" fill="none" stroke="#fff" strokeWidth="1.8" />
                 <circle cx="16.2" cy="7.8" r="1.05" fill="#fff" />
               </svg>
-            </div>
-            <button
-              type="button"
-              className={`${styles.introCta} ${styles.nagyCta}`}
-              onClick={() => magyarazoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-            >
-              Igen, érdekel! <span aria-hidden="true">→</span>
-            </button>
-            <p className={`${styles.mikro} ${styles.mikroFelso}`}>{MIKROSZOVEG}</p>
-            {/* a hero „Igen, érdekel!” gombja ide görget */}
-            {/* ALAPÍTÓ a gomb mellett — a gombra mutat */}
-            <div ref={magyarazoRef} className={`${styles.ctaSor} ${styles.ctaSorCel}`}>
-              <div className={styles.ctaAlapito}>
-                <Image unoptimized loading="eager" src="/alapito-bal.webp" alt="Müller Dániel, a NEZOR alapítója öltönyben, a gombra mutat" width={702} height={1000} sizes="(max-width: 700px) 36vw, 260px" />
-                <p className={styles.ctaNevek}>Müller Dániel</p>
-              </div>
-              <div className={styles.ctaTartalom}>
-                <button type="button" className={styles.introCta} onClick={() => setPanel(true)} aria-haspopup="dialog" aria-expanded={panel}>
-                  {/* két tiszta sorban, hogy a „rá!” ne maradjon egyedül */}
-                  <span className={styles.ketSor}>
-                    <span>Nagy, kék gomb,</span>
-                    <span>nyomj rá! <span aria-hidden="true">→</span></span>
-                  </span>
-                </button>
-                <p className={styles.gyorstalpalo}>Gyorstalpaló: mi ez, miért jó, miért mi.</p>
-              </div>
             </div>
             <p className={styles.introBizalom}>
               <span className={styles.csillagok} aria-hidden="true">★★★★★</span>
@@ -715,179 +846,10 @@ export function Landing10Page() {
             </section>
             </div>
           </div>
-        ) : sent ? (
-          <div className={styles.lepes}>
-            <div className={styles.kesz} aria-hidden="true">✓</div>
-            <h2 className={styles.kerdes}>Megkaptuk, {nev}!</h2>
-            <p className={styles.al}>
-              Hamarosan hívunk a <b>+36 {formazMobil(mobil)}</b> számon, erről a számról: <b>+36 30 203 6721</b>. Vedd fel! 📞
-              <br />Kérdés esetén: <a href="mailto:info@nezor.hu">info@nezor.hu</a>
-            </p>
-          </div>
-        ) : (
-          <div className={styles.lepes}>
-            {/* HALADÁSJELZŐ */}
-            <div className={styles.pottyok} role="progressbar" aria-valuemin={1} aria-valuemax={VEGE + 1} aria-valuenow={lepes + 1}>
-              {Array.from({ length: VEGE + 1 }, (_, i) => (
-                <span key={i} className={`${styles.potty} ${i <= lepes ? styles.pottyKesz : ''}`} />
-              ))}
-            </div>
-
-            {aktualis ? (
-              <form onSubmit={szovegTovabb} key={aktualis.kulcs}>
-                {sz(aktualis.felett) && <p className={styles.felett}>{sz(aktualis.felett)}</p>}
-                <h2 className={styles.kerdes}>{kiemel(sz(aktualis.cim), styles.kerdesKiemelt)}</h2>
-                {aktualis.al && <p className={styles.al}>{sz(aktualis.al)}</p>}
-
-                {aktualis.tipus === 'szoveg' && (
-                  <>
-                    <input
-                      ref={fokusz}
-                      className={styles.mezo}
-                      type={aktualis.inputMode === 'email' ? 'email' : 'text'}
-                      inputMode={aktualis.inputMode}
-                      autoComplete={aktualis.kulcs === 'keresztnev' ? 'given-name' : 'off'}
-                      placeholder={aktualis.placeholder}
-                      value={String(v[aktualis.kulcs] ?? '')}
-                      onChange={(e) => beallit(aktualis.kulcs, e.target.value)}
-                    />
-                    {aktualis.kulcs === 'keresztnev' && (
-                      <input
-                        className={`${styles.mezo} ${styles.mezoMasodik}`}
-                        type="email"
-                        inputMode="email"
-                        autoComplete="email"
-                        placeholder="E-mail-címed"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
-                    )}
-                    {aktualis.kulcs === 'keresztnev' && hozzajarulasMezo}
-                    {error && <p className={styles.error}>{error}</p>}
-                    {tovabbGomb(ervenyes)}
-                  </>
-                )}
-
-                {aktualis.tipus === 'telefon' && (
-                  <>
-                    <div className={`${styles.telefonSor} ${styles.telefonSorKozep}`}>
-                      <span className={styles.elohivo}>🇭🇺 +36</span>
-                      <input
-                        ref={fokusz}
-                        className={styles.mezo}
-                        type="tel"
-                        inputMode="tel"
-                        autoComplete="tel-national"
-                        placeholder="Mobilszám (pl. 30 123 4567)"
-                        value={telefon}
-                        onChange={(e) => setTelefon(e.target.value)}
-                      />
-                    </div>
-                    {error && <p className={styles.error}>{error}</p>}
-                    <button type="submit" className={`${styles.tovabb} ${ervenyes ? styles.tovabbAktiv : ''}`}>
-                      Tovább <span aria-hidden="true">→</span>
-                    </button>
-                  </>
-                )}
-
-                {aktualis.tipus === 'hosszu' && (
-                  <>
-                    <textarea
-                      ref={fokusz}
-                      className={`${styles.mezo} ${styles.mezoHosszu}`}
-                      placeholder={aktualis.placeholder}
-                      value={String(v[aktualis.kulcs] ?? '')}
-                      onChange={(e) => beallit(aktualis.kulcs, e.target.value)}
-                    />
-                    {tovabbGomb(ervenyes)}
-                  </>
-                )}
-
-                {aktualis.tipus === 'egy' && (
-                  <div className={styles.radiok}>
-                    {aktualis.opciok.filter((o) => !aktualis.szuro || aktualis.szuro(o, v)).map((o) => (
-                      <button
-                        key={o}
-                        type="button"
-                        className={`${styles.radio} ${v[aktualis.kulcs] === o ? styles.radioAktiv : ''}`}
-                        onClick={() => { beallit(aktualis.kulcs, o); tovabb(); }}
-                      >
-                        <span className={styles.radioKor} aria-hidden="true" />
-                        {o}
-                      </button>
-                    ))}
-                  </div>
-                )}
-
-                {aktualis.tipus === 'tobb' && (
-                  <>
-                    <div className={styles.ikonok}>
-                      {aktualis.opciok.map((o) => {
-                        const lista = (v[aktualis.kulcs] as string[] | undefined) ?? [];
-                        const be = lista.includes(o.cimke);
-                        return (
-                          <button
-                            key={o.cimke}
-                            type="button"
-                            aria-pressed={be}
-                            className={`${styles.ikonGomb} ${be ? styles.ikonGombAktiv : ''}`}
-                            onClick={() => {
-                              // „Semmi” kizárja a többit
-                              const uj = o.cimke === 'Semmi'
-                                ? (be ? [] : ['Semmi'])
-                                : be ? lista.filter((x) => x !== o.cimke) : [...lista.filter((x) => x !== 'Semmi'), o.cimke];
-                              beallit(aktualis.kulcs, uj);
-                            }}
-                          >
-                            <span className={styles.ikonKor} style={{ color: o.szin }} aria-hidden="true">{o.ikon}</span>
-                            {o.cimke}
-                          </button>
-                        );
-                      })}
-                    </div>
-                    {tovabbGomb(ervenyes)}
-                  </>
-                )}
-
-              </form>
-            ) : (
-              /* UTOLSÓ LÉPÉS — elérhetőség */
-              <form onSubmit={handleSubmit}>
-                <h2 className={styles.kerdes}>
-                  BUMM! 👊 Úgy tűnik, komolyan tudunk segíteni a vállalkozásodnak a bevált hirdetési rendszereinkkel — csak add meg az adataidat!
-                </h2>
-                <p className={styles.al}>Már csak pár adat, és hívunk a <b>+36 {formazMobil(mobil)}</b> számon.</p>
-                <input
-                  className={styles.honeypot}
-                  tabIndex={-1}
-                  autoComplete="off"
-                  value={website}
-                  onChange={(e) => setWebsite(e.target.value)}
-                  aria-hidden="true"
-                />
-                <div className={styles.mezok}>
-                  <input className={styles.mezo} type="text" autoComplete="given-name" placeholder="Keresztnév *" value={String(v.keresztnev ?? '')} onChange={(e) => beallit('keresztnev', e.target.value)} />
-                  <input className={styles.mezo} type="text" autoComplete="family-name" placeholder="Vezetéknév *" value={vezeteknev} onChange={(e) => setVezeteknev(e.target.value)} />
-                  <div className={styles.telefonSor}>
-                    <span className={styles.elohivo}>🇭🇺 +36</span>
-                    <input className={styles.mezo} type="tel" inputMode="tel" autoComplete="tel-national" placeholder="Mobilszám * (pl. 30 123 4567)" value={telefon} onChange={(e) => setTelefon(e.target.value)} />
-                  </div>
-                  <input className={styles.mezo} type="text" autoComplete="organization" placeholder="Cégnév *" value={cegnev} onChange={(e) => setCegnev(e.target.value)} />
-                </div>
-                {hozzajarulasMezo}
-                {error && <p className={styles.error}>{error}</p>}
-                <button type="submit" className={`${styles.tovabb} ${vegeErvenyes ? styles.tovabbAktiv : ''}`} disabled={loading}>
-                  {loading ? 'Küldés...' : <>Kezdjük el a közös munkát <span aria-hidden="true">→</span></>}
-                </button>
-              </form>
-            )}
-
-            <button type="button" className={styles.vissza} onClick={vissza}>← Vissza</button>
-          </div>
         )}
 
-        {/* ÁLLANDÓ CTA — a nyitóképernyőn végig a képernyő alján */}
-        {!indul && (
+        {/* ÁLLANDÓ CTA — a képernyő alján, amíg a kérdőív nem látszik */}
+        {!urlapLathato && !sent && (
           <div className={styles.allandoCta}>
             <button type="button" className={`${styles.introCta} ${styles.allandoCtaGomb}`} onClick={indit}>
               Kezdjük meg a munkát! <span aria-hidden="true">→</span>
@@ -895,82 +857,6 @@ export function Landing10Page() {
           </div>
         )}
 
-        {indul && (
-          <button type="button" className={styles.fooldalGomb} onClick={fooldalra}>
-            <span aria-hidden="true">←</span> Vissza a főoldalra
-          </button>
-        )}
-
-        {/* OLDALRÓL KINYÍLÓ PANEL — mi ez, miért jó, miért velünk */}
-        <div className={`${styles.panelHatter} ${panel ? styles.panelHatterNyitva : ''}`} onClick={() => setPanel(false)} aria-hidden="true" />
-        <aside
-          className={`${styles.panel} ${panel ? styles.panelNyitva : ''}`}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="panel-cim"
-          aria-hidden={!panel}
-        >
-          <button type="button" className={styles.panelBezar} aria-label="Bezárás" onClick={() => setPanel(false)} tabIndex={panel ? 0 : -1}>×</button>
-          <p id="panel-cim" className={styles.panelCim}>NEZOR</p>
-
-          <details className={styles.panelBlokk}>
-            <summary>Mi ez?</summary>
-            <p className={styles.panelEmoji} aria-hidden="true">🤔</p>
-            <p>
-              Tegyük fel, <b>szépségszalonod van Budapesten</b>, és a környékről várod a vendégeket.
-            </p>
-            <p>
-              Mi elkészítjük <b>a saját oldaladat</b> (olyat, mint ez), és <b>Facebook- és Instagram-hirdetésekkel</b>{' '}
-              odahozzuk azokat, akiket érdekel, amit kínálsz.
-            </p>
-            <p>
-              Aki ajánlatot kér, annak az adatai <b>bekerülnek a saját Excel-táblázatodba</b>, vagy <b>elküldjük neked
-              e-mailben</b>, vagy <b>egyből téged hív fel</b>.
-            </p>
-            <p><b>Pofon egyszerű.</b></p>
-            <button type="button" className={`${styles.introCta} ${styles.panelReszCta}`} tabIndex={panel ? 0 : -1} onClick={() => { setPanel(false); indit(); }}>
-              Igen, érdekel! <span aria-hidden="true">→</span>
-            </button>
-          </details>
-
-          <details className={styles.panelBlokk}>
-            <summary>Miért jó neked?</summary>
-            <p className={styles.panelEmoji} aria-hidden="true">💪</p>
-            <p>
-              Az emberek 90%-a a telefonját nyomja, és alapvetően <b>fel se ismeri a problémáját</b>, amíg az arcába nincs nyomva.
-            </p>
-            <p>
-              Mi felismertetjük velük a problémát, amire <b>Te leszel a megoldás</b>.
-            </p>
-            <button type="button" className={`${styles.introCta} ${styles.panelReszCta}`} tabIndex={panel ? 0 : -1} onClick={() => { setPanel(false); indit(); }}>
-              Igen, érdekel! <span aria-hidden="true">→</span>
-            </button>
-          </details>
-
-          <details className={styles.panelBlokk}>
-            <summary>Miért velünk?</summary>
-            <p className={styles.panelEmoji} aria-hidden="true">🤝</p>
-            <p><b>5 évvel ezelőtt kezdtük.</b></p>
-            <p>
-              Azóta <b>50+ céggel dolgoztunk</b> minden szegmensből: az egyéni vállalkozótól a cégcsoportokig.
-            </p>
-            <p>
-              Azoknak is, akik csak egy kis városban akarnak terjeszkedni, és azoknak is, akik egész Közép-Európát
-              akarják lefedni.
-            </p>
-            <p>
-              Sok rizikó nincs. <b>Ha nincs érdeklődő arra, amit csinálsz, a díjunkat visszautaljuk.</b>
-            </p>
-            <button type="button" className={`${styles.introCta} ${styles.panelReszCta}`} tabIndex={panel ? 0 : -1} onClick={() => { setPanel(false); indit(); }}>
-              Igen, érdekel! <span aria-hidden="true">→</span>
-            </button>
-          </details>
-
-          <button type="button" className={`${styles.introCta} ${styles.panelCta}`} tabIndex={panel ? 0 : -1} onClick={() => { setPanel(false); indit(); }}>
-            Oké, kezdjük el <span aria-hidden="true">→</span>
-          </button>
-          <p className={styles.mikro}>{MIKROSZOVEG}</p>
-        </aside>
 
         {/* OLDALRÓL KINYÍLÓ ADATKEZELÉSI TÁJÉKOZTATÓ — erre a landingre szabva, nem visz el az oldalról */}
         <div className={`${styles.panelHatter} ${styles.adatPanelHatter} ${adatPanel ? styles.panelHatterNyitva : ''}`} onClick={() => setAdatPanel(false)} aria-hidden="true" />

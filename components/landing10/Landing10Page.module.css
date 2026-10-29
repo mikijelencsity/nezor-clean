@@ -96,8 +96,9 @@
 /* az első lépés második mezője (e-mail) a név alatt */
 .mezo.mezoMasodik { margin-top: 10px; }
 /* a headline alatti első kérdés */
-.heroUrlap { max-width: 600px; margin: 0 auto 34px; }
-.heroUrlap .tovabb { margin-top: 16px; }
+/* a headline alatti, beágyazott kérdőív */
+.heroUrlap { max-width: 640px; margin: 0 auto 34px; scroll-margin-top: 16px; }
+.heroUrlap .lepes { margin-bottom: 0; }
 /* a „Nagy, kék gomb” alatt, középre igazítva, sima fekete */
 .gyorstalpalo { margin-top: 10px; text-align: center; font-size: 16px; font-weight: 700; color: #000; }
 .mikroFelso { margin-bottom: 40px; }
