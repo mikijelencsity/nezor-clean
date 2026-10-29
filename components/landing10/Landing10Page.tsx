@@ -535,16 +535,13 @@ export function Landing10Page() {
           <div className={styles.intro}>
             <p className={styles.introLogo}>NEZOR</p>
             <p className={styles.introCimke}>Vállalkozóknak, akik hirdetnek</p>
+            {/* a „Bízd ránk vagy pénzeld tovább Zuckerberget” kreatívok folytatása */}
             <h1 className={styles.introH1}>
-              <span className={styles.introSor}>
-                <span className={styles.raketa} aria-hidden="true">
-                  <Image unoptimized loading="eager" src="/raketa.webp" alt="" width={256} height={256} sizes="90px" preload />
-                </span>
-                <span className={styles.introPiros}>Felturbózzuk</span>
-              </span>
-              <span className={`${styles.introSor} ${styles.introSorVekony}`}>az értékesítésedet,</span>
-              <span className={`${styles.introSor} ${styles.introSorVekony}`}>úgy, hogy közben</span>
-              <span className={styles.introSor}><span className={styles.alahuzas}><span className={styles.introPiros}>zéró</span> feladatod</span> van.</span>
+              <span className={`${styles.introSor} ${styles.introSorVekony}`}>Eddig</span>
+              <span className={styles.introSor}><span className={styles.introPiros}>Zuckerberg</span></span>
+              <span className={`${styles.introSor} ${styles.introSorVekony}`}>keresett a hirdetéseiden.</span>
+              <span className={`${styles.introSor} ${styles.introSorVekony}`}>Mostantól</span>
+              <span className={styles.introSor}><span className={styles.alahuzas}><span className={styles.introPiros}>te</span> fogsz.</span></span>
             </h1>
             <div className={styles.tartalom}>
             <p className={styles.introLead}>{szoveg.lead}</p>
