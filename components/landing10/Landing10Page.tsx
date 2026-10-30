@@ -552,12 +552,6 @@ export function Landing10Page() {
             </h1>
 
             {/* BEÁGYAZOTT KÉRDŐÍV — nem visz át másik oldalra; beküldés után itt jelenik meg a köszönet */}
-            {/* a két alapító a kérdőív két oldalán, rá mutatva (mobilon a kérdőív fölött) */}
-            <div className={styles.urlapSor}>
-              <div className={`${styles.urlapAlapito} ${styles.urlapAlapitoBal}`}>
-                <Image unoptimized loading="eager" src="/alapito-bal.webp" alt="Müller Dániel, a NEZOR alapítója, a kérdőívre mutat" width={702} height={1000} sizes="(max-width: 700px) 40vw, 220px" />
-                <p className={styles.ctaNevek}>Müller Dániel</p>
-              </div>
             <div ref={kerdoivRef} className={styles.heroUrlap}>
               {sent ? (
                 <div className={styles.lepes}>
@@ -743,11 +737,6 @@ export function Landing10Page() {
                   {lepes > 0 && <button type="button" className={styles.vissza} onClick={vissza}>← Vissza</button>}
                 </div>
               )}
-            </div>
-              <div className={`${styles.urlapAlapito} ${styles.urlapAlapitoJobb}`}>
-                <Image unoptimized loading="eager" src="/alapito-jobb.webp" alt="Jelencsity Miklós, a NEZOR alapítója, a kérdőívre mutat" width={677} height={1000} sizes="(max-width: 700px) 40vw, 220px" />
-                <p className={styles.ctaNevek}>Jelencsity Miklós</p>
-              </div>
             </div>
 
             <div className={styles.tartalom}>

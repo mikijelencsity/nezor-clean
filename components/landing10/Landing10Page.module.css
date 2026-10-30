@@ -96,26 +96,6 @@
 /* az első lépés második mezője (e-mail) a név alatt */
 .mezo.mezoMasodik { margin-top: 10px; }
 /* a headline alatti első kérdés */
-/* kérdőív a két alapítóval: mobilon ők felül (befelé mutatva), asztalin a kérdőív két oldalán */
-.urlapSor {
-  display: grid; grid-template-columns: 1fr 1fr; grid-template-areas: "bal jobb" "urlap urlap";
-  align-items: end; max-width: 1000px; margin: 0 auto;
-}
-.urlapAlapitoBal { grid-area: bal; justify-self: start; }
-.urlapAlapitoJobb { grid-area: jobb; justify-self: end; }
-.urlapSor .heroUrlap { grid-area: urlap; width: 100%; }
-.urlapAlapito { width: min(150px, 40vw); }
-.urlapAlapito img {
-  display: block; width: 100%; height: auto;
-  -webkit-mask-image: linear-gradient(to bottom, #000 68%, transparent 98%);
-  mask-image: linear-gradient(to bottom, #000 68%, transparent 98%);
-}
-.urlapAlapito .ctaNevek { margin-top: -6px; text-align: center; font-size: 12px; }
-@media (min-width: 900px) {
-  .urlapSor { grid-template-columns: 200px minmax(0, 1fr) 200px; grid-template-areas: "bal urlap jobb"; align-items: center; gap: 8px; }
-  .urlapAlapito { width: 200px; }
-  .urlapAlapito .ctaNevek { font-size: 13px; }
-}
 /* Miklós nélkül az ajánlat-kártya fejléce teljes szélességű */
 .csomagFej.csomagFejTeljes { min-height: 0; max-width: none; }
 
