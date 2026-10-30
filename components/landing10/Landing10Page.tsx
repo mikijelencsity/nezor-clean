@@ -116,8 +116,6 @@ const lepesek: Lepes[] = [
   },
 ];
 
-const MIKROSZOVEG = 'Miért éri meg ez mindenkinek?';
-
 const UTVONAL_CIMKE: Record<string, string> = {
   kezdo: 'Még sosem hirdetett',
   valto: 'Már hirdet — lecserélné / kiszervezné',
@@ -827,7 +825,6 @@ export function Landing10Page() {
               <button type="button" className={styles.introCta} onClick={indit}>
                 Ezt kérem! <span aria-hidden="true">→</span>
               </button>
-              <p className={styles.mikro}>{MIKROSZOVEG}</p>
             </div>
 
             {/* GYAKORI KÉRDÉSEK — ugyanaz a lenyíló dizájn, mint a „Mi ez?” panelben */}
@@ -986,7 +983,6 @@ export function Landing10Page() {
           <button type="button" className={`${styles.introCta} ${styles.panelCta}`} tabIndex={refPanel ? 0 : -1} onClick={() => { setRefPanel(false); indit(); }}>
             Oké, kezdjük el <span aria-hidden="true">→</span>
           </button>
-          <p className={styles.mikro}>{MIKROSZOVEG}</p>
         </aside>
 
         <p className={styles.foot}>
