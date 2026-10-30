@@ -544,11 +544,9 @@ export function Landing10Page() {
             <p className={styles.introCimke}>Vállalkozóknak, akik hirdetnek</p>
             {/* a „Bízd ránk vagy pénzeld tovább Zuckerberget” kreatívok folytatása */}
             <h1 className={styles.introH1}>
-              <span className={`${styles.introSor} ${styles.introSorVekony}`}>Eddig</span>
-              <span className={styles.introSor}><span className={styles.introPiros}>Zuckerberg</span></span>
+              <span className={styles.introSor}><span className={styles.introKicsi}>Eddig csak</span> <span className={styles.introPiros}>Zuckerberg</span></span>
               <span className={`${styles.introSor} ${styles.introSorVekony}`}>keresett a hirdetéseiden.</span>
-              <span className={`${styles.introSor} ${styles.introSorVekony}`}>Mostantól</span>
-              <span className={styles.introSor}><span className={styles.alahuzas}><span className={styles.introPiros}>te</span> fogsz.</span></span>
+              <span className={styles.introSor}><span className={styles.introKicsi}>Mostantól</span> <span className={styles.alahuzas}><span className={styles.introPiros}>te</span> fogsz.</span></span>
             </h1>
 
             {/* Zuckerberg a headline alatt: az alja a kérdőív keretére ül */}

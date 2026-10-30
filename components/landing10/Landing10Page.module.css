@@ -62,6 +62,11 @@
   font-family: var(--font-szoveg), sans-serif;
   font-size: .62em; font-weight: 800; letter-spacing: .06em; color: #333;
 }
+/* a nagy szó előtti kis szöveg ugyanabban a sorban (pl. „Eddig csak” Zuckerberg) */
+.introKicsi {
+  font-family: var(--font-szoveg), sans-serif; font-size: .5em; font-weight: 800; letter-spacing: .05em;
+  color: #333; vertical-align: .32em;
+}
 .introSzam { color: #0064e0; font-size: 1.45em; line-height: 1; }
 .introLead strong { color: #000; }
 .introLead {
