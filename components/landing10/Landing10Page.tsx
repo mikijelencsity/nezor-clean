@@ -551,6 +551,11 @@ export function Landing10Page() {
               <span className={styles.introSor}><span className={styles.alahuzas}><span className={styles.introPiros}>te</span> fogsz.</span></span>
             </h1>
 
+            {/* Zuckerberg a headline alatt: az alja a kérdőív keretére ül */}
+            <div className={styles.zuck}>
+              <Image unoptimized loading="eager" src="/zuckerberg.png" alt="Mark Zuckerberg dollárjelekkel a szemében, körülötte repkedő pénz" width={600} height={568} />
+            </div>
+
             {/* BEÁGYAZOTT KÉRDŐÍV — nem visz át másik oldalra; beküldés után itt jelenik meg a köszönet */}
             <div ref={kerdoivRef} className={styles.heroUrlap}>
               {sent ? (
@@ -580,11 +585,17 @@ export function Landing10Page() {
               ) : !nyitva ? (
                 /* NYITÓ: a két alapító és a gomb; rányomásra jön elő az első kérdés */
                 <div className={styles.nyito}>
+                  <h2 className={styles.kerdes}>Vágjunk bele!</h2>
                   <div className={styles.nyitoAlapitok}>
                     <div className={styles.nyitoAlapito}>
                       <Image unoptimized loading="eager" src="/alapito-bal.webp" alt="Müller Dániel, a NEZOR alapítója" width={702} height={1000} sizes="(max-width: 700px) 40vw, 200px" />
                       <p className={styles.ctaNevek}>Müller Dániel</p>
                     </div>
+                    {/* Facebook-logó kettőnk között, erre mutatunk */}
+                    <svg className={styles.nyitoFb} viewBox="0 0 36 36" role="img" aria-label="Facebook">
+                      <circle cx="18" cy="18" r="18" fill="#0866ff" />
+                      <path fill="#fff" d="M24.9 23.2 25.7 18h-5v-3.4c0-1.4.7-2.8 2.9-2.8H26V7.4s-2-.4-4-.4c-4.1 0-6.8 2.5-6.8 7V18h-4.6v5.2h4.6V36h5.5V23.2h4.2Z" />
+                    </svg>
                     <div className={styles.nyitoAlapito}>
                       <Image unoptimized loading="eager" src="/alapito-jobb.webp" alt="Jelencsity Miklós, a NEZOR alapítója" width={677} height={1000} sizes="(max-width: 700px) 40vw, 200px" />
                       <p className={styles.ctaNevek}>Jelencsity Miklós</p>
