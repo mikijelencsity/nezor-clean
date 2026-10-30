@@ -221,6 +221,7 @@ const epitoipariReferenciak = [
 export function Landing10Page() {
   const [indul, setIndul] = useState(false); // elkezdte-e a kitöltést (az első „Tovább” után)
   const kerdoivRef = useRef<HTMLDivElement>(null); // a headline alatti, beágyazott kérdőív
+  const [nyitva, setNyitva] = useState(false); // a „Kapcsolatfelvétel” gomb után jön elő az első kérdés
   const [urlapLathato, setUrlapLathato] = useState(true); // az állandó CTA csak akkor kell, ha a kérdőív nem látszik
   const [lepes, setLepes] = useState(0);
   const [v, setV] = useState<Valaszok>({});
@@ -254,6 +255,7 @@ export function Landing10Page() {
 
   // minden „kezdjük” gomb a headline alatti kérdőívhez görget (nem nyit új oldalt)
   const indit = () => {
+    setNyitva(true);
     kerdoivRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
@@ -283,8 +285,8 @@ export function Landing10Page() {
 
   // Szöveges lépésnél a mező kapja a fókuszt
   useEffect(() => {
-    if (indul && !sent) fokusz.current?.focus({ preventScroll: true });
-  }, [indul, lepes, sent]);
+    if ((indul || nyitva) && !sent) fokusz.current?.focus({ preventScroll: true });
+  }, [indul, nyitva, lepes, sent]);
 
   useEffect(() => { elkuldve.current = sent; }, [sent]);
 
@@ -574,6 +576,23 @@ export function Landing10Page() {
                       <p><b>Rövid, lényegre törő beszélgetés</b>, és a válaszaid alapján <b>ügyfélszerzési tervet</b> állítunk össze.</p>
                     </li>
                   </ol>
+                </div>
+              ) : !nyitva ? (
+                /* NYITÓ: a két alapító és a gomb; rányomásra jön elő az első kérdés */
+                <div className={styles.nyito}>
+                  <div className={styles.nyitoAlapitok}>
+                    <div className={styles.nyitoAlapito}>
+                      <Image unoptimized loading="eager" src="/alapito-bal.webp" alt="Müller Dániel, a NEZOR alapítója" width={702} height={1000} sizes="(max-width: 700px) 40vw, 200px" />
+                      <p className={styles.ctaNevek}>Müller Dániel</p>
+                    </div>
+                    <div className={styles.nyitoAlapito}>
+                      <Image unoptimized loading="eager" src="/alapito-jobb.webp" alt="Jelencsity Miklós, a NEZOR alapítója" width={677} height={1000} sizes="(max-width: 700px) 40vw, 200px" />
+                      <p className={styles.ctaNevek}>Jelencsity Miklós</p>
+                    </div>
+                  </div>
+                  <button type="button" className={`${styles.tovabb} ${styles.tovabbAktiv}`} onClick={() => setNyitva(true)}>
+                    Kapcsolatfelvétel <span aria-hidden="true">→</span>
+                  </button>
                 </div>
               ) : (
                 <div className={styles.lepes}>

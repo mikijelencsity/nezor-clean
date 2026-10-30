@@ -107,6 +107,17 @@
 }
 .heroUrlap .pottyok { margin-top: 4px; }
 .heroUrlap .lepes { margin-bottom: 0; }
+/* nyitó: a két alapító egymás felé mutatva, alattuk a gomb */
+.nyito { text-align: center; }
+.nyitoAlapitok { display: flex; justify-content: space-between; max-width: 460px; margin: 0 auto; }
+.nyitoAlapito { width: min(190px, 42%); }
+.nyitoAlapito img {
+  display: block; width: 100%; height: auto;
+  -webkit-mask-image: linear-gradient(to bottom, #000 68%, transparent 98%);
+  mask-image: linear-gradient(to bottom, #000 68%, transparent 98%);
+}
+.nyitoAlapito .ctaNevek { margin-top: -6px; font-size: 13px; font-weight: 700; color: #000; }
+.nyito .tovabb { margin-top: 14px; }
 /* a „Nagy, kék gomb” alatt, középre igazítva, sima fekete */
 .gyorstalpalo { margin-top: 10px; text-align: center; font-size: 16px; font-weight: 700; color: #000; }
 .mikroFelso { margin-bottom: 40px; }
