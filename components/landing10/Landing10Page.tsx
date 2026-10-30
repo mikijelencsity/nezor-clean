@@ -585,7 +585,8 @@ export function Landing10Page() {
               ) : !nyitva ? (
                 /* NYITÓ: a két alapító és a gomb; rányomásra jön elő az első kérdés */
                 <div className={styles.nyito}>
-                  <h2 className={styles.kerdes}>Vágjunk bele!</h2>
+                  <h2 className={styles.kerdes}>Beszéljük át, <span className={styles.kerdesKiemelt}>hogyan segíthetünk!</span></h2>
+                  <p className={styles.al}>Egy rövid konzultáción megnézzük a vállalkozásodat, és elmondjuk, hogyan hoznánk neked több ügyfelet a hirdetésekkel.</p>
                   <div className={styles.nyitoAlapitok}>
                     <div className={styles.nyitoAlapito}>
                       <Image unoptimized loading="eager" src="/alapito-bal.webp" alt="Müller Dániel, a NEZOR alapítója" width={702} height={1000} sizes="(max-width: 700px) 40vw, 200px" />
@@ -602,7 +603,7 @@ export function Landing10Page() {
                     </div>
                   </div>
                   <button type="button" className={`${styles.tovabb} ${styles.tovabbAktiv}`} onClick={() => setNyitva(true)}>
-                    Kapcsolatfelvétel <span aria-hidden="true">→</span>
+                    Konzultációt kérek <span aria-hidden="true">→</span>
                   </button>
                 </div>
               ) : (

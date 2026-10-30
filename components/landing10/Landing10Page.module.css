@@ -118,7 +118,8 @@
 .nyitoAlapitok { display: flex; justify-content: space-between; align-items: center; max-width: 520px; margin: 0 auto; }
 .nyitoAlapito { width: min(190px, 38%); }
 .nyitoFb { flex: none; width: clamp(48px, 15vw, 78px); height: auto; margin-bottom: 30px; filter: drop-shadow(0 6px 14px rgba(8,102,255,.3)); }
-.nyito .kerdes { margin-bottom: 4px; }
+.nyito .kerdes { margin-bottom: 8px; }
+.nyito .al { margin-bottom: 6px; }
 .nyitoAlapito img {
   display: block; width: 100%; height: auto;
   -webkit-mask-image: linear-gradient(to bottom, #000 68%, transparent 98%);
