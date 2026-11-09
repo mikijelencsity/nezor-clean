@@ -1,0 +1,518 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f4f7ff;
+  --foreground: #0b1b3a;
+  --accent: #0866ff;
+  --accent-deep: #0650cc;
+  --accent-soft: #6ca8ff;
+  --ink: #0b1b3a;
+  --card-bg: #ffffff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-accent-deep: var(--accent-deep);
+  --color-accent-soft: var(--accent-soft);
+  --color-ink: var(--ink);
+  --color-card: var(--card-bg);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-futura-condensed), var(--font-inter), sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 28s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 38s linear infinite;
+}
+
+@keyframes marquee-reverse {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-marquee-reverse {
+  animation: marquee-reverse 38s linear infinite;
+}
+
+@keyframes float-a {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(6px, -16px) rotate(-4deg); }
+}
+
+@keyframes float-b {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-8px, 14px) rotate(5deg); }
+}
+
+@keyframes float-c {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(10px, 10px) rotate(-3deg); }
+}
+
+.animate-float-a {
+  animation: float-a 6s ease-in-out infinite;
+}
+
+.animate-float-b {
+  animation: float-b 7s ease-in-out infinite;
+}
+
+.animate-float-c {
+  animation: float-c 5.5s ease-in-out infinite;
+}
+
+/* konzultáció-varázsló haladás: szegmensek, a töltés kékes átmenet + a jelenlegi csillan */
+.wiz-fill {
+  background: linear-gradient(90deg, #0866ff, #5aa2ff);
+  box-shadow: 0 0 12px rgba(8, 102, 255, 0.55);
+}
+
+.wiz-fill-live {
+  background-size: 200% 100%;
+  background-image: linear-gradient(
+    100deg,
+    #0866ff 0%,
+    #0866ff 35%,
+    #9cc6ff 50%,
+    #0866ff 65%,
+    #0866ff 100%
+  );
+  animation: wiz-shimmer 1.8s linear infinite;
+}
+
+@keyframes wiz-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes wiz-pop {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes step-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(48px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes step-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-48px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-step-in-right {
+  animation: step-in-right 0.35s ease-out;
+}
+
+.animate-step-in-left {
+  animation: step-in-left 0.35s ease-out;
+}
+
+button:not(:disabled),
+[role='button'],
+summary {
+  cursor: pointer;
+}
+
+/* "A rendszer" szekció: rács a háttérben, futó fénypont, pulzáló csomópontok. */
+.pp-grid {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at 50% 35%, black 20%, transparent 75%);
+}
+
+/* Szekció-animáció: a háttér marad, a tartalom lépcsősen úszik be. */
+.reveal > * > * {
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--i, 0) * 120ms);
+}
+
+.reveal > * > :nth-child(1) { --i: 0; }
+.reveal > * > :nth-child(2) { --i: 1; }
+.reveal > * > :nth-child(3) { --i: 2; }
+.reveal > * > :nth-child(4) { --i: 3; }
+.reveal > * > :nth-child(5) { --i: 4; }
+.reveal > * > :nth-child(n + 6) { --i: 5; }
+
+.reveal[data-visible="false"] > * > * {
+  opacity: 0;
+  transform: translateY(56px) scale(0.96);
+  filter: blur(10px);
+}
+
+.reveal[data-visible="true"] > * > * {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal > * > * {
+    transition: none;
+  }
+  .reveal[data-visible="false"] > * > * {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* Esettanulmány-kártyák belépése (a szűrő váltásakor újraindul). */
+@keyframes cs-in {
+  from {
+    opacity: 0;
+    transform: translateY(32px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.cs-card {
+  animation: cs-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-card {
+    animation: none;
+  }
+}
+
+/* Gomb-hover: a felirat felgördül, alulról poénos felirat érkezik, a szín alulról tölti ki a gombot.
+   Csak transform mozog, ezért nem laggol. */
+.btn-roll {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn-roll::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--roll-fill);
+  transform: translateY(101%);
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.btn-roll .r-a {
+  display: block;
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.btn-roll .r-b {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  pointer-events: none;
+  color: var(--roll-text);
+  transform: translateY(120%);
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Csak olyan eszközön, ahol van igazi hover (érintőképernyőn a koppintás után nem ragad be),
+   és billentyűzetes fókuszra is. A felgördülő felirat messzire megy, hogy ne lógjon vissza a gombba. */
+@media (hover: hover) {
+  .btn-roll:hover::before,
+  .btn-roll:hover .r-b {
+    transform: translateY(0);
+  }
+
+  .btn-roll:hover .r-a {
+    transform: translateY(-260%);
+  }
+}
+
+.btn-roll:focus-visible::before,
+.btn-roll:focus-visible .r-b {
+  transform: translateY(0);
+}
+
+.btn-roll:focus-visible .r-a {
+  transform: translateY(-260%);
+}
+
+.roll-dark { --roll-fill: var(--ink); --roll-text: #fff; }
+.roll-lime { --roll-fill: var(--accent); --roll-text: #fff; }
+.roll-white { --roll-fill: #fff; --roll-text: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-roll::before,
+  .btn-roll .r-a,
+  .btn-roll .r-b { transition: none; }
+}
+
+/* Neon menüfelirat: villogva kapcsol be, utána folyamatosan világít. */
+.neon-text {
+  color: #f1f7ff;
+  text-shadow:
+    0 0 2px rgba(255, 255, 255, 0.6),
+    0 0 14px rgba(108, 168, 255, 0.55);
+  transition: text-shadow 0.3s ease, color 0.3s ease;
+}
+
+.neon-text.neon-hot {
+  color: #fff;
+  text-shadow:
+    0 0 3px rgba(255, 255, 255, 0.8),
+    0 0 20px rgba(108, 168, 255, 0.8),
+    0 0 40px rgba(8, 102, 255, 0.45);
+}
+
+@keyframes neon-flicker {
+  0% { opacity: 0; }
+  5% { opacity: 1; }
+  8% { opacity: 0.12; }
+  13% { opacity: 1; }
+  16% { opacity: 0.25; }
+  21% { opacity: 0.95; }
+  25% { opacity: 0.08; }
+  33% { opacity: 1; }
+  37% { opacity: 0.45; }
+  42%, 100% { opacity: 1; }
+}
+
+.neon-flicker {
+  opacity: 0;
+  animation: neon-flicker 1.5s linear both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neon-flicker { animation: none; opacity: 1; }
+}
+
+/* Pasztell, Meta-hangulatú háttér (barack, levendula, égkék, menta) a világos szekciókhoz. */
+.pastel-bg {
+  background-color: #e4efff;
+  background-image:
+    radial-gradient(ellipse 70% 80% at 0% 10%, rgba(255, 224, 198, 0.85), transparent 60%),
+    radial-gradient(ellipse 60% 70% at 18% 0%, rgba(226, 208, 255, 0.75), transparent 60%),
+    radial-gradient(ellipse 60% 70% at 100% 100%, rgba(204, 246, 228, 0.8), transparent 60%),
+    radial-gradient(ellipse 55% 60% at 100% 0%, rgba(214, 232, 255, 0.9), transparent 65%),
+    linear-gradient(180deg, #e8f1ff, #e1edff);
+}
+
+/* Összefüggő pasztell blokk több világos szekción át: a szélein (fent/lent) a váltók színébe (#f8f9fa) olvad. */
+.pastel-flow {
+  background-color: #e4efff;
+  background-image:
+    linear-gradient(to bottom, #f8f9fa, rgba(248, 249, 250, 0) 16rem),
+    linear-gradient(to top, #f8f9fa, rgba(248, 249, 250, 0) 16rem),
+    radial-gradient(circle 1100px at 0% 24rem, rgba(255, 214, 184, 0.95), transparent 72%),
+    radial-gradient(circle 1000px at 16% 8%, rgba(220, 198, 255, 0.85), transparent 72%),
+    radial-gradient(circle 760px at 100% 42%, rgba(214, 232, 255, 0.95), transparent 70%),
+    radial-gradient(circle 1000px at 100% calc(100% - 22rem), rgba(196, 244, 222, 0.95), transparent 72%),
+    radial-gradient(circle 900px at 0% 78%, rgba(255, 206, 232, 0.7), transparent 72%),
+    linear-gradient(180deg, #e8f1ff, #e1edff);
+}
+
+/* Halo: lassan körbefutó kék/pink/lila fénygyűrű egy gomb körül (a gomb marad sima szín), plusz villogó csillagok. Bárhol használható: a gombot .halo burkolja. */
+@property --halo-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes halo-spin {
+  to { --halo-angle: 360deg; }
+}
+
+.halo {
+  position: relative;
+  display: inline-block;
+  border-radius: 9999px;
+}
+
+.halo::before,
+.halo::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  background: conic-gradient(from var(--halo-angle), #0866ff, #ff7ac8, #a77bff, #4fb0ff, #0866ff);
+  animation: halo-spin 7s linear infinite;
+}
+
+/* a második réteg elmosva: ez adja a körbefutó ragyogást */
+.halo::after {
+  inset: -3px;
+  filter: blur(18px);
+  opacity: 0.65;
+}
+
+.halo > button {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes twinkle {
+  0%, 100% { transform: scale(0.5) rotate(0deg); opacity: 0.25; }
+  50% { transform: scale(1) rotate(25deg); opacity: 1; }
+}
+
+.twinkle {
+  animation: twinkle 2.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .halo::before, .halo::after, .twinkle { animation: none; }
+  .twinkle { opacity: 1; transform: none; }
+}
+
+/* Ugyanaz a pasztell blokk, de a színfoltok előre renderelt képként: a GYIK-nyitáskor változó magasságnál az óriás radiális átmenetek újrarajzolása lagot okozott (mérve: 18 fps, a képpel 60). A fent/lent elhalványulás marad CSS. */
+.pastel-flow-img {
+  background-color: #e4efff;
+  background-image:
+    linear-gradient(to bottom, #f8f9fa, rgba(248, 249, 250, 0) 16rem),
+    linear-gradient(to top, #f8f9fa, rgba(248, 249, 250, 0) 16rem),
+    url("/images/pastel-flow.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+/* Kinyíló menü: lebegő pasztell színfoltok (aurora). */
+@keyframes aurora-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(8%, 6%) scale(1.15); }
+}
+@keyframes aurora-b {
+  0%, 100% { transform: translate(0, 0) scale(1.1); }
+  50% { transform: translate(-10%, -4%) scale(0.95); }
+}
+.aurora-a { animation: aurora-a 12s ease-in-out infinite; }
+.aurora-b { animation: aurora-b 14s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-a, .aurora-b { animation: none; }
+}
+
+/* Preloader: hajszálgyűrűs számláló a hero sötét-kék világában; 100%-nál a gyűrű kigurul jobbra, és maga előtt tolja a fátylat. */
+.nz-pl { --d: clamp(96px, 14.6vw, 230px); --gx: clamp(16px, 4.2vw, 80px); --gy: clamp(18px, 4.5svh, 48px); }
+.nz-pl-veil { position: absolute; inset: 0; }
+/* a főoldalon a fátyol átlátszó: a hero valódi háttere látszik; máshol a hero-hoz illő sötét-kék háttér */
+.nz-pl:not([data-home]) .nz-pl-veil {
+  background:
+    radial-gradient(60% 55% at 78% 28%, rgba(47, 111, 224, 0.5), transparent 70%),
+    radial-gradient(55% 60% at 16% 80%, rgba(23, 71, 166, 0.6), transparent 72%),
+    radial-gradient(45% 45% at 50% 50%, rgba(10, 31, 77, 0.8), transparent 80%),
+    #000;
+}
+.nz-pl-ring {
+  position: absolute; left: var(--gx); bottom: var(--gy); width: var(--d); height: var(--d);
+  display: flex; align-items: center; justify-content: center;
+}
+.nz-pl-ghost { opacity: 0; }
+.nz-pl-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.nz-pl-num {
+  position: relative; color: #f8f9fa; font-variant-numeric: tabular-nums;
+  font: 300 calc(var(--d) * 0.27) / 1 var(--font-inter), -apple-system, sans-serif; letter-spacing: -0.04em;
+}
+.nz-pl-cap {
+  position: absolute; left: calc(var(--gx) + var(--d) + 14px); bottom: var(--gy); text-transform: uppercase;
+  font: 500 clamp(10px, 0.62vw + 6px, 13px) / 1.5 var(--font-inter), sans-serif; letter-spacing: 0.04em; color: #9fb4d9;
+}
+.nz-pl-l2 { display: inline-block; opacity: 0; transform: translateY(4px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.nz-pl-cap[data-s2] .nz-pl-l2 { opacity: 1; transform: none; }
+
+/* A fejléc addig rejtve marad, amíg a preloader ki nem megy (lásd Preloader.tsx). */
+header { transition: transform 0.5s ease-out, opacity 0.8s ease; }
+html:not([data-logo-landed]) header { opacity: 0; }
+[data-header-logo] { transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+html:not([data-logo-landed]) [data-header-logo] { opacity: 0; transform: scale(0.92); }
+
+/* értesítés-kártya érkezése a telefon-mockupban (CasePhone) */
+@keyframes notif-in {
+  from {
+    opacity: 0;
+    transform: translateY(-46px) scale(0.92);
+  }
+}
+.animate-notif-in {
+  animation: notif-in 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+/* Hero belépő: kezdőállapot (a HeroMotion animálja be; csökkentett mozgásnál nincs rejtés). */
+@media (prefers-reduced-motion: no-preference) {
+  [data-hero] [data-hero-w] { translate: 0 115%; }
+  [data-hero] [data-hero-in] { opacity: 0; translate: 0 24px; }
+}
+
+/* Lábléc: függöny-felfedés. Asztalon (elég magas ablakban) a lábléc az oldal mögé ragad, és az oldal alja felhúzódva felfedi.
+   A lábléc magassága legfeljebb az ablak magassága, hogy teljesen felfedhető legyen. */
+.nz-footer { position: relative; background: #0a1f4d; }
+@media (min-width: 1024px) and (min-height: 760px) {
+  .nz-footer { position: sticky; bottom: 0; z-index: 0; height: min(100svh, 64rem); }
+  .nz-foot-inner { height: 100%; will-change: transform, filter; }
+  main:has(~ .nz-footer) {
+    position: relative; z-index: 1; background: var(--background); overflow: clip;
+    border-radius: 0 0 2.25rem 2.25rem; box-shadow: 0 2.5rem 6rem rgba(0, 0, 0, 0.45);
+  }
+}
