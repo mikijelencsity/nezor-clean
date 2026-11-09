@@ -33,6 +33,9 @@ const rowTwo: Logo[] = [
 // Az összes partner egy listában (pl. az egysoros futósávhoz a hero alatt).
 export const allLogos: Logo[] = [...rowOne, ...rowTwo];
 
+// Széles, teljes magasságú szöveges logók: kisebb magasságot kapnak, különben túlnőnek a többin.
+const wide = new Set(["plasztikkartya"]);
+
 const fade =
   "[mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]";
 
@@ -79,7 +82,7 @@ function Row({
                   src={`/images/partnerek/${l.file}.webp`}
                   alt={primary ? l.name : ""}
                   aria-hidden={!primary}
-                  className="h-12 w-auto shrink-0 opacity-60 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0 sm:h-16"
+                  className={`w-auto shrink-0 opacity-60 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0 ${wide.has(l.file) ? "h-6 sm:h-8" : "h-12 sm:h-16"}`}
                 />
               ) : (
                 <span
@@ -100,7 +103,7 @@ function Row({
 
 export function PartnerLogos() {
   return (
-    <div className="mt-20 sm:mt-24">
+    <div className="mt-6 sm:mt-8">
       <div className="-mx-6 flex flex-col gap-10">
         <Row logos={rowOne} duration="45s" />
         <Row logos={rowTwo} reverse duration="55s" />

@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import { Roll } from "@/components/Roll";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Halo } from "@/components/Halo";
 import { Reveal } from "@/components/Reveal";
+import { ContactForm } from "@/components/ContactForm";
 
 export const metadata: Metadata = {
   title: "Kapcsolat | NEZOR",
   description:
-    "Beszélgessünk 20 percet: kötelezettségmentes konzultáció Facebook hirdetésekről, 24 órán belül visszajelzünk.",
+    "Beszélgessünk 20 percet: kötelezettségmentes konzultáció hirdetésről, weboldalról vagy webshopról, 24 órán belül visszajelzünk.",
 };
 
 const bullets = [
@@ -20,9 +19,6 @@ const bullets = [
 // Fehéres, áttetsző „üveg” kártya lágy színátmenettel és belső fénnyel.
 const glass =
   "relative overflow-hidden rounded-[2rem] border border-white/90 bg-gradient-to-br from-white/95 via-white/70 to-white/40 shadow-[inset_0_1px_0_rgba(255,255,255,1),0_40px_90px_-40px_rgba(8,102,255,0.45)] backdrop-blur-xl";
-
-const field =
-  "w-full rounded-2xl border border-black/10 bg-white/90 px-5 py-4 text-base text-ink placeholder:text-ink/40 shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] outline-none transition focus:border-accent focus:bg-white focus:ring-4 focus:ring-accent/15";
 
 function MailIcon() {
   return (
@@ -61,7 +57,7 @@ export default function Kapcsolat() {
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             KAPCSOLAT
           </p>
-          <h1 className="font-display mt-5 text-[clamp(2.6rem,8vw,6rem)] leading-[0.98]">
+          <h1 className="font-display mt-5 text-[clamp(2.1rem,8vw,6rem)] leading-[1.15]">
             BESZÉLGESSÜNK <span className="text-accent">20 PERCET.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-base text-ink/65 sm:text-lg">
@@ -97,39 +93,19 @@ export default function Kapcsolat() {
                     <span className="text-base font-semibold">info@nezor.hu</span>
                   </a>
                   <a
-                    href="tel:+36704554703"
+                    href="tel:+36302036721"
                     className="group flex items-center gap-4 rounded-2xl border border-white bg-white/70 p-3 pr-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md"
                   >
                     <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-accent to-[#5aa2ff] text-white">
                       <PhoneIcon />
                     </span>
-                    <span className="text-base font-semibold">+36 70 455 4703</span>
+                    <span className="text-base font-semibold">+36 30 203 6721</span>
                   </a>
                 </div>
               </div>
             </div>
 
-            <form className={`${glass} flex flex-col gap-4 p-8 sm:p-10`}>
-              <div aria-hidden className="pointer-events-none absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-[#ffd6b8]/40 blur-3xl" />
-              <h2 className="font-display relative text-3xl sm:text-4xl">KÉREK EGY RÖVID KONZULTÁCIÓT</h2>
-              <p className="relative -mt-1 mb-2 text-sm text-ink/60">Három adat, és már jelentkezünk.</p>
-              <input type="text" name="name" required autoComplete="name" placeholder="Neved *" className={`${field} relative`} />
-              <input type="email" name="email" required autoComplete="email" placeholder="E-mail címed *" className={`${field} relative`} />
-              <input type="tel" name="phone" required autoComplete="tel" placeholder="Telefonszámod *" className={`${field} relative`} />
-              <div className="relative mt-4 flex justify-center">
-                <Halo>
-                  <button
-                    type="submit"
-                    className="btn-roll roll-dark rounded-full bg-accent px-9 py-4 text-base font-semibold text-white sm:text-lg"
-                  >
-                    <Roll label="Kérek egy rövid konzultációt →" hover="Küldés!" />
-                  </button>
-                </Halo>
-              </div>
-              <p className="relative mt-2 text-center text-xs text-ink/50">
-                Az adatokat bizalmasan kezeljük, harmadik félnek nem adjuk át.
-              </p>
-            </form>
+            <ContactForm className={`${glass} p-8 sm:p-10`} />
           </div>
         </Reveal>
       </main>

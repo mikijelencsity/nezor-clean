@@ -7,6 +7,8 @@
   --accent-deep: #0650cc;
   --accent-soft: #6ca8ff;
   --ink: #0b1b3a;
+  /* a sötét szekciók háttere: tiszta fekete helyett egy árnyalattal világosabb */
+  --night: #212121;
   --card-bg: #ffffff;
 }
 
@@ -17,6 +19,7 @@
   --color-accent-deep: var(--accent-deep);
   --color-accent-soft: var(--accent-soft);
   --color-ink: var(--ink);
+  --color-night: var(--night);
   --color-card: var(--card-bg);
   --font-sans: var(--font-inter);
   --font-display: var(--font-futura-condensed), var(--font-inter), sans-serif;
@@ -169,6 +172,13 @@ button:not(:disabled),
 [role='button'],
 summary {
   cursor: pointer;
+}
+
+/* A díszítőelemek (csillagok, lebegő ikonok) kilóghatnak a képből: ettől ne legyen oldalra görgethető az oldal.
+   Mindkettő kell: a html értéke száll át az ablakra, így a body ténylegesen le tudja vágni a kilógó részt. */
+html,
+body {
+  overflow-x: clip;
 }
 
 /* "A rendszer" szekció: rács a háttérben, futó fénypont, pulzáló csomópontok. */
@@ -408,7 +418,8 @@ summary {
   opacity: 0.65;
 }
 
-.halo > button {
+.halo > button,
+.halo > a {
   position: relative;
   z-index: 1;
 }
@@ -483,7 +494,7 @@ summary {
 .nz-pl-cap[data-s2] .nz-pl-l2 { opacity: 1; transform: none; }
 
 /* A fejléc addig rejtve marad, amíg a preloader ki nem megy (lásd Preloader.tsx). */
-header { transition: transform 0.5s ease-out, opacity 0.8s ease; }
+header { transition: translate 0.5s ease-out, opacity 0.8s ease; }
 html:not([data-logo-landed]) header { opacity: 0; }
 [data-header-logo] { transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
 html:not([data-logo-landed]) [data-header-logo] { opacity: 0; transform: scale(0.92); }
@@ -507,6 +518,36 @@ html:not([data-logo-landed]) [data-header-logo] { opacity: 0; transform: scale(0
 
 /* Lábléc: függöny-felfedés. Asztalon (elég magas ablakban) a lábléc az oldal mögé ragad, és az oldal alja felhúzódva felfedi.
    A lábléc magassága legfeljebb az ablak magassága, hogy teljesen felfedhető legyen. */
+/* Lábléc: a konzultáció gombra minden lesöpörve leesik, a helyére beúszik az űrlap. */
+.nz-sweep {
+  transition: translate 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, visibility 0s;
+}
+.nz-sweep[data-swept="true"] {
+  translate: 0 120vh;
+  opacity: 0;
+  visibility: hidden;
+  transition: translate 0.55s cubic-bezier(0.7, 0, 0.84, 0), opacity 0.55s ease-in, visibility 0s linear 0.75s;
+}
+@keyframes nz-foot-form-in {
+  from {
+    opacity: 0;
+    translate: 0 -48px;
+    scale: 0.96;
+  }
+}
+.nz-foot-form {
+  animation: nz-foot-form-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nz-sweep,
+  .nz-sweep[data-swept="true"] {
+    transition: none;
+  }
+  .nz-foot-form {
+    animation: none;
+  }
+}
+
 .nz-footer { position: relative; background: #0a1f4d; }
 @media (min-width: 1024px) and (min-height: 760px) {
   .nz-footer { position: sticky; bottom: 0; z-index: 0; height: min(100svh, 64rem); }

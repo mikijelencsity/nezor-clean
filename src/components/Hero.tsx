@@ -1,8 +1,9 @@
-import { Roll } from "./Roll";
+import { NameStartForm } from "./NameStartForm";
 import { MetaAnim } from "./MetaAnim";
 import Velaris from "./ui/velaris";
 import { HeroMotion } from "./HeroMotion";
 
+// a hero és a logósáv tiszta fekete marad (a többi sötét szekció a --night árnyalatot kapja)
 const HERO_COLORS = ["#2f6fe0", "#1747a6", "#0a1f4d", "#000000"];
 
 // Szavanként maszkba csomagolva, hogy a HeroMotion alulról felúsztathassa őket.
@@ -28,32 +29,22 @@ export function Hero() {
       className="relative bg-black"
     >
       <div className="pointer-events-none absolute inset-0 bg-black/35" />
+      {/* az alja pontosan a logósáv hátterébe fut ki, hogy ne legyen varrat */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-black" />
       <div data-hero-dim className="pointer-events-none absolute inset-0 bg-black opacity-0" />
       <HeroMotion className="relative flex h-full flex-col items-center justify-center gap-6 px-6 pt-24 text-center">
-        <h1 className="font-display leading-[1.15] text-[#f8f9fa]">
-          <span className="block text-5xl sm:text-7xl md:text-8xl"><Words text="MINT A BANKRABLÁS," /></span>
-          <span className="block text-5xl sm:text-7xl md:text-8xl"><Words text="CSAK LEGÁLIS.*" /></span>
+        {/* a sortávolságnak a soron kell lennie: a text-* osztály különben felülírja 1-re */}
+        <h1 className="font-display tracking-[0.02em] text-[#f8f9fa]">
+          <span className="block text-5xl leading-[1.3] sm:text-7xl sm:leading-[1.3] md:text-8xl md:leading-[1.3]"><Words text="HA JÓ VAGY VALAMIBEN," /></span>
+          <span className="mt-[0.15em] block text-5xl leading-[1.3] sm:text-7xl sm:leading-[1.3] md:text-8xl md:leading-[1.3]"><Words text="NE CSINÁLD INGYEN.*" /></span>
         </h1>
         <p data-hero-in className="max-w-xl text-base text-[#cfcfcf] sm:text-lg">
           Akár még sosem hirdettél, akár már csalódtál benne: mi csináljuk, te
           foglalkozz a vállalkozásoddal.
         </p>
-        <form data-hero-in className="flex w-full max-w-xl overflow-hidden rounded-full bg-[#e9e9ea]">
-          <span className="flex items-center pl-5 pr-2 text-lg">👋</span>
-          <input
-            type="email"
-            placeholder="Írd be az emailed, küldünk egy kis 'varázslatot'..."
-            className="flex-1 bg-transparent px-2 py-4 text-sm text-black placeholder:text-[#6b6b6b] outline-none"
-          />
-          <button
-            type="submit"
-            className="btn-roll roll-white group flex items-center gap-2 rounded-full bg-accent px-6 py-4 text-sm font-semibold text-white"
-          >
-            <Roll label={<>Megyek <span aria-hidden>→</span></>} hover="Mehet! →" />
-          </button>
-        </form>
+        <NameStartForm data-hero-in="" />
         <p data-hero-in className="max-w-xl text-sm font-medium text-[#f8f9fa]/85">
-          *Maszk és menekülőautó nélkül. Bizonyított eredményekkel.
+          *A konzultációnk kivétel.
         </p>
         <span data-hero-in className="block">
           <MetaAnim className="mt-4 h-14 sm:mt-6 sm:h-[4.5rem]" />

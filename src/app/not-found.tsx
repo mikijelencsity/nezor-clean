@@ -38,9 +38,9 @@ export default function NotFound() {
                     4
                   </span>
                 ))}
-                <span className="absolute left-[8%] top-[88%] h-[0.05em] w-[0.05em] rotate-12 bg-black" />
-                <span className="absolute left-[78%] top-[96%] h-[0.035em] w-[0.035em] -rotate-12 bg-black" />
-                <span className="absolute left-[44%] top-[104%] h-[0.04em] w-[0.04em] rotate-45 bg-black" />
+                <span className="absolute left-[8%] top-[88%] h-[0.05em] w-[0.05em] rotate-12 bg-night" />
+                <span className="absolute left-[78%] top-[96%] h-[0.035em] w-[0.035em] -rotate-12 bg-night" />
+                <span className="absolute left-[44%] top-[104%] h-[0.04em] w-[0.04em] rotate-45 bg-night" />
               </span>
             </h1>
 
@@ -68,7 +68,7 @@ export default function NotFound() {
             >
               <Roll label="Vissza a főoldalra" hover="Haza, gyerünk." />
             </Link>
-            <OpenWizardButton hover="Készen vagyunk. Tényleg." className="rounded-full bg-black px-8 py-3.5 text-sm font-semibold text-accent">
+            <OpenWizardButton hover="Készen vagyunk. Tényleg." className="rounded-full bg-night px-8 py-3.5 text-sm font-semibold text-accent">
               Kérek egy oldalt, ami kész
             </OpenWizardButton>
           </div>

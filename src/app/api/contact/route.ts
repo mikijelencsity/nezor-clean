@@ -11,11 +11,20 @@ type Body = {
 };
 
 const LABELS: Record<string, string> = {
-  business: "Mivel foglalkozik",
-  advertised: "Hirdetett már",
-  spend: "Havi keret / eddigi költés",
-  problem: "Fő gond a hirdetésekkel",
-  goal: "Fő cél",
+  szolgaltatas: "Érdeklődés tárgya",
+  kiindulas: "Honnan indult",
+  meglevo: "Meglévő oldal",
+  cim: "Mostani oldal címe",
+  hirdetes_ajanlat: "Hirdetés kedvezménnyel",
+  weboldal_allapot: "Weboldal állapota",
+  weboldal_ajanlat: "Weboldal soron kívül",
+  fb: "Facebook-hirdetés",
+  csatornak: "Jelenlegi ügyfélszerzés",
+  leiras: "Tevékenység",
+  keret: "Havi hirdetési keret",
+  hivas: "Hívás módja",
+  idopont: "Választott Zoom-időpont",
+  hozzajarulas: "Adatkezelés, e-mailes ajánlat, Meta-mérés elfogadva",
 };
 
 export async function POST(request: Request) {
@@ -37,7 +46,7 @@ export async function POST(request: Request) {
       from: FROM_EMAIL,
       to: NOTIFY_EMAIL,
       replyTo: email,
-      subject: `[NEZOR] Új konzultáció-kérés — ${esc(name)}`,
+      subject: `[NEZOR] Új konzultáció-kérés${answers.szolgaltatas ? ` (${esc(answers.szolgaltatas)})` : ""} — ${esc(name)}`,
       html: `
         <h2>Új kérés a konzultáció-űrlapról</h2>
         <p><strong>Név:</strong> ${esc(name)}</p>

@@ -39,7 +39,7 @@ export function Offering() {
         alt=""
         className="animate-float-b mx-auto mb-4 w-52 select-none drop-shadow-[0_24px_30px_rgba(8,102,255,0.22)] sm:w-72"
       />
-      <p className="font-display mb-12 text-4xl leading-none text-black sm:text-6xl">
+      <p className="font-display mb-12 text-4xl leading-[1.15] text-black sm:text-6xl">
         VÁLASZD KI, HOGYAN INDULJUNK
       </p>
       <div className="mx-auto grid max-w-6xl gap-10 sm:grid-cols-2">
@@ -67,7 +67,7 @@ export function Offering() {
             <h3 className="font-display text-5xl sm:text-6xl">{o.title}</h3>
             <p className="text-lg text-[#5a5a5a]">{o.desc}</p>
             <button
-              onClick={() => openWizard(o.advertised)}
+              onClick={() => openWizard({ advertised: o.advertised })}
               className="btn-roll roll-dark rounded-full bg-accent px-10 py-4 text-base font-semibold text-white">
               <Roll label="Foglalok időpontot" hover="Na végre!" />
             </button>
@@ -75,6 +75,8 @@ export function Offering() {
           </div>
         ))}
       </div>
+
+      <p className="mt-20 text-xs font-semibold tracking-widest text-black/50 sm:mt-28">EDDIGI PROJEKTJEINK:</p>
       <PartnerLogos />
     </section>
   );

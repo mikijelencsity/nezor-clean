@@ -4,9 +4,11 @@ import Link from "next/link";
 import { OpenWizardButton } from "./OpenWizardButton";
 
 const navItems = [
-  { n: "01", label: "Esettanulmányok", href: "/esettanulmanyok" },
-  { n: "02", label: "Weboldalak", href: "/weboldalak" },
-  { n: "03", label: "Kapcsolat", href: "/kapcsolat" },
+  { n: "01", label: "Kisokos", href: "/miert-mi" },
+  { n: "02", label: "Esettanulmányok", href: "/esettanulmanyok" },
+  { n: "03", label: "Weboldal, webshop", href: "/weboldalak" },
+  { n: "04", label: "Árak", href: "/arak" },
+  { n: "05", label: "Kapcsolat", href: "/kapcsolat" },
 ];
 
 export function Header() {
@@ -52,7 +54,7 @@ export function Header() {
         <div className="pointer-events-auto relative mx-auto flex w-full max-w-[82rem] items-center justify-between rounded-[28px] border border-white/80 bg-gradient-to-b from-white/90 to-white/70 py-3 pl-3 pr-3 shadow-[0_12px_40px_-12px_rgba(8,102,255,0.35),inset_0_1px_0_rgba(255,255,255,1)] ring-1 ring-white/40 backdrop-blur-2xl backdrop-saturate-[1.8] sm:py-4 sm:pl-4">
           <OpenWizardButton
             hover="Mehet!"
-            className="rounded-full bg-accent px-4 py-2.5 text-xs font-semibold text-white sm:px-6 sm:text-sm"
+            className="shrink-0 whitespace-nowrap rounded-full bg-accent px-3 py-2.5 text-xs font-semibold text-white min-[360px]:px-3.5 sm:px-6 sm:text-sm"
           >
             <span className="sm:hidden">Konzultáció</span>
             <span className="hidden sm:inline">Ingyenes konzultáció</span>
@@ -61,14 +63,14 @@ export function Header() {
             href="/"
             onClick={() => setOpen(false)}
             aria-label="NEZOR"
-            className="absolute left-1/2 -translate-x-1/2 transition-transform duration-300 hover:scale-105"
+            className="mx-2 flex min-w-0 justify-center transition-transform duration-300 hover:scale-105 sm:absolute sm:left-1/2 sm:mx-0 sm:-translate-x-1/2"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/meta3d/nezor-logo.webp"
               alt="NEZOR"
               data-header-logo
-              className="h-12 w-auto select-none drop-shadow-[0_6px_10px_rgba(8,102,255,0.4)] sm:h-16"
+              className="h-auto max-h-9 w-auto max-w-full select-none object-contain drop-shadow-[0_6px_10px_rgba(8,102,255,0.4)] min-[420px]:max-h-11 sm:h-11 sm:max-h-none md:h-16"
             />
           </Link>
           <button
@@ -118,7 +120,7 @@ export function Header() {
             }`}
           />
 
-          <div className="flex w-full max-w-6xl flex-1 flex-col items-center justify-center gap-10 md:flex-row md:items-center md:justify-between">
+          <div className="flex w-full max-w-6xl flex-1 flex-col items-center justify-center gap-10 lg:flex-row lg:items-center lg:justify-between">
             <nav className="flex flex-col gap-1 sm:gap-3">
               {navItems.map((item, i) => (
                 <Link
@@ -130,7 +132,7 @@ export function Header() {
                   <span className="text-sm font-semibold text-accent">{item.n}</span>
                   <span className="overflow-hidden">
                     <span
-                      className={`font-display block text-5xl uppercase leading-none transition-[transform,color] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:text-accent sm:text-7xl ${
+                      className={`font-display block whitespace-nowrap text-[clamp(1.45rem,7.3vw,3rem)] uppercase leading-none transition-[transform,color] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:text-accent sm:text-[clamp(3rem,7.6vw,4.5rem)] lg:text-[clamp(3.25rem,5vw,4.5rem)] ${
                         open ? "translate-y-0" : "translate-y-[115%]"
                       }`}
                       style={{ transitionDelay: open ? `${450 + i * 100}ms` : "0ms" }}
@@ -143,7 +145,7 @@ export function Header() {
             </nav>
 
             <div
-              className={`flex flex-col items-center gap-4 text-center transition-all duration-700 md:items-end md:text-right ${
+              className={`flex flex-col items-center gap-4 text-center transition-all duration-700 lg:items-end lg:text-right ${
                 open ? "translate-y-0 opacity-100 delay-[800ms]" : "translate-y-6 opacity-0"
               }`}
             >
@@ -154,10 +156,10 @@ export function Header() {
                 Ingyenes konzultáció →
               </OpenWizardButton>
               <div className="flex flex-col gap-1 text-sm text-ink/60">
-                <a href="tel:+36704554703" className="transition-colors hover:text-accent">
-                  +36 70 455 4703
+                <a href="tel:+36302036721" className="py-1.5 transition-colors hover:text-accent">
+                  +36 30 203 6721
                 </a>
-                <a href="mailto:info@nezor.hu" className="transition-colors hover:text-accent">
+                <a href="mailto:info@nezor.hu" className="py-1.5 transition-colors hover:text-accent">
                   info@nezor.hu
                 </a>
               </div>

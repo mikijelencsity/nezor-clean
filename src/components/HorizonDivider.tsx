@@ -1,24 +1,25 @@
 // Horizont szekcióváltó: sima ív, mögötte rétegzett kék-cián ragyogás, üvegperem.
 // Álló kép (nem mozog), letisztult: csak ragyogás és perem, pöttyök, vonalak és világos csík nélkül. `flip`: világos -> sötét irányhoz 180 fokkal elforgatva,
 // `plain`: ragyogás nélküli, egyszerű ív (világos/színes háttérhez).
+// `tight`: a felső, szinte üres sötét sáv nélkül (csak a ragyogás halvány külső széle esik ki), ha kevesebb térköz kell.
 
-type Props = { from: string; to: string; flip?: boolean; plain?: boolean };
+type Props = { from: string; to: string; flip?: boolean; plain?: boolean; tight?: boolean };
 
-function Frame({ from, vbH, flip, children }: { from: string; vbH: number; flip?: boolean; children: React.ReactNode }) {
+function Frame({ from, vbH, vbY = 0, flip, children }: { from: string; vbH: number; vbY?: number; flip?: boolean; children: React.ReactNode }) {
   return (
     <div
       aria-hidden
       className="relative z-10 -my-px overflow-hidden"
       style={{ aspectRatio: `1440 / ${vbH}`, minHeight: vbH > 200 ? "8rem" : "4rem", background: from, transform: flip ? "rotate(180deg)" : undefined }}
     >
-      <svg viewBox={`0 0 1440 ${vbH}`} preserveAspectRatio="xMidYMax slice" className="absolute inset-0 h-full w-full">
+      <svg viewBox={`0 ${vbY} 1440 ${vbH}`} preserveAspectRatio="xMidYMax slice" className="absolute inset-0 h-full w-full">
         {children}
       </svg>
     </div>
   );
 }
 
-export function HorizonDivider({ from, to, flip = false, plain = false }: Props) {
+export function HorizonDivider({ from, to, flip = false, plain = false, tight = false }: Props) {
   // A felső szín mindig a fenti szekció, az alsó a lenti. Fordított (világos -> sötét) váltásnál 180 fokkal elforgatjuk.
   const [top, bottom] = flip ? [to, from] : [from, to];
   if (plain) {
@@ -29,9 +30,10 @@ export function HorizonDivider({ from, to, flip = false, plain = false }: Props)
     );
   }
   const H = 280;
+  const TIGHT_CROP = 90; // ennyit vág le felülről a szoros változat (az ív teteje 158-nál van)
   const arc = "M-20 252 Q 720 158 1460 252";
   return (
-    <Frame from={top} vbH={H} flip={flip}>
+    <Frame from={top} vbH={tight ? H - TIGHT_CROP : H} vbY={tight ? TIGHT_CROP : 0} flip={flip}>
       <defs>
         <radialGradient id="c2-g0" cx="0.5" cy="0.5" r="0.5">
           <stop offset="0" stopColor="#0a3fd6" stopOpacity="0.62" />

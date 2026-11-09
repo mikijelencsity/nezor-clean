@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 // Egy nézetes oldal: nincs menü és lábléc, csak egy vissza gomb; a tartalom a képernyőhöz igazodik.
 export default function Konzultacio() {
   return (
-    <main className="pastel-bg flex h-dvh flex-col overflow-y-auto overflow-x-hidden px-6 py-5 text-ink">
+    <main className="pastel-bg flex h-dvh flex-col overflow-y-auto overflow-x-hidden px-4 py-5 text-ink sm:px-6">
       <div className="mx-auto w-full max-w-xl lg:max-w-5xl">
         <Link
           href="/"

@@ -23,10 +23,10 @@ function CityGrid({ cities }: { cities: string[] }) {
       {cities.map((c) => (
         <div
           key={c}
-          className="group flex flex-col gap-2 rounded-xl border border-white/10 bg-card px-5 py-5 transition-all hover:-translate-y-1 hover:border-accent/50"
+          className="group flex min-w-0 flex-col gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-5 transition-all hover:-translate-y-1 hover:border-accent/50 sm:px-5"
         >
-          <p className="font-display text-lg">{c}</p>
-          <p className="text-[11px] text-[#8a8a8a]">
+          <p className="font-display text-[clamp(0.8rem,3.85vw,1.125rem)] leading-tight text-white [overflow-wrap:anywhere] sm:text-lg">{c}</p>
+          <p className="text-xs leading-relaxed text-white/55">
             Weboldal · Webshop · Facebook hirdetés · Google hirdetés
           </p>
         </div>
@@ -46,7 +46,7 @@ export default function Varosok() {
           subtitle="Weboldal készítés, webshop fejlesztés, Facebook és Google hirdetés kezelés Bács-Kiskun megyétől az egész országig. Válaszd ki a városodat."
         />
         <Reveal>
-          <section className="bg-black px-6 pb-16 text-[#f8f9fa]">
+          <section className="bg-night px-6 pb-16 text-[#f8f9fa]">
             <h2 className="mb-8 text-center font-display text-3xl">
               BÁCS-KISKUN MEGYE
             </h2>
@@ -54,7 +54,7 @@ export default function Varosok() {
           </section>
         </Reveal>
         <Reveal>
-          <section className="bg-black px-6 pb-24 text-[#f8f9fa]">
+          <section className="bg-night px-6 pb-24 text-[#f8f9fa]">
             <h2 className="mb-8 text-center font-display text-3xl">
               MAGYARORSZÁG — NAGYOBB VÁROSOK
             </h2>

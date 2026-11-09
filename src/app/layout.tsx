@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Preloader } from "@/components/Preloader";
 import { RouteProgress } from "@/components/RouteProgress";
 import { TabTitleBlink } from "@/components/TabTitleBlink";
 
@@ -25,16 +24,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
+    // Nincs betöltőképernyő: a jelzések, amikre a hero belépője, a Meta-animáció és a fejléc vár
+    // (data-preloader, data-logo-landed), már az első rajzoláskor be vannak állítva, így minden azonnal indul.
     <html
       lang="hu"
+      data-preloader="done"
+      data-logo-landed="true"
       className={`${inter.variable} ${futuraCondensed.variable} h-full antialiased`}
     >
-      <head>
-        {/* Frissítéskor ne álljon vissza a görgetés: a preloader mindig a lap tetején (a heron) induljon. */}
-        <script dangerouslySetInnerHTML={{ __html: "try{history.scrollRestoration='manual'}catch(e){}" }} />
-      </head>
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
-        <Preloader />
         <RouteProgress />
         <TabTitleBlink />
         {children}
