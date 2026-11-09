@@ -4,7 +4,7 @@ import { CaseCardCompact } from "./CasesExplorer";
 
 // Csak a kép és a név-címke: a számok a hirdetés képén és az esettanulmányok listáján vannak (a kártya oda visz, az ügyfélhez görgetve).
 // Az adat nélküli kártya (UpcomingCase) nem kattintható.
-function ResultCard({ c }: { c: CaseStudy | UpcomingCase }) {
+function ResultCard({ c, eager = false }: { c: CaseStudy | UpcomingCase; eager?: boolean }) {
   const clickable = "results" in c;
   const inner = (
     <>
@@ -12,6 +12,8 @@ function ResultCard({ c }: { c: CaseStudy | UpcomingCase }) {
       <img
         src={c.image}
         alt={c.name}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
         className={`absolute inset-0 h-full w-full object-cover transition-transform duration-500 ${clickable ? "group-hover:scale-105" : ""}`}
       />
       <span
@@ -30,6 +32,9 @@ function ResultCard({ c }: { c: CaseStudy | UpcomingCase }) {
     <div className={`${cls} cursor-default select-none`}>{inner}</div>
   );
 }
+
+// az első kártyák azonnal töltődnek (ezek látszanak elsőként, amikor a sáv a képbe ér), a többi lazy
+const EAGER_CARDS = 4;
 
 // a képsáv alatt kiemelt ügyfél
 const FEATURED_SLUG = "mobilhazgyarto";
@@ -53,7 +58,7 @@ export function CaseStudyMarquee() {
 
         <div className="flex w-max animate-marquee gap-6 hover:[animation-play-state:paused]">
           {items.map((c, i) => (
-            <ResultCard key={`${c.slug}-${i}`} c={c} />
+            <ResultCard key={`${c.slug}-${i}`} c={c} eager={i < EAGER_CARDS} />
           ))}
         </div>
       </div>

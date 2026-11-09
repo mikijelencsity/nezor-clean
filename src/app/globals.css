@@ -384,6 +384,19 @@ body {
     linear-gradient(180deg, #e8f1ff, #e1edff);
 }
 
+/* Telefonon a barackos és rózsaszín folt az egész szélességet elfoglalná (sárgás háttér a hosszú szöveg mögött), ezért ott kimarad. */
+@media (max-width: 639px) {
+  .pastel-flow {
+    background-image:
+      linear-gradient(to bottom, #f8f9fa, rgba(248, 249, 250, 0) 16rem),
+      linear-gradient(to top, #f8f9fa, rgba(248, 249, 250, 0) 16rem),
+      radial-gradient(circle 1000px at 16% 8%, rgba(220, 198, 255, 0.85), transparent 72%),
+      radial-gradient(circle 760px at 100% 42%, rgba(214, 232, 255, 0.95), transparent 70%),
+      radial-gradient(circle 1000px at 100% calc(100% - 22rem), rgba(196, 244, 222, 0.95), transparent 72%),
+      linear-gradient(180deg, #e8f1ff, #e1edff);
+  }
+}
+
 /* Halo: lassan körbefutó kék/pink/lila fénygyűrű egy gomb körül (a gomb marad sima szín), plusz villogó csillagok. Bárhol használható: a gombot .halo burkolja. */
 @property --halo-angle {
   syntax: "<angle>";

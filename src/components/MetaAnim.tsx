@@ -20,10 +20,18 @@ export function MetaAnim({ className = "" }: { className?: string }) {
   const ready = useSyncExternalStore(subscribePreloader, preloaderDone, () => false);
   const [inView, setInView] = useState(false);
 
-  // a fájl előre letöltődik, hogy az indításkor ne késsen
+  // a fájl (850 KB) előre letöltődik, hogy az indításkor ne késsen, de csak az oldal betöltése után, tétlenségben,
+  // hogy ne versenyezzen a hero tartalmával; csökkentett mozgásnál nem kell (ott az állókép van)
   useEffect(() => {
-    const pre = new Image();
-    pre.src = ANIM;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const load = () => {
+      const pre = new Image();
+      pre.src = ANIM;
+    };
+    const idle = () => (typeof requestIdleCallback === "function" ? requestIdleCallback(load) : setTimeout(load, 200));
+    if (document.readyState === "complete") idle();
+    else window.addEventListener("load", idle, { once: true });
+    return () => window.removeEventListener("load", idle);
   }, []);
 
   useEffect(() => {
